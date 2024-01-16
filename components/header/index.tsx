@@ -3,12 +3,16 @@ import Link from "next/link";
 import NavigationButton from "./NavigationButton";
 
 const Header = () => {
-    // const router = useRouter();
-    // const arrayPaths = ["/"];
-    // const [onTop, setOnTop] = useState(!arrayPaths.includes("/") || isErrorPage ? false : true);
-
     return (
-        <Flex px="1rem" h="8rem" alignItems="center" w="100%" bg="#FFFFF0" justifyContent="space-between">
+        <Flex
+            position="fixed"
+            px="1rem"
+            h="8rem"
+            alignItems="center"
+            w="100%"
+            bg="var(--main-bg-color)"
+            justifyContent="space-between"
+        >
             <Flex h="100%" alignItems="center">
                 <Link href="/">
                     <Img alt="fictional-company-logo" src="/images/logo1.svg" />
@@ -33,7 +37,7 @@ const Header = () => {
             </Flex>
 
             <HStack spacing="1.6rem">
-                <Link href="/login">
+                <Link href="/search">
                     <Button borderRadius="0.8rem" variant="solid" width="13.1rem" height="4.4rem">
                         Đăng nhập
                     </Button>
@@ -41,7 +45,7 @@ const Header = () => {
                 <Link href="#footer-section">
                     <Img className="small-icon" alt="small-icon" src="/images/shoppingbag03.svg" />
                 </Link>
-                <HStack className="language-button d-flex align-items-center gap-1">
+                <HStack alignItems="center">
                     <Text
                         color="var(--text-gray)"
                         fontSize="1.6rem"

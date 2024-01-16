@@ -1,9 +1,10 @@
 import "@/assets/styles/index.scss";
 import Header from "@/components/header";
-import { ColorModeScript, theme } from "@chakra-ui/react";
+import { svnGilroy } from "@/theme/fonts";
+import { ColorModeScript, Flex, theme } from "@chakra-ui/react";
 import clsx from "clsx";
 import { Viewport } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Poppins, Quicksand } from "next/font/google";
 import React from "react";
 import { Providers } from "./providers";
 
@@ -27,7 +28,7 @@ interface LayoutProps {
     };
 }
 const inter = Inter({ weight: ["400", "500", "600", "700"], subsets: ["latin"] });
-const quicksand = Inter({ weight: ["400", "500", "600", "700"], subsets: ["latin"] });
+const quicksand = Quicksand({ weight: ["400", "500", "600", "700"], subsets: ["latin"] });
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -36,23 +37,21 @@ const poppins = Poppins({
 
 export default async function RootLayout({ children }: LayoutProps) {
     return (
-        <html suppressHydrationWarning className={clsx(inter.className, poppins.className, quicksand.className)}>
-            <body suppressHydrationWarning>
+        <html suppressHydrationWarning>
+            <body
+                suppressHydrationWarning
+                className={clsx(inter.className, poppins.className, svnGilroy.className, quicksand.className)}
+            >
                 <ColorModeScript initialColorMode={theme.config?.initialColorMode} />
                 <Providers>
-                    <Header />
-                    {children}
+                    <Flex h="100%" w="100%" overflow="auto" flexDir="column">
+                        <Header />
+                        <Flex flex={1} w="100%" pt="8rem">
+                            {children}
+                        </Flex>
+                    </Flex>
                 </Providers>
             </body>
         </html>
-        // <main >
-        //     <ColorModeScript initialColorMode={theme.config?.initialColorMode} />
-        //     <Providers>
-        //         <Flex flexDir="column">
-        //             <Header />
-        //             {children}
-        //         </Flex>
-        //     </Providers>
-        // </main>
     );
 }
