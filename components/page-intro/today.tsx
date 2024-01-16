@@ -1,8 +1,8 @@
-import React from "react";
-import MenuItem from "../../components/item/index";
+"use client";
 import useSwr from "swr";
-import { fetcher } from "../../utils/fetcher";
 import { ProductTypeList } from "types";
+import MenuItem from "../../components/item/index";
+import { fetcher } from "../../utils/fetcher";
 
 const Today = () => {
     const { data } = useSwr("/api/products", fetcher);

@@ -2,15 +2,15 @@ import { ThemeOverride, extendTheme } from "@chakra-ui/react";
 import buttonStyle from "./button";
 import colors from "./colors";
 import inputStyle from "./input";
+import textStyle from "./text";
 import textStyles from "./textStyle";
 
 const breakpoints = {
-    base: "375px",
-    sm: "320px",
-    md: "414px",
-    lg: "768px",
-    xl: "960px",
-    "2xl": "1100px",
+    base: "0px",
+    sm: "414px",
+    md: "768px",
+    lg: "960px",
+    xl: "1100px",
 };
 
 const config = {
@@ -36,14 +36,14 @@ const theme: ThemeOverride = extendTheme({
     },
     fonts: {
         heading: "var(--font-quicksand)",
-
-        body: "var(--font-inter)",
+        body: "var(--font-quicksand)",
     },
     breakpoints,
     colors: colors,
     components: {
         Input: inputStyle,
         Button: buttonStyle,
+        Text: textStyle,
     },
     textStyles,
 });

@@ -17,6 +17,7 @@ const buttonStyle = {
             },
         },
         solid: {
+            fontFamily: "var(--font-quicksand)",
             background: "var(--primary-color)",
             color: "var(--primary-button-text-color)",
             _hover: {
