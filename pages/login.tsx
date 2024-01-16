@@ -1,5 +1,5 @@
-import Layout from "../layouts/main";
 import { useForm } from "react-hook-form";
+import Layout from "../layouts/main";
 //import { useRouter } from "next/router";
 
 //import { useForm } from "react-hook-form";
@@ -18,7 +18,7 @@ const LoginPage = () => {
     //const router = useRouter();
 
     const onSubmit = async (data: LoginMail) => {
-        var phone_with_area_code = "84" + data.phone.slice(1);
+        const phone_with_area_code = "84" + data.phone.slice(1);
         console.log("data :" + phone_with_area_code);
     };
 

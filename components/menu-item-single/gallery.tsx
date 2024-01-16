@@ -1,11 +1,8 @@
-import React from "react";
-
 type GalleryMenuItemType = {
     images: string[];
 };
 
-const Gallery = ({ images }: GalleryMenuItemType) => {
-    const featImage = images[0];
+const Gallery = ({}: GalleryMenuItemType) => {
     return <div>Gallery</div>;
 };
 
