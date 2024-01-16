@@ -1,6 +1,15 @@
+import { Flex } from "@chakra-ui/react";
+
 const Banner = () => {
     return (
-        <section className="banner-section d-flex justify-content-center">
+        <Flex
+            bg="var(--primary-color)"
+            p="7.5rem 0"
+            justifyContent="center"
+            flexDir="column"
+            fontSize="6rem"
+            color="white"
+        >
             <div className="container d-flex align-items-center">
                 <div className="d-flex flex-column align-items-start gap-5">
                     <div className="heading-and-supporting-text d-flex flex-column gap-3">
@@ -38,7 +47,7 @@ const Banner = () => {
                     src="images/screen-shot-20230829-at-11-28-37-pmtransformed-5@2x.png"
                 />
             </div>
-        </section>
+        </Flex>
     );
 };
 

@@ -1,0 +1,36 @@
+@keyframes highlight-increase {
+    0% {
+        color: var(--primary-text-color);
+    }
+    25% {
+        color: var(--main-color);
+    }
+
+    100% {
+        color: var(--primary-text-color);
+    }
+}
+
+@keyframes highlight-decrease {
+    0% {
+        color: var(--primary-text-color);
+    }
+    25% {
+        color: var(--sub-color);
+    }
+    100% {
+        color: var(--primary-text-color);
+    }
+}
+
+@keyframes highlight {
+    0% {
+        color: var(--primary-text-color);
+    }
+    25% {
+        color: var(--highligh-text-color);
+    }
+    100% {
+        color: var(--primary-text-color);
+    }
+}

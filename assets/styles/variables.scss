@@ -1,0 +1,29 @@
+:root {
+    --app-height: 100vh;
+    --header-height: 5.5rem;
+    --navbar-height: 6.4rem;
+    --header-bottomSheet: 4rem;
+    --header-time-line: 7.3rem;
+    --content-tab-height: calc(var(--app-height) - var(--header-height) - var(--navbar-height) - 4.2rem);
+    --content-tab-height-no-navbar: calc(var(--app-height) - var(--header-height) - 4.2rem);
+    --content-height: calc(var(--app-height) - var(--header-height) - var(--navbar-height));
+    --content-height-timeline: calc(
+        var(--app-height) - var(--header-height) - var(--navbar-height) - var(--header-time-line)
+    );
+    --content-height-no-navbar: calc(var(--app-height) - var(--header-height));
+    --content-bottomsheet-fullheight: calc(var(--app-height) - var(--header-bottomSheet) - 2.8rem);
+    --content-height-order-margin: calc(var(--app-height) - var(--header-height) - var(--navbar-height) - 33rem);
+    --content-height-position-margin: calc(var(--app-height) - var(--header-height) - var(--navbar-height) - 47rem);
+    --content-height-empty-position-margin: calc(
+        var(--app-height) - var(--header-height) - var(--navbar-height) - 40rem
+    );
+    --content-height-empty-position-stock: calc(
+        var(--app-height) - var(--header-height) - var(--navbar-height) - 35rem
+    );
+    --content-height-position-stock: calc(var(--app-height) - var(--header-height) - var(--navbar-height) - 41.5rem);
+    --content-height-position-margin-nodata: calc(
+        var(--app-height) - var(--header-height) - var(--navbar-height) - 32.5rem
+    );
+    --content-height-order-benifit: calc(var(--app-height) - var(--header-height) - var(--navbar-height) - 31rem);
+    --content-height-notice-general: calc(var(--app-height) - var(--header-height) - var(--navbar-height) - 5rem);
+}
