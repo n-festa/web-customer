@@ -1,4 +1,5 @@
 "use client";
+import { Flex, Text, Wrap, WrapItem } from "@chakra-ui/react";
 import useSwr from "swr";
 import { ProductTypeList } from "types";
 import MenuItem from "../../components/item/index";
@@ -7,15 +8,21 @@ import { fetcher } from "../../utils/fetcher";
 const Today = () => {
     const { data } = useSwr("/api/products", fetcher);
 
-    console.log(data);
     if (!data) return <div>Loading</div>;
 
     return (
-        <section className="daily-food-section d-flex flex-column">
-            <div className="container d-flex flex-column align-items-center gap-5">
-                <b className="title">Món ngon hôm nay</b>
-                <div className="food-cards d-flex justify-content-between">
-                    {data.map((item: ProductTypeList) => (
+        <Flex py="5rem" px="6.7rem" flexDir="column">
+            <Text textAlign={{ base: "center", md: "unset" }} fontSize="4.8rem" fontWeight="bold">
+                Món ngon hôm nay
+            </Text>
+            <Wrap align="center" justify={{ base: "center", md: "space-between" }} spacing="4rem">
+                {data.map((item: ProductTypeList) => (
+                    <WrapItem
+                        flex={1}
+                        minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
+                        maxW={{ base: "unset", md: "38.4rem" }}
+                        minH="52.6rem"
+                    >
                         <MenuItem
                             key={item.id}
                             id={item.id}
@@ -31,10 +38,10 @@ const Today = () => {
                             distance={item.distance}
                             ratings={item.ratings}
                         />
-                    ))}
-                </div>
-            </div>
-        </section>
+                    </WrapItem>
+                ))}
+            </Wrap>
+        </Flex>
     );
 };
 
