@@ -15,9 +15,9 @@ const Today = () => {
             <Text fontSize="4.8rem" fontWeight="bold">
                 Món ngon hôm nay
             </Text>
-            <Wrap justifyContent="space-between">
+            <Wrap align="center" justify="space-between" spacing="4rem">
                 {data.map((item: ProductTypeList) => (
-                    <WrapItem flex={1} minW="38.4rem" h="52.6rem">
+                    <WrapItem flex={1} minW="38.4rem" maxW="38.4rem" minH="52.6rem">
                         <MenuItem
                             key={item.id}
                             id={item.id}

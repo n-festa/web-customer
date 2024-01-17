@@ -4,7 +4,7 @@ import { Flex } from "@chakra-ui/react";
 
 export default function Home() {
     return (
-        <Flex h="200vh" w="100%" flexDir="column">
+        <Flex w="100%" flexDir="column">
             <Banner />
             <Today />
         </Flex>

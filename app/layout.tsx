@@ -7,9 +7,9 @@ import React from "react";
 import { Providers } from "./providers";
 
 //TODO REMOVE LATER
-import "@assets/css/bootstrap.min.css";
-import "@assets/css/global.css";
-import "@assets/css/style.css";
+import "../assets/css/bootstrap.min.css";
+import "../assets/css/global.css";
+import "../assets/css/style.css";
 //
 export const metadata = {
     icons: {
