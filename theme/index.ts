@@ -6,7 +6,6 @@ import textStyle from "./text";
 import textStyles from "./textStyle";
 
 const breakpoints = {
-    base: "0px",
     sm: "414px",
     md: "768px",
     lg: "960px",

@@ -8,6 +8,7 @@ const Header = () => {
             position="fixed"
             px="1rem"
             h="8rem"
+            zIndex="9999"
             alignItems="center"
             w="100%"
             bg="var(--main-bg-color)"
@@ -46,12 +47,7 @@ const Header = () => {
                     <Img className="small-icon" alt="small-icon" src="/images/shoppingbag03.svg" />
                 </Link>
                 <HStack alignItems="center">
-                    <Text
-                        color="var(--text-gray)"
-                        fontSize="1.6rem"
-                        fontWeight="600"
-                        fontFamily="var(--font-quicksand)"
-                    >
+                    <Text color="var(--text-gray)" fontSize="1.6rem" fontWeight="600">
                         VIE
                     </Text>
                     <Link href="#footer-section">

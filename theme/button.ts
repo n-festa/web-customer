@@ -1,3 +1,5 @@
+import { svnGilroy } from "./fonts";
+
 const buttonStyle = {
     defaultProps: {
         minWidth: "1rem",
@@ -17,7 +19,7 @@ const buttonStyle = {
             },
         },
         solid: {
-            fontFamily: "var(--font-quicksand)",
+            ...svnGilroy.style,
             background: "var(--primary-color)",
             color: "var(--primary-button-text-color)",
             _hover: {

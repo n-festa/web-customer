@@ -1,3 +1,4 @@
+import { svnGilroy } from "@/theme/fonts";
 import { Button, Flex, Img, Input, InputGroup, InputLeftElement, InputRightElement, Text } from "@chakra-ui/react";
 
 const Banner = () => {
@@ -11,7 +12,7 @@ const Banner = () => {
                 alignItems="center"
             >
                 <Flex flexDir="column" w="100%">
-                    <Flex fontFamily="var(--font-svn-gilroy)" fontWeight="bold" flexDir="column">
+                    <Flex fontWeight="bold" flexDir="column">
                         <Text lineHeight="7.4rem" color="var(--sub-text-color)" className="mb-0">
                             Đặt ngay bữa ăn
                         </Text>
@@ -21,7 +22,7 @@ const Banner = () => {
                         <Text lineHeight="7.4rem" color="var(--sub-text-color)">
                             của riêng bạn
                         </Text>
-                        <Text my="3rem" fontSize="1.8rem" lineHeight="2.4rem">
+                        <Text className={svnGilroy.className} my="3rem" fontSize="1.8rem" lineHeight="2.4rem">
                             Một bữa ăn ngon lành, đầy đủ dưỡng chất, được chế biến theo khẩu vị của bạn. Không cần lo
                             nghĩ, không cần nấu, hẹn giờ giao linh hoạt.
                         </Text>
