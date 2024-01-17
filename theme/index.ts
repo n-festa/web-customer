@@ -7,7 +7,7 @@ import textStyles from "./textStyle";
 
 const breakpoints = {
     sm: "414px",
-    md: "768px",
+    md: "550px",
     lg: "960px",
     xl: "1100px",
 };

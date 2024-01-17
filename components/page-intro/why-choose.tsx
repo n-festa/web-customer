@@ -20,13 +20,12 @@ const WhyChoose = () => {
                         <Flex
                             borderRadius="1.05rem"
                             backgroundColor="var(--color-gray-200)"
-                            border="1px solid var(--full-white)"
                             w="5.6rem"
                             h="5.6rem"
                             alignItems="center"
                             justifyContent="center"
                         >
-                            <Img alt="" src="/images/group-427320334.svg" />
+                            <Img alt="" src="/images/enjoy_food.svg" />
                         </Flex>
                         <Text fontSize="2rem" fontWeight="600" color="var(--icterine-500)">
                             Bữa ăn theo nhu cầu
@@ -45,7 +44,6 @@ const WhyChoose = () => {
                         <Flex
                             borderRadius="1.05rem"
                             backgroundColor="var(--color-gray-200)"
-                            border="1px solid var(--full-white)"
                             w="5.6rem"
                             h="5.6rem"
                             alignItems="center"
@@ -71,7 +69,6 @@ const WhyChoose = () => {
                         <Flex
                             borderRadius="1.05rem"
                             backgroundColor="var(--color-gray-200)"
-                            border="1px solid var(--full-white)"
                             w="5.6rem"
                             h="5.6rem"
                             alignItems="center"

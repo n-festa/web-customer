@@ -545,13 +545,6 @@ a:hover {
     margin-right: 60px;
 }
 
-.loyal-customer {
-    color: var(--primary-500, #00473c);
-    font-family: Quicksand;
-    font-size: 12px;
-    font-weight: 500;
-}
-
 .loyal-customer-name {
     color: var(--primary-500, #00473c);
     font-family: Poppins;

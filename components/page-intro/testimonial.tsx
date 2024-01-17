@@ -33,17 +33,19 @@ const ReviewCard = ({ comment, isShowAuthor }: { isShowAuthor?: boolean; comment
                             <Text fontFamily={poppins.style.fontFamily} fontWeight="500" fontSize="1.5rem">
                                 Alexander R.
                             </Text>
-                            <Text
-                                color="var(--primary-500, #00473c)"
-                                fontSize="1.2rem"
-                                fontWeight="500"
-                                className="loyal-customer"
-                            >
+                            <Text color="var(--primary-500, #00473c)" fontSize="1.2rem" fontWeight="500">
                                 Khách hàng thân thiết
                             </Text>
                         </VStack>
                     </Flex>
-                    <Img alt="" src="/images/path-173.svg" />
+                    <Img
+                        display={{
+                            base: "none",
+                            lg: "unset",
+                        }}
+                        alt=""
+                        src="/images/path-173.svg"
+                    />
                 </Flex>
             )}
             <Text fontSize="1.8rem" lineHeight="2.4rem" fontWeight={600}>
