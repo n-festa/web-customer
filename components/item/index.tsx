@@ -103,7 +103,7 @@ const MenuItem = ({
                 borderRadius="50%"
                 aria-label="add-btn"
                 icon={<Img src="/images/plus.svg" />}
-            ></IconButton>
+            />
         </Flex>
     );
 };
