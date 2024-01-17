@@ -3,15 +3,24 @@ import { Button, Flex, Img, Input, InputGroup, InputLeftElement, InputRightEleme
 
 const Banner = () => {
     return (
-        <Flex p="4rem" bg="var(--primary-color)" justifyContent="center" flexDir="column" fontSize="6rem" color="white">
+        <Flex
+            p="4rem"
+            bg="var(--primary-color)"
+            alignItems="center"
+            justifyContent="center"
+            flexDir="column"
+            fontSize="6rem"
+            color="white"
+        >
             <Flex
                 flexDir={{
                     base: "column-reverse",
                     md: "row",
                 }}
+                maxW="1240px"
                 alignItems="center"
             >
-                <Flex flexDir="column" w="100%">
+                <Flex flexDir="column" flex={1}>
                     <Flex fontWeight="bold" flexDir="column">
                         <Text lineHeight="7.4rem" color="var(--sub-text-color)" className="mb-0">
                             Đặt ngay bữa ăn
@@ -53,12 +62,8 @@ const Banner = () => {
                         </InputRightElement>
                     </InputGroup>
                 </Flex>
-                <Flex ml="-2rem">
-                    <Img
-                        maxWidth="100%"
-                        h="auto"
-                        src="images/screen-shot-20230829-at-11-28-37-pmtransformed-5@2x.png"
-                    />
+                <Flex flex={1} ml="-2rem">
+                    <Img maxW="100%" h="auto" src="images/screen-shot-20230829-at-11-28-37-pmtransformed-5@2x.png" />
                 </Flex>
             </Flex>
         </Flex>
