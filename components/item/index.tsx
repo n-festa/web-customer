@@ -47,23 +47,29 @@ const MenuItem = ({
                     <HStack spacing="0.8rem">
                         <HStack spacing="0.4rem">
                             <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin02.svg" />
-                            <Text className="kcal font-weight-600">{kcal} Kcal</Text>
+                            <Text wordBreak="keep-all" className="kcal font-weight-600">
+                                {kcal} Kcal
+                            </Text>
                         </HStack>
                         <HStack spacing="0.4rem" className="d-flex align-items-center gap-1">
                             <Img w="2.4rem" h="2.4rem" alt="" src="/images/star-icon1.svg" />
-
-                            <Text className="text">{ratings}</Text>
+                            <Text wordBreak="keep-all" className="text">
+                                {ratings}
+                            </Text>
                         </HStack>
                     </HStack>
-                    <HStack spacing="0.8rem">
+                    <HStack ml="0.5rem" spacing="0.8rem">
                         <HStack spacing="0.4rem">
                             <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin021.svg" />
-
-                            <Text className="text">{distance} km</Text>
+                            <Text wordBreak="keep-all" className="text">
+                                {distance} km
+                            </Text>
                         </HStack>
                         <HStack spacing="0.4rem">
                             <Img w="2.4rem" h="2.4rem" alt="" src="/images/timer.svg" />
-                            <Text className="text">{time} min</Text>
+                            <Text wordBreak="keep-all" className="text">
+                                {time} min
+                            </Text>
                         </HStack>
                     </HStack>
                 </Flex>

@@ -12,12 +12,17 @@ const Today = () => {
 
     return (
         <Flex py="5rem" px="6.7rem" flexDir="column">
-            <Text fontSize="4.8rem" fontWeight="bold">
+            <Text textAlign={{ base: "center", md: "unset" }} fontSize="4.8rem" fontWeight="bold">
                 Món ngon hôm nay
             </Text>
-            <Wrap align="center" justify="space-between" spacing="4rem">
+            <Wrap align="center" justify={{ base: "center", md: "space-between" }} spacing="4rem">
                 {data.map((item: ProductTypeList) => (
-                    <WrapItem flex={1} minW="38.4rem" maxW="38.4rem" minH="52.6rem">
+                    <WrapItem
+                        flex={1}
+                        minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
+                        maxW={{ base: "unset", md: "38.4rem" }}
+                        minH="52.6rem"
+                    >
                         <MenuItem
                             key={item.id}
                             id={item.id}
