@@ -1,4 +1,4 @@
-import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
+import { Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
 import { ProductTypeList } from "types";
 
 const MenuItem = ({
@@ -16,6 +16,7 @@ const MenuItem = ({
 }: ProductTypeList) => {
     return (
         <Flex
+            position="relative"
             overflow="hidden"
             h="100%"
             borderRadius="2.4rem"
@@ -91,6 +92,18 @@ const MenuItem = ({
                     <Text>Đặt trước 09:00 giờ sáng để điều chỉnh vị</Text>
                 </HStack>
             </VStack>
+            <IconButton
+                position="absolute"
+                bottom="5rem"
+                right="2.5rem"
+                w="4rem"
+                h="4rem"
+                _hover={{ opacity: 0.7 }}
+                _active={{ opacity: 0.5 }}
+                borderRadius="50%"
+                aria-label="add-btn"
+                icon={<Img src="/images/plus.svg" />}
+            ></IconButton>
         </Flex>
     );
 };
