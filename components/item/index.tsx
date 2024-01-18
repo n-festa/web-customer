@@ -83,10 +83,10 @@ const MenuItem = ({
                 </Text>
                 <HStack h="3rem" color="black" fontSize="1.6rem" spacing="0.8rem">
                     <Text textDecoration="line-through" textDecorationThickness="1px">
-                        {price}
+                        {price?.toLocaleString()}
                     </Text>
                     <Text fontSize="2.4rem" fontWeight="bold">
-                        {currentPrice}
+                        {currentPrice?.toLocaleString()}
                     </Text>
                 </HStack>
                 <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">

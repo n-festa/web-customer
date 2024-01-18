@@ -1,23 +1,21 @@
 "use client";
+import products from "@/utils/data/products";
 import { Flex, Text, Wrap, WrapItem } from "@chakra-ui/react";
-import useSwr from "swr";
 import { ProductTypeList } from "types";
 import MenuItem from "../../components/item/index";
-import { fetcher } from "../../utils/fetcher";
 
 const Today = () => {
-    const { data } = useSwr("/api/products", fetcher);
-
-    if (!data) return <div>Loading</div>;
+    const data: ProductTypeList[] = products;
 
     return (
         <Flex py="5rem" px="6.7rem" flexDir="column">
             <Text textAlign={{ base: "center", md: "unset" }} fontSize="4.8rem" fontWeight="bold">
                 Món ngon hôm nay
             </Text>
-            <Wrap align="center" justify={{ base: "center", md: "space-between" }} spacing="4rem">
+            <Wrap align="center" mt="4.8rem" justify={{ base: "center", md: "space-between" }} spacing="4rem">
                 {data.map((item: ProductTypeList) => (
                     <WrapItem
+                        key={item.id}
                         flex={1}
                         minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
                         maxW={{ base: "unset", md: "38.4rem" }}

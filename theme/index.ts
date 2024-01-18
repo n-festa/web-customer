@@ -1,8 +1,10 @@
 import { ThemeOverride, extendTheme } from "@chakra-ui/react";
 import buttonStyle from "./button";
+import { checkboxTheme } from "./checkbox";
 import colors from "./colors";
 import inputStyle from "./input";
 import textStyle from "./text";
+import textAreaStyle from "./textArea";
 import textStyles from "./textStyle";
 
 const breakpoints = {
@@ -43,6 +45,8 @@ const theme: ThemeOverride = extendTheme({
         Input: inputStyle,
         Button: buttonStyle,
         Text: textStyle,
+        Textarea: textAreaStyle,
+        Checkbox: checkboxTheme,
     },
     textStyles,
 });

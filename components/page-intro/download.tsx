@@ -1,86 +1,79 @@
+import { svnGilroy } from "@/theme/fonts";
+import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
+import MobileMock from "./mobile_mock";
+
 const WhyChoose = () => {
     return (
-        <section className="download-app-section d-flex justify-content-center" id="download-section">
-            <div className="download-app-container container">
-                <div className="mobile-app-wrapper d-flex">
-                    <div className="container3 d-flex justify-content-center align-items-center">
-                        <div className="download-app-wrapper d-flex align-self-stretch flex-column flex-grow-1">
-                            <div className="">
-                                <div className="heading">Tải ứng dụng dùng ngay</div>
-                                <div className="description">
-                                    Trải nghiệm tìm kiềm món ngon tại 2ALL tốt hơn trên ứng dụng điện thoại. Hiện đã có
-                                    mặt tại 2 nền tảng iOS và Android.
-                                </div>
-                            </div>
-                            <div className="actions d-flex">
-                                <img className="" alt="" src="/images/mobile-app-store-badge.svg" />
-
-                                <img className="" alt="" src="/images/mobile-app-store-badge1.svg" />
-                            </div>
-                        </div>
-                        <div className="food-wrapper">
-                            <img className="foodbox-2-1" alt="" src="/images/foodbox-2-1@2x.png" />
-
-                            <img className="foodbox-5-1" alt="" src="/images/foodbox-5-1@2x.png" />
-                        </div>
-
-                        <div className="mock-up-mobile-app-wrapper">
-                            <div className="mock-up-mobile-app">
-                                <div className="main-screen">
-                                    <img className="" alt="" src="/images/-elements--iphone-x--status-bar.svg" />
-
-                                    <div className="heading d-flex justify-content-between px-3 mt-3">
-                                        <b className="mn-ngon-hm">Món ngon hôm nay</b>
-                                        <img className="" alt="" src="/images/vuesaxlineararrowright.svg" />
-                                    </div>
-
-                                    <div className="food-card-parent d-flex flex-column">
-                                        <div className="food-card m-3">
-                                            <div className="rectangle-parent d-flex flex-column align-items-center">
-                                                <div className="discount-wrapper w-100 py-2 px-3">
-                                                    <b className="discount">GIẢM GIÁ</b>
-                                                </div>
-
-                                                <img className="food-image2" alt="" src="/images/mask-group4@2x.png" />
-                                            </div>
-
-                                            <div className="card-info-wrapper-2 d-flex flex-column">
-                                                <div className="heading-and-icon-parent d-flex flex-column gap-1">
-                                                    <b className="heading">Summer Avo Salad</b>
-
-                                                    <div className="chef-name">
-                                                        <span className="font-weight-500">by </span>
-                                                        <span className="name font-weight-600">
-                                                            The Bistro Thảo Điền
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div className="card-info-detail d-flex">
-                                                    <div className="d-flex gap-1 justify-content-center align-items-center">
-                                                        <img alt="" src="/images/star-icon4.svg" />
-                                                        <div className="">4.5</div>
-                                                    </div>
-                                                    <div className="d-flex gap-1 justify-content-center align-items-center">
-                                                        <img className="" alt="" src="/images/markerpin022.svg" />
-
-                                                        <div className="">3,2 km</div>
-                                                    </div>
-                                                    <div className="d-flex gap-1 justify-content-center align-items-center">
-                                                        <img className="" alt="" src="/images/markerpin023.svg" />
-
-                                                        <div className="">356 Kcal</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <Flex
+            justifyContent={{
+                base: "center",
+                lg: "space-between",
+            }}
+            h="59.2rem"
+            w="100%"
+            overflow="hidden"
+            bg="var(--color-darkslategray-100)"
+            id="download-section"
+        >
+            <VStack
+                position="relative"
+                alignItems="flex-start"
+                py="9.6rem"
+                pl="11.2rem"
+                spacing="2.rem"
+                className=""
+                pr="11.4rem"
+            >
+                <Text
+                    zIndex={1}
+                    fontSize="4.8rem"
+                    fontWeight={600}
+                    letterSpacing="-0.02em"
+                    color="var(--primary-button-text-color)"
+                >
+                    Tải ứng dụng dùng ngay
+                </Text>
+                <Text
+                    zIndex={1}
+                    maxW="57.6rem"
+                    fontSize="2rem"
+                    fontFamily={svnGilroy.style.fontFamily}
+                    lineHeight="3rem"
+                    color="white"
+                >
+                    Trải nghiệm tìm kiềm món ngon tại 2ALL tốt hơn trên ứng dụng điện thoại. Hiện đã có mặt tại 2 nền
+                    tảng iOS và Android.
+                </Text>
+                <HStack zIndex={1} spacing="1.2rem" mt="4.8rem">
+                    <Img className="" alt="" src="/images/mobile-app-store-badge.svg" />
+                    <Img className="" alt="" src="/images/mobile-app-store-badge1.svg" />
+                </HStack>
+                <Img w="42.4rem" h="42.4rem" alt="" src="/images/foodbox-2-1@2x.png" />
+                <Img
+                    zIndex={0}
+                    w="23rem"
+                    h="21.8rem"
+                    position="absolute"
+                    bottom="7.8rem"
+                    right="0"
+                    alt=""
+                    src="/images/foodbox-5-1@2x.png"
+                />
+            </VStack>
+            <Flex
+                display={{
+                    base: "none",
+                    lg: "flex",
+                }}
+                w="fit-content"
+                position="relative"
+                h="40rem"
+                mt="7.6rem"
+                mr="9.5rem"
+            >
+                <MobileMock />
+            </Flex>
+        </Flex>
     );
 };
 

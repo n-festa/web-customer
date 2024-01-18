@@ -24,7 +24,7 @@ const buttonStyle = {
             color: "var(--primary-button-text-color)",
             _hover: {
                 bg: null,
-                opacity: 0.7,
+                color: "white",
             },
             _active: {
                 bg: null,

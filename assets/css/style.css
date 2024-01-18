@@ -372,6 +372,7 @@ a:hover {
     border-radius: var(--br-5xl);
     background-color: var(--full-white);
     box-shadow: var(--shadow-md);
+    width: fit-content;
     /*width: 384px;*/
 }
 
@@ -891,6 +892,7 @@ a:hover {
 .food-card-parent {
     font-size: 10.51px;
     color: var(--color-gold);
+    align-items: center;
 }
 
 .mn-ngon-hm {
@@ -906,7 +908,6 @@ a:hover {
 
 .mock-up-mobile-app-wrapper {
     position: relative;
-    flex: 1;
     height: 400px;
 }
 
@@ -944,14 +945,6 @@ a:hover {
     font-weight: 500;
     display: inline-block;
     max-width: 320px;
-}
-
-.logo-and-supporting-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: var(--gap-13xl);
 }
 
 .footer-links-heading {
@@ -1010,10 +1003,6 @@ a:hover {
     height: 18px;
 }
 
-.footer-2all {
-    text-align: justify;
-    font-size: var(--text-md-regular-size);
-}
 .copyright {
     color: var(--gray-500);
     font-family: Quicksand;

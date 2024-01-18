@@ -1,4 +1,7 @@
+import Footer from "@/components/footer";
 import Banner from "@/components/page-intro/banner";
+import Contact from "@/components/page-intro/contact";
+import Download from "@/components/page-intro/download";
 import OrderStep from "@/components/page-intro/order-step";
 import Testimonial from "@/components/page-intro/testimonial";
 import Today from "@/components/page-intro/today";
@@ -13,6 +16,9 @@ export default function Home() {
             <OrderStep />
             <WhyChoose />
             <Testimonial />
+            <Contact />
+            <Download />
+            <Footer />
         </Flex>
     );
 }
