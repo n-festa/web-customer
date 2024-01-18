@@ -2,13 +2,14 @@ import InputForm from "@/components/InputForm";
 import { Box, Text, Flex, RadioGroup, Stack, Radio, Button } from "@chakra-ui/react";
 import config from "@/config";
 import RadioCard from "@/components/RadioCard";
+import UISignWrap from "@/components/UISignWrap";
 
 const { form } = config;
 
 const PhoneVerification = () => {
     return (
-        <Flex w="100%" h="100%" bg="var(--gray-100)" pt="4rem" justifyContent="center">
-            <Box p="4rem" w="100%" maxW="60rem" h="max-content" bg="white">
+        <UISignWrap maxW="63rem" bg="var(--gray-100)">
+            <Box p="4rem" w="100%" bg="white">
                 <Text fontSize="2.4rem" fontWeight="700" mb="0.8rem" color="var(--gray-950)">
                     CHIA SẺ THÊM VỚI CHÚNG TÔI VỀ BẠN
                 </Text>
@@ -24,7 +25,9 @@ const PhoneVerification = () => {
                         <Stack direction="row" spacing={8}>
                             {form.gender.map((value, index) => (
                                 <Radio
+                                    variant="custom-width"
                                     key={index}
+                                    className="custom-width"
                                     value={index.toString()}
                                     fontSize="1.6rem"
                                     fontWeight="400"
@@ -104,7 +107,7 @@ const PhoneVerification = () => {
                     </Button>
                 </Box>
             </Box>
-        </Flex>
+        </UISignWrap>
     );
 };
 

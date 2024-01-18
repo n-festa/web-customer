@@ -1,9 +1,11 @@
-import { Button, Box, Center, Image, Text, InputGroup, InputLeftAddon, Input } from "@chakra-ui/react";
+import { Box, Image, Text, InputGroup, InputLeftAddon, Input } from "@chakra-ui/react";
+import UIButton from "@/components/UIButton";
+import UISignWrap from "@/components/UISignWrap";
 
 const Login = () => {
     return (
-        <Center mt="4.0rem" w="100%" h="100%" bg="white">
-            <Box bg="white" w="100%" maxW="45.6rem" p="0 1.5rem">
+        <UISignWrap maxW="45.6rem">
+            <Box bg="white">
                 <Box w="100%" maxW="40.0rem" m="0 auto 1.6rem" p="2.8rem 4.5rem" bg="#00473C">
                     <Image
                         w="100$"
@@ -41,21 +43,10 @@ const Login = () => {
                     <Text fontSize="1.4rem" fontWeight="400" mb="1.6rem" color="#475467">
                         Chúng tôi sẽ gửi tới số điện thoại bạn đăng ký mã số OTP để kích hoạt tài khoản
                     </Text>
-                    <Button
-                        w="100%"
-                        bg="#00473C"
-                        colorScheme="#E6FF55"
-                        fontSize="1.4rem"
-                        fontWeight="600"
-                        borderRadius="99.9rem"
-                        h="3.6rem"
-                        p="0.6rem 1.2rem"
-                    >
-                        Tiếp tục
-                    </Button>
+                    <UIButton>Tiếp tục</UIButton>
                 </Box>
             </Box>
-        </Center>
+        </UISignWrap>
     );
 };
 

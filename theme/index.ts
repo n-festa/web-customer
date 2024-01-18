@@ -43,6 +43,7 @@ const theme: ThemeOverride = extendTheme({
         Input: inputStyle,
         Button: buttonStyle,
         Text: textStyle,
+        Radio: {},
     },
     textStyles,
 });
