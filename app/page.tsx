@@ -1,4 +1,3 @@
-import Footer from "@/components/footer";
 import Banner from "@/components/page-intro/banner";
 import Contact from "@/components/page-intro/contact";
 import Download from "@/components/page-intro/download";
@@ -18,7 +17,6 @@ export default function Home() {
             <Testimonial />
             <Contact />
             <Download />
-            <Footer />
         </Flex>
     );
 }

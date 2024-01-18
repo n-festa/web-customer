@@ -1,11 +1,6 @@
-import { Button, ButtonProps as ChakraButtonProps } from "@chakra-ui/react";
+import { Button, ButtonProps } from "@chakra-ui/react";
 
-interface UIButtonProps extends ChakraButtonProps {
-    children: React.ReactNode;
-    onClick?: () => void;
-}
-
-const UIButton = ({ children, onClick, ...props }: UIButtonProps) => {
+const UIButton = ({ children, onClick, ...props }: ButtonProps) => {
     return (
         <Button
             w="100%"

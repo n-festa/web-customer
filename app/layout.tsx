@@ -10,6 +10,7 @@ import { Providers } from "./providers";
 import "../assets/css/bootstrap.min.css";
 import "../assets/css/global.css";
 import "../assets/css/style.css";
+import Footer from "@/components/footer";
 //
 export const metadata = {
     icons: {
@@ -42,6 +43,7 @@ export default async function RootLayout({ children }: LayoutProps) {
                         <Flex flex={1} w="100%" pt="8rem">
                             {children}
                         </Flex>
+                        <Footer />
                     </Flex>
                 </Providers>
             </body>

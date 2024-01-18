@@ -1,6 +1,7 @@
 export type IngredientType = {
     name?: number | string;
     quantity?: string | number;
+    unit?: string | number;
 };
 
 export type ProductType = {
@@ -29,6 +30,9 @@ export type ProductTypeList = {
     distance: number;
     ratings: number;
     kcal: string | number;
+    carb?: string | number;
+    protein?: string | number;
+    fat?: string | number;
     ingredient: Array<IngredientType>;
 };
 export type ProductStoreType = {

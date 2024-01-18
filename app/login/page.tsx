@@ -1,8 +1,23 @@
-import { Box, Image, Text, InputGroup, InputLeftAddon, Input } from "@chakra-ui/react";
+"use client";
+import { Box, Image, Text, InputGroup, InputLeftAddon, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
+import { Field, Form, Formik, FormikHelpers } from "formik";
+import * as Yup from "yup";
 import UIButton from "@/components/UIButton";
 import UISignWrap from "@/components/UISignWrap";
+import { useRouter } from "next/navigation";
+// import { fetcher } from "@/utils/fetcher";
 
 const Login = () => {
+    const router = useRouter();
+    const handleSubmit = async (
+        _values: { number_phone: string },
+        _actions: FormikHelpers<{ number_phone: string }>,
+    ) => {
+        // const { data } = await fetcher("/api/signup", "POST", { number_phone: values.number_phone });
+        await setTimeout(() => {
+            router.push("/otp");
+        }, 1000);
+    };
     return (
         <UISignWrap maxW="45.6rem">
             <Box bg="white">
@@ -24,26 +39,69 @@ const Login = () => {
                     <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem" color="#344054">
                         Điền số điện thoại của bạn
                     </Text>
-                    <InputGroup border=".1rem solid #D0D5DD" borderRadius=".8rem" h="4.0rem" mb="0.6rem">
-                        <InputLeftAddon h="4.0rem" pr="1.0rem">
-                            <Image src="/images/vn.png" alt="Dan Abramov" w="1.6rem" h="1.6rem" mr=".2rem" />
-                            <Image src="/images/chevrondown1.svg" alt="Dan Abramov" w="1.6rem" h="1.6rem" mr=".2rem" />
-                        </InputLeftAddon>
-                        <Input
-                            border="none"
-                            h="4.0rem"
-                            type="tel"
-                            placeholder="+84 (555) 000-0000"
-                            fontSize="1.6rem"
-                            fontWeight="400"
-                            color="#667085"
-                            p="0"
-                        />
-                    </InputGroup>
-                    <Text fontSize="1.4rem" fontWeight="400" mb="1.6rem" color="#475467">
-                        Chúng tôi sẽ gửi tới số điện thoại bạn đăng ký mã số OTP để kích hoạt tài khoản
-                    </Text>
-                    <UIButton>Tiếp tục</UIButton>
+                    <Formik
+                        initialValues={{ number_phone: "" }}
+                        validationSchema={Yup.object({
+                            number_phone: Yup.string().required("Required"),
+                        })}
+                        onSubmit={(values, actions) => {
+                            handleSubmit(values, actions);
+                        }}
+                    >
+                        {(props) => (
+                            <Form>
+                                <Field name="number_phone">
+                                    {({ field, form }: { field: any; form: any }) => (
+                                        <FormControl isInvalid={form.errors.number_phone}>
+                                            <InputGroup
+                                                border=".1rem solid #D0D5DD"
+                                                borderRadius=".8rem"
+                                                h="4.0rem"
+                                                mb="0.6rem"
+                                                {...field}
+                                            >
+                                                <InputLeftAddon h="4.0rem" pr="1.0rem">
+                                                    <Image
+                                                        src="/images/vn.png"
+                                                        alt="Dan Abramov"
+                                                        w="1.6rem"
+                                                        h="1.6rem"
+                                                        mr=".2rem"
+                                                    />
+                                                    <Image
+                                                        src="/images/chevrondown1.svg"
+                                                        alt="Dan Abramov"
+                                                        w="1.6rem"
+                                                        h="1.6rem"
+                                                        mr=".2rem"
+                                                    />
+                                                </InputLeftAddon>
+                                                <Input
+                                                    border="none"
+                                                    h="4.0rem"
+                                                    type="tel"
+                                                    placeholder="+84 (555) 000-0000"
+                                                    fontSize="1.6rem"
+                                                    fontWeight="400"
+                                                    color="#667085"
+                                                    p="0"
+                                                    {...field}
+                                                />
+                                            </InputGroup>
+                                            <FormErrorMessage>{form.errors.number_phone}</FormErrorMessage>
+                                        </FormControl>
+                                    )}
+                                </Field>
+                                <Text fontSize="1.4rem" fontWeight="400" mb="1.6rem" color="#475467">
+                                    Chúng tôi sẽ gửi tới số điện thoại bạn đăng ký mã số OTP để kích hoạt tài khoản
+                                </Text>
+
+                                <UIButton isLoading={props.isSubmitting} type="submit">
+                                    Tiếp tục
+                                </UIButton>
+                            </Form>
+                        )}
+                    </Formik>
                 </Box>
             </Box>
         </UISignWrap>

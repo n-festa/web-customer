@@ -25,17 +25,24 @@
     -webkit-text-decoration-color: var(--main-color);
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 html {
     font-size: 5px;
     overflow: hidden;
-    @media screen and (min-width: 375px) {
-        font-size: 5.5px;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+
+    /* Firefox */
+    @media screen and (min-width: 414px) {
+        font-size: 6.5px;
     }
-    @media screen and (min-width: 414pz) {
-        font-size: 6px;
-    }
-    @media screen and (min-width: 500px) {
-        font-size: 7px;
+
+    @media screen and (min-width: 550px) {
+        font-size: 8px;
     }
 
     @media screen and (min-width: 768px) {
@@ -127,4 +134,19 @@ img {
     &.three-lines {
         -webkit-line-clamp: 3;
     }
+}
+
+.pagination-dot-indicator {
+    position: relative;
+    border-radius: var(--br-9xs);
+    width: 8px;
+    height: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    mix-blend-mode: multiply;
+    background-color: var(--gray-200);
+}
+
+.pagination-dot-indicator.active {
+    background-color: #b7eb52;
 }

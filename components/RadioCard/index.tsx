@@ -1,10 +1,10 @@
 "use client";
-import { Box, useRadio } from "@chakra-ui/react";
+import { Box, UseRadioProps, useRadio } from "@chakra-ui/react";
 
-interface RadioCardProps {
+type RadioCardProps = {
     children: React.ReactNode;
-}
-function RadioCard(props: RadioCardProps) {
+} & UseRadioProps;
+function RadioCard({ children, ...props }: RadioCardProps) {
     const { getInputProps, getRadioProps } = useRadio(props);
 
     const input = getInputProps();
@@ -31,7 +31,7 @@ function RadioCard(props: RadioCardProps) {
                     borderColor: "#00473C",
                 }}
             >
-                {props.children}
+                {children}
             </Box>
         </Box>
     );
