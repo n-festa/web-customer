@@ -2,9 +2,9 @@
 import { Box, Image, Text, InputGroup, InputLeftAddon, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
+import { useRouter } from "next/navigation";
 import UIButton from "@/components/UIButton";
 import UISignWrap from "@/components/UISignWrap";
-import { useRouter } from "next/navigation";
 // import { fetcher } from "@/utils/fetcher";
 
 const Login = () => {
@@ -58,7 +58,6 @@ const Login = () => {
                                                 borderRadius=".8rem"
                                                 h="4.0rem"
                                                 mb="0.6rem"
-                                                {...field}
                                             >
                                                 <InputLeftAddon h="4.0rem" pr="1.0rem">
                                                     <Image

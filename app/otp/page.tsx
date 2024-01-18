@@ -1,39 +1,41 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
+import { Box, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
+import useSwr from "swr";
+import { useRouter } from "next/navigation";
 import UIButton from "@/components/UIButton";
 import UISignWrap from "@/components/UISignWrap";
+import useCountdown from "@/hooks/useCountDown";
 import { fetcher } from "@/utils/fetcher";
-import { Box, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
-import useSwr from "swr";
 
 const OTP = () => {
     const { data } = useSwr("/api/otp", fetcher);
-    const correctOTP = data;
     const numberOfDigits = 6;
+    const [correctOTP, setCorrectOTP] = useState<String>(data);
     const [otp, setOtp] = useState<Array<string>>(new Array(numberOfDigits).fill(""));
     const [_otpError, setOtpError] = useState<string>("");
     const otpBoxReference = useRef<Array<HTMLInputElement | any>>([]);
+    const { formattedTime, resetCountdown } = useCountdown(120);
+    const router = useRouter();
 
     function handleChange(value: string, index: number) {
         const newArr = [...otp];
         newArr[index] = value;
         setOtp(newArr);
-        console.log(newArr);
-
-        if (value && index < numberOfDigits - 1 && otpBoxReference.current[index + 1]) {
-            otpBoxReference.current[index + 1].focus();
-        } else {
-            otpBoxReference.current[index].blur();
-        }
     }
+
+    const handleResend = async () => {
+        const { data } = await fetcher("/api/otp");
+        setCorrectOTP(data);
+        resetCountdown();
+    };
 
     useEffect(() => {
         if (otp.join("") !== correctOTP) {
             setOtpError("❌ Wrong OTP Please Check Again");
         } else {
             setOtpError("");
-            // redirect
-            alert("Chuyển trang");
+            router.push("/phone_verification");
         }
     }, [otp, correctOTP]);
 
@@ -55,8 +57,6 @@ const OTP = () => {
                                 border="0.1rem solid var(--gray-300)"
                                 h="6.4rem"
                                 w="6.4rem"
-                                type="number"
-                                placeholder="0"
                                 fontSize="4.8rem"
                                 fontWeight="500"
                                 color="var(--gray-950)"
@@ -68,28 +68,10 @@ const OTP = () => {
                             />
                         ))}
                     </PinInput>
-                    {/* {Array.from({ length: 6 }, (_, index) => (
-                        <Input
-                            key={index}
-                            border="0.1rem solid var(--gray-300)"
-                            h="6.4rem"
-                            w="6.4rem"
-                            type="number"
-                            placeholder="0"
-                            fontSize="4.8rem"
-                            fontWeight="500"
-                            color="var(--gray-950)"
-                            p="0.2rem 0.8rem 0.2rem 0.8rem"
-                            textAlign="center"
-                            borderRadius="0.8rem"
-                            onChange={(e) => handleChange(e.target.value, index)}
-                            ref={(reference) => (otpBoxReference.current[index] = reference)}
-                        />
-                    ))} */}
                 </Flex>
-                <UIButton>Gửi lại mã OTP</UIButton>
+                <UIButton onClick={handleResend}>Gửi lại mã OTP</UIButton>
                 <Text fontSize="1.4rem" fontWeight="400" color="var(--gray-950)" textAlign="center" mt="0.8rem">
-                    01:23
+                    {formattedTime}
                 </Text>
             </Box>
         </UISignWrap>
