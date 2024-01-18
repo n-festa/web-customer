@@ -15,9 +15,9 @@ const svnGilroy = localFont({
     variable: "--font-svn-gilroy",
 });
 
-export const inter = Inter({ preload: true, weight: ["400", "500", "600", "700"], subsets: ["vietnamese"] });
+export const inter = Inter({ subsets: ["vietnamese"] });
 
-export const quicksand = Quicksand({ preload: true, weight: ["400", "500", "600", "700"], subsets: ["vietnamese"] });
+export const quicksand = Quicksand({ subsets: ["vietnamese"] });
 
 export const poppins = Poppins({
     subsets: ["latin"],

@@ -1,105 +1,168 @@
+import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
+
 const Footer = () => {
     return (
-        <section className="footer-2all d-flex justify-content-center" id="footer-section">
-            <div className="footer container">
-                <div className="py-5 gap-5 d-flex">
-                    <div className="logo-and-supporting-text">
-                        <img className="" alt="" src="/images/fictional-company-logo1.svg" />
-                        <div className="supporting-text-1">
-                            Một bữa ăn ngon lành, đầy đủ dưỡng chất, được chế biến theo khẩu vị của bạn. Không cần lo
-                            nghĩ, không cần nấu, hẹn giờ giao linh hoạt.
-                        </div>
-                    </div>
-                    <div className="links d-flex">
-                        <div className="footer-links-column">
-                            <div className="footer-links-heading">Liên hệ</div>
-                            <div className="footer-links">
-                                <div className="footer-link">
-                                    <div className="">info@gmail.com</div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="">0988 989 989</div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="">162 Hoàng Sa</div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="">Q.1, Tp.HCM</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="footer-links-column">
-                            <div className="footer-links-heading">Về chúng tôi</div>
-                            <div className="footer-links">
-                                <div className="footer-link">
-                                    <div className="">Đội ngũ</div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="">Việc làm</div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="">Tin tức</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="footer-links-column">
-                            <div className="footer-links-heading">Khu vực hoạt động</div>
-                            <div className="footer-links">
-                                <div className="footer-link">
-                                    <div className="">Quận 1, Tp. Hồ Chí Minh</div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="">Quận 2, Tp. Hồ Chí Minh</div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="">Quận 3, Tp. Hồ Chí Minh</div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="">Quận 4, Tp. Hồ Chí Minh</div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="">Bình Tân, Tp. Hồ Chí Minh</div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="">Phú Nhuận, Tp. Hồ Chí Minh</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="footer-links-column2">
-                            <div className="footer-links-heading">Theo dõi tại</div>
-                            <div className="footer-links">
-                                <div className="footer-link">
-                                    <div className="social-button">
-                                        <img className="social-image" alt="" src="/images/instagram.svg" />
-                                        <div className="">Instagram</div>
-                                    </div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="social-button">
-                                        <img className="social-image" alt="" src="/images/facebook.svg" />
-
-                                        <div className="">Facebook</div>
-                                    </div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="social-button">
-                                        <img className="v" alt="" src="/images/linkedin.svg" />
-                                        <div className="">Linkedin</div>
-                                    </div>
-                                </div>
-                                <div className="footer-link">
-                                    <div className="social-button">
-                                        <img className="social-image" alt="" src="/images/246x0w-1@2x.png" />
-                                        <div className="">Zalo</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="copyright py-3">© 2023 Bản quyền website, ứng dụng thuộc về 2ALL.</div>
-            </div>
-        </section>
+        <Flex flexDir="column" px="7.5rem" justifyContent="center" id="footer-section">
+            <Flex flexDir={{ base: "column", lg: "row" }} mb="4.8rem" mt="6.4rem" justify="space-between">
+                <VStack alignItems="flex-start" spacing="3.2rem">
+                    <Img className="" alt="" src="/images/fictional-company-logo1.svg" />
+                    <Text
+                        fontSize="1.6rem"
+                        className="supporting-text-1"
+                        lineHeight="2.4rem"
+                        fontWeight={500}
+                        maxWidth={{ base: "100%", lg: "32rem" }}
+                        mb={{ base: "2rem", lg: "unset" }}
+                        mr="1rem"
+                    >
+                        Một bữa ăn ngon lành, đầy đủ dưỡng chất, được chế biến theo khẩu vị của bạn. Không cần lo nghĩ,
+                        không cần nấu, hẹn giờ giao linh hoạt.
+                    </Text>
+                </VStack>
+                <Flex justifyContent="space-between">
+                    <VStack
+                        px="1.6rem"
+                        alignItems="flex-start"
+                        borderLeft="1px solid var(--primary-100)"
+                        spacing="1.6rem"
+                    >
+                        <Text
+                            wordBreak="keep-all"
+                            fontSize="1.4rem"
+                            fontWeight={600}
+                            lineHeight="2rem"
+                            color="var(--primary-100)"
+                        >
+                            Liên hệ
+                        </Text>
+                        <VStack alignItems="flex-start" className="footer-links">
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                info@gmail.com
+                            </Text>
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                0988 989 989
+                            </Text>
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                162 Hoàng Sa
+                            </Text>
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                Q.1, Tp.HCM
+                            </Text>
+                        </VStack>
+                    </VStack>
+                    <VStack
+                        px="1.6rem"
+                        alignItems="flex-start"
+                        borderLeft="1px solid var(--primary-100)"
+                        spacing="1.6rem"
+                    >
+                        <Text
+                            wordBreak="keep-all"
+                            fontSize="1.4rem"
+                            fontWeight={600}
+                            lineHeight="2rem"
+                            whiteSpace="nowrap"
+                            color="var(--primary-100)"
+                        >
+                            Về chúng tôi
+                        </Text>
+                        <VStack alignItems="flex-start" className="footer-links">
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                Đội ngũ
+                            </Text>
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                Việc làm
+                            </Text>
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                Tin tức
+                            </Text>
+                        </VStack>
+                    </VStack>
+                    <VStack
+                        px="1.6rem"
+                        alignItems="flex-start"
+                        borderLeft="1px solid var(--primary-100)"
+                        spacing="1.6rem"
+                    >
+                        <Text
+                            fontSize="1.4rem"
+                            whiteSpace="nowrap"
+                            fontWeight={600}
+                            lineHeight="2rem"
+                            color="var(--primary-100)"
+                        >
+                            Khu vực hoạt động
+                        </Text>
+                        <VStack alignItems="flex-start" className="footer-links">
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                Quận 1, Tp. Hồ Chí Minh
+                            </Text>
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                Quận 2, Tp. Hồ Chí Minh
+                            </Text>
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                Quận 3, Tp. Hồ Chí Minh
+                            </Text>
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                Quận 4, Tp. Hồ Chí Minh
+                            </Text>
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                Bình Tân, Tp. Hồ Chí Minh
+                            </Text>
+                            <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                Phú Nhuận, Tp. Hồ Chí Minh
+                            </Text>
+                        </VStack>
+                    </VStack>
+                    <VStack
+                        px="1.6rem"
+                        alignItems="flex-start"
+                        borderLeft="1px solid var(--primary-100)"
+                        spacing="1.6rem"
+                    >
+                        <Text
+                            wordBreak="keep-all"
+                            fontSize="1.4rem"
+                            fontWeight={600}
+                            lineHeight="2rem"
+                            whiteSpace="nowrap"
+                            color="var(--primary-100)"
+                        >
+                            Theo dõi tại
+                        </Text>
+                        <VStack alignItems="flex-start" className="footer-links">
+                            <HStack>
+                                <Img className="social-image" alt="" src="/images/instagram.svg" />
+                                <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                    Instagram
+                                </Text>
+                            </HStack>
+                            <HStack>
+                                <Img className="social-image" alt="" src="/images/facebook.svg" />
+                                <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                    Facebook
+                                </Text>
+                            </HStack>
+                            <HStack>
+                                <Img className="social-image" alt="" src="/images/linkedin.svg" />
+                                <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                    Linkedin
+                                </Text>
+                            </HStack>
+                            <HStack>
+                                <Img className="social-image" alt="" src="/images/246x0w-1@2x.png" />
+                                <Text fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                    Zalo
+                                </Text>
+                            </HStack>
+                        </VStack>
+                    </VStack>
+                </Flex>
+            </Flex>
+            <Text fontSize="1.6rem" color="var(--gray-500)" my="1.6rem">
+                © 2023 Bản quyền website, ứng dụng thuộc về 2ALL.
+            </Text>
+        </Flex>
     );
 };
 

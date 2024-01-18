@@ -21,6 +21,21 @@ const inputStyle = helpers.defineMultiStyleConfig({
                 },
             },
         },
+        email: {
+            field: {
+                borderRadius: "0.8rem",
+                color: "var(--gray-500)",
+                fontWeight: "500",
+                fontSize: "1.6rem",
+                bg: "white",
+                border: "1px solid rgba(208, 213, 221, 1)",
+                boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
+                _placeholder: {
+                    color: "var(--gray-500)",
+                    fontSize: "1.6rem",
+                },
+            },
+        },
     },
 });
 

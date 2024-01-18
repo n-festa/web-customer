@@ -1,4 +1,6 @@
-export const products = [
+import { ProductTypeList } from "@/types";
+
+export const products: ProductTypeList[] = [
     {
         id: "1",
         name: "Cơm Ức Gà Gạo Lứt",
