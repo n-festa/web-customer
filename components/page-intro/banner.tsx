@@ -1,7 +1,10 @@
+"use client";
 import { svnGilroy } from "@/theme/fonts";
+import { routes } from "@/utils/routes";
 import { Button, Flex, Img, Input, InputGroup, InputLeftElement, InputRightElement, Text } from "@chakra-ui/react";
-
+import { useRouter } from "next/navigation";
 const Banner = () => {
+    const router = useRouter();
     return (
         <Flex
             p="4rem"
@@ -56,7 +59,14 @@ const Banner = () => {
                             variant="search"
                         />
                         <InputRightElement mr="1.6rem" h="100%" w="9.1rem">
-                            <Button h="3.6rem" borderRadius="9rem" variant="solid">
+                            <Button
+                                h="3.6rem"
+                                borderRadius="9rem"
+                                variant="solid"
+                                onClick={() => {
+                                    router.push(routes.Search);
+                                }}
+                            >
                                 Tìm món
                             </Button>
                         </InputRightElement>

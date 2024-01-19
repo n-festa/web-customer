@@ -34,6 +34,44 @@ const buttonStyle = {
             fontSize: "1.8rem",
             fontWeigth: 600,
         },
+        btnBack: {
+            bg: "transparent",
+            px: 0,
+            fontSize: "1.4rem",
+            color: "var(--gray-600)",
+            _active: {
+                opacity: 0.5,
+            },
+
+            _hover: {},
+        },
+        btnPagination: {
+            borderRadius: "18px",
+            w: "3.6rem",
+            h: "3.6rem",
+            minW: "3.6rem",
+            bg: "var(--color-palegoldenrod)",
+            p: 0,
+            m: 0,
+        },
+        btnDotPagination: {
+            borderRadius: "0.4rem",
+            w: "0.8rem",
+            h: "0.8rem",
+            minW: "0.8rem",
+            bg: "var(--gray-200)",
+            p: 0,
+            m: 0,
+        },
+
+        btnViewAll: {
+            h: "3.6rem",
+            minW: "0.8rem",
+            p: "0.6rem 0",
+            fontSize: "1.8rem",
+            fontWeight: "bold",
+            color: "var(--color-mediumslateblue)",
+        },
     },
 };
 
