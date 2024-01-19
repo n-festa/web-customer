@@ -36,6 +36,22 @@ const inputStyle = helpers.defineMultiStyleConfig({
                 },
             },
         },
+        searchBox: {
+            field: {
+                bg: "white",
+                border: "1px solid var(--gray-300)",
+                borderRadius: "10px",
+                color: "var(--gray-600)",
+                height: "6rem",
+                fontSize: "1.8rem",
+                fontWeight: "medium",
+                _focus: {},
+                _hover: {},
+                _placeholder: {
+                    color: "var(--gray-600)",
+                },
+            },
+        },
     },
 });
 
