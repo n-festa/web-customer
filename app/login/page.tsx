@@ -5,25 +5,26 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import UIButton from "@/components/UIButton";
 import UISignWrap from "@/components/UISignWrap";
-// import { fetcher } from "@/utils/fetcher";
+import { fetcher } from "@/utils/fetcher";
 
 const Login = () => {
     const router = useRouter();
-    const handleSubmit = async (
-        _values: { number_phone: string },
-        _actions: FormikHelpers<{ number_phone: string }>,
-    ) => {
-        // const { data } = await fetcher("/api/signup", "POST", { number_phone: values.number_phone });
-        await setTimeout(() => {
+    const handleSubmit = async (_values: { phoneNumber: string }, _actions: FormikHelpers<{ phoneNumber: string }>) => {
+        const { data, statusCode } = await fetcher("https://api.2all.com.vn/web-customer/auth/request-otp", "POST", {
+            phoneNumber: _values.phoneNumber,
+        });
+        if (statusCode === 200) {
+            const { otpCode, phoneNumber } = data;
+            console.log(otpCode, phoneNumber);
             router.push("/otp");
-        }, 1000);
+        }
     };
     return (
         <UISignWrap maxW="45.6rem">
             <Box bg="white">
                 <Box w="100%" maxW="40.0rem" m="0 auto 1.6rem" p="2.8rem 4.5rem" bg="#00473C">
                     <Image
-                        w="100$"
+                        w="100%"
                         maxW="31.1rem"
                         h="auto"
                         borderRadius="0.6rem"
@@ -40,9 +41,11 @@ const Login = () => {
                         Điền số điện thoại của bạn
                     </Text>
                     <Formik
-                        initialValues={{ number_phone: "" }}
+                        initialValues={{ phoneNumber: "" }}
                         validationSchema={Yup.object({
-                            number_phone: Yup.string().required("Required"),
+                            phoneNumber: Yup.string()
+                                .required("Vui lòng nhập số điện thoại")
+                                .length(10, "Vui lòng nhập đúng 10 số"),
                         })}
                         onSubmit={(values, actions) => {
                             handleSubmit(values, actions);
@@ -50,16 +53,28 @@ const Login = () => {
                     >
                         {(props) => (
                             <Form>
-                                <Field name="number_phone">
+                                <Field name="phoneNumber">
                                     {({ field, form }: { field: any; form: any }) => (
-                                        <FormControl isInvalid={form.errors.number_phone}>
+                                        <FormControl isInvalid={form.errors.phoneNumber}>
                                             <InputGroup
+                                                position="relative"
                                                 border=".1rem solid #D0D5DD"
                                                 borderRadius=".8rem"
                                                 h="4.0rem"
                                                 mb="0.6rem"
+                                                overflow="hidden"
+                                                borderColor={form.errors.phoneNumber && "#E53E3E"}
                                             >
-                                                <InputLeftAddon h="4.0rem" pr="1.0rem">
+                                                <InputLeftAddon
+                                                    position="absolute"
+                                                    top="0"
+                                                    left="0"
+                                                    bottom="0"
+                                                    w="5.6rem"
+                                                    h="4.0rem"
+                                                    pr="1.0rem"
+                                                    zIndex={2}
+                                                >
                                                     <Image
                                                         src="/images/vn.png"
                                                         alt="Dan Abramov"
@@ -83,15 +98,17 @@ const Login = () => {
                                                     fontSize="1.6rem"
                                                     fontWeight="400"
                                                     color="#667085"
-                                                    p="0"
+                                                    pl="5.7rem"
                                                     {...field}
                                                 />
                                             </InputGroup>
-                                            <FormErrorMessage>{form.errors.number_phone}</FormErrorMessage>
+                                            <FormErrorMessage fontSize="1.4rem">
+                                                {form.errors.phoneNumber}
+                                            </FormErrorMessage>
                                         </FormControl>
                                     )}
                                 </Field>
-                                <Text fontSize="1.4rem" fontWeight="400" mb="1.6rem" color="#475467">
+                                <Text fontSize="1.4rem" fontWeight="400" m="1rem 0 1.6rem" color="#475467">
                                     Chúng tôi sẽ gửi tới số điện thoại bạn đăng ký mã số OTP để kích hoạt tài khoản
                                 </Text>
 

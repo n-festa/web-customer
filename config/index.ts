@@ -1,4 +1,4 @@
-import form from "./form.config";
-const config = { form };
+import signUp from "./signup.config";
+const config = { signUp };
 
 export default config;

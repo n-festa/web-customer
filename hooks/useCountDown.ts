@@ -20,9 +20,9 @@ const useCountdown = (initialSeconds: number): CountdownHook => {
     }, [seconds]);
 
     useEffect(() => {
-        if (seconds === 0) {
-            alert("Đếm ngược đã kết thúc!");
-        }
+        // if (seconds === 0) {
+        //     alert("Mã OTP đã hết hạn!");
+        // }
     }, [seconds]);
 
     const formatTime = (time: number): string => {

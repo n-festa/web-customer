@@ -1,11 +1,11 @@
 export const fetcher = (url: string, method: string = "GET", data: any = null) => {
-    // const headers: HeadersInit = {
-    //     "Content-Type": "application/json",
-    // };
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
 
     const options: RequestInit = {
         method,
-        // headers,
+        headers,
     };
 
     if (method === "POST" || method === "PUT" || method === "PATCH") {

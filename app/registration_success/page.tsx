@@ -1,8 +1,18 @@
+"use client";
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import UISignWrap from "@/components/UISignWrap";
 import UIButton from "@/components/UIButton";
 
 const RegistrationSuccess = () => {
+    const router = useRouter();
+    const health_info = {
+        bmi: 22.9,
+        recommended_dietary_allowance_kcal: 2500,
+    };
+    const handleRedirect = () => {
+        router.push("/");
+    };
     return (
         <UISignWrap maxW="40.6rem">
             <Box>
@@ -26,7 +36,7 @@ const RegistrationSuccess = () => {
                             color="var(--green-light-500)"
                             mb="0.8rem"
                         >
-                            22.9
+                            {health_info.bmi}
                         </Center>
                         <Text fontSize="1.8rem" textAlign="center" fontWeight="500" color="var(--gray-modern-950)">
                             Cân đối
@@ -54,14 +64,14 @@ const RegistrationSuccess = () => {
                             color="var(--green-light-500)"
                             mb="0.8rem"
                         >
-                            2350
+                            {health_info.recommended_dietary_allowance_kcal}
                         </Center>
                         <Text fontSize="1.8rem" fontWeight="500" textAlign="center" color="var(--gray-modern-950)">
                             Kcal/ ngày
                         </Text>
                     </Box>
                 </Flex>
-                <UIButton>Khám phá món ăn ngay hôm nay</UIButton>
+                <UIButton onClick={handleRedirect}>Khám phá món ăn ngay hôm nay</UIButton>
             </Box>
         </UISignWrap>
     );

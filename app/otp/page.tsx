@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Box, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
-import useSwr from "swr";
 import { useRouter } from "next/navigation";
 import UIButton from "@/components/UIButton";
 import UISignWrap from "@/components/UISignWrap";
@@ -9,13 +8,12 @@ import useCountdown from "@/hooks/useCountDown";
 import { fetcher } from "@/utils/fetcher";
 
 const OTP = () => {
-    const { data } = useSwr("/api/otp", fetcher);
     const numberOfDigits = 6;
-    const [correctOTP, setCorrectOTP] = useState<String>(data);
+    const [correctOTP, setCorrectOTP] = useState<String>("870256");
     const [otp, setOtp] = useState<Array<string>>(new Array(numberOfDigits).fill(""));
     const [_otpError, setOtpError] = useState<string>("");
     const otpBoxReference = useRef<Array<HTMLInputElement | any>>([]);
-    const { formattedTime, resetCountdown } = useCountdown(120);
+    const { seconds, formattedTime, resetCountdown } = useCountdown(120);
     const router = useRouter();
 
     function handleChange(value: string, index: number) {
@@ -25,14 +23,18 @@ const OTP = () => {
     }
 
     const handleResend = async () => {
-        const { data } = await fetcher("/api/otp");
-        setCorrectOTP(data);
-        resetCountdown();
+        const { data, statusCode } = await fetcher("https://api.2all.com.vn/web-customer/auth/request-otp", "POST", {
+            phoneNumber: "0977742902",
+        });
+        if (statusCode === 200) {
+            setCorrectOTP(data.otpCode);
+            resetCountdown();
+        }
     };
 
     useEffect(() => {
         if (otp.join("") !== correctOTP) {
-            setOtpError("❌ Wrong OTP Please Check Again");
+            setOtpError("không trùng mã OTP");
         } else {
             setOtpError("");
             router.push("/phone_verification");
@@ -70,7 +72,13 @@ const OTP = () => {
                     </PinInput>
                 </Flex>
                 <UIButton onClick={handleResend}>Gửi lại mã OTP</UIButton>
-                <Text fontSize="1.4rem" fontWeight="400" color="var(--gray-950)" textAlign="center" mt="0.8rem">
+                <Text
+                    fontSize="1.4rem"
+                    fontWeight="400"
+                    color={seconds === 0 ? "#E53E3E" : "var(--gray-950)"}
+                    textAlign="center"
+                    mt="0.8rem"
+                >
                     {formattedTime}
                 </Text>
             </Box>
