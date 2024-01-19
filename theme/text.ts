@@ -23,6 +23,11 @@ const textStyle = {
             fontWeight: "400",
             lineHeight: "3rem",
         },
+        hoverWhite: {
+            _hover: {
+                opacity: 0.7,
+            },
+        },
     },
 };
 

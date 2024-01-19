@@ -7,6 +7,7 @@ import React from "react";
 import { Providers } from "./providers";
 
 //TODO REMOVE LATER
+import Footer from "@/components/footer";
 import "../assets/css/bootstrap.min.css";
 import "../assets/css/global.css";
 import "../assets/css/style.css";
@@ -42,6 +43,7 @@ export default async function RootLayout({ children }: LayoutProps) {
                         <Flex flex={1} w="100%" pt="8rem">
                             {children}
                         </Flex>
+                        <Footer />
                     </Flex>
                 </Providers>
             </body>

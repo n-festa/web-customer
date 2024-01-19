@@ -28,7 +28,7 @@ const theme: ThemeOverride = extendTheme({
                 overflow: "hidden",
                 width: "100vw",
                 minHeight: "-webkit-fill-available",
-                height: "var(--app-height)",
+                height: "100dvh",
                 color: "var(--primary-text-color)",
                 userSelect: "none",
                 WebkitTouchCallout: "none",
