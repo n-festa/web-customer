@@ -1,5 +1,6 @@
 export type IngredientType = {
     name?: number | string;
+    quantity?: string | number;
 };
 
 export type ProductType = {
@@ -18,8 +19,8 @@ export type ProductType = {
 export type ProductTypeList = {
     id: string;
     name: string;
-    price: string;
-    discount?: string;
+    price: string | number;
+    discount?: string | number;
     merchart: string;
     currentPrice?: number;
     images: string[];
@@ -27,7 +28,7 @@ export type ProductTypeList = {
     time: number;
     distance: number;
     ratings: number;
-    kcal: string;
+    kcal: string | number;
     ingredient: Array<IngredientType>;
 };
 export type ProductStoreType = {

@@ -1,5 +1,5 @@
-import Head from "next/head";
 import Header from "components/header";
+import Head from "next/head";
 
 type LayoutType = {
     title?: string;
@@ -21,7 +21,6 @@ export default ({ children, title = "2ALL" }: LayoutType) => {
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" />
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" />
             </Head>
-
             <main className="landing-page-option-3 d-flex flex-column">
                 <Header />
                 {children}

@@ -1,0 +1,132 @@
+//This css remove focus
+*:focus {
+    box-shadow: none !important;
+    outline: none;
+}
+
+*[data-focus] {
+    box-shadow: none !important;
+    outline: none;
+}
+.disable-dbl-tap-zoom {
+    touch-action: manipulation;
+}
+
+// Use for sanitize-html
+// Because Chakra UI set default some tag, so
+// need to modify it a little bit
+// Modify <a> tag
+.sanitize-html-a {
+    color: var(--main-color);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: var(--main-color);
+    -webkit-text-decoration-color: var(--main-color);
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
+html {
+    font-size: 5px;
+    overflow: hidden;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    @media screen and (min-width: 414px) {
+        font-size: 6.5px;
+    }
+    @media screen and (min-width: 550px) {
+        font-size: 8px;
+    }
+    @media screen and (min-width: 768px) {
+        font-size: 9px;
+    }
+    @media screen and (min-width: 800px) {
+        font-size: 9.5px;
+    }
+    @media screen and (min-width: 960px) {
+        font-size: 10px;
+    }
+}
+* {
+    /* Only allow scroll gestures */
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+    outline-color: transparent;
+    outline-style: none;
+    outline-width: 0;
+}
+img {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+[data-rsbs-overlay],
+[data-rsbs-root]::after {
+    background-color: var(--main-bg-color) !important;
+}
+[data-rsbs-header]::before {
+    content: none !important;
+}
+[data-rsbs-backdrop] {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+.disable-scroll-modal {
+    [data-rsbs-scroll] {
+        overflow: hidden;
+    }
+}
+.remove-calendar-icon {
+    input[type="date"]::-webkit-inner-spin-button,
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+    }
+}
+
+.hidden-date {
+    input[type="date"]::-webkit-datetime-edit {
+        color: transparent !important;
+    }
+    input[type="date"]:focus::-webkit-datetime-edit {
+        color: transparent !important;
+    }
+}
+
+.chakra-select {
+    padding-inline-start: 0 !important;
+}
+
+.text {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.text-ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    &.three-lines {
+        -webkit-line-clamp: 3;
+    }
+}
+
+.pagination-dot-indicator {
+    position: relative;
+    border-radius: var(--br-9xs);
+    width: 8px;
+    height: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    mix-blend-mode: multiply;
+    background-color: var(--gray-200);
+}
+
+.pagination-dot-indicator.active {
+    background-color: #b7eb52;
+}

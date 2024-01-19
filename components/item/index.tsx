@@ -1,6 +1,5 @@
-import React from "react";
-import { ProductTypeList, IngredientType } from "types";
-import Ingredient from "./ingredient";
+import { Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
+import { ProductTypeList } from "types";
 
 const MenuItem = ({
     name,
@@ -16,70 +15,102 @@ const MenuItem = ({
     kcal,
 }: ProductTypeList) => {
     return (
-        <div className="food-card d-flex flex-column ">
-            <div className="frame-parent d-flex flex-column">
-                <div className="discount-wrapper">{price && <b className="discount">GIẢM GIÁ</b>}</div>
-                <div className="image-wrapper d-flex justify-content-center">
-                    <img src={images ? images[0] : ""} alt="product" />
-                </div>
-            </div>
-            <div className="card-info-wrapper d-flex flex-column">
-                <div className="card-info d-flex flex-column gap-1">
-                    <div className="food-and-chef-name d-flex flex-column gap-1">
-                        <b>{name}</b>
-                        <div className="chef-name">
-                            <span className="font-weight-500">by </span>
-                            <b className="name">{merchart}</b>
-                        </div>
-                    </div>
-                    <div className="general-info d-flex gap-2">
-                        <div className="d-flex align-items-center gap-2px">
-                            <img className="small-icon" alt="" src="/images/markerpin02.svg" />
-
-                            <div className="kcal font-weight-600">{kcal} Kcal</div>
-                        </div>
-                        <div className="d-flex align-items-center gap-1">
-                            <img className="small-icon" alt="" src="/images/star-icon1.svg" />
-
-                            <div className="text">{ratings}</div>
-                        </div>
-                        <div className="d-flex align-items-center gap-2px">
-                            <img className="small-icon" alt="" src="/images/markerpin021.svg" />
-
-                            <div className="text">{distance} km</div>
-                        </div>
-                        <div className="d-flex align-items-center gap-2px">
-                            <img className="small-icon" alt="" src="/images/timer.svg" />
-
-                            <div className="text">{time} min</div>
-                        </div>
-                    </div>
-                    <div className="ingredient-wrapper">
-                        <span className="cooking-method font-weight-600 me-1">{cook_method}</span>
-                        <span className="font-weight-500">
-                            |
-                            {ingredient.map((item: IngredientType) => (
-                                <Ingredient name={item.name} />
-                            ))}
-                        </span>
-                    </div>
-                    <div className="pricing-wrapper d-flex align-items-center gap-2">
-                        <div className="price-before">{price}</div>
-                        <b className="price-after">{currentPrice}</b>
-                    </div>
-                    <div className="discount-up-to-wrapper d-flex align-items-center gap-1">
-                        <img className="small-icon" alt="" src="/images/frame-2729.svg" />
-
-                        <div className="discount-up-to">Ưu đãi đến 50k</div>
-                    </div>
-                    <div className="flavor-time-wrapper d-flex align-items-center gap-1">
-                        <img className="small-icon" alt="" src="/images/frame-2725.svg" />
-
-                        <div className="flavor-time">Đặt trước 09:00 giờ sáng để điều chỉnh vị</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Flex
+            position="relative"
+            overflow="hidden"
+            h="100%"
+            borderRadius="2.4rem"
+            boxShadow="var(--box-shadow-md)"
+            bg="white"
+            w="100%"
+            flexDir="column"
+        >
+            <Flex flexDir="column" background="var(--primary-color)" p="0.8rem 1.6rem 3.2rem 1.6rem">
+                {price && (
+                    <Text fontWeight="bold" lineHeight="2rem" fontSize="1.6rem" color="var(--color-gold)">
+                        GIẢM GIÁ
+                    </Text>
+                )}
+                <Img px="2rem" src={images ? images[0] : ""} alt="product" />
+            </Flex>
+            <VStack align="flex-start" p="0.8rem 2.4rem" spacing="0.4rem">
+                <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="2.4rem">
+                    {name}
+                </Text>
+                <Text as="span" className="chef-name" fontSize="1.4rem" lineHeight="2rem" color="var(--gray-600)">
+                    <Text as="span">by </Text>
+                    <Text as="span" fontWeight="bold" color="var(--color-mediumslateblue)">
+                        {merchart}
+                    </Text>
+                </Text>
+                <Flex w="100%" fontSize="1.6rem" color="var(--gray-500)" justifyContent="space-between">
+                    <HStack spacing="0.8rem">
+                        <HStack spacing="0.4rem">
+                            <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin02.svg" />
+                            <Text wordBreak="keep-all" className="kcal font-weight-600">
+                                {kcal} Kcal
+                            </Text>
+                        </HStack>
+                        <HStack spacing="0.4rem" className="d-flex align-items-center gap-1">
+                            <Img w="2.4rem" h="2.4rem" alt="" src="/images/star-icon1.svg" />
+                            <Text wordBreak="keep-all" className="text">
+                                {ratings}
+                            </Text>
+                        </HStack>
+                    </HStack>
+                    <HStack ml="0.5rem" spacing="0.8rem">
+                        <HStack spacing="0.4rem">
+                            <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin021.svg" />
+                            <Text wordBreak="keep-all" className="text">
+                                {distance} km
+                            </Text>
+                        </HStack>
+                        <HStack spacing="0.4rem">
+                            <Img w="2.4rem" h="2.4rem" alt="" src="/images/timer.svg" />
+                            <Text wordBreak="keep-all" className="text">
+                                {time} min
+                            </Text>
+                        </HStack>
+                    </HStack>
+                </Flex>
+                <Text minH="4rem" color="var(--gray-600)" as="span" fontSize="1.4rem" className="text-ellipsis">
+                    <Text as="span" wordBreak="keep-all" color="var(--color-mediumslateblue)" fontWeight="bold">
+                        {cook_method}
+                    </Text>
+                    <Text wordBreak="break-word" fontWeight="medium" as="span">
+                        {` | ${ingredient.map((item) => item.name).join(", ")}`}{" "}
+                    </Text>
+                </Text>
+                <HStack h="3rem" color="black" fontSize="1.6rem" spacing="0.8rem">
+                    <Text textDecoration="line-through" textDecorationThickness="1px">
+                        {price?.toLocaleString()}
+                    </Text>
+                    <Text fontSize="2.4rem" fontWeight="bold">
+                        {currentPrice?.toLocaleString()}
+                    </Text>
+                </HStack>
+                <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
+                    <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2729.svg" />
+                    <Text>Ưu đãi đến 50k</Text>
+                </HStack>
+                <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
+                    <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2725.svg" />
+                    <Text>Đặt trước 09:00 giờ sáng để điều chỉnh vị</Text>
+                </HStack>
+            </VStack>
+            <IconButton
+                position="absolute"
+                bottom="5rem"
+                right="2.5rem"
+                w="4rem"
+                h="4rem"
+                _hover={{ opacity: 0.7 }}
+                _active={{ opacity: 0.5 }}
+                borderRadius="50%"
+                aria-label="add-btn"
+                icon={<Img src="/images/plus.svg" />}
+            />
+        </Flex>
     );
 };
 
