@@ -13,17 +13,16 @@ const Header = () => {
             w="100%"
             bg="var(--main-bg-color)"
             justifyContent="space-between"
+            borderBottom="1px solid var(--gray-100)"
         >
             <Flex h="100%" alignItems="center">
                 <Link href="/">
                     <Img alt="fictional-company-logo" src="/images/logo1.svg" />
                 </Link>
 
-                <HStack alignItems="center" h="100%" gap="3.2rem">
+                <HStack alignItems="center" h="100%" gap="3.2rem" mr="3rem">
                     <NavigationButton>
-                        <Link href="#order-section" className="text fw-bolder">
-                            Đặt hàng
-                        </Link>
+                        <Link href="#order-section">Đặt hàng</Link>
                     </NavigationButton>
                     <NavigationButton>
                         <Link href="#contact-section">Dành cho Đối tác</Link>
@@ -43,15 +42,25 @@ const Header = () => {
                         Đăng nhập
                     </Button>
                 </Link>
-                <Link href="#footer-section">
-                    <Img className="small-icon" alt="small-icon" src="/images/shoppingbag03.svg" />
-                </Link>
+                <Img
+                    cursor="pointer"
+                    p="0.2rem"
+                    width="3rem"
+                    height="3rem"
+                    _hover={{
+                        p: "0rem",
+                        width: "3rem",
+                        height: "3rem",
+                    }}
+                    alt="small-icon"
+                    src="/images/shoppingbag03.svg"
+                />
                 <HStack alignItems="center">
                     <Text color="var(--text-gray)" fontSize="1.6rem" fontWeight="600">
                         VIE
                     </Text>
-                    <Link href="#footer-section">
-                        <Img className="small-icon" alt="" src="/images/vn.svg" />
+                    <Link href="#">
+                        <Img width="2rem" height="2rem" alt="" src="/images/vn.svg" />
                     </Link>
                 </HStack>
             </HStack>

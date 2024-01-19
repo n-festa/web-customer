@@ -2,7 +2,13 @@ import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
 
 const Footer = () => {
     return (
-        <Flex flexDir="column" px="7.5rem" justifyContent="center" id="footer-section">
+        <Flex
+            flexDir="column"
+            alignItems="center"
+            px={{ base: "3rem", md: "7.5rem" }}
+            justifyContent="center"
+            id="footer-section"
+        >
             <Flex flexDir={{ base: "column", lg: "row" }} mb="4.8rem" mt="6.4rem" justify="space-between">
                 <VStack alignItems="flex-start" spacing="3.2rem">
                     <Img className="" alt="" src="/images/fictional-company-logo1.svg" />

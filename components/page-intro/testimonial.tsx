@@ -57,7 +57,7 @@ const ReviewCard = ({ comment, isShowAuthor }: { isShowAuthor?: boolean; comment
 };
 const Testimonial = () => {
     return (
-        <Flex px="4.3rem" flexDir="column" pb="17.2rem" alignItems="center">
+        <Flex scrollMarginTop="8rem" px="4.3rem" flexDir="column" pb="17.2rem" alignItems="center">
             <Text mt="15.6rem" mb="5.6rem" fontWeight="bold" fontSize="4.8rem" className="heading">
                 Mọi người yêu thích 2All
             </Text>

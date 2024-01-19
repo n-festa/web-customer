@@ -3,7 +3,7 @@ import { Box, Flex, Img, Text, VStack } from "@chakra-ui/react";
 
 const WhyChoose = () => {
     return (
-        <Flex>
+        <Flex scrollMarginTop="8rem">
             <Flex
                 flexDir="column"
                 alignItems="center"

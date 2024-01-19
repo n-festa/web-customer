@@ -58,7 +58,14 @@ const StepItem = ({
 };
 const OrderStep = () => {
     return (
-        <Flex alignItems="center" py="5rem" flexDir="column" justifyContent="space-between" id="order-section">
+        <Flex
+            scrollMarginTop="8rem"
+            id="order-section"
+            alignItems="center"
+            py="5rem"
+            flexDir="column"
+            justifyContent="space-between"
+        >
             <Text fontSize="4.8rem" fontWeight="bold" textAlign="center" color="var(--sub-text-color)">
                 Cách đặt hàng
             </Text>

@@ -8,7 +8,7 @@ const sizes = {
         control: defineStyle({
             w: "2rem",
             h: "2rem",
-            borderRadius: "6px",
+            borderRadius: "0.6rem",
             border: "1px solid rgba(208, 213, 221, 1)",
             _checked: {
                 bg: "var(--primary-color)",
