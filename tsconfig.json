@@ -56,6 +56,6 @@
             "@/*": ["./*"]
         }
     },
-    "exclude": ["node_modules"],
+    "exclude": ["node_modules", "backup"],
     "include": ["new-types.d.ts", "next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "**/*.json"]
 }

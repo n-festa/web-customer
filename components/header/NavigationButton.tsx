@@ -9,7 +9,6 @@ const NavigationButton = ({ children, ...props }: TextProps) => {
             fontWeight="bold"
             lineHeight="2.4rem"
             scrollMarginTop="8rem"
-            _hover={{ color: "" }}
             {...props}
         >
             {children}

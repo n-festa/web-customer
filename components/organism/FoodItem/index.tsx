@@ -22,7 +22,8 @@ const MenuItem = ({
             borderRadius="2.4rem"
             boxShadow="var(--box-shadow-md)"
             bg="white"
-            w="100%"
+            minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
+            maxW={{ base: "unset", md: "38.4rem" }}
             flexDir="column"
         >
             <Flex flexDir="column" background="var(--primary-color)" p="0.8rem 1.6rem 3.2rem 1.6rem">

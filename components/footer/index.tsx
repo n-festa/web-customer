@@ -5,11 +5,11 @@ const Footer = () => {
         <Flex
             flexDir="column"
             alignItems="center"
-            px={{ base: "3rem", md: "7.5rem" }}
+            px={{ base: "3rem", md: "3rem" }}
             justifyContent="center"
             id="footer-section"
         >
-            <Flex flexDir={{ base: "column", lg: "row" }} mb="4.8rem" mt="6.4rem" justify="space-between">
+            <Flex w="100%" flexDir={{ base: "column", lg: "row" }} mb="4.8rem" mt="6.4rem" justify="space-evenly">
                 <VStack alignItems="flex-start" spacing="3.2rem">
                     <Img className="" alt="" src="/images/fictional-company-logo1.svg" />
                     <Text
@@ -25,7 +25,7 @@ const Footer = () => {
                         không cần nấu, hẹn giờ giao linh hoạt.
                     </Text>
                 </VStack>
-                <Flex justifyContent="space-between">
+                <Flex justifyContent="space-evenly" flex={1}>
                     <VStack
                         px="1.6rem"
                         alignItems="flex-start"
@@ -165,7 +165,7 @@ const Footer = () => {
                     </VStack>
                 </Flex>
             </Flex>
-            <Text fontSize="1.6rem" color="var(--gray-500)" my="1.6rem">
+            <Text fontSize="1.6rem" alignSelf={{ base: "unset", lg: "flex-start" }} color="var(--gray-500)" my="1.6rem">
                 © 2023 Bản quyền website, ứng dụng thuộc về 2ALL.
             </Text>
         </Flex>

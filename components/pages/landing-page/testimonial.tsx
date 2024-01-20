@@ -3,7 +3,7 @@ import { Box, Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/rea
 
 const GroupStars = () => {
     return (
-        <HStack spacing="0.4rem">
+        <HStack alignSelf="flex-start" spacing="0.4rem">
             <Img w="2rem" h="2rem" alt="" src="/images/star-icon2.svg" />
             <Img w="2rem" h="2rem" alt="" src="/images/star-icon2.svg" />
             <Img w="2rem" h="2rem" alt="" src="/images/star-icon2.svg" />

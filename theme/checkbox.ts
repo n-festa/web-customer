@@ -22,6 +22,9 @@ const sizes = {
             fontSize: "1.6rem",
             fontWeight: "500",
             marginLeft: "1.2rem",
+            _hover: {
+                opacity: "0.7",
+            },
         }),
     }),
 };

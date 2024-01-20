@@ -1,12 +1,18 @@
 "use client";
-import { Button, Flex, HStack, Img, Text, useDisclosure } from "@chakra-ui/react";
-import Image from "next/image";
+import { routes } from "@/utils/routes";
+import { Button, Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 import SlideMenu from "../organism/SlideMenu";
 import NavigationButton from "./NavigationButton";
 
 const Header = () => {
     const { isOpen, onClose, onOpen } = useDisclosure();
+    const pathname = usePathname();
+    const isHome = useMemo(() => {
+        return pathname === routes.Home;
+    }, [pathname]);
     return (
         <>
             <SlideMenu onClose={onClose} isOpen={isOpen} />
@@ -21,32 +27,34 @@ const Header = () => {
                 justifyContent="space-between"
                 borderBottom="1px solid var(--gray-100)"
             >
-                <HStack spacing="4rem" cursor="pointer" display={{ base: "flex", lg: "none" }}>
-                    <Image alt="menu" onClick={onOpen} color="red" width={24} height={24} src={"/images/menu-03.svg"} />
+                <HStack spacing="4rem" cursor="pointer" display={{ base: "flex", lg: !isHome ? "flex" : "none" }}>
+                    <Image alt="menu" onClick={onOpen} color="red" src={"/images/menu-03.svg"} />
                     <Link href="/">
-                        <Img alt="fictional-company-logo" src="/images/logo1.svg" />
+                        <Image width={143} height={33} alt="fictional-company-logo" src="/images/logo1.svg" />
                     </Link>
                 </HStack>
-                <Flex display={{ base: "none", lg: "flex" }} h="100%" alignItems="center">
-                    <Link href="/">
-                        <Img alt="fictional-company-logo" src="/images/logo1.svg" />
-                    </Link>
+                {isHome && (
+                    <Flex display={{ base: "none", lg: "flex" }} h="100%" alignItems="center">
+                        <Link href="/">
+                            <Image width={143} height={33} alt="fictional-company-logo" src="/images/logo1.svg" />
+                        </Link>
 
-                    <HStack alignItems="center" h="100%" gap="3.2rem" mr="3rem">
-                        <NavigationButton>
-                            <Link href="/#order-section">Đặt hàng</Link>
-                        </NavigationButton>
-                        <NavigationButton>
-                            <Link href="/#contact-section">Dành cho Đối tác</Link>
-                        </NavigationButton>
-                        <NavigationButton>
-                            <Link href="/#download-section">Tải App</Link>
-                        </NavigationButton>
-                        <NavigationButton>
-                            <Link href="/#footer-section">Liên hệ</Link>
-                        </NavigationButton>
-                    </HStack>
-                </Flex>
+                        <HStack alignItems="center" h="100%" gap="3.2rem" mr="3rem">
+                            <NavigationButton>
+                                <Link href="/#order-section">Đặt hàng</Link>
+                            </NavigationButton>
+                            <NavigationButton>
+                                <Link href="/#contact-section">Dành cho Đối tác</Link>
+                            </NavigationButton>
+                            <NavigationButton>
+                                <Link href="/#download-section">Tải App</Link>
+                            </NavigationButton>
+                            <NavigationButton>
+                                <Link href="/#footer-section">Liên hệ</Link>
+                            </NavigationButton>
+                        </HStack>
+                    </Flex>
+                )}
 
                 <HStack spacing="1.6rem">
                     <Link href="/search">
@@ -54,26 +62,29 @@ const Header = () => {
                             Đăng nhập
                         </Button>
                     </Link>
-                    <Img
+                    <Image
                         cursor="pointer"
                         p="0.2rem"
-                        width="3rem"
-                        height="3rem"
+                        width="30"
+                        height="30"
                         _hover={{
                             p: "0rem",
-                            width: "3rem",
-                            height: "3rem",
+                            width: "30",
+                            height: "30",
                         }}
                         alt="small-icon"
                         src="/images/shoppingbag03.svg"
                     />
-                    <HStack alignItems="center">
-                        <Text color="var(--text-gray)" fontSize="1.6rem" fontWeight="600">
+                    <HStack as="button" alignItems="center">
+                        <Text
+                            color="var(--text-gray)"
+                            display={{ base: "none", md: "block" }}
+                            fontSize="1.6rem"
+                            fontWeight="600"
+                        >
                             VIE
                         </Text>
-                        <Link href="#">
-                            <Img width="2rem" height="2rem" alt="" src="/images/vn.svg" />
-                        </Link>
+                        <Image width={19} height={19} alt="" src="/images/vn.svg" />
                     </HStack>
                 </HStack>
             </Flex>

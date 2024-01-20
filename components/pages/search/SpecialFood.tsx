@@ -1,6 +1,6 @@
 "use client";
-import MenuItem from "@/components/item";
 import WraperInfo from "@/components/molecules/WraperInfo";
+import MenuItem from "@/components/organism/FoodItem";
 import { ProductTypeList } from "@/types";
 import products from "@/utils/data/products";
 import { Wrap, WrapItem } from "@chakra-ui/react";

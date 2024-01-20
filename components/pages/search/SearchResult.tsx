@@ -1,5 +1,5 @@
-import MenuItem from "@/components/item";
 import FoodChef from "@/components/molecules/FoodChef";
+import MenuItem from "@/components/organism/FoodItem";
 import { ProductTypeList } from "@/types";
 import { FilterType } from "@/types/enum";
 import { RestaurantDtos, SearchResult } from "@/types/interfaces";

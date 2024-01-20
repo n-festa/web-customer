@@ -2,7 +2,7 @@
 import products from "@/utils/data/products";
 import { Flex, Text, Wrap, WrapItem } from "@chakra-ui/react";
 import { ProductTypeList } from "types";
-import MenuItem from "../../components/item/index";
+import MenuItem from "../../organism/FoodItem/index";
 
 const Today = () => {
     const data: ProductTypeList[] = products;
@@ -15,10 +15,11 @@ const Today = () => {
             <Wrap align="center" mt="4.8rem" justify={{ base: "center", md: "space-between" }} spacing="4rem">
                 {data.map((item: ProductTypeList) => (
                     <WrapItem
+                        display="flex"
+                        minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
+                        justifyContent="center"
                         key={item.id}
                         flex={1}
-                        minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
-                        maxW={{ base: "unset", md: "38.4rem" }}
                         minH="52.6rem"
                     >
                         <MenuItem
