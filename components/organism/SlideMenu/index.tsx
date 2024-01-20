@@ -1,4 +1,4 @@
-import NavigationButton from "@/components/header/NavigationButton";
+import NavigationButton from "@/components/organism/header/NavigationButton";
 import {
     Drawer,
     DrawerBody,

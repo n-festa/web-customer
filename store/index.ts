@@ -1,9 +1,9 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import cartReducer from "./reducers/cart";
 import userReducer from "./reducers/user";
-import storage from "redux-persist/lib/storage";
-import { persistStore, persistReducer } from "redux-persist";
 
 //COMBINING ALL REDUCERS
 const reducer = {
@@ -40,7 +40,7 @@ const makeStore = ({ isServer }: { isServer: Boolean }) => {
             reducer: persistedReducer,
         }); // Creating the store again
 
-        // @ts-ignore:next-line
+        // @ts-expect-error:next-line
         store.__persistor = persistStore(store); // This creates a persistor object & push that persisted object to .__persistor, so that we can avail the persistability feature
 
         return store;
@@ -48,7 +48,7 @@ const makeStore = ({ isServer }: { isServer: Boolean }) => {
 };
 
 // export an assembled wrapper
-// @ts-ignore:next-line
+// @ts-expect-error:next-line
 export const wrapper = createWrapper(makeStore, { debug: true });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
