@@ -1,5 +1,5 @@
 import "@/assets/styles/index.scss";
-import Header from "@/components/header";
+import Header from "@/components/organism/header";
 import { quicksand } from "@/theme/fonts";
 import { ColorModeScript, Flex, theme } from "@chakra-ui/react";
 import { Viewport } from "next";
@@ -7,10 +7,10 @@ import React from "react";
 import { Providers } from "./providers";
 
 //TODO REMOVE LATER
+import Footer from "@/components/organism/footer";
 import "../assets/css/bootstrap.min.css";
 import "../assets/css/global.css";
 import "../assets/css/style.css";
-import Footer from "@/components/footer";
 //
 export const metadata = {
     icons: {

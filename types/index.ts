@@ -30,9 +30,9 @@ export type ProductTypeList = {
     distance: number;
     ratings: number;
     kcal: string | number;
-    carb?: string | number;
-    protein?: string | number;
-    fat?: string | number;
+    carb?: number;
+    protein?: number;
+    fat?: number;
     ingredient: Array<IngredientType>;
 };
 export type ProductStoreType = {

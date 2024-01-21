@@ -5,13 +5,13 @@ module.exports = {
         sourceType: "module",
     },
     plugins: ["@typescript-eslint/eslint-plugin", "unused-imports"],
-    extends: ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
+    extends: ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended", "next/core-web-vitals"],
     root: true,
     env: {
         node: true,
         jest: true,
     },
-    ignorePatterns: ["dist", ".eslintrc.js", "tsconfig.json"],
+    ignorePatterns: ["dist", ".eslintrc.js", "tsconfig.json", "backup"],
     rules: {
         "@typescript-eslint/interface-name-prefix": "off",
         "@typescript-eslint/explicit-function-return-type": "off",

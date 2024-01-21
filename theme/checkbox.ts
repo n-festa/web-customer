@@ -8,7 +8,7 @@ const sizes = {
         control: defineStyle({
             w: "2rem",
             h: "2rem",
-            borderRadius: "6px",
+            borderRadius: "0.6rem",
             border: "1px solid rgba(208, 213, 221, 1)",
             _checked: {
                 bg: "var(--primary-color)",
@@ -22,6 +22,9 @@ const sizes = {
             fontSize: "1.6rem",
             fontWeight: "500",
             marginLeft: "1.2rem",
+            _hover: {
+                opacity: "0.7",
+            },
         }),
     }),
 };
