@@ -1,8 +1,7 @@
 "use client";
-import { Box, Center, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import UISignWrap from "@/components/UISignWrap";
-import UIButton from "@/components/UIButton";
 
 const RegistrationSuccess = () => {
     const router = useRouter();
@@ -71,7 +70,9 @@ const RegistrationSuccess = () => {
                         </Text>
                     </Box>
                 </Flex>
-                <UIButton onClick={handleRedirect}>Khám phá món ăn ngay hôm nay</UIButton>
+                <Button variant="btnSubmit" onClick={handleRedirect}>
+                    Khám phá món ăn ngay hôm nay
+                </Button>
             </Box>
         </UISignWrap>
     );

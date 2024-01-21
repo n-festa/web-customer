@@ -55,12 +55,12 @@ export type GtagEventType = {
 export type UserType = {
     name: string;
     email: string;
-    date: string;
-    gender: string;
-    height: string;
-    weight: string;
-    activityLevel: string;
-    eatCurrent: string;
+    birthday: string;
+    sex: string;
+    height_m: string;
+    weight_kg: string;
+    physical_activity_level: string;
+    current_diet: string;
     allergic_food: string;
     chronic_disease: string;
     expected_diet: string;

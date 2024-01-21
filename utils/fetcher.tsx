@@ -1,4 +1,5 @@
-export const fetcher = (url: string, method: string = "GET", data: any = null) => {
+export const fetcher = (path: string, method: string = "GET", data: any = null) => {
+    const urlApi = process.env.NEXT_PUBLIC_URL_SERVICE;
     const headers: HeadersInit = {
         "Content-Type": "application/json",
     };
@@ -12,5 +13,5 @@ export const fetcher = (url: string, method: string = "GET", data: any = null) =
         options.body = JSON.stringify(data);
     }
 
-    return fetch(url, options).then((res) => res.json());
+    return fetch(urlApi + path, options).then((res) => res.json());
 };

@@ -1,16 +1,25 @@
 "use client";
-import { Box, Image, Text, InputGroup, InputLeftAddon, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
+import {
+    Box,
+    Image,
+    Text,
+    InputGroup,
+    InputLeftAddon,
+    Input,
+    FormControl,
+    FormErrorMessage,
+    Button,
+} from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
-import UIButton from "@/components/UIButton";
 import UISignWrap from "@/components/UISignWrap";
 import { fetcher } from "@/utils/fetcher";
 
 const Login = () => {
     const router = useRouter();
     const handleSubmit = async (_values: { phoneNumber: string }, _actions: FormikHelpers<{ phoneNumber: string }>) => {
-        const { data, statusCode } = await fetcher("https://api.2all.com.vn/web-customer/auth/request-otp", "POST", {
+        const { data, statusCode } = await fetcher("auth/request-otp", "POST", {
             phoneNumber: _values.phoneNumber,
         });
         if (statusCode === 200) {
@@ -112,9 +121,9 @@ const Login = () => {
                                     Chúng tôi sẽ gửi tới số điện thoại bạn đăng ký mã số OTP để kích hoạt tài khoản
                                 </Text>
 
-                                <UIButton isLoading={props.isSubmitting} type="submit">
+                                <Button variant="btnSubmit" isLoading={props.isSubmitting} type="submit">
                                     Tiếp tục
-                                </UIButton>
+                                </Button>
                             </Form>
                         )}
                     </Formik>

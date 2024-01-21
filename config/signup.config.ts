@@ -1,3 +1,4 @@
+import * as Yup from "yup";
 const signUp = {
     initialValues: {
         name: "",
@@ -11,6 +12,20 @@ const signUp = {
         allergic_food: "",
         chronic_disease: "",
         expected_diet: "",
+    },
+    validationSchema: {
+        validation: Yup.object({
+            name: Yup.string().required("Vui lòng nhập trường này."),
+            email: Yup.string().required("Vui lòng nhập trường này."),
+            birthday: Yup.string().required("Vui lòng nhập trường này."),
+            sex: Yup.string().required("Vui lòng nhập trường này."),
+            height_m: Yup.number().required("Vui lòng nhập trường này."),
+            weight_kg: Yup.number().required("Vui lòng nhập trường này."),
+            physical_activity_level: Yup.string().required("Vui lòng nhập trường này."),
+            current_diet: Yup.string(),
+            allergic_food: Yup.string(),
+            expected_diet: Yup.string(),
+        }),
     },
     formData: {
         gender: [

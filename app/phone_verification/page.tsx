@@ -1,8 +1,7 @@
 "use client";
-import { Box, Text, Flex, Stack, RadioGroup, Radio } from "@chakra-ui/react";
+import { Box, Button, Text, Flex, Stack, RadioGroup, Radio } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import UIButton from "@/components/UIButton";
 import UISignWrap from "@/components/UISignWrap";
 import InputForm from "@/components/InputForm";
 import config from "@/config";
@@ -12,7 +11,7 @@ import { UserType } from "@/types";
 // import { fetcher } from "@/utils/fetcher";
 
 const {
-    signUp: { formData, initialValues },
+    signUp: { formData, initialValues, validationSchema },
 } = config;
 
 const PhoneVerification = () => {
@@ -32,9 +31,7 @@ const PhoneVerification = () => {
                 <Box w="100%" maxW="36rem" m="0 auto">
                     <Formik
                         initialValues={initialValues}
-                        validationSchema={Yup.object({
-                            name: Yup.string().required("Required"),
-                        })}
+                        validationSchema={validationSchema.validation}
                         onSubmit={(values, actions) => {
                             handleSubmit(values, actions);
                         }}
@@ -194,9 +191,9 @@ const PhoneVerification = () => {
                                         );
                                     }}
                                 </Field>
-                                <UIButton isLoading={props.isSubmitting} type="submit">
+                                <Button variant="btnSubmit" isLoading={props.isSubmitting} type="submit">
                                     Hoàn tất
-                                </UIButton>
+                                </Button>
                             </Form>
                         )}
                     </Formik>
