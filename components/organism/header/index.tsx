@@ -10,9 +10,33 @@ import NavigationButton from "./NavigationButton";
 const Header = () => {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const pathname = usePathname();
-    const isHome = useMemo(() => {
-        return pathname === routes.Home;
+    const {
+        showDeliveryBox: _,
+        showSignUpGroup,
+        showListNavi,
+    } = useMemo(() => {
+        let showDeliveryBox = false;
+        let showSignUpGroup = true;
+        let showListNavi = false;
+
+        switch (pathname) {
+            case routes.Home:
+                showListNavi = true;
+                break;
+            case routes.Otp:
+            case routes.RegistrationSuccess:
+            case routes.SignIn:
+            case routes.AdditionalSignUpInfo:
+                showListNavi = true;
+                showSignUpGroup = false;
+                break;
+            case routes.Search:
+                showDeliveryBox = true;
+                break;
+        }
+        return { showDeliveryBox, showSignUpGroup, showListNavi };
     }, [pathname]);
+
     return (
         <>
             <SlideMenu onClose={onClose} isOpen={isOpen} />
@@ -27,13 +51,13 @@ const Header = () => {
                 justifyContent="space-between"
                 borderBottom="1px solid var(--gray-100)"
             >
-                <HStack spacing="4rem" cursor="pointer" display={{ base: "flex", lg: !isHome ? "flex" : "none" }}>
+                <HStack spacing="4rem" cursor="pointer" display={{ base: "flex", lg: !showListNavi ? "flex" : "none" }}>
                     <Image alt="menu" onClick={onOpen} color="red" src={"/images/menu-03.svg"} />
                     <Link href="/">
                         <Image width={143} height={33} alt="fictional-company-logo" src="/images/logo1.svg" />
                     </Link>
                 </HStack>
-                {isHome && (
+                {showListNavi && (
                     <Flex display={{ base: "none", lg: "flex" }} h="100%" alignItems="center">
                         <Link href="/">
                             <Image width={143} height={33} alt="fictional-company-logo" src="/images/logo1.svg" />
@@ -57,24 +81,29 @@ const Header = () => {
                 )}
 
                 <HStack spacing="1.6rem">
-                    <Link href={routes.SignIn}>
-                        <Button borderRadius="0.8rem" variant="solid" width="13.1rem" height="4.4rem">
-                            Đăng nhập
-                        </Button>
-                    </Link>
-                    <Image
-                        cursor="pointer"
-                        p="0.2rem"
-                        width="30"
-                        height="30"
-                        _hover={{
-                            p: "0rem",
-                            width: "30",
-                            height: "30",
-                        }}
-                        alt="small-icon"
-                        src="/images/shoppingbag03.svg"
-                    />
+                    {showSignUpGroup && (
+                        <>
+                            {" "}
+                            <Link href={routes.SignIn}>
+                                <Button borderRadius="0.8rem" variant="solid" width="13.1rem" height="4.4rem">
+                                    Đăng nhập
+                                </Button>
+                            </Link>
+                            <Image
+                                cursor="pointer"
+                                p="0.2rem"
+                                width="30"
+                                height="30"
+                                _hover={{
+                                    p: "0rem",
+                                    width: "30",
+                                    height: "30",
+                                }}
+                                alt="small-icon"
+                                src="/images/shoppingbag03.svg"
+                            />
+                        </>
+                    )}
                     <HStack as="button" alignItems="center">
                         <Text
                             color="var(--text-gray)"

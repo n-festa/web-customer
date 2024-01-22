@@ -74,7 +74,7 @@ const buttonStyle = {
         },
         btnSubmit: {
             w: "100%",
-            bg: "var(--primary-500)",
+            bg: "var(--primary-500) !important",
             border: "1px solid var(--primary-500)",
             color: "var(--icterine-500)",
             fontSize: "1.4rem",
@@ -82,8 +82,11 @@ const buttonStyle = {
             borderRadius: "99.9rem",
             h: "3.6rem",
             p: "0.6rem 1.2rem",
+
             _hover: {
                 opacity: 0.8,
+                background: "var(--primary-color)",
+                color: "white",
             },
         },
     },

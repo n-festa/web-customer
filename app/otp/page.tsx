@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
 import UISignWrap from "@/components/UISignWrap";
 import useCountdown from "@/hooks/useCountDown";
-import { fetcher } from "@/utils/fetcher";
+import apiServices from "@/services/sevices";
+import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 const OTP = () => {
     const numberOfDigits = 6;
@@ -22,13 +22,11 @@ const OTP = () => {
     }
 
     const handleResend = async () => {
-        const { data, statusCode } = await fetcher("auth/request-otp", "POST", {
+        const { data } = await apiServices.requestOTP({
             phoneNumber: "0977742902",
         });
-        if (statusCode === 200) {
-            setCorrectOTP(data.otpCode);
-            resetCountdown();
-        }
+        setCorrectOTP(data.otpCode);
+        resetCountdown();
     };
 
     useEffect(() => {
