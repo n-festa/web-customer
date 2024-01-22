@@ -1,4 +1,5 @@
 import signUp from "./signup.config";
-const config = { signUp };
+import cookieConfig from "./cookies.config";
+const config = { signUp, cookieConfig };
 
 export default config;

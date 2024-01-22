@@ -13,10 +13,13 @@ import {
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 import UISignWrap from "@/components/UISignWrap";
 import { fetcher } from "@/utils/fetcher";
+import { setInfoSign } from "@/store/reducers/auth";
 
 const Login = () => {
+    const dispatch = useDispatch();
     const router = useRouter();
     const handleSubmit = async (_values: { phoneNumber: string }, _actions: FormikHelpers<{ phoneNumber: string }>) => {
         const { data, statusCode } = await fetcher("auth/request-otp", "POST", {
@@ -25,6 +28,7 @@ const Login = () => {
         if (statusCode === 200) {
             const { otpCode, phoneNumber } = data;
             console.log(otpCode, phoneNumber);
+            dispatch(setInfoSign({ otp: otpCode, phoneNumber }));
             router.push("/otp");
         }
     };

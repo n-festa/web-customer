@@ -4,19 +4,22 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import cartReducer from "./reducers/cart";
 import userReducer from "./reducers/user";
+import authReducer from "./reducers/auth";
 
 //COMBINING ALL REDUCERS
 const reducer = {
     cart: cartReducer,
     user: userReducer,
+    auth: authReducer,
 };
 
 const rootReducer = combineReducers({
     cart: cartReducer,
     user: userReducer,
+    auth: authReducer,
 });
 
-let store = configureStore({
+export let store = configureStore({
     reducer,
 });
 
@@ -30,7 +33,7 @@ const makeStore = ({ isServer }: { isServer: Boolean }) => {
         //If it's on client side, create a store which will persist
         const persistConfig = {
             key: "shoppingcart",
-            whitelist: ["cart", "user"], // only counter will be persisted, add other reducers if needed
+            whitelist: ["cart", "user", "auth"], // only counter will be persisted, add other reducers if needed
             storage, // if needed, use a safer storage
         };
 

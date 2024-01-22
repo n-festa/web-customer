@@ -1,44 +1,59 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import UISignWrap from "@/components/UISignWrap";
 import useCountdown from "@/hooks/useCountDown";
 import { fetcher } from "@/utils/fetcher";
+import { setInfoSign, setAccessToken } from "@/store/reducers/auth";
+import { setToken } from "@/utils/auth";
 
 const OTP = () => {
     const numberOfDigits = 6;
-    const [correctOTP, setCorrectOTP] = useState<String>("870256");
-    const [otp, setOtp] = useState<Array<string>>(new Array(numberOfDigits).fill(""));
+    const { otp, phoneNumber } = useSelector((state: any) => state.auth);
+    const dispatch = useDispatch();
+    const [otpState, setOtpState] = useState<Array<string>>(new Array(numberOfDigits).fill(""));
     const [_otpError, setOtpError] = useState<string>("");
     const otpBoxReference = useRef<Array<HTMLInputElement | any>>([]);
     const { seconds, formattedTime, resetCountdown } = useCountdown(120);
     const router = useRouter();
 
     function handleChange(value: string, index: number) {
-        const newArr = [...otp];
+        const newArr = [...otpState];
         newArr[index] = value;
-        setOtp(newArr);
+        setOtpState(newArr);
     }
 
     const handleResend = async () => {
         const { data, statusCode } = await fetcher("auth/request-otp", "POST", {
-            phoneNumber: "0977742902",
+            phoneNumber,
         });
         if (statusCode === 200) {
-            setCorrectOTP(data.otpCode);
+            dispatch(setInfoSign({ otp: data.otpCode, phoneNumber }));
             resetCountdown();
         }
     };
 
     useEffect(() => {
-        if (otp.join("") !== correctOTP) {
-            setOtpError("không trùng mã OTP");
-        } else {
-            setOtpError("");
-            router.push("/phone_verification");
+        async function fetchData() {
+            if (otpState.join("") !== otp) {
+                setOtpError("Không trùng mã OTP");
+            } else {
+                const { data, statusCode } = await fetcher("auth/authenticate-otp", "POST", {
+                    phoneNumber,
+                    inputOTP: otp,
+                });
+                setOtpError("");
+                if (statusCode === 200) {
+                    setToken(data.access_token);
+                    setAccessToken(data.access_token);
+                    router.push("/phone_verification");
+                }
+            }
         }
-    }, [otp, correctOTP]);
+        fetchData();
+    }, [otpState, otp]);
 
     return (
         <UISignWrap maxW="45.6rem">
