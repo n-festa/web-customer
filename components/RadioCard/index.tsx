@@ -3,15 +3,21 @@ import { Box, UseRadioProps, useRadio } from "@chakra-ui/react";
 
 type RadioCardProps = {
     children: React.ReactNode;
+    onChangeInput?: any;
 } & UseRadioProps;
-function RadioCard({ value, children, ...props }: RadioCardProps) {
-    const { getInputProps, getRadioProps } = useRadio(props);
+function RadioCard({ children, onChangeInput, name, ...props }: RadioCardProps) {
+    const { getInputProps, getRadioProps } = useRadio({ ...props, name: name });
     const input = getInputProps();
-    const checkbox = getRadioProps({ value: value });
-
+    const checkbox = getRadioProps();
     return (
         <Box as="label">
-            <input {...input} />
+            <input
+                name={name}
+                {...input}
+                onChange={(e) => {
+                    onChangeInput?.(e);
+                }}
+            />
             <Box
                 {...checkbox}
                 h="3.6rem"

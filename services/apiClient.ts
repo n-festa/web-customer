@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { getToken } from "@/utils/auth";
 import axios, {
     AxiosError,
     AxiosInstance,
@@ -79,7 +80,7 @@ export abstract class HttpClient<SecurityDataType = unknown> {
 
         this.instance.interceptors.response.use(
             (res) => {
-                return Promise.resolve(res);
+                return Promise.resolve(res.data);
             },
             (err) => {
                 const { ignoreAll } = err?.config || {};
@@ -165,7 +166,7 @@ export abstract class HttpClient<SecurityDataType = unknown> {
                 //SET VERSION API
                 ...(!isUncheckAuthor
                     ? {
-                          //   Authorization: token.current ? "Bearer " + token.current : undefined,
+                          Authorization: getToken() ? "Bearer " + getToken() : undefined,
                       }
                     : {}),
                 ...(requestParams.headers || {}),

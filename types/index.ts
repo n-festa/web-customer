@@ -65,3 +65,10 @@ export type UserType = {
     chronic_disease: string;
     expected_diet: string;
 };
+
+export type UserAuth = {
+    userType: string;
+    userId: number;
+    userName: string;
+    permissions: string;
+};

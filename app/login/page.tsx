@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import { setInfoSign } from "@/store/reducers/auth";
+import { routes } from "@/utils/routes";
 
 const Login = () => {
     const router = useRouter();
@@ -28,7 +29,7 @@ const Login = () => {
         if (statusCode === 200) {
             const { otpCode, phoneNumber } = data;
             dispatch(setInfoSign({ otp: otpCode, phoneNumber }));
-            router.push("/otp");
+            router.push(routes.Otp);
         }
     };
     return (
