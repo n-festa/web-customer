@@ -1,26 +1,26 @@
 "use client";
-import {
-    Box,
-    Image,
-    Text,
-    InputGroup,
-    InputLeftAddon,
-    Input,
-    FormControl,
-    FormErrorMessage,
-    Button,
-} from "@chakra-ui/react";
-import { Field, Form, Formik, FormikHelpers } from "formik";
-import * as Yup from "yup";
-import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
 import UISignWrap from "@/components/UISignWrap";
 import { fetcher } from "@/utils/fetcher";
+import {
+    Box,
+    Button,
+    FormControl,
+    FormErrorMessage,
+    Image,
+    Input,
+    InputGroup,
+    InputLeftAddon,
+    Text,
+} from "@chakra-ui/react";
+import { Field, Form, Formik, FormikHelpers } from "formik";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import * as Yup from "yup";
 import { setInfoSign } from "@/store/reducers/auth";
 
 const Login = () => {
-    const dispatch = useDispatch();
     const router = useRouter();
+    const dispatch = useDispatch();
     const handleSubmit = async (_values: { phoneNumber: string }, _actions: FormikHelpers<{ phoneNumber: string }>) => {
         const { data, statusCode } = await fetcher("auth/request-otp", "POST", {
             phoneNumber: _values.phoneNumber,
