@@ -1,42 +1,69 @@
 "use client";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import UISignWrap from "@/components/UISignWrap";
 import useCountdown from "@/hooks/useCountDown";
 import apiServices from "@/services/sevices";
-import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { setInfoSign, setAccessToken } from "@/store/reducers/auth";
+import { RootState } from "@/store";
+import { setToken } from "@/utils/auth";
+
+const numberOfDigits = 6;
 
 const OTP = () => {
-    const numberOfDigits = 6;
-    const [correctOTP, setCorrectOTP] = useState<String>("870256");
-    const [otp, setOtp] = useState<Array<string>>(new Array(numberOfDigits).fill(""));
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const { phoneNumber, otp } = useSelector((state: RootState) => state.auth);
+
+    const [otpState, setOtpState] = useState<Array<string>>(new Array(numberOfDigits).fill(""));
     const [_otpError, setOtpError] = useState<string>("");
     const otpBoxReference = useRef<Array<HTMLInputElement | any>>([]);
     const { seconds, formattedTime, resetCountdown } = useCountdown(120);
-    const router = useRouter();
 
-    function handleChange(value: string, index: number) {
-        const newArr = [...otp];
-        newArr[index] = value;
-        setOtp(newArr);
-    }
+    const handleChange = useCallback(
+        (value: string, index: number) => {
+            const newArr = [...otpState];
+            newArr[index] = value;
+            setOtpState(newArr);
+        },
+        [otpState],
+    );
 
-    const handleResend = async () => {
-        const { data } = await apiServices.requestOTP({
-            phoneNumber: "0977742902",
-        });
-        setCorrectOTP(data.otpCode);
-        resetCountdown();
-    };
+    const handleResend = useCallback(async () => {
+        try {
+            const { data } = await apiServices.requestOTP({ phoneNumber });
+            const response = data.data;
+            dispatch(setInfoSign({ otp: response.otpCode, phoneNumber }));
+            resetCountdown();
+        } catch (error) {
+            console.error("Error while resending OTP:", error);
+        }
+    }, [dispatch, phoneNumber, resetCountdown]);
+
+    const fetchData = useCallback(async () => {
+        try {
+            if (otpState.join("") !== otp) {
+                setOtpError("Không trùng mã OTP");
+            } else {
+                const { data } = await apiServices.authtOTP({ phoneNumber, inputOTP: otp });
+                const response = data.data;
+                setOtpError("");
+                if (data.statusCode === 200) {
+                    setToken(response.access_token);
+                    dispatch(setAccessToken(response.access_token));
+                    router.push("/phone_verification");
+                }
+            }
+        } catch (error) {
+            console.error("Error while fetching data:", error);
+        }
+    }, [otpState, otp]);
 
     useEffect(() => {
-        if (otp.join("") !== correctOTP) {
-            setOtpError("không trùng mã OTP");
-        } else {
-            setOtpError("");
-            router.push("/phone_verification");
-        }
-    }, [otp, correctOTP]);
+        fetchData();
+    }, [fetchData]);
 
     return (
         <UISignWrap maxW="45.6rem">

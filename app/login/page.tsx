@@ -27,7 +27,6 @@ const Login = () => {
         });
         if (statusCode === 200) {
             const { otpCode, phoneNumber } = data;
-            console.log(otpCode, phoneNumber);
             dispatch(setInfoSign({ otp: otpCode, phoneNumber }));
             router.push("/otp");
         }
@@ -62,6 +61,11 @@ const Login = () => {
                         })}
                         onSubmit={(values, actions) => {
                             handleSubmit(values, actions);
+                        }}
+                        onKeyPress={(e: { key: string; preventDefault: () => void }) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                            }
                         }}
                     >
                         {(props) => (
