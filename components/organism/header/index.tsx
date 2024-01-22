@@ -57,7 +57,7 @@ const Header = () => {
                 )}
 
                 <HStack spacing="1.6rem">
-                    <Link href="/search">
+                    <Link href={routes.SignIn}>
                         <Button borderRadius="0.8rem" variant="solid" width="13.1rem" height="4.4rem">
                             Đăng nhập
                         </Button>
