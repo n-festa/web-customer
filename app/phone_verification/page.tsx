@@ -1,7 +1,6 @@
 "use client";
 import { Box, Button, Text, Flex, Stack, RadioGroup, Radio } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import * as Yup from "yup";
 import UISignWrap from "@/components/UISignWrap";
 import InputForm from "@/components/InputForm";
 import config from "@/config";

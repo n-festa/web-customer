@@ -25,6 +25,7 @@ const useCountdown = (initialSeconds: number): CountdownHook => {
 
             return () => clearInterval(intervalId);
         }
+        return undefined; // Add a return statement here
     }, [seconds]);
 
     const resetCountdown = useCallback(() => {
