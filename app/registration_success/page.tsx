@@ -1,13 +1,16 @@
 "use client";
 import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 import UISignWrap from "@/components/UISignWrap";
+import { RootState } from "@/store";
 
 const RegistrationSuccess = () => {
     const router = useRouter();
+    const { profile } = useSelector((state: RootState) => state.auth);
     const health_info = {
-        bmi: 22.9,
-        recommended_dietary_allowance_kcal: 2500,
+        bmi: profile.health_info.bmi,
+        recommended_dietary_allowance_kcal: profile.health_info.recommended_dietary_allowance_kcal,
     };
     const handleRedirect = () => {
         router.push("/");

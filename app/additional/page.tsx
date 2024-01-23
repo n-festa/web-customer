@@ -49,30 +49,34 @@ const Additional = () => {
                         {(props) => (
                             <Form>
                                 <Field name="name">
-                                    {({ field }: { field: any; form: any }) => (
+                                    {({ field, form }: { field: any; form: any }) => (
                                         <InputForm
                                             title="Tên"
                                             type="text"
                                             placeholder="Ví dụ: Nguyễn Văn A"
+                                            error={form.errors.name}
                                             {...field}
                                         ></InputForm>
                                     )}
                                 </Field>
                                 <Field name="email">
-                                    {({ field }: { field: any; form: any }) => (
+                                    {({ field, form }: { field: any; form: any }) => (
                                         <InputForm
                                             title="Email"
+                                            type="email"
                                             placeholder="Ví dụ: nguyen.vana@email.com"
+                                            error={form.errors.email}
                                             {...field}
                                         />
                                     )}
                                 </Field>
                                 <Field name="birthday">
-                                    {({ field }: { field: any; form: any }) => (
+                                    {({ field, form }: { field: any; form: any }) => (
                                         <InputForm
                                             title="Ngày sinh"
                                             type="text"
                                             placeholder="Ví dụ: 27/07/1995"
+                                            error={form.errors.birthday}
                                             {...field}
                                         />
                                     )}
@@ -96,7 +100,7 @@ const Additional = () => {
                                                             color="var(--gray-700)"
                                                             w="33.333%"
                                                             h="1.6rem"
-                                                            size="lg"
+                                                            size="xxl"
                                                             colorScheme="green"
                                                             value={data.value}
                                                             onChange={(e) => {
@@ -113,34 +117,34 @@ const Additional = () => {
                                 </Field>
                                 <Flex gap="1rem">
                                     <Field name="height_m">
-                                        {({ field }: { field: any; form: any }) => (
+                                        {({ field, form }: { field: any; form: any }) => (
                                             <InputForm
                                                 title="Chiều cao ( cm )"
                                                 type="number"
                                                 placeholder="Ví dụ: 163"
+                                                error={form.errors.height_m}
                                                 {...field}
                                             />
                                         )}
                                     </Field>
                                     <Field name="weight_kg">
-                                        {({ field }: { field: any; form: any }) => (
+                                        {({ field, form }: { field: any; form: any }) => (
                                             <InputForm
                                                 title="Cân nặng ( kg )"
                                                 type="number"
                                                 placeholder="Ví dụ: 58"
+                                                error={form.errors.weight_kg}
                                                 {...field}
                                             />
                                         )}
                                     </Field>
                                 </Flex>
-                                <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem">
-                                    Mức độ vận động hàng ngày
-                                </Text>
                                 <Field mb="1.6rem" name="physical_activity_level">
                                     {({ field }: { field: any; form: any }) => {
                                         const { onChange, ...rest } = field;
                                         return (
                                             <RadioCardGroup
+                                                title="Mức độ vận động hàng ngày"
                                                 name="physical_activity_level"
                                                 data={formData.physicalActivityLevel}
                                                 {...rest}
@@ -149,14 +153,12 @@ const Additional = () => {
                                         );
                                     }}
                                 </Field>
-                                <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem">
-                                    Chế độ ăn hiện tại
-                                </Text>
                                 <Field mb="1.6rem" name="current_diet">
                                     {({ field }: { field: any; form: any }) => {
                                         const { onChange, ...rest } = field;
                                         return (
                                             <RadioCardGroup
+                                                title="Chế độ ăn hiện tại"
                                                 flexWrap="wrap"
                                                 name="current_diet"
                                                 data={formData.currentDiet}
@@ -188,7 +190,7 @@ const Additional = () => {
                                         />
                                     )}
                                 </Field>
-                                <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem">
+                                <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem" color="var(--gray-700)">
                                     Chế độ ăn mong đợi
                                 </Text>
                                 <Field name="expected_diet">
@@ -205,9 +207,8 @@ const Additional = () => {
                                                             fontSize="1.6rem"
                                                             fontWeight="400"
                                                             color="var(--gray-700)"
-                                                            w="33.333%"
                                                             h="1.6rem"
-                                                            size="lg"
+                                                            size="xxl"
                                                             colorScheme="green"
                                                             value={data.value}
                                                             onChange={onChange}
@@ -220,7 +221,7 @@ const Additional = () => {
                                         );
                                     }}
                                 </Field>
-                                <Button variant="btnSubmit" isLoading={props.isSubmitting} type="submit">
+                                <Button variant="btnSubmit" mt="3.2rem" isLoading={props.isSubmitting} type="submit">
                                     Hoàn tất
                                 </Button>
                             </Form>

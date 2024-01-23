@@ -4,14 +4,13 @@ const signUp = {
         name: "",
         email: "",
         birthday: "",
-        sex: "",
+        sex: "m",
         height_m: "",
         weight_kg: "",
-        physical_activity_level: "",
-        current_diet: "",
+        physical_activity_level: "light",
+        current_diet: "Hỗn hợp",
         allergic_food: "",
-        chronic_disease: "",
-        expected_diet: "",
+        expected_diet: "Thuần chay",
     },
     validationSchema: {
         validation: Yup.object({

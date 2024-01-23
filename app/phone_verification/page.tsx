@@ -8,7 +8,7 @@ import useCountdown from "@/hooks/useCountDown";
 import apiServices from "@/services/sevices";
 import { setInfoSign, setAccessToken, setUserInfo, setProfile } from "@/store/reducers/auth";
 import { RootState } from "@/store";
-import { setToken } from "@/utils/auth";
+import { setToken, setTokenRefresh } from "@/utils/auth";
 import { routes } from "@/utils/routes";
 
 const numberOfDigits = 6;
@@ -48,9 +48,10 @@ const PhoneVerification = () => {
                 setOtpError("Không trùng mã OTP");
             } else {
                 const { data } = await apiServices.authOTP({ phoneNumber, inputOTP: otp });
-                const { access_token, permissions, userType, userId, userName } = data;
+                const { access_token, refresh_token, permissions, userType, userId, userName } = data;
                 setOtpError("");
                 setToken(access_token);
+                setTokenRefresh(refresh_token);
                 setUserInfo({
                     userType,
                     userId,
