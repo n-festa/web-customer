@@ -1,10 +1,13 @@
 import { selectStyle } from "@/theme/select";
+import { switchStyle } from "@/theme/switch";
+import tabStyle from "@/theme/tab";
+import tableStyle from "@/theme/table";
 import { ThemeOverride, extendTheme } from "@chakra-ui/react";
 import buttonStyle from "./button";
 import { checkboxTheme } from "./checkbox";
-import { radioTheme } from "./radio";
 import colors from "./colors";
 import inputStyle from "./input";
+import { radioTheme } from "./radio";
 import textStyle from "./text";
 import textAreaStyle from "./textArea";
 import textStyles from "./textStyle";
@@ -14,6 +17,7 @@ const breakpoints = {
     md: "550px",
     lg: "960px",
     xl: "1100px",
+    "2xl": "1300px",
 };
 
 const config = {
@@ -51,6 +55,9 @@ const theme: ThemeOverride = extendTheme({
         Checkbox: checkboxTheme,
         Select: selectStyle,
         Radio: radioTheme,
+        Table: tableStyle,
+        Tabs: tabStyle,
+        Switch: switchStyle,
     },
     textStyles,
 });

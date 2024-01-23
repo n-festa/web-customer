@@ -52,6 +52,27 @@ const inputStyle = helpers.defineMultiStyleConfig({
                 },
             },
         },
+        stepper: {
+            field: {
+                border: "none",
+                outline: "none",
+                fontSize: "2rem",
+                lineHeight: "3rem",
+                fontWeight: "600",
+                color: "var(--gray-600)",
+                textAlign: "center",
+                userSelect: "none",
+                _focus: {},
+                _hover: {},
+                p: "0",
+                _disabled: {
+                    cursor: "pointer",
+                    opacity: "1",
+                    bg: "transparent",
+                    color: "var(--gray-600)",
+                },
+            },
+        },
     },
 });
 

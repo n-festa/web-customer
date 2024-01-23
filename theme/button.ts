@@ -72,6 +72,14 @@ const buttonStyle = {
             fontWeight: "bold",
             color: "var(--color-mediumslateblue)",
         },
+        btnViewAllSm: {
+            minW: "0.8rem",
+            p: "0.6rem 0",
+            fontSize: "1.6rem",
+            fontWeight: "600",
+            lineHeight: "2.4rem",
+            color: "var(--color-mediumslateblue)",
+        },
         btnSubmit: {
             w: "100%",
             bg: "var(--primary-500) !important",
@@ -88,6 +96,29 @@ const buttonStyle = {
                 background: "var(--primary-color)",
                 color: "white",
             },
+        },
+        btnAddToCart: {
+            p: "1.2rem 4rem",
+            bg: "var(--primary-500)",
+            color: "var( --icterine-500)",
+            fontSize: "2rem",
+            lineHeight: "3rem",
+            fontWeight: "600",
+            _active: {
+                opacity: 0.5,
+            },
+
+            _hover: {},
+        },
+        btnNumbericStepper: {
+            p: "0",
+            w: "2.4rem",
+            h: "2.4rem",
+            bg: "transparent",
+            _active: {
+                opacity: 0.5,
+            },
+            _hover: {},
         },
     },
 };

@@ -1,7 +1,11 @@
-import { Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
+import { routes } from "@/utils/routes";
+import { Box, Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { ProductTypeList } from "types";
 
-const MenuItem = ({
+const FoodItem = ({
+    id,
     name,
     price,
     images,
@@ -13,7 +17,38 @@ const MenuItem = ({
     distance,
     ratings,
     kcal,
-}: ProductTypeList) => {
+    promotion,
+    cutoff_time,
+    top_label,
+    units_sold = 0,
+    quantity_available = 0,
+    isShowMerchart = true,
+    isShowRating = true,
+    isShowDistance = true,
+    isShowTime = true,
+    isShowUnitSold = false,
+    isShowQuantityAvailable = false,
+}: ProductTypeList & {
+    isShowMerchart?: boolean;
+    isShowRating?: boolean;
+    isShowDistance?: boolean;
+    isShowTime?: boolean;
+    isShowUnitSold?: boolean;
+    isShowQuantityAvailable?: boolean;
+}) => {
+    const router = useRouter();
+
+    const cutoffTime = useMemo(() => {
+        if (cutoff_time) {
+            const split = cutoff_time.split(":");
+            if (split.length > 1) {
+                return `${split[0]}:${split[1]}`;
+            }
+            return undefined;
+        }
+        return undefined;
+    }, [cutoff_time]);
+
     return (
         <Flex
             position="relative"
@@ -25,12 +60,18 @@ const MenuItem = ({
             minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
             maxW={{ base: "unset", md: "38.4rem" }}
             flexDir="column"
+            cursor={"pointer"}
+            onClick={() => {
+                router.push(`${routes.ProductDetail}/${id}`);
+            }}
         >
             <Flex flexDir="column" background="var(--primary-color)" p="0.8rem 1.6rem 3.2rem 1.6rem">
-                {price && (
+                {top_label ? (
                     <Text fontWeight="bold" lineHeight="2rem" fontSize="1.6rem" color="var(--color-gold)">
-                        GIẢM GIÁ
+                        {top_label}
                     </Text>
+                ) : (
+                    <Box h="2rem"></Box>
                 )}
                 <Img px="2rem" src={images} alt="product" />
             </Flex>
@@ -38,12 +79,14 @@ const MenuItem = ({
                 <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="2.4rem">
                     {name}
                 </Text>
-                <Text as="span" className="chef-name" fontSize="1.4rem" lineHeight="2rem" color="var(--gray-600)">
-                    <Text as="span">by </Text>
-                    <Text as="span" fontWeight="bold" color="var(--color-mediumslateblue)">
-                        {merchart}
+                {isShowMerchart && (
+                    <Text as="span" className="chef-name" fontSize="1.4rem" lineHeight="2rem" color="var(--gray-600)">
+                        <Text as="span">by </Text>
+                        <Text as="span" fontWeight="bold" color="var(--color-mediumslateblue)">
+                            {merchart}
+                        </Text>
                     </Text>
-                </Text>
+                )}
                 <Flex w="100%" fontSize="1.6rem" color="var(--gray-500)" justifyContent="space-between">
                     <HStack spacing="0.8rem">
                         <HStack spacing="0.4rem">
@@ -52,26 +95,48 @@ const MenuItem = ({
                                 {kcal} Kcal
                             </Text>
                         </HStack>
-                        <HStack spacing="0.4rem" className="d-flex align-items-center gap-1">
-                            <Img w="2.4rem" h="2.4rem" alt="" src="/images/star-icon1.svg" />
-                            <Text wordBreak="keep-all" className="text">
-                                {ratings}
-                            </Text>
-                        </HStack>
+                        {isShowRating && (
+                            <HStack spacing="0.4rem" className="d-flex align-items-center gap-1">
+                                <Img w="2.4rem" h="2.4rem" alt="" src="/images/star-icon1.svg" />
+                                <Text wordBreak="keep-all" className="text">
+                                    {ratings}
+                                </Text>
+                            </HStack>
+                        )}
                     </HStack>
                     <HStack ml="0.5rem" spacing="0.8rem">
-                        <HStack spacing="0.4rem">
-                            <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin021.svg" />
-                            <Text wordBreak="keep-all" className="text">
-                                {distance} km
-                            </Text>
-                        </HStack>
-                        <HStack spacing="0.4rem">
-                            <Img w="2.4rem" h="2.4rem" alt="" src="/images/timer.svg" />
-                            <Text wordBreak="keep-all" className="text">
-                                {time} min
-                            </Text>
-                        </HStack>
+                        {isShowDistance && (
+                            <HStack spacing="0.4rem">
+                                <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin021.svg" />
+                                <Text wordBreak="keep-all" className="text">
+                                    {distance} km
+                                </Text>
+                            </HStack>
+                        )}
+                        {isShowTime && (
+                            <HStack spacing="0.4rem">
+                                <Img w="2.4rem" h="2.4rem" alt="" src="/images/timer.svg" />
+                                <Text wordBreak="keep-all" className="text">
+                                    {time} min
+                                </Text>
+                            </HStack>
+                        )}
+                        {isShowUnitSold && (
+                            <HStack spacing="0.4rem">
+                                <Img w="2.4rem" h="2.4rem" alt="" src="/images/icons/package-check.svg" />
+                                <Text wordBreak="keep-all" className="text">
+                                    Đã bán {units_sold > 50 ? "50+" : units_sold}
+                                </Text>
+                            </HStack>
+                        )}
+                        {isShowQuantityAvailable && (
+                            <HStack spacing="0.4rem">
+                                <Img w="2.4rem" h="2.4rem" alt="" src="/images/icons/meal.svg" />
+                                <Text wordBreak="keep-all" className="text">
+                                    Còn {quantity_available} phần
+                                </Text>
+                            </HStack>
+                        )}
                     </HStack>
                 </Flex>
                 <Text minH="4rem" color="var(--gray-600)" as="span" fontSize="1.4rem" className="text-ellipsis">
@@ -90,14 +155,18 @@ const MenuItem = ({
                         {currentPrice?.toLocaleString()}
                     </Text>
                 </HStack>
-                <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
-                    <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2729.svg" />
-                    <Text>Ưu đãi đến 50k</Text>
-                </HStack>
-                <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
-                    <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2725.svg" />
-                    <Text>Đặt trước 09:00 giờ sáng để điều chỉnh vị</Text>
-                </HStack>
+                {promotion && (
+                    <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
+                        <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2729.svg" />
+                        <Text>{promotion}</Text>
+                    </HStack>
+                )}
+                {cutoffTime && (
+                    <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
+                        <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2725.svg" />
+                        <Text>Đặt trước {cutoffTime} giờ sáng để điều chỉnh vị</Text>
+                    </HStack>
+                )}
             </VStack>
             <IconButton
                 position="absolute"
@@ -115,4 +184,4 @@ const MenuItem = ({
     );
 };
 
-export default MenuItem;
+export default FoodItem;

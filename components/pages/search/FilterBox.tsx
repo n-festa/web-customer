@@ -47,7 +47,7 @@ const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
             />
             <Select
                 placeholder="Săp xếp"
-                w="fit-content"
+                w="11.6rem"
                 variant={"filter"}
                 onChange={(e) => {
                     const value = e.target.value ? (e.target.value as SortOrder) : undefined;

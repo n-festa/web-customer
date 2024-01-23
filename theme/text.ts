@@ -28,6 +28,13 @@ const textStyle = {
                 opacity: 0.7,
             },
         },
+        toggle: {
+            color: "var(--gray-700)",
+            fontSize: "1.6rem",
+            fontStyle: "normal",
+            fontWeight: "500",
+            lineHeight: "2.4rem",
+        },
     },
 };
 

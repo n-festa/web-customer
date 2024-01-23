@@ -1,8 +1,9 @@
 import FoodChef from "@/components/molecules/FoodChef";
-import MenuItem from "@/components/organism/FoodItem";
+import FoodItem from "@/components/organism/FoodItem";
 import { ProductTypeList } from "@/types";
 import { FilterType } from "@/types/enum";
-import { RestaurantDtos, SearchResult } from "@/types/interfaces";
+import { SearchResult } from "@/types/interfaces";
+import { RestaurantDto } from "@/types/response/base";
 import { Wrap, WrapItem } from "@chakra-ui/react";
 interface Props {
     result?: SearchResult;
@@ -30,8 +31,9 @@ const SearchResult = ({
                         maxW={{ base: "unset", md: "38.4rem" }}
                     >
                         {type === FilterType.Food ? (
-                            <MenuItem
+                            <FoodItem
                                 key={item.id}
+                                top_label={item.top_label}
                                 id={item.id}
                                 name={item.name}
                                 images={item.images}
@@ -46,7 +48,7 @@ const SearchResult = ({
                                 ratings={item.ratings}
                             />
                         ) : (
-                            <FoodChef data={el as RestaurantDtos} />
+                            <FoodChef data={el as RestaurantDto} />
                         )}
                     </WrapItem>
                 );

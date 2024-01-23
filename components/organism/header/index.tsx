@@ -1,4 +1,5 @@
 "use client";
+import DeliveryLocation from "@/components/molecules/SearchLocation/DeliveryLocation";
 import { routes } from "@/utils/routes";
 import { Button, Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
 import Link from "next/link";
@@ -10,11 +11,8 @@ import NavigationButton from "./NavigationButton";
 const Header = () => {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const pathname = usePathname();
-    const {
-        showDeliveryBox: _,
-        showSignUpGroup,
-        showListNavi,
-    } = useMemo(() => {
+
+    const { showDeliveryBox, showSignUpGroup, showListNavi } = useMemo(() => {
         let showDeliveryBox = false;
         let showSignUpGroup = true;
         let showListNavi = false;
@@ -31,10 +29,13 @@ const Header = () => {
                 showSignUpGroup = false;
                 break;
             case routes.Search:
+            case routes.SearchDetail:
                 showDeliveryBox = true;
+
                 break;
         }
         return { showDeliveryBox, showSignUpGroup, showListNavi };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
     return (
@@ -56,6 +57,7 @@ const Header = () => {
                     <Link href="/">
                         <Image width={143} height={33} alt="fictional-company-logo" src="/images/logo1.svg" />
                     </Link>
+                    {showDeliveryBox && <DeliveryLocation />}
                 </HStack>
                 {showListNavi && (
                     <Flex display={{ base: "none", lg: "flex" }} h="100%" alignItems="center">

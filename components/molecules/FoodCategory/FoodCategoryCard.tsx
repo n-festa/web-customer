@@ -1,10 +1,16 @@
+import { routes } from "@/utils/routes";
 import { Box, Card, CardProps, Text } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 interface Props {
     name: String;
+    categoryId: number;
+    imageUrl: string;
 }
 
-const FoodCategoryCard = ({ name, ...rest }: Props & CardProps) => {
+const FoodCategoryCard = ({ categoryId, name, imageUrl, ...rest }: Props & CardProps) => {
+    const router = useRouter();
+
     return (
         <Card
             border="0.5rem solid var(--primary-500)"
@@ -13,9 +19,13 @@ const FoodCategoryCard = ({ name, ...rest }: Props & CardProps) => {
             h={"13.6rem"}
             overflow={"hidden"}
             position={"relative"}
-            bgImage={"/images/food-category.png"}
+            bgImage={imageUrl}
             backgroundPosition={"center"}
             backgroundSize={"cover"}
+            cursor={"pointer"}
+            onClick={() => {
+                router.push(`${routes.SearchDetail}?categoryId=${categoryId}`);
+            }}
             {...rest}
         >
             <Box position={"absolute"} left={"0"} bottom="10px" right="0">

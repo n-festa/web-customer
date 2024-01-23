@@ -18,7 +18,7 @@ const CheckBoxButton = (props: CheckboxProps) => {
                     borderColor: "var(--green-light-500)",
                 }}
                 _focus={{}}
-                p={"10px 16px"}
+                p={"1rem 1.6rem"}
                 boxSizing="border-box"
                 fontWeight={"600"}
                 color="var(--gray-700)"
@@ -30,6 +30,7 @@ const CheckBoxButton = (props: CheckboxProps) => {
                 justifyContent={"space-between"}
                 alignItems={"center"}
                 fontSize={"1.4rem"}
+                whiteSpace={"nowrap"}
             >
                 {props.children}
                 {state.isChecked && <Img ml="6px" src="/images/icons/x-close.svg" />}

@@ -13,7 +13,17 @@ const GroupStars = () => {
     );
 };
 
-const ReviewCard = ({ comment, isShowAuthor }: { isShowAuthor?: boolean; comment: string }) => {
+export const ReviewCard = ({
+    name,
+    comment,
+    isShowAuthor,
+}: {
+    isShowAuthor?: boolean;
+    comment: string;
+    name?: string;
+    loyalCustomers?: boolean;
+    star?: number;
+}) => {
     return (
         <VStack
             spacing="1.6rem"
@@ -31,7 +41,7 @@ const ReviewCard = ({ comment, isShowAuthor }: { isShowAuthor?: boolean; comment
                         <Img className="customer-avatar" alt="" src="/images/pic@2x.png" />
                         <VStack alignItems="flex-start" spacing="0">
                             <Text fontFamily={poppins.style.fontFamily} fontWeight="500" fontSize="1.5rem">
-                                Alexander R.
+                                {name ?? "Alexander R."}
                             </Text>
                             <Text color="var(--primary-500, #00473c)" fontSize="1.2rem" fontWeight="500">
                                 Khách hàng thân thiết
@@ -55,6 +65,7 @@ const ReviewCard = ({ comment, isShowAuthor }: { isShowAuthor?: boolean; comment
         </VStack>
     );
 };
+
 const Testimonial = () => {
     return (
         <Flex scrollMarginTop="8rem" px="4.3rem" flexDir="column" pb="17.2rem" alignItems="center">
