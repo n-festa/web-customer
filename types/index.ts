@@ -12,28 +12,29 @@ export type ProductType = {
     count: number;
     color: string;
     size: string;
-    images: string[];
+    images: string;
     discount?: string;
     currentPrice: number;
 };
 
 export type ProductTypeList = {
-    id: string;
-    name: string;
-    price: string | number;
+    id: string | number;
+    name?: string;
+    price?: string | number;
     discount?: string | number;
-    merchart: string;
+    merchart?: string;
     currentPrice?: number;
-    images: string[];
-    cook_method: string;
-    time: number;
-    distance: number;
-    ratings: number;
-    kcal: string | number;
+    images?: string;
+    cook_method?: string;
+    time?: number;
+    distance?: number;
+    ratings?: number;
+    kcal?: string | number;
     carb?: number;
     protein?: number;
     fat?: number;
-    ingredient: Array<IngredientType>;
+    ingredient?: Array<IngredientType>;
+    ingredientName?: string;
 };
 export type ProductStoreType = {
     id: string;

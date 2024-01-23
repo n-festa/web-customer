@@ -22,10 +22,10 @@ const OTP = () => {
     }
 
     const handleResend = async () => {
-        const { data } = await apiServices.requestOTP({
+        const { otpCode } = await apiServices.requestOTP({
             phoneNumber: "0977742902",
         });
-        setCorrectOTP(data.otpCode);
+        setCorrectOTP(otpCode);
         resetCountdown();
     };
 

@@ -9,7 +9,7 @@ const MenuItem = ({
     currentPrice,
     cook_method,
     time,
-    ingredient,
+    ingredientName,
     distance,
     ratings,
     kcal,
@@ -32,7 +32,7 @@ const MenuItem = ({
                         GIẢM GIÁ
                     </Text>
                 )}
-                <Img px="2rem" src={images ? images[0] : ""} alt="product" />
+                <Img px="2rem" src={images} alt="product" />
             </Flex>
             <VStack align="flex-start" p="0.8rem 2.4rem" spacing="0.4rem">
                 <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="2.4rem">
@@ -79,7 +79,7 @@ const MenuItem = ({
                         {cook_method}
                     </Text>
                     <Text wordBreak="break-word" fontWeight="medium" as="span">
-                        {` | ${ingredient.map((item) => item.name).join(", ")}`}{" "}
+                        {ingredientName && ` |  ${ingredientName}`}
                     </Text>
                 </Text>
                 <HStack h="3rem" color="black" fontSize="1.6rem" spacing="0.8rem">

@@ -7,7 +7,7 @@ import Today from "@/components/pages/landing-page/today";
 import WhyChoose from "@/components/pages/landing-page/why-choose";
 import { Flex } from "@chakra-ui/react";
 
-export default function Home() {
+export default async function Home() {
     return (
         <Flex scrollMarginTop="8rem" w="100%" flexDir="column">
             <Banner />

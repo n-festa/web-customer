@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { loadState, removeState } from "utils/localstorage";
 import { useRouter } from "next/router";
+import { loadState, removeState } from "utils/localstorage";
 
 const CheckLogin = () => {
     const router = useRouter();
@@ -12,7 +12,6 @@ const CheckLogin = () => {
     const user = loadState("userLogIn");
 
     if (user) {
-        console.log(user);
         return (
             <div className="navbar-navt">
                 <a

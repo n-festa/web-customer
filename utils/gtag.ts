@@ -1,7 +1,7 @@
 import { GtagEventType } from "types";
 
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_ANALYTICS_ID; // This is your GA Tracking ID
-declare var window: any;
+declare let window: any;
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 export const pageview = (url: string) => {
