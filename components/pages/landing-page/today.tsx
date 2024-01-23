@@ -1,7 +1,8 @@
 "use client";
+import SkeletonBox from "@/components/molecules/SkeletonBox";
 import useSWRAPI from "@/hooks/useApi";
 import { Box, Flex, Text, Wrap, WrapItem } from "@chakra-ui/react";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { ProductTypeList } from "types";
 import MenuItem from "../../organism/FoodItem/index";
 
@@ -9,6 +10,7 @@ const Today = () => {
     // const data: ProductTypeList[] = products;
     const { GetGeneralFoodRecommendation } = useSWRAPI();
     const { data } = GetGeneralFoodRecommendation();
+
     const processedData = useMemo(() => {
         return data?.data?.map((item) => ({
             id: item.id,
@@ -31,7 +33,6 @@ const Today = () => {
             <Text textAlign={{ base: "center", md: "unset" }} fontSize="4.8rem" fontWeight="bold">
                 Món ngon hôm nay
             </Text>
-            <Box></Box>
             <Wrap align="center" mt="4.8rem" justify={{ base: "center", md: "space-between" }} spacing="4rem">
                 {processedData?.map((item: ProductTypeList) => (
                     <WrapItem
@@ -51,17 +52,22 @@ const Today = () => {
                             cook_method={item.cook_method}
                             currentPrice={item.currentPrice}
                             price={item.price}
-                            ingredient={item.ingredient}
+                            ingredientName={item.ingredientName}
                             kcal={item.kcal}
                             time={item.time}
                             distance={item.distance}
                             ratings={item.ratings}
                         />
                     </WrapItem>
-                ))}
+                )) ??
+                    Array.from([1, 2, 3], (index) => (
+                        <WrapItem key={`skeleton${index}`} display="flex" flexDir="column" flex={1}>
+                            <SkeletonBox isLoaded={false} />
+                        </WrapItem>
+                    ))}
             </Wrap>
         </Flex>
     );
 };
 
-export default Today;
+export default React.memo(Today);
