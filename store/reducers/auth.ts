@@ -5,7 +5,8 @@ interface initialStateType {
     phoneNumber: string;
     otp: string;
     access_token: string;
-    userInfor?: UserAuth;
+    userInfo?: UserAuth;
+    profile?: any;
 }
 
 const initialState: initialStateType = {
@@ -18,8 +19,8 @@ const authSlice = createSlice({
     name: "sign",
     initialState,
     reducers: {
-        setUserInfor: (state, { payload }) => {
-            state.userInfor = payload;
+        setUserInfo: (state, { payload }) => {
+            state.userInfo = payload;
         },
         setInfoSign: (state, { payload }) => {
             state.otp = payload.otp;
@@ -28,9 +29,12 @@ const authSlice = createSlice({
         setAccessToken: (state, { payload }) => {
             state.access_token = payload;
         },
+        setProfile: (state, { payload }) => {
+            state.profile = payload;
+        },
     },
 });
 
-export const { setUserInfor, setInfoSign, setAccessToken } = authSlice.actions;
+export const { setAccessToken, setProfile, setUserInfo, setInfoSign } = authSlice.actions;
 
 export default authSlice.reducer;

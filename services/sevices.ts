@@ -20,7 +20,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: data,
             });
         },
-        authtOTP: (data: { phoneNumber: string; inputOTP: string }) => {
+        authOTP: (data: { phoneNumber: string; inputOTP: string }) => {
             return this.request<{
                 data: any;
                 statusCode: number;
@@ -32,6 +32,32 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 refresh_token: string;
             }>({
                 path: "auth/authenticate-otp",
+                method: "POST",
+                body: data,
+            });
+        },
+        customerProfile: (data: { userId: number }) => {
+            return this.request({
+                path: `customer-profile/${data.userId}`,
+                method: "GET",
+                body: data,
+            });
+        },
+        createProfile: (data: {
+            name: string;
+            email: string;
+            birthday: string;
+            sex: string;
+            height_m: number | string;
+            weight_kg: number | string;
+            physical_activity_level: string;
+            current_diet?: string;
+            allergic_food?: string;
+            chronic_disease: string;
+            expected_diet: string;
+        }) => {
+            return this.request({
+                path: "create-customer-profile",
                 method: "POST",
                 body: data,
             });

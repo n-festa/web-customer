@@ -57,11 +57,11 @@ export type UserType = {
     email: string;
     birthday: string;
     sex: string;
-    height_m: string;
-    weight_kg: string;
+    height_m: number | string;
+    weight_kg: number | string;
     physical_activity_level: string;
-    current_diet: string;
-    allergic_food: string;
+    current_diet?: string;
+    allergic_food?: string;
     chronic_disease: string;
     expected_diet: string;
 };

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import UISignWrap from "@/components/UISignWrap";
 import useCountdown from "@/hooks/useCountDown";
 import apiServices from "@/services/sevices";
-import { setInfoSign, setAccessToken } from "@/store/reducers/auth";
+import { setInfoSign, setAccessToken, setUserInfo, setProfile } from "@/store/reducers/auth";
 import { RootState } from "@/store";
 import { setToken } from "@/utils/auth";
 import { routes } from "@/utils/routes";
@@ -47,11 +47,24 @@ const PhoneVerification = () => {
             if (otpState.join("") !== otp) {
                 setOtpError("Không trùng mã OTP");
             } else {
-                const { data } = await apiServices.authtOTP({ phoneNumber, inputOTP: otp });
+                const { data } = await apiServices.authOTP({ phoneNumber, inputOTP: otp });
+                const { access_token, permissions, userType, userId, userName } = data;
                 setOtpError("");
-                setToken(data.access_token);
-                dispatch(setAccessToken(data.access_token));
-                router.push(routes.AdditionalSignUpInfo);
+                setToken(access_token);
+                setUserInfo({
+                    userType,
+                    userId,
+                    userName,
+                    permissions,
+                });
+                dispatch(setAccessToken(access_token));
+                const { data: customerData } = await apiServices.customerProfile({ userId });
+                if (customerData.name) {
+                    setProfile(customerData);
+                    router.push(routes.Home);
+                } else {
+                    router.push(routes.AdditionalSignUpInfo);
+                }
             }
         } catch (error) {
             console.error("Error while fetching data:", error);

@@ -1,21 +1,32 @@
 "use client";
 import { Box, Button, Text, Flex, Stack, RadioGroup, Radio } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 import UISignWrap from "@/components/UISignWrap";
 import InputForm from "@/components/InputForm";
-import config from "@/config";
 import RadioCardGroup from "@/components/RadioCardGroup";
+import apiServices from "@/services/sevices";
+import config from "@/config";
 import { UserType } from "@/types";
-
-// import { fetcher } from "@/utils/fetcher";
-
+import { setProfile } from "@/store/reducers/auth";
+import { routes } from "@/utils/routes";
 const {
-    signUp: { formData, initialValues },
+    signUp: { formData, initialValues, validationSchema },
 } = config;
 
 const Additional = () => {
+    const router = useRouter();
+    const dispatch = useDispatch();
     const handleSubmit = async (_values: UserType, _actions: FormikHelpers<UserType>) => {
         console.log(_values);
+        try {
+            const { data } = await apiServices.createProfile(_values);
+            dispatch(setProfile(data));
+            router.push(routes.Home);
+        } catch (error) {
+            console.error("Error while resending OTP:", error);
+        }
     };
     return (
         <UISignWrap maxW="63rem" bg="var(--gray-100)">
@@ -30,9 +41,9 @@ const Additional = () => {
                 <Box w="100%" maxW="36rem" m="0 auto">
                     <Formik
                         initialValues={initialValues}
-                        // validationSchema={validationSchema.validation}
+                        validationSchema={validationSchema.validation}
                         onSubmit={(values, actions) => {
-                            handleSubmit(values, actions);
+                            handleSubmit(values as UserType, actions as FormikHelpers<UserType>);
                         }}
                     >
                         {(props) => (
