@@ -12,7 +12,7 @@ const LocationSuggestion = ({
     ...props
 }: {
     input: string;
-    onClickRow?: (value: string) => void;
+    onClickRow?: (value: SearchPlaceResponse) => void;
     isLoading?: boolean;
     error?: SearchError;
     suggestionPlaces: SearchPlaceResponse[];
@@ -49,7 +49,7 @@ const LocationSuggestion = ({
                         _hover={{
                             bg: "var(--main-bg-color-light-alpha)",
                         }}
-                        onClick={() => onClickRow?.(suggestion?.formatted_address ?? "")}
+                        onClick={() => onClickRow?.(suggestion)}
                         w="100%"
                         h="4.8rem"
                         key={suggestion.place_id}

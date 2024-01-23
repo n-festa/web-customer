@@ -9,7 +9,6 @@ export const selectStyle = {
                 fontSize: "1.4rem",
                 fontWeight: "600",
                 color: "var(--gray-700)",
-                minW: "11.6rem",
                 h: "4rem",
                 p: "1rem 1.6rem !important",
             },

@@ -1,13 +1,12 @@
 "use client";
 import SkeletonBox from "@/components/molecules/SkeletonBox";
+import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
 import { Flex, Text, Wrap, WrapItem } from "@chakra-ui/react";
 import React, { useMemo } from "react";
 import { ProductTypeList } from "types";
-import MenuItem from "../../organism/FoodItem/index";
 
 const Today = () => {
-    // const data: ProductTypeList[] = products;
     const { GetGeneralFoodRecommendation } = useSWRAPI();
     const { data } = GetGeneralFoodRecommendation();
 
@@ -25,6 +24,8 @@ const Today = () => {
             time: 122,
             distance: item.distance_km,
             ratings: item.rating,
+            promotion: item.promotion,
+            cutoff_time: item.cutoff_time,
         }));
     }, [data]);
 
@@ -43,9 +44,10 @@ const Today = () => {
                         flex={1}
                         minH="52.6rem"
                     >
-                        <MenuItem
+                        <FoodItem
                             key={item.id}
                             id={item.id}
+                            top_label={item.top_label}
                             name={item.name}
                             images={item.images}
                             merchart={item.merchart}
@@ -57,6 +59,8 @@ const Today = () => {
                             time={item.time}
                             distance={item.distance}
                             ratings={item.ratings}
+                            promotion={item.promotion}
+                            cutoff_time={item.cutoff_time}
                         />
                     </WrapItem>
                 )) ??

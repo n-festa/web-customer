@@ -1,4 +1,7 @@
+import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesResponse";
 import { GetGeneralFoodRecommendResponse } from "@/types/response/GetGeneralFoodRecommendResponse";
+import { GetGeneralRestaurantRecommendationResponse } from "@/types/response/GetGeneralRestaurantRecommendationResponse";
+import { SearchFoodAndRestaurantByCategoryIdResponse } from "@/types/response/SearchFoodAndRestaurantByCategoryIdResponse";
 import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
 import { AxiosError } from "axios";
@@ -63,12 +66,12 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: data,
             });
         },
-        getGeneralFoodRecommendation: () => {
+        getGeneralFoodRecommendation: (query?: { lat?: number; long?: number }) => {
             return this.request<GetGeneralFoodRecommendResponse>({
                 path: "food/get-general-food-recomendation",
                 method: "GET",
                 //TODO
-                query: {
+                query: query ?? {
                     lat: 10.820557580712087,
                     long: 106.7723030321775,
                 },
@@ -84,6 +87,40 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                     api_key: process.env.GEO_GOONG_API_KEY,
                 },
                 ...reqParams,
+            });
+        },
+        getAllCategories: (reqParams?: FullRequestParams) => {
+            return this.request<GetAllCategoriesResponse>({
+                path: "/category",
+                method: "GET",
+                ...reqParams,
+            });
+        },
+        searchFoodAndRestaurantByCategoryId: (
+            payload: {
+                lat: number;
+                long: number;
+                category_id: number;
+            },
+            reqParams?: FullRequestParams,
+        ) => {
+            return this.request<SearchFoodAndRestaurantByCategoryIdResponse>({
+                path: "/category/search",
+                method: "POST",
+                body: payload,
+                ...reqParams,
+            });
+        },
+
+        getGeneralRestaurantRecommendation: () => {
+            return this.request<GetGeneralRestaurantRecommendationResponse>({
+                path: "/restaurant/get-general-recomendation?",
+                method: "GET",
+                //TODO
+                query: {
+                    lat: 10.820557580712087,
+                    long: 106.7723030321775,
+                },
             });
         },
     };

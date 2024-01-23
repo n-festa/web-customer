@@ -2,24 +2,13 @@
 import { BackButton } from "@/components/atoms/bottom/BackButton";
 import SeachBox from "@/components/molecules/SearchBox";
 import Categories from "@/components/pages/search/Categories";
-import FilterBox from "@/components/pages/search/FilterBox";
-import SearchResult from "@/components/pages/search/SearchResult";
 import SpecialFood from "@/components/pages/search/SpecialFood";
 import SpecialRestaurants from "@/components/pages/search/SpecialRestaurants";
-import { useFoodDiscovery } from "@/hooks/useFoodDecovery";
+import { useSearchPage } from "@/hooks/useSearchPage";
 import { Flex } from "@chakra-ui/react";
 
 const Search = () => {
-    const {
-        keySearch,
-        searchResult,
-        isShowFilterBox,
-        filterCondition,
-
-        onSearch,
-        onChangeValue,
-        onChangeFilterOptions,
-    } = useFoodDiscovery();
+    const { keySearch, onSearch, onChangeSearchValue } = useSearchPage();
     const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.key === "Enter") onSearch();
     };
@@ -33,22 +22,13 @@ const Search = () => {
                     groupsProps={{ my: "1rem" }}
                     value={keySearch}
                     onChange={(e) => {
-                        onChangeValue<string>("keySearch", e.target.value ?? "");
+                        onChangeSearchValue(e.target.value ?? "");
                     }}
                     onKeyDown={onKeyDown}
                 />
-                {isShowFilterBox ? (
-                    <>
-                        <FilterBox condition={filterCondition} onChangeFilterOptions={onChangeFilterOptions} />
-                        <SearchResult type={filterCondition.type} result={searchResult} />
-                    </>
-                ) : (
-                    <>
-                        <Categories />
-                        <SpecialFood />
-                        <SpecialRestaurants />
-                    </>
-                )}
+                <Categories />
+                <SpecialFood />
+                <SpecialRestaurants />
             </Flex>
         </Flex>
     );
