@@ -1,11 +1,8 @@
 "use client";
 import SearchLocation from "@/components/molecules/SearchLocation";
 import { svnGilroy } from "@/theme/fonts";
-import { routes } from "@/utils/routes";
 import { Flex, Img, Text } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
 const Banner = () => {
-    const router = useRouter();
     return (
         <Flex
             p="4rem"
@@ -40,12 +37,7 @@ const Banner = () => {
                             nghĩ, không cần nấu, hẹn giờ giao linh hoạt.
                         </Text>
                     </Flex>
-                    <SearchLocation
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            router.push(routes.Search);
-                        }}
-                    />
+                    <SearchLocation />
                 </Flex>
                 <Flex flex={1} ml="-2rem">
                     <Img maxW="100%" h="auto" src="images/screen-shot-20230829-at-11-28-37-pmtransformed-5@2x.png" />

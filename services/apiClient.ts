@@ -1,13 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getToken } from "@/utils/auth";
-import axios, {
-    AxiosError,
-    AxiosInstance,
-    AxiosRequestConfig,
-    AxiosResponse,
-    HeadersDefaults,
-    ResponseType,
-} from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, HeadersDefaults, ResponseType } from "axios";
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
@@ -24,7 +17,7 @@ export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "pa
     /** set parameter to `true` for call `securityWorker` for this request */
     secure?: boolean;
     /** request path */
-    path: string;
+    path?: string;
     /** content type of request body */
     type?: ContentType;
     /** query params */
@@ -33,6 +26,7 @@ export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "pa
     format?: ResponseType;
     /** request body */
     body?: unknown;
+
     isUncheckAuthor?: boolean;
 }
 
@@ -143,7 +137,7 @@ export abstract class HttpClient<SecurityDataType = unknown> {
         body,
         isUncheckAuthor,
         ...params
-    }: FullRequestParams): Promise<AxiosResponse<T>> => {
+    }: FullRequestParams): Promise<T> => {
         const secureParams =
             ((typeof secure === "boolean" ? secure : this.secure) &&
                 this.securityWorker &&
@@ -176,6 +170,7 @@ export abstract class HttpClient<SecurityDataType = unknown> {
             responseType: responseFormat,
             data: body,
             url: path,
+            cancelToken: requestParams.cancelToken,
         });
     };
 }

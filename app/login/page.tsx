@@ -1,6 +1,6 @@
 "use client";
 import UISignWrap from "@/components/UISignWrap";
-import { fetcher } from "@/utils/fetcher";
+import apiServices from "@/services/sevices";
 import {
     Box,
     Button,
@@ -23,14 +23,11 @@ const Login = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const handleSubmit = async (_values: { phoneNumber: string }, _actions: FormikHelpers<{ phoneNumber: string }>) => {
-        const { data, statusCode } = await fetcher("auth/request-otp", "POST", {
+        const { otpCode, phoneNumber } = await apiServices.requestOTP({
             phoneNumber: _values.phoneNumber,
         });
-        if (statusCode === 200) {
-            const { otpCode, phoneNumber } = data;
-            dispatch(setInfoSign({ otp: otpCode, phoneNumber }));
-            router.push(routes.Otp);
-        }
+        dispatch(setInfoSign({ otp: otpCode, phoneNumber }));
+        router.push(routes.Otp);
     };
     return (
         <UISignWrap maxW="45.6rem">
