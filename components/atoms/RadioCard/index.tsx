@@ -1,9 +1,10 @@
 "use client";
 import { Box, UseRadioProps, useRadio } from "@chakra-ui/react";
+import { ChangeEvent } from "react";
 
 type RadioCardProps = {
     children: React.ReactNode;
-    onChangeInput?: any;
+    onChangeInput?: (e: ChangeEvent<HTMLInputElement>) => void;
 } & UseRadioProps;
 function RadioCard({ children, onChangeInput, name, ...props }: RadioCardProps) {
     const { getInputProps, getRadioProps } = useRadio({ ...props, name: name });

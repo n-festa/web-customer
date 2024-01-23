@@ -3,14 +3,15 @@ import { Box, Button, Text, Flex, Stack, RadioGroup, Radio } from "@chakra-ui/re
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import UISignWrap from "@/components/UISignWrap";
-import InputForm from "@/components/InputForm";
-import RadioCardGroup from "@/components/RadioCardGroup";
+import UISignWrap from "@/components/molecules/UISignWrap";
+import InputForm from "@/components/molecules/InputForm";
+import RadioCardGroup from "@/components/atoms/RadioCardGroup";
 import apiServices from "@/services/sevices";
 import config from "@/config";
 import { UserType } from "@/types";
 import { setProfile } from "@/store/reducers/auth";
 import { routes } from "@/utils/routes";
+import { filedType, formType } from "@/types/form";
 const {
     signUp: { formData, initialValues, validationSchema },
 } = config;
@@ -19,11 +20,10 @@ const Additional = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const handleSubmit = async (_values: UserType, _actions: FormikHelpers<UserType>) => {
-        console.log(_values);
         try {
             const { data } = await apiServices.createProfile(_values);
             dispatch(setProfile(data));
-            router.push(routes.Home);
+            router.push(routes.RegistrationSuccess);
         } catch (error) {
             console.error("Error while resending OTP:", error);
         }
@@ -42,6 +42,8 @@ const Additional = () => {
                     <Formik
                         initialValues={initialValues}
                         validationSchema={validationSchema.validation}
+                        validateOnBlur={false}
+                        validateOnChange={false}
                         onSubmit={(values, actions) => {
                             handleSubmit(values as UserType, actions as FormikHelpers<UserType>);
                         }}
@@ -49,7 +51,7 @@ const Additional = () => {
                         {(props) => (
                             <Form>
                                 <Field name="name">
-                                    {({ field, form }: { field: any; form: any }) => (
+                                    {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
                                             title="Tên"
                                             type="text"
@@ -60,7 +62,7 @@ const Additional = () => {
                                     )}
                                 </Field>
                                 <Field name="email">
-                                    {({ field, form }: { field: any; form: any }) => (
+                                    {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
                                             title="Email"
                                             type="email"
@@ -71,7 +73,7 @@ const Additional = () => {
                                     )}
                                 </Field>
                                 <Field name="birthday">
-                                    {({ field, form }: { field: any; form: any }) => (
+                                    {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
                                             title="Ngày sinh"
                                             type="text"
@@ -85,7 +87,7 @@ const Additional = () => {
                                     Giới tính
                                 </Text>
                                 <Field name="sex">
-                                    {({ field }: { field: any; form: any }) => {
+                                    {({ field }: { field: filedType; form: formType }) => {
                                         const { onChange, ...rest } = field;
                                         return (
                                             <RadioGroup mb="1.6rem" {...rest}>
@@ -103,9 +105,7 @@ const Additional = () => {
                                                             size="xxl"
                                                             colorScheme="green"
                                                             value={data.value}
-                                                            onChange={(e) => {
-                                                                onChange(e);
-                                                            }}
+                                                            onChange={onChange}
                                                         >
                                                             {data.content}
                                                         </Radio>
@@ -117,7 +117,7 @@ const Additional = () => {
                                 </Field>
                                 <Flex gap="1rem">
                                     <Field name="height_m">
-                                        {({ field, form }: { field: any; form: any }) => (
+                                        {({ field, form }: { field: filedType; form: formType }) => (
                                             <InputForm
                                                 title="Chiều cao ( cm )"
                                                 type="number"
@@ -128,7 +128,7 @@ const Additional = () => {
                                         )}
                                     </Field>
                                     <Field name="weight_kg">
-                                        {({ field, form }: { field: any; form: any }) => (
+                                        {({ field, form }: { field: filedType; form: formType }) => (
                                             <InputForm
                                                 title="Cân nặng ( kg )"
                                                 type="number"
@@ -140,7 +140,7 @@ const Additional = () => {
                                     </Field>
                                 </Flex>
                                 <Field mb="1.6rem" name="physical_activity_level">
-                                    {({ field }: { field: any; form: any }) => {
+                                    {({ field }: { field: filedType; form: formType }) => {
                                         const { onChange, ...rest } = field;
                                         return (
                                             <RadioCardGroup
@@ -154,12 +154,11 @@ const Additional = () => {
                                     }}
                                 </Field>
                                 <Field mb="1.6rem" name="current_diet">
-                                    {({ field }: { field: any; form: any }) => {
+                                    {({ field }: { field: filedType; form: formType }) => {
                                         const { onChange, ...rest } = field;
                                         return (
                                             <RadioCardGroup
                                                 title="Chế độ ăn hiện tại"
-                                                flexWrap="wrap"
                                                 name="current_diet"
                                                 data={formData.currentDiet}
                                                 {...rest}
@@ -169,7 +168,7 @@ const Additional = () => {
                                     }}
                                 </Field>
                                 <Field name="allergic_food">
-                                    {({ field }: { field: any; form: any }) => (
+                                    {({ field }: { field: filedType; form: formType }) => (
                                         <InputForm
                                             title="Dị ứng với đồ ăn (nếu có)"
                                             type="text"
@@ -180,7 +179,7 @@ const Additional = () => {
                                     )}
                                 </Field>
                                 <Field name="chronic_disease">
-                                    {({ field }: { field: any; form: any }) => (
+                                    {({ field }: { field: filedType; form: formType }) => (
                                         <InputForm
                                             title="Bệnh mãn tính (nếu có)"
                                             type="text"
@@ -194,7 +193,7 @@ const Additional = () => {
                                     Chế độ ăn mong đợi
                                 </Text>
                                 <Field name="expected_diet">
-                                    {({ field }: { field: any; form: any }) => {
+                                    {({ field }: { field: filedType; form: formType }) => {
                                         const { onChange, ...rest } = field;
                                         return (
                                             <RadioGroup mb="1.6rem" {...rest}>

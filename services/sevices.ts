@@ -14,7 +14,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
     }
     api = {
         requestOTP: (data: { phoneNumber: string }) => {
-            return this.request<{ otpCode: string; phoneNumber: string }>({
+            return this.request<{ data: { otpCode: string; phoneNumber: string } }>({
                 path: "auth/request-otp",
                 method: "POST",
                 body: data,
@@ -22,14 +22,15 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
         },
         authOTP: (data: { phoneNumber: string; inputOTP: string }) => {
             return this.request<{
-                data: any;
-                statusCode: number;
-                userType: string;
-                userId: number;
-                userName: string;
-                permissions: string;
-                access_token: string;
-                refresh_token: string;
+                data: {
+                    statusCode: number;
+                    userType: string;
+                    userId: number;
+                    userName: string;
+                    permissions: string;
+                    access_token: string;
+                    refresh_token: string;
+                };
             }>({
                 path: "auth/authenticate-otp",
                 method: "POST",

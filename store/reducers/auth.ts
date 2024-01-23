@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserAuth } from "@/types";
+import { Customer } from "@/types";
 
 interface initialStateType {
     phoneNumber: string;
     otp: string;
     access_token: string;
     userInfo?: UserAuth;
-    profile?: any;
+    profile?: Customer;
 }
 
 const initialState: initialStateType = {

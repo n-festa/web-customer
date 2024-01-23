@@ -1,14 +1,15 @@
 import { Box, Flex, Text, useRadioGroup } from "@chakra-ui/react";
+import { ChangeEvent } from "react";
 import RadioCard from "../RadioCard";
 
 type RadioCardGroupProps = {
     title: string;
-    data: any;
+    data: { value: string; content: string }[];
     name: string;
-    onChange: any;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const RadioCardGroup = ({ title, name, data, ...props }: RadioCardGroupProps) => {
+const RadioCardGroup = ({ title, name, data, onChange, ...props }: RadioCardGroupProps) => {
     const { getRadioProps, getRootProps } = useRadioGroup({
         name: name,
         ...props,
@@ -21,10 +22,10 @@ const RadioCardGroup = ({ title, name, data, ...props }: RadioCardGroupProps) =>
                 {title}
             </Text>
             <Flex gap="0.8rem" mb="1.6rem" flexWrap="wrap" {...group}>
-                {data.map((data: any) => {
+                {data.map((data) => {
                     const radio = getRadioProps({ value: data.value });
                     return (
-                        <RadioCard key={data.value} name={name} onChangeInput={props.onChange} {...radio}>
+                        <RadioCard key={data.value} name={name} onChangeInput={onChange} {...radio}>
                             {data.content}
                         </RadioCard>
                     );

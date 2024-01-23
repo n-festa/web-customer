@@ -3,13 +3,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import UISignWrap from "@/components/UISignWrap";
+import UISignWrap from "@/components/molecules/UISignWrap";
 import useCountdown from "@/hooks/useCountDown";
 import apiServices from "@/services/sevices";
 import { setInfoSign, setAccessToken, setUserInfo, setProfile } from "@/store/reducers/auth";
 import { RootState } from "@/store";
 import { setToken, setTokenRefresh } from "@/utils/auth";
 import { routes } from "@/utils/routes";
+import { HighlightedText } from "@/components/atoms/Label/HighlightedLabel";
 
 const numberOfDigits = 6;
 
@@ -20,7 +21,7 @@ const PhoneVerification = () => {
 
     const [otpState, setOtpState] = useState<Array<string>>(new Array(numberOfDigits).fill(""));
     const [_otpError, setOtpError] = useState<string>("");
-    const otpBoxReference = useRef<Array<HTMLInputElement | any>>([]);
+    const otpBoxReference = useRef<Array<HTMLInputElement | null>>([]);
     const { seconds, formattedTime, resetCountdown } = useCountdown(120);
 
     const handleChange = useCallback(
@@ -82,10 +83,15 @@ const PhoneVerification = () => {
                 <Text fontSize="2.4rem" fontWeight="700" mb="1.2rem" color="var(--gray-950)">
                     Xác nhận mã OTP
                 </Text>
-                <Text fontSize="1.4rem" fontWeight="400" mb="3.2rem" color="var(--gray-600)">
-                    Nhập mã OTP 6 chữ số được gửi tới số điện thoại bạn đăng ký. Mã OTP chỉ có hiệu lực trong vòng 2
-                    phút.
-                </Text>
+                <HighlightedText
+                    text="Nhập mã OTP 6 chữ số được gửi tới số điện thoại bạn đăng ký. Mã OTP chỉ có hiệu lực trong vòng 2 phút."
+                    fontSize="1.4rem"
+                    fontWeight="400"
+                    mb="3.2rem"
+                    color="var(--gray-600)"
+                    highlightStyle={{ color: "var(--gray-600)", fontWeight: "700" }}
+                    highlight="2 phút."
+                ></HighlightedText>
                 <Flex mb="3.2rem" gap="0.8rem">
                     <PinInput placeholder="0">
                         {Array.from({ length: 6 }, (_, index) => (
