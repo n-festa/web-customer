@@ -2,6 +2,7 @@ import { selectStyle } from "@/theme/select";
 import { ThemeOverride, extendTheme } from "@chakra-ui/react";
 import buttonStyle from "./button";
 import { checkboxTheme } from "./checkbox";
+import { radioTheme } from "./radio";
 import colors from "./colors";
 import inputStyle from "./input";
 import textStyle from "./text";
@@ -49,6 +50,7 @@ const theme: ThemeOverride = extendTheme({
         Textarea: textAreaStyle,
         Checkbox: checkboxTheme,
         Select: selectStyle,
+        Radio: radioTheme,
     },
     textStyles,
 });

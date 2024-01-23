@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { getToken } from "@/utils/auth";
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, HeadersDefaults, ResponseType } from "axios";
 
 export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
@@ -159,7 +160,7 @@ export abstract class HttpClient<SecurityDataType = unknown> {
                 //SET VERSION API
                 ...(!isUncheckAuthor
                     ? {
-                          //   Authorization: token.current ? "Bearer " + token.current : undefined,
+                          Authorization: getToken() ? "Bearer " + getToken() : undefined,
                       }
                     : {}),
                 ...(requestParams.headers || {}),

@@ -1,5 +1,5 @@
 "use client";
-import UISignWrap from "@/components/UISignWrap";
+import UISignWrap from "@/components/molecules/UISignWrap";
 import apiServices from "@/services/sevices";
 import {
     Box,
@@ -13,17 +13,22 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
+import { setInfoSign } from "@/store/reducers/auth";
+import { routes } from "@/utils/routes";
+import { filedType, formType } from "@/types/form";
 
 const Login = () => {
     const router = useRouter();
+    const dispatch = useDispatch();
     const handleSubmit = async (_values: { phoneNumber: string }, _actions: FormikHelpers<{ phoneNumber: string }>) => {
-        const { otpCode, phoneNumber } = await apiServices.requestOTP({
+        const { data } = await apiServices.requestOTP({
             phoneNumber: _values.phoneNumber,
         });
-        console.log(otpCode, phoneNumber);
-        router.push("/otp");
+        dispatch(setInfoSign({ otp: data.otpCode, phoneNumber: data.phoneNumber }));
+        router.push(routes.Otp);
     };
     return (
         <UISignWrap maxW="45.6rem">
@@ -56,12 +61,17 @@ const Login = () => {
                         onSubmit={(values, actions) => {
                             handleSubmit(values, actions);
                         }}
+                        onKeyPress={(e: { key: string; preventDefault: () => void }) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                            }
+                        }}
                     >
                         {(props) => (
                             <Form>
                                 <Field name="phoneNumber">
-                                    {({ field, form }: { field: any; form: any }) => (
-                                        <FormControl isInvalid={form.errors.phoneNumber}>
+                                    {({ field, form }: { field: filedType; form: formType }) => (
+                                        <FormControl isInvalid={!!form.errors.phoneNumber}>
                                             <InputGroup
                                                 position="relative"
                                                 border=".1rem solid #D0D5DD"

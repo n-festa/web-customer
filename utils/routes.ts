@@ -2,7 +2,7 @@ export const routes = {
     Home: "/",
     Search: "/search",
     SignIn: "/login",
-    Otp: "/otp",
-    AdditionalSignUpInfo: "/phone_verification",
+    Otp: "/phone_verification",
+    AdditionalSignUpInfo: "/additional",
     RegistrationSuccess: "/registration_success",
 };

@@ -6,12 +6,12 @@ interface InputFormProps {
     placeholder: string;
     type: string;
     note?: string;
-    error?: any;
+    error?: string | number;
 }
 
 const InputForm: React.FC<InputFormProps> = ({ title, type = "text", placeholder, note, error, ...props }) => {
     return (
-        <FormControl mb="1.6rem" isInvalid={error}>
+        <FormControl mb="1.6rem" isInvalid={!!error}>
             <FormLabel fontSize="1.6rem" fontWeight="600" mb="0.6rem">
                 {title}
             </FormLabel>
@@ -24,9 +24,10 @@ const InputForm: React.FC<InputFormProps> = ({ title, type = "text", placeholder
                 fontWeight="400"
                 type={type}
                 placeholder={placeholder}
+                _focus={{ border: "1px solid var(--gray-300)" }}
                 {...props}
             />
-            <FormErrorMessage>{error}</FormErrorMessage>
+            <FormErrorMessage fontSize="1.4rem">{error}</FormErrorMessage>
             {note && (
                 <Text fontSize="1.4rem" fontWeight="400" mt="0.8rem" color="var(--gray-600)">
                     {note}

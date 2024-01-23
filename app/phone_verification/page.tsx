@@ -1,202 +1,129 @@
 "use client";
-import { Box, Button, Text, Flex, Stack, RadioGroup, Radio } from "@chakra-ui/react";
-import { Field, Form, Formik, FormikHelpers } from "formik";
-import UISignWrap from "@/components/UISignWrap";
-import InputForm from "@/components/InputForm";
-import config from "@/config";
-import RadioCard from "@/components/RadioCard";
-import { UserType } from "@/types";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import UISignWrap from "@/components/molecules/UISignWrap";
+import useCountdown from "@/hooks/useCountDown";
+import apiServices from "@/services/sevices";
+import { setInfoSign, setAccessToken, setUserInfo, setProfile } from "@/store/reducers/auth";
+import { RootState } from "@/store";
+import { setToken, setTokenRefresh } from "@/utils/auth";
+import { routes } from "@/utils/routes";
+import { HighlightedText } from "@/components/atoms/Label/HighlightedLabel";
 
-// import { fetcher } from "@/utils/fetcher";
-
-const {
-    signUp: { formData, initialValues, validationSchema },
-} = config;
+const numberOfDigits = 6;
 
 const PhoneVerification = () => {
-    const handleSubmit = async (_values: UserType, _actions: FormikHelpers<UserType>) => {
-        console.log(_values);
-    };
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const { phoneNumber, otp } = useSelector((state: RootState) => state.auth);
+
+    const [otpState, setOtpState] = useState<Array<string>>(new Array(numberOfDigits).fill(""));
+    const [_otpError, setOtpError] = useState<string>("");
+    const otpBoxReference = useRef<Array<HTMLInputElement | null>>([]);
+    const { seconds, formattedTime, resetCountdown } = useCountdown(120);
+
+    const handleChange = useCallback(
+        (value: string, index: number) => {
+            const newArr = [...otpState];
+            newArr[index] = value;
+            setOtpState(newArr);
+        },
+        [otpState],
+    );
+
+    const handleResend = useCallback(async () => {
+        try {
+            const { data } = await apiServices.requestOTP({ phoneNumber });
+            dispatch(setInfoSign({ otp: data.otpCode, phoneNumber }));
+            resetCountdown();
+        } catch (error) {
+            console.error("Error while resending OTP:", error);
+        }
+    }, [dispatch, phoneNumber, resetCountdown]);
+
+    const fetchData = useCallback(async () => {
+        try {
+            if (otpState.join("") !== otp) {
+                setOtpError("Không trùng mã OTP");
+            } else {
+                const { data } = await apiServices.authOTP({ phoneNumber, inputOTP: otp });
+                const { access_token, refresh_token, permissions, userType, userId, userName } = data;
+                setOtpError("");
+                setToken(access_token);
+                setTokenRefresh(refresh_token);
+                setUserInfo({
+                    userType,
+                    userId,
+                    userName,
+                    permissions,
+                });
+                dispatch(setAccessToken(access_token));
+                const { data: customerData } = await apiServices.customerProfile({ userId });
+                if (customerData.name) {
+                    setProfile(customerData);
+                    router.push(routes.Home);
+                } else {
+                    router.push(routes.AdditionalSignUpInfo);
+                }
+            }
+        } catch (error) {
+            console.error("Error while fetching data:", error);
+        }
+    }, [otpState, otp, phoneNumber, dispatch, router]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
     return (
-        <UISignWrap maxW="63rem" bg="var(--gray-100)">
-            <Box p="4rem" w="100%" bg="white">
-                <Text fontSize="2.4rem" fontWeight="700" mb="0.8rem" color="var(--gray-950)">
-                    CHIA SẺ THÊM VỚI CHÚNG TÔI VỀ BẠN
+        <UISignWrap maxW="45.6rem">
+            <Box bg="white">
+                <Text fontSize="2.4rem" fontWeight="700" mb="1.2rem" color="var(--gray-950)">
+                    Xác nhận mã OTP
                 </Text>
-                <Text fontSize="1.4rem" fontWeight="400" mb="3.2rem" color="var(--gray-600)">
-                    Những thông tin bạn cung cấp sẽ giúp chúng tôi đưa ra những gợi ý về đồ ăn phù hợp hơn với thể trạng
-                    và nhu cầu của bạn.
+                <HighlightedText
+                    text="Nhập mã OTP 6 chữ số được gửi tới số điện thoại bạn đăng ký. Mã OTP chỉ có hiệu lực trong vòng 2 phút."
+                    fontSize="1.4rem"
+                    fontWeight="400"
+                    mb="3.2rem"
+                    color="var(--gray-600)"
+                    highlightStyle={{ color: "var(--gray-600)", fontWeight: "700" }}
+                    highlight="2 phút."
+                ></HighlightedText>
+                <Flex mb="3.2rem" gap="0.8rem">
+                    <PinInput placeholder="0">
+                        {Array.from({ length: 6 }, (_, index) => (
+                            <PinInputField
+                                key={index}
+                                border="0.1rem solid var(--gray-300)"
+                                h="6.4rem"
+                                w="6.4rem"
+                                fontSize="4.8rem"
+                                fontWeight="500"
+                                color="var(--gray-950)"
+                                p="0.2rem 0.8rem 0.2rem 0.8rem"
+                                textAlign="center"
+                                borderRadius="0.8rem"
+                                onChange={(e) => handleChange(e.target.value, index)}
+                                ref={(reference) => (otpBoxReference.current[index] = reference)}
+                            />
+                        ))}
+                    </PinInput>
+                </Flex>
+                <Button isDisabled={seconds !== 0} variant="btnSubmit" onClick={handleResend}>
+                    Gửi lại mã OTP
+                </Button>
+                <Text
+                    fontSize="1.4rem"
+                    fontWeight="400"
+                    color={seconds === 0 ? "#E53E3E" : "var(--gray-950)"}
+                    textAlign="center"
+                    mt="0.8rem"
+                >
+                    {formattedTime}
                 </Text>
-                <Box w="100%" maxW="36rem" m="0 auto">
-                    <Formik
-                        initialValues={initialValues}
-                        validationSchema={validationSchema.validation}
-                        onSubmit={(values, actions) => {
-                            handleSubmit(values, actions);
-                        }}
-                    >
-                        {(props) => (
-                            <Form>
-                                <Field name="name">
-                                    {({ field }: { field: any; form: any }) => (
-                                        <InputForm
-                                            title="Tên"
-                                            type="text"
-                                            placeholder="Ví dụ: Nguyễn Văn A"
-                                            {...field}
-                                        ></InputForm>
-                                    )}
-                                </Field>
-                                <Field name="email">
-                                    {({ field }: { field: any; form: any }) => (
-                                        <InputForm
-                                            title="Email"
-                                            placeholder="Ví dụ: nguyen.vana@email.com"
-                                            {...field}
-                                        />
-                                    )}
-                                </Field>
-                                <Field name="birthday">
-                                    {({ field }: { field: any; form: any }) => (
-                                        <InputForm
-                                            title="Ngày sinh"
-                                            type="text"
-                                            placeholder="Ví dụ: 27/07/1995"
-                                            {...field}
-                                        />
-                                    )}
-                                </Field>
-                                <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem">
-                                    Giới tính
-                                </Text>
-                                <Field name="sex">
-                                    {({ field }: { field: any; form: any }) => {
-                                        const { onChange, ...rest } = field;
-                                        return (
-                                            <RadioGroup mb="1.6rem" {...rest}>
-                                                <Stack direction="row" spacing={8}>
-                                                    {formData.gender.map((data, index) => (
-                                                        <Radio
-                                                            variant="custom-width"
-                                                            key={index}
-                                                            className="custom-width"
-                                                            fontSize="1.6rem"
-                                                            fontWeight="400"
-                                                            color="var(--gray-700)"
-                                                            w="33.333%"
-                                                            h="1.6rem"
-                                                            size="lg"
-                                                            colorScheme="green"
-                                                            value={data.value}
-                                                            onChange={onChange}
-                                                        >
-                                                            {data.content}
-                                                        </Radio>
-                                                    ))}
-                                                </Stack>
-                                            </RadioGroup>
-                                        );
-                                    }}
-                                </Field>
-                                <Flex gap="1rem">
-                                    <Field name="height_m">
-                                        {({ field }: { field: any; form: any }) => (
-                                            <InputForm
-                                                title="Chiều cao ( cm )"
-                                                type="number"
-                                                placeholder="Ví dụ: 163"
-                                                {...field}
-                                            />
-                                        )}
-                                    </Field>
-                                    <Field name="weight_kg">
-                                        {({ field }: { field: any; form: any }) => (
-                                            <InputForm
-                                                title="Cân nặng ( kg )"
-                                                type="number"
-                                                placeholder="Ví dụ: 58"
-                                                {...field}
-                                            />
-                                        )}
-                                    </Field>
-                                </Flex>
-                                <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem">
-                                    Mức độ vận động hàng ngày
-                                </Text>
-                                <Flex gap="0.8rem" mb="1.6rem">
-                                    {formData.physicalActivityLevel.map((data, index) => {
-                                        return <RadioCard key={index}>{data.content}</RadioCard>;
-                                    })}
-                                </Flex>
-                                <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem">
-                                    Mức độ vận động hàng ngày
-                                </Text>
-                                <Flex gap="0.8rem" mb="1.6rem" flexWrap="wrap">
-                                    {formData.currentDiet.map((data, index) => {
-                                        return <RadioCard key={index}>{data.content}</RadioCard>;
-                                    })}
-                                </Flex>
-                                <Field name="allergic_food">
-                                    {({ field }: { field: any; form: any }) => (
-                                        <InputForm
-                                            title="Dị ứng với đồ ăn (nếu có)"
-                                            type="text"
-                                            placeholder="Ví dụ: sữa động vật, trứng..."
-                                            note="Chia sẻ thêm về đồ ăn mà bạn bị dị ứng. Ví dụ: sữa động vật, trứng, hải sản (cá, tôm, cua...), thuỷ sản (cá, tôm, lươn...), các loại hạt (đậu nành, óc chố, hạnh nhân...)"
-                                            {...field}
-                                        />
-                                    )}
-                                </Field>
-                                <Field name="chronic_disease">
-                                    {({ field }: { field: any; form: any }) => (
-                                        <InputForm
-                                            title="Bệnh mãn tính (nếu có)"
-                                            type="text"
-                                            placeholder="Ví dụ: Cao huyết áp..."
-                                            note="Tim, Cao huyết áp, Huyết áp thấp, Gout, Tiểu đường, hen suyễn, ung thư...."
-                                            {...field}
-                                        />
-                                    )}
-                                </Field>
-                                <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem">
-                                    Chế độ ăn mong đợi
-                                </Text>
-                                <Field name="expected_diet">
-                                    {({ field }: { field: any; form: any }) => {
-                                        const { onChange, ...rest } = field;
-                                        return (
-                                            <RadioGroup mb="1.6rem" {...rest}>
-                                                <Stack direction="column" spacing={8}>
-                                                    {formData.expectedDiet.map((data, index) => (
-                                                        <Radio
-                                                            variant="custom-width"
-                                                            key={index}
-                                                            className="custom-width"
-                                                            fontSize="1.6rem"
-                                                            fontWeight="400"
-                                                            color="var(--gray-700)"
-                                                            w="33.333%"
-                                                            h="1.6rem"
-                                                            size="lg"
-                                                            colorScheme="green"
-                                                            value={data.value}
-                                                            onChange={onChange}
-                                                        >
-                                                            {data.content}
-                                                        </Radio>
-                                                    ))}
-                                                </Stack>
-                                            </RadioGroup>
-                                        );
-                                    }}
-                                </Field>
-                                <Button variant="btnSubmit" isLoading={props.isSubmitting} type="submit">
-                                    Hoàn tất
-                                </Button>
-                            </Form>
-                        )}
-                    </Formik>
-                </Box>
             </Box>
         </UISignWrap>
     );

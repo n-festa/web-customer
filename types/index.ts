@@ -58,11 +58,59 @@ export type UserType = {
     email: string;
     birthday: string;
     sex: string;
-    height_m: string;
-    weight_kg: string;
+    height_m: number | string;
+    weight_kg: number | string;
+    physical_activity_level: string;
+    current_diet?: string;
+    allergic_food?: string;
+    chronic_disease: string;
+    expected_diet: string;
+};
+
+export type UserAuth = {
+    userType: string;
+    userId: number;
+    userName: string;
+    permissions: string;
+};
+
+export interface ProfileImage {
+    media_id: number;
+    type: string;
+    name: string;
+    description: null | string;
+    url: string;
+    restaurant_id: null | number;
+    menu_item_id: null | number;
+    packaging_id: null | number;
+    driver_rating_id: null | number;
+    food_rating_id: null | number;
+    created_at: string;
+}
+
+export interface HealthInfo {
+    height_m: number;
+    weight_kg: number;
     physical_activity_level: string;
     current_diet: string;
     allergic_food: string;
     chronic_disease: string;
     expected_diet: string;
-};
+    bmi: number;
+    recommended_dietary_allowance_kcal: number;
+    health_info_id: number;
+    created_at: string;
+}
+
+export interface Customer {
+    customer_id: number;
+    phone_number: string;
+    name: string;
+    email: string;
+    birthday: string;
+    sex: string;
+    is_active: number;
+    created_at: string;
+    profile_image: ProfileImage;
+    health_info: HealthInfo;
+}

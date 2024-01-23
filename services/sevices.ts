@@ -14,8 +14,51 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
     }
     api = {
         requestOTP: (data: { phoneNumber: string }) => {
-            return this.request<{ otpCode: string; phoneNumber: string }>({
+            return this.request<{ data: { otpCode: string; phoneNumber: string } }>({
                 path: "auth/request-otp",
+                method: "POST",
+                body: data,
+            });
+        },
+        authOTP: (data: { phoneNumber: string; inputOTP: string }) => {
+            return this.request<{
+                data: {
+                    statusCode: number;
+                    userType: string;
+                    userId: number;
+                    userName: string;
+                    permissions: string;
+                    access_token: string;
+                    refresh_token: string;
+                };
+            }>({
+                path: "auth/authenticate-otp",
+                method: "POST",
+                body: data,
+            });
+        },
+        customerProfile: (data: { userId: number }) => {
+            return this.request({
+                path: `customer-profile/${data.userId}`,
+                method: "GET",
+                body: data,
+            });
+        },
+        createProfile: (data: {
+            name: string;
+            email: string;
+            birthday: string;
+            sex: string;
+            height_m: number | string;
+            weight_kg: number | string;
+            physical_activity_level: string;
+            current_diet?: string;
+            allergic_food?: string;
+            chronic_disease: string;
+            expected_diet: string;
+        }) => {
+            return this.request({
+                path: "create-customer-profile",
                 method: "POST",
                 body: data,
             });
