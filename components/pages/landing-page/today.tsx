@@ -1,8 +1,7 @@
 "use client";
-import SkeletonBox from "@/components/molecules/SkeletonBox";
 import useSWRAPI from "@/hooks/useApi";
 import { Box, Flex, Text, Wrap, WrapItem } from "@chakra-ui/react";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { ProductTypeList } from "types";
 import MenuItem from "../../organism/FoodItem/index";
 
