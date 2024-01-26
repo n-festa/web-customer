@@ -21,7 +21,7 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
     const [error, setError] = useState<SearchError>();
     const dispatch = useDispatch();
     const profile = useSelector((state: RootState) => state.auth.profile);
-
+    const [selectedPlace, setSelectedPlace] = useState<SearchPlaceResponse>();
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const debouncedFunction = useCallback(
@@ -101,6 +101,9 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
         onClickDetect,
         error,
         setLocation,
+        setSelectedPlace,
+        selectedPlace,
+        setError,
     };
 };
 

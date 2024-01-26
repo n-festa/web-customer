@@ -30,6 +30,10 @@ const DeliveryLocation = () => {
                 color: "var(--gray-600)",
                 fontSize: "1.6rem",
             }}
+            locationSuggestionProps={{
+                bg: "white",
+                hoverBg: "#F9FAFB",
+            }}
             initValue={address}
         />
     );

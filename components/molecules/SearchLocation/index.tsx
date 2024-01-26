@@ -1,5 +1,5 @@
 "use client";
-import useSearchPlace from "@/hooks/useSearchPlace";
+import useSearchPlace, { SearchLocationErrorType } from "@/hooks/useSearchPlace";
 import {
     Box,
     Button,
@@ -10,6 +10,7 @@ import {
     InputLeftElement,
     InputProps,
     InputRightElement,
+    StackProps,
 } from "@chakra-ui/react";
 import { LocateFixed } from "lucide-react";
 
@@ -24,15 +25,34 @@ interface Props {
     leftElement?: React.ReactNode;
     inputProps?: InputProps;
     initValue?: string;
+    locationSuggestionProps?: StackProps & { hoverBg?: string };
 }
 
-const SearchLocation = ({ rightElement, leftElement, inputProps, initValue, ...props }: Props & InputGroupProps) => {
-    const router = useRouter();
-    const { input, setInput, suggestionPlaces, onClickDetect, isLoading, error, setLocation } = useSearchPlace({
+const SearchLocation = ({
+    rightElement,
+    leftElement,
+    inputProps,
+    initValue,
+    locationSuggestionProps,
+    ...props
+}: Props & InputGroupProps) => {
+    const {
+        input,
+        setInput,
+        suggestionPlaces,
+        onClickDetect,
+        isLoading,
+        error,
+        setLocation,
+        selectedPlace,
+        setSelectedPlace,
+        setError,
+    } = useSearchPlace({
         initValue: initValue,
     });
     const [isShowSuggestion, setShowSuggestion] = useState(false);
     const ref = useRef(null);
+    const router = useRouter();
 
     useOnClickOutside(ref, () => {
         setShowSuggestion(false);
@@ -42,10 +62,23 @@ const SearchLocation = ({ rightElement, leftElement, inputProps, initValue, ...p
         (e: FormEvent<HTMLDivElement>) => {
             e.preventDefault();
 
-            router.push(`${routes.Search}`);
+            if (!isShowSuggestion) {
+                setShowSuggestion(true);
+                return;
+            }
         },
-        [router],
+        [isShowSuggestion],
     );
+    const handleOnClickSearch = useCallback(() => {
+        if (selectedPlace) {
+            router.push(routes.Search);
+        } else {
+            setError({
+                type: SearchLocationErrorType.Error,
+                text: "Vui lòng chọn địa chỉ của bạn",
+            });
+        }
+    }, [router, selectedPlace, setError]);
     return (
         <Box position="relative" ref={ref}>
             <InputGroup
@@ -79,7 +112,10 @@ const SearchLocation = ({ rightElement, leftElement, inputProps, initValue, ...p
                     variant="search"
                     {...inputProps}
                     value={input}
-                    onChange={(e) => setInput(e.target.value)}
+                    onChange={(e) => {
+                        setSelectedPlace(undefined);
+                        setInput(e.target.value);
+                    }}
                 />
                 {rightElement ? (
                     rightElement
@@ -93,7 +129,7 @@ const SearchLocation = ({ rightElement, leftElement, inputProps, initValue, ...p
                             cursor="pointer"
                             color="var(--primary-text-color)"
                         />
-                        <Button h="3.6rem" w="9.1rem" borderRadius="9rem" variant="solid" type="submit">
+                        <Button h="3.6rem" w="9.1rem" borderRadius="9rem" variant="solid" onClick={handleOnClickSearch}>
                             Tìm món
                         </Button>
                     </InputRightElement>
@@ -108,7 +144,10 @@ const SearchLocation = ({ rightElement, leftElement, inputProps, initValue, ...p
                     setShowSuggestion(false);
                     setInput(value.formatted_address ?? "");
                     setLocation(value);
+                    setSelectedPlace(value);
+                    setError(undefined);
                 }}
+                styleProps={locationSuggestionProps}
                 isLoading={isLoading}
             />
         </Box>
