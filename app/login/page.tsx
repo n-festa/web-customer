@@ -19,13 +19,15 @@ import * as Yup from "yup";
 import { setInfoSign } from "@/store/reducers/auth";
 import { routes } from "@/utils/routes";
 import { filedType, formType } from "@/types/form";
+import { convertToInternationalFormat } from "@/utils/functions";
 
 const Login = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const handleSubmit = async (_values: { phoneNumber: string }, _actions: FormikHelpers<{ phoneNumber: string }>) => {
+        const valuePhone = convertToInternationalFormat(_values.phoneNumber);
         const { data } = await apiServices.requestOTP({
-            phoneNumber: _values.phoneNumber,
+            phoneNumber: valuePhone,
         });
         dispatch(setInfoSign({ otp: data.otpCode, phoneNumber: data.phoneNumber }));
         router.push(routes.Otp);
