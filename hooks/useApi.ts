@@ -1,9 +1,54 @@
 import apiServices from "@/services/sevices";
-import useSWR from "swr";
+import { SearchFoodAndRestaurantByCategoryIdRequest } from "@/types/request/SearchFoodAndRestaurantByCategoryIdRequest";
+import { useMemo } from "react";
+import useSWR, { SWRConfiguration } from "swr";
+const MAX_RETRY_NUMBER = 5;
+const RETRY_INVERVAL = 3000;
+
 const useSWRAPI = () => {
+    const swrConfig: SWRConfiguration = useMemo(() => {
+        return {
+            revalidateOnFocus: false,
+            revalidateOnMount: true,
+            revalidateOnReconnect: false,
+            refreshWhenOffline: true,
+            refreshWhenHidden: false,
+            refreshInterval: 0,
+            onErrorRetry(_err, _key, _config, revalidate, revalidateOpts) {
+                if (revalidateOpts.retryCount < MAX_RETRY_NUMBER) {
+                    setTimeout(() => {
+                        revalidate(revalidateOpts);
+                    }, RETRY_INVERVAL);
+                    return;
+                }
+            },
+        };
+    }, []);
     return {
-        GetGeneralFoodRecommendation: () =>
-            useSWR("getGeneralFoodRecommendation", async () => apiServices.getGeneralFoodRecommendation()),
+        GetGeneralFoodRecommendation: (query?: { lat?: number; long?: number }, config?: SWRConfiguration) =>
+            useSWR("getGeneralFoodRecommendation", async () => apiServices.getGeneralFoodRecommendation(query), {
+                ...swrConfig,
+                ...config,
+            }),
+        GetAllCategories: (config?: SWRConfiguration) =>
+            useSWR("getAllCategories", async () => apiServices.getAllCategories(), {
+                ...swrConfig,
+                ...config,
+            }),
+        SearchFoodAndRestaurantByCategoryId: (
+            payload: SearchFoodAndRestaurantByCategoryIdRequest,
+            config?: SWRConfiguration,
+        ) =>
+            useSWR(
+                "searchFoodAndRestaurantByCategoryId",
+                async () => apiServices.searchFoodAndRestaurantByCategoryId(payload),
+                { ...swrConfig, ...config },
+            ),
+        GetGeneralRestaurantRecommendation: (config?: SWRConfiguration) =>
+            useSWR("getGeneralRestaurantRecommendation", async () => apiServices.getGeneralRestaurantRecommendation(), {
+                ...swrConfig,
+                ...config,
+            }),
     };
 };
 

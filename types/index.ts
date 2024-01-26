@@ -21,6 +21,7 @@ export type ProductTypeList = {
     id: string | number;
     name?: string;
     price?: string | number;
+    top_label?: string;
     discount?: string | number;
     merchart?: string;
     currentPrice?: number;
@@ -35,6 +36,10 @@ export type ProductTypeList = {
     fat?: number;
     ingredient?: Array<IngredientType>;
     ingredientName?: string;
+    quantity_available?: number;
+    units_sold?: number;
+    promotion?: string;
+    cutoff_time?: string;
 };
 export type ProductStoreType = {
     id: string;
@@ -103,14 +108,17 @@ export interface HealthInfo {
 }
 
 export interface Customer {
-    customer_id: number;
-    phone_number: string;
-    name: string;
-    email: string;
-    birthday: string;
-    sex: string;
-    is_active: number;
-    created_at: string;
-    profile_image: ProfileImage;
-    health_info: HealthInfo;
+    customer_id?: number;
+    phone_number?: string;
+    name?: string;
+    email?: string;
+    birthday?: string;
+    sex?: string;
+    is_active?: number;
+    created_at?: string;
+    profile_image?: ProfileImage;
+    health_info?: HealthInfo;
+    latAddress?: number;
+    longAddress?: number;
+    address?: string;
 }

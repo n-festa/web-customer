@@ -7,7 +7,6 @@ import { useState } from "react";
 
 interface DiscoveryState {
     keySearch: string;
-    isShowFilterBox: boolean;
     filterCondition: FilterCondition;
     searchResult: SearchResult;
 }
@@ -18,7 +17,6 @@ export type FilterOptionKey = "type" | "sort" | "other";
 const useFoodDiscovery = () => {
     const [state, setState] = useState<DiscoveryState>({
         keySearch: "",
-        isShowFilterBox: false,
         filterCondition: {
             type: FilterType.Food,
             orderOptions: {
@@ -31,8 +29,8 @@ const useFoodDiscovery = () => {
             },
         },
         searchResult: {
-            [FilterType.Food]: [],
-            [FilterType.Restaurant]: [],
+            [FilterType.Food]: foods,
+            [FilterType.Restaurant]: restaurantResult,
         },
     });
 
@@ -74,7 +72,6 @@ const useFoodDiscovery = () => {
     return {
         keySearch: state.keySearch,
         searchResult: state.searchResult,
-        isShowFilterBox: state.isShowFilterBox,
         filterCondition: state.filterCondition,
 
         onSearch,

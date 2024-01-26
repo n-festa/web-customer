@@ -41,4 +41,16 @@ export const radioTheme = defineMultiStyleConfig({
     defaultProps: {
         size: "xxl",
     },
+    variants: {
+        round: {
+            label: {
+                p: "0.8rem 1.4rem",
+                borderRadius: "2.4rem",
+                border: "1px solid var(--gray-300)",
+                color: "var(--gray-700)",
+                lineHeight: "2rem",
+                fontWeight: "600",
+            },
+        },
+    },
 });

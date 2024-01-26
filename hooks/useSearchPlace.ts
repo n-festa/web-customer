@@ -1,35 +1,46 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { locationRef } from "@/app/providers";
 import apiServices from "@/services/sevices";
+import { RootState } from "@/store";
+import { setProfile } from "@/store/reducers/auth";
 import { SearchError, SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
 import { requestGEOPermission } from "@/utils/functions";
 import Axios, { CancelTokenSource } from "axios";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 let _cts: CancelTokenSource | null = Axios.CancelToken.source();
 export enum SearchLocationErrorType {
     Warning,
     Error,
 }
 
-const useSearchPlace = () => {
+const useSearchPlace = ({ initValue }: { initValue?: string }) => {
     const [suggestionPlaces, setSuggestionPlace] = useState<SearchPlaceResponse[]>([]);
     const [error, setError] = useState<SearchError>();
-
+    const dispatch = useDispatch();
+    const profile = useSelector((state: RootState) => state.auth.profile);
+    const [selectedPlace, setSelectedPlace] = useState<SearchPlaceResponse>();
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const debouncedFunction = useCallback(
         debounce(
-            (input?: string, location?: GeoCode | null, cts?: CancelTokenSource) => {
-                apiServices
-                    .getGeoCode(input, location, { cancelToken: cts?.token })
-                    .then((data) => {
-                        if (data.results) setSuggestionPlace(data.results);
-                    })
-                    .finally(() => {
-                        setIsLoading(false);
-                    });
+            (input?: string, location?: GeoCode | null) => {
+                try {
+                    _cts?.cancel();
+                    _cts = Axios.CancelToken.source();
+                    apiServices
+                        .getGeoCode(input, location, { cancelToken: _cts?.token })
+                        .then((data) => {
+                            if (data.results) setSuggestionPlace(data.results);
+                        })
+                        .finally(() => {
+                            setIsLoading(false);
+                        });
+                } catch (_) {
+                    //
+                }
             },
             300,
             { leading: true },
@@ -37,14 +48,17 @@ const useSearchPlace = () => {
         [],
     );
 
+    useEffect(() => {
+        if (initValue) setInput(initValue);
+    }, [initValue]);
+
     const onClickDetect = useCallback(async () => {
         if (!locationRef.current) {
             await requestGEOPermission();
         }
-        _cts?.cancel();
-        _cts = Axios.CancelToken.source();
+
         if (locationRef.current) {
-            debouncedFunction(undefined, locationRef.current, _cts);
+            debouncedFunction(undefined, locationRef.current);
             setError(undefined);
             return;
         }
@@ -56,10 +70,8 @@ const useSearchPlace = () => {
 
     useEffect(() => {
         if (input != "") {
-            _cts?.cancel();
-            _cts = Axios.CancelToken.source();
             setIsLoading(true);
-            debouncedFunction(input, undefined, _cts);
+            debouncedFunction(input, undefined);
         }
     }, [input]);
 
@@ -70,6 +82,17 @@ const useSearchPlace = () => {
         };
     }, []);
 
+    const setLocation = (data: SearchPlaceResponse) => {
+        dispatch(
+            setProfile({
+                ...profile,
+                longAddress: data.geometry.location.lng,
+                latAddress: data.geometry.location.lat,
+                address: data.formatted_address ?? "",
+            }),
+        );
+    };
+
     return {
         suggestionPlaces,
         setInput,
@@ -77,6 +100,10 @@ const useSearchPlace = () => {
         isLoading,
         onClickDetect,
         error,
+        setLocation,
+        setSelectedPlace,
+        selectedPlace,
+        setError,
     };
 };
 

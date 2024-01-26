@@ -1,7 +1,7 @@
 import { HighlightedText } from "@/components/atoms/Label/HighlightedLabel";
 import { SearchLocationErrorType } from "@/hooks/useSearchPlace";
 import { SearchError, SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
-import { Collapse, CollapseProps, Flex, Spinner, VStack } from "@chakra-ui/react";
+import { Collapse, CollapseProps, Flex, Spinner, StackProps, VStack } from "@chakra-ui/react";
 
 const LocationSuggestion = ({
     input,
@@ -9,14 +9,17 @@ const LocationSuggestion = ({
     onClickRow,
     isLoading,
     error,
+    styleProps,
     ...props
 }: {
     input: string;
-    onClickRow?: (value: string) => void;
+    onClickRow?: (value: SearchPlaceResponse) => void;
     isLoading?: boolean;
     error?: SearchError;
     suggestionPlaces: SearchPlaceResponse[];
+    styleProps?: StackProps & { hoverBg?: string };
 } & CollapseProps) => {
+    const { hoverBg, ...styles } = styleProps || {};
     return (
         <Collapse {...props}>
             <VStack
@@ -29,9 +32,13 @@ const LocationSuggestion = ({
                 alignItems="flex-start"
                 boxShadow="0px 4px 6px -2px #10182808 , 0px 12px 16px -4px #10182814"
                 p="0.6rem"
+                {...styles}
             >
                 {error && (
                     <Flex
+                        justifyContent="center"
+                        textAlign="center"
+                        w="100%"
                         px="1rem"
                         borderRadius="0.6rem"
                         fontSize="1.6rem"
@@ -41,18 +48,18 @@ const LocationSuggestion = ({
                         {error.text}
                     </Flex>
                 )}
-                {suggestionPlaces.map((suggestion) => (
+                {suggestionPlaces.map((suggestion, index) => (
                     <Flex
                         cursor="pointer"
                         borderRadius="0.6rem"
                         px="1rem"
                         _hover={{
-                            bg: "var(--main-bg-color-light-alpha)",
+                            bg: hoverBg ?? "var(--main-bg-color-light-alpha)",
                         }}
-                        onClick={() => onClickRow?.(suggestion?.formatted_address ?? "")}
+                        onClick={() => onClickRow?.(suggestion)}
                         w="100%"
                         h="4.8rem"
-                        key={suggestion.place_id}
+                        key={"suggestion" + index}
                         color="var(--gray-600)"
                         fontSize="1.6rem"
                         alignItems="center"
