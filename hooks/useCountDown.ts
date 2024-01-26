@@ -4,11 +4,12 @@ interface CountdownHook {
     seconds: number;
     formattedTime: string;
     resetCountdown: () => void;
+    changeInitialValue: (newInitialValue: number) => void;
 }
 
 const formatTime = (time: number): string => {
     const minutes = Math.floor(time / 60);
-    const remainingSeconds = time % 60;
+    const remainingSeconds = Math.floor(time % 60);
     const formattedMinutes = String(minutes).padStart(2, "0");
     const formattedSeconds = String(remainingSeconds).padStart(2, "0");
     return `${formattedMinutes}:${formattedSeconds}`;
@@ -25,14 +26,18 @@ const useCountdown = (initialSeconds: number): CountdownHook => {
 
             return () => clearInterval(intervalId);
         }
-        return undefined; // Add a return statement here
+        return undefined;
     }, [seconds]);
 
     const resetCountdown = useCallback(() => {
         setSeconds(initialSeconds);
     }, [initialSeconds]);
 
-    return { seconds, formattedTime: formatTime(seconds), resetCountdown };
+    const changeInitialValue = useCallback((newInitialValue: number) => {
+        setSeconds(newInitialValue);
+    }, []);
+
+    return { seconds, formattedTime: formatTime(seconds), resetCountdown, changeInitialValue };
 };
 
 export default useCountdown;
