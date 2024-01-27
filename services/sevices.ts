@@ -6,10 +6,18 @@ import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
 import { AxiosError } from "axios";
 import { FullRequestParams, HttpClient } from "./apiClient";
+import { handleRefreshToken } from "./sessionInvalid";
 
 class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
-    handleError(_err: AxiosError): void {
-        // TODO:
+    handleError(_err: AxiosError & { config: { ignoreAll?: boolean; ignoreErrorCode?: number[] } }): void {
+        const { ignoreAll, ignoreErrorCode } = _err?.config || {};
+        if (ignoreAll || (_err.status && ignoreErrorCode?.includes(_err.status))) return;
+        switch (_err.status) {
+            case 401: {
+                handleRefreshToken();
+                return;
+            }
+        }
     }
     constructor() {
         // Add BaseConfig Into Super Constructor
@@ -21,6 +29,25 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: "auth/request-otp",
                 method: "POST",
                 body: data,
+            });
+        },
+        requestToken: (refresh_token: string) => {
+            return this.request<{
+                data: {
+                    statusCode: number;
+                    userType: string;
+                    userId: number;
+                    userName: string;
+                    permissions: string;
+                    access_token: string;
+                    refresh_token: string;
+                };
+            }>({
+                path: "auth/refresh-token",
+                method: "GET",
+                headers: {
+                    Authorization: refresh_token ? "Bearer " + refresh_token : undefined,
+                },
             });
         },
         authOTP: (data: { phoneNumber: string; inputOTP: string }) => {
@@ -121,6 +148,12 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                     lat: 10.820557580712087,
                     long: 106.7723030321775,
                 },
+            });
+        },
+        getCartDetail: (id: string) => {
+            return this.request({
+                path: `/cart/get-detail/${id}`,
+                method: "GET",
             });
         },
     };

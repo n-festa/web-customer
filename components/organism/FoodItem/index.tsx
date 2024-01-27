@@ -174,6 +174,10 @@ const FoodItem = ({
                 right="2.5rem"
                 w="4rem"
                 h="4rem"
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }}
                 _hover={{ opacity: 0.7 }}
                 _active={{ opacity: 0.5 }}
                 borderRadius="50%"

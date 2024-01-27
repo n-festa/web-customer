@@ -1,5 +1,5 @@
-import Cookies from "js-cookie";
 import config from "@/config";
+import Cookies from "js-cookie";
 
 interface CookieConfig {
     auth_token_key: string;
@@ -33,4 +33,4 @@ function removeTokenRefresh(): void {
     Cookies.remove(cookieConfig.auth_refresh_token);
 }
 
-export { getToken, getTokenRefresh, setToken, setTokenRefresh, removeToken, removeTokenRefresh };
+export { getToken, getTokenRefresh, removeToken, removeTokenRefresh, setToken, setTokenRefresh };

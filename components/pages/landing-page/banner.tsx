@@ -1,6 +1,5 @@
 "use client";
 import SearchLocation from "@/components/molecules/SearchLocation";
-import { svnGilroy } from "@/theme/fonts";
 import { Flex, Img, Text } from "@chakra-ui/react";
 const Banner = () => {
     return (
@@ -32,7 +31,7 @@ const Banner = () => {
                         <Text lineHeight="7.4rem" color="var(--sub-text-color)">
                             của riêng bạn
                         </Text>
-                        <Text className={svnGilroy.className} my="3rem" fontSize="1.8rem" lineHeight="2.4rem">
+                        <Text my="3rem" fontSize="1.8rem" lineHeight="2.4rem">
                             Một bữa ăn ngon lành, đầy đủ dưỡng chất, được chế biến theo khẩu vị của bạn. Không cần lo
                             nghĩ, không cần nấu, hẹn giờ giao linh hoạt.
                         </Text>

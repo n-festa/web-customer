@@ -1,6 +1,6 @@
 import { ProductTypeList } from "@/types";
 import { FilterType, SortOrder } from "@/types/enum";
-import { RestaurantDto } from "@/types/response/base";
+import { BaseNameInterface, RestaurantDto } from "@/types/response/base";
 export interface Options {
     key: string;
     name: string;
@@ -28,23 +28,14 @@ export interface FoodDto {
     image: string;
     top_label?: string;
     bottom_label?: string;
-    name: {
-        ISO_language_code: string;
-        text: string;
-    }[];
-    restaurant_name: {
-        ISO_language_code: string;
-        text: string;
-    };
+    name: BaseNameInterface[];
+    restaurant_name: BaseNameInterface;
     restaurant_id?: number;
     calorie_kcal?: string;
     rating?: number;
     distance_km: number;
     delivery_time_s: number;
-    main_cooking_method: {
-        ISO_language_code: string;
-        text: string;
-    };
+    main_cooking_method: BaseNameInterface;
     ingredient_brief_vie?: string;
     ingredient_brief_eng?: string;
     price: number;
