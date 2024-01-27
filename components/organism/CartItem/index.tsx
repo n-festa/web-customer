@@ -15,7 +15,7 @@ const CartItem = ({
     image: string;
 }) => {
     return (
-        <Flex px="1.6rem" justifyContent="flex-start">
+        <Flex w="100%" px="1.6rem" justifyContent="flex-start">
             <Flex
                 alignItems="center"
                 justifyContent="center"
@@ -27,7 +27,7 @@ const CartItem = ({
             >
                 <Image alt="food-img" src={image}></Image>
             </Flex>
-            <Flex w="15rem" flexDir="column">
+            <Flex flex={1} minW="15rem" flexDir="column">
                 <Text color="var(--gray-900)" fontSize="1.4rem" fontWeight={600}>
                     {name}
                 </Text>
