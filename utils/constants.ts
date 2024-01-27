@@ -4,4 +4,9 @@ export const FoodOtherFilterOptions = [
     { key: "3", name: "< 500 Kcal" },
 ];
 
+export const TabReview = {
+    quick: 1,
+    detail: 2,
+};
+
 export const RestaurantOtherFilterOptions = [{ key: "1", name: "> 4 Sao" }];
