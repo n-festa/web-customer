@@ -130,3 +130,11 @@ img {
 .pagination-dot-indicator.active {
     background-color: #b7eb52;
 }
+
+.disabled-scroll {
+    pointer-events: none;
+}
+
+.disabled-scroll #bottom-sheet-container {
+    pointer-events: all;
+}

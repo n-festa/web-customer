@@ -1,5 +1,4 @@
 "use client";
-
 import { store } from "@/store";
 import theme from "@/theme";
 import { requestGEOPermission } from "@/utils/functions";

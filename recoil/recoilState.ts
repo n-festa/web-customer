@@ -38,6 +38,11 @@ export const cartState = atom<CartByCustomer | undefined>({
     default: cartSelector,
 });
 
+export const showCartState = atom<boolean>({
+    key: "cartModal",
+    default: false,
+});
+
 export const totalQuantityState = selector({
     key: "totalQuantity",
     get: async ({ get }) => {

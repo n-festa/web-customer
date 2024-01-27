@@ -1,13 +1,16 @@
 import "@/assets/styles/index.scss";
-// import Header from "@/components/organism/header";
 import { quicksand } from "@/theme/fonts";
 import { ColorModeScript, Flex, theme } from "@chakra-ui/react";
 import { Viewport } from "next";
 import React from "react";
 import { Providers } from "./providers";
 
+import CartModal from "@/components/modal/CartModal";
 import Footer from "@/components/organism/footer";
 import Header from "@/components/organism/header";
+import "../assets/css/bootstrap.min.css";
+import "../assets/css/global.css";
+import "../assets/css/style.css";
 
 export const metadata = {
     icons: {
@@ -41,6 +44,7 @@ export default async function RootLayout({ children }: LayoutProps) {
                             {children}
                         </Flex>
                         <Footer />
+                        <CartModal />
                     </Flex>
                 </Providers>
             </body>

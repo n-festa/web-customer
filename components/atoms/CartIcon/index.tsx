@@ -1,13 +1,17 @@
 "use client";
-import { totalQuantityState } from "@/recoil/recoilState";
+import { showCartState, totalQuantityState } from "@/recoil/recoilState";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const CartIcon = () => {
     const totalQuanity = useRecoilValue(totalQuantityState);
-
+    const setShow = useSetRecoilState(showCartState);
     return (
         <Box
+            onClick={() => {
+                setShow(true);
+            }}
+            cursor="pointer"
             position="relative"
             _hover={{
                 "#cart-image": {
