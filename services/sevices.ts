@@ -9,15 +9,19 @@ import { FullRequestParams, HttpClient } from "./apiClient";
 import { handleRefreshToken } from "./sessionInvalid";
 
 class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
-    handleError(_err: AxiosError & { config: { ignoreAll?: boolean; ignoreErrorCode?: number[] } }): void {
+    handleError(
+        _err: AxiosError & { config: { ignoreAll?: boolean; ignoreErrorCode?: number[] } },
+    ): Promise<never | string> | undefined {
         const { ignoreAll, ignoreErrorCode } = _err?.config || {};
-        if (ignoreAll || (_err.status && ignoreErrorCode?.includes(_err.status))) return;
-        switch (_err.status) {
+        const status = _err.response?.status;
+        if (ignoreAll || (status && ignoreErrorCode?.includes(status))) return;
+        switch (status) {
             case 401: {
                 handleRefreshToken();
-                return;
+                return Promise.reject("401");
             }
         }
+        return Promise.reject();
     }
     constructor() {
         // Add BaseConfig Into Super Constructor

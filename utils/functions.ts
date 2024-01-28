@@ -47,3 +47,8 @@ export const isLoggedIn = () => {
     }
     return false;
 };
+
+export const formatMoney = (input?: string | number) => {
+    if (input === undefined) return "-";
+    return `${input.toLocaleString()} đ`;
+};

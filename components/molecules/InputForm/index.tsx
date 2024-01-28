@@ -1,18 +1,37 @@
 "use client";
-import { Text, FormControl, FormLabel, Input, FormErrorMessage } from "@chakra-ui/react";
+import {
+    FormControl,
+    FormControlProps,
+    FormErrorMessage,
+    FormLabel,
+    FormLabelProps,
+    Input,
+    Text,
+} from "@chakra-ui/react";
 
-interface InputFormProps {
+type InputFormProps = {
     title: string;
     placeholder: string;
     type: string;
     note?: string;
     error?: string | number;
-}
+    labelProps?: FormLabelProps;
+    formControlProps?: FormControlProps;
+};
 
-const InputForm: React.FC<InputFormProps> = ({ title, type = "text", placeholder, note, error, ...props }) => {
+const InputForm: React.FC<InputFormProps> = ({
+    title,
+    type = "text",
+    labelProps,
+    placeholder,
+    note,
+    error,
+    formControlProps,
+    ...props
+}) => {
     return (
-        <FormControl mb="1.6rem" isInvalid={!!error}>
-            <FormLabel fontSize="1.6rem" fontWeight="600" mb="0.6rem">
+        <FormControl w="100%" mb="1.6rem" isInvalid={!!error} {...formControlProps}>
+            <FormLabel fontSize="1.6rem" fontWeight="600" mb="0.6rem" {...labelProps}>
                 {title}
             </FormLabel>
             <Input

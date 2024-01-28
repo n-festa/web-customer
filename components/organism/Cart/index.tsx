@@ -1,7 +1,14 @@
+import { showCartState } from "@/recoil/recoilState";
+import { routes } from "@/utils/routes";
 import { Button, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
 
 const Cart = (props: FlexProps) => {
+    const router = useRouter();
+    const setShow = useSetRecoilState(showCartState);
+
     // const _cart = useRecoilValue(cartState);
 
     return (
@@ -70,7 +77,14 @@ const Cart = (props: FlexProps) => {
                         </Text>
                     </Flex>
                 </Flex>
-                <Button h="4.8rem" borderRadius="2.4rem">
+                <Button
+                    h="4.8rem"
+                    borderRadius="2.4rem"
+                    onClick={() => {
+                        setShow(false);
+                        router.push(routes.ConfirmOrder);
+                    }}
+                >
                     Xem đơn hàng
                 </Button>
             </Flex>

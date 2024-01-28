@@ -77,15 +77,11 @@ export abstract class HttpClient<SecurityDataType = unknown> {
                 return Promise.resolve(res.data);
             },
             (err) => {
-                const { ignoreAll } = err?.config || {};
-                if (ignoreAll) return err;
-                this.handleError(err);
-
-                return Promise.reject(err);
+                return this.handleError(err);
             },
         );
     }
-    abstract handleError(err: AxiosError): void;
+    abstract handleError(err: AxiosError): Promise<never | string> | undefined;
 
     public setSecurityData = (data: SecurityDataType | null) => {
         this.securityData = data;
