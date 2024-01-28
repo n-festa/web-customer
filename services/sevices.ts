@@ -1,7 +1,10 @@
+import { FetchMode } from "@/types/enum";
+import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesResponse";
 import { GetGeneralFoodRecommendResponse } from "@/types/response/GetGeneralFoodRecommendResponse";
 import { GetGeneralRestaurantRecommendationResponse } from "@/types/response/GetGeneralRestaurantRecommendationResponse";
 import { SearchFoodAndRestaurantByCategoryIdResponse } from "@/types/response/SearchFoodAndRestaurantByCategoryIdResponse";
+import { SearchFoodByNameResponse } from "@/types/response/SearchFoodByNameResponse";
 import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
 import { AxiosError } from "axios";
@@ -93,7 +96,10 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: data,
             });
         },
-        getGeneralFoodRecommendation: (query?: { lat?: number; long?: number }) => {
+        getGeneralFoodRecommendation: (
+            query?: { lat?: number; long?: number; fetch_mode?: FetchMode },
+            reqParams?: FullRequestParams,
+        ) => {
             return this.request<GetGeneralFoodRecommendResponse>({
                 path: "food/get-general-food-recomendation",
                 method: "GET",
@@ -102,6 +108,8 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                     lat: 10.820557580712087,
                     long: 106.7723030321775,
                 },
+
+                ...reqParams,
             });
         },
 
@@ -139,17 +147,25 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             });
         },
 
-        getGeneralRestaurantRecommendation: () => {
+        getGeneralRestaurantRecommendation: (query?: { lat?: number; long?: number; fetch_mode?: FetchMode }) => {
             return this.request<GetGeneralRestaurantRecommendationResponse>({
                 path: "/restaurant/get-general-recomendation?",
                 method: "GET",
                 //TODO
-                query: {
+                query: query ?? {
                     lat: 10.820557580712087,
                     long: 106.7723030321775,
                 },
             });
         },
+        searchFoodByName: (params: SearchFoodByNameRequest) => {
+            return this.request<SearchFoodByNameResponse>({
+                path: "/food/search-by-name",
+                method: "POST",
+                body: params,
+            });
+        },
+
         getCartDetail: (id: string) => {
             return this.request({
                 path: `/cart/get-detail/${id}`,

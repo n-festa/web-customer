@@ -12,7 +12,6 @@ const FoodItem = ({
     merchart,
     currentPrice,
     cook_method,
-    time,
     ingredientName,
     distance,
     ratings,
@@ -28,6 +27,7 @@ const FoodItem = ({
     isShowTime = true,
     isShowUnitSold = false,
     isShowQuantityAvailable = false,
+    cooking_time_s,
 }: ProductTypeList & {
     isShowMerchart?: boolean;
     isShowRating?: boolean;
@@ -48,6 +48,12 @@ const FoodItem = ({
         }
         return undefined;
     }, [cutoff_time]);
+
+    const cookingTime = useMemo(() => {
+        return cooking_time_s
+            ? Number((cooking_time_s / 60).toLocaleString(undefined, { maximumFractionDigits: 2 }))
+            : undefined;
+    }, [cooking_time_s]);
 
     return (
         <Flex
@@ -117,7 +123,7 @@ const FoodItem = ({
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/timer.svg" />
                                 <Text wordBreak="keep-all" className="text">
-                                    {time} min
+                                    {cookingTime} min
                                 </Text>
                             </HStack>
                         )}

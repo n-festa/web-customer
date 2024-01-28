@@ -7,14 +7,16 @@ interface Props {
         value: string;
         name: string;
     }[];
-    defaultValue: string;
+    value?: string;
+    defaultValue?: string;
     isRounded?: boolean;
     onChange: (value: string) => void;
 }
 
-const GroupRadioButton = ({ options, defaultValue, isRounded = false, onChange }: Props) => {
+const GroupRadioButton = ({ options, defaultValue, isRounded = false, value, onChange }: Props) => {
     const { getRootProps, getRadioProps } = useRadioGroup({
         defaultValue: defaultValue,
+        value: value,
         onChange: onChange,
     });
 

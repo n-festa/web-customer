@@ -1,7 +1,13 @@
+import { FoodOtherFilterOptionsKeys } from "@/types/enum";
+
 export const FoodOtherFilterOptions = [
-    { key: "1", name: "> 4 Sao" },
-    { key: "2", name: "Chay" },
-    { key: "3", name: "< 500 Kcal" },
+    { key: FoodOtherFilterOptionsKeys.GT4Star, name: "> 4 Sao" },
+    { key: FoodOtherFilterOptionsKeys.Vegetarian, name: "Chay" },
+    { key: FoodOtherFilterOptionsKeys.LT500Kcal, name: "< 500 Kcal" },
 ];
 
-export const RestaurantOtherFilterOptions = [{ key: "1", name: "> 4 Sao" }];
+export const storageKeys = {
+    userProfile: "userProfile",
+};
+
+export const RestaurantOtherFilterOptions = [{ key: FoodOtherFilterOptionsKeys.GT4Star, name: "> 4 Sao" }];

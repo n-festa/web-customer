@@ -43,7 +43,7 @@ const Header = () => {
     return (
         <>
             <SlideMenu onClose={onClose} isOpen={isOpen} />
-            <Flex
+            <HStack
                 position="fixed"
                 px="3.1rem"
                 h="8rem"
@@ -54,7 +54,11 @@ const Header = () => {
                 justifyContent="space-between"
                 borderBottom="1px solid var(--gray-100)"
             >
-                <HStack spacing="4rem" cursor="pointer" display={{ base: "flex", lg: !showListNavi ? "flex" : "none" }}>
+                <HStack
+                    spacing={{ lg: "4rem", base: "1rem" }}
+                    cursor="pointer"
+                    display={{ base: "flex", lg: !showListNavi ? "flex" : "none" }}
+                >
                     <Image alt="menu" onClick={onOpen} color="red" src={"/images/menu-03.svg"} />
                     <Link href="/">
                         <Image width={143} height={33} alt="fictional-company-logo" src="/images/logo1.svg" />
@@ -99,7 +103,7 @@ const Header = () => {
                         <Image width={19} height={19} alt="" src="/images/vn.svg" />
                     </HStack>
                 </HStack>
-            </Flex>
+            </HStack>
         </>
     );
 };

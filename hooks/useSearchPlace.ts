@@ -5,7 +5,9 @@ import { RootState } from "@/store";
 import { setProfile } from "@/store/reducers/auth";
 import { SearchError, SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
+import { storageKeys } from "@/utils/constants";
 import { requestGEOPermission } from "@/utils/functions";
+import { saveState } from "@/utils/localstorage";
 import Axios, { CancelTokenSource } from "axios";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
@@ -83,14 +85,14 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
     }, []);
 
     const setLocation = (data: SearchPlaceResponse) => {
-        dispatch(
-            setProfile({
-                ...profile,
-                longAddress: data.geometry.location.lng,
-                latAddress: data.geometry.location.lat,
-                address: data.formatted_address ?? "",
-            }),
-        );
+        const newProfile = {
+            ...profile,
+            longAddress: data.geometry.location.lng,
+            latAddress: data.geometry.location.lat,
+            address: data.formatted_address ?? "",
+        };
+        dispatch(setProfile(newProfile));
+        saveState(storageKeys.userProfile, newProfile);
     };
 
     return {
