@@ -5,6 +5,7 @@ import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { TabReview } from "@/utils/constants";
 import TabItem from "@/components/pages/review/TabItem";
 import ReviewQuick from "@/components/pages/review/ReviewQuick";
+import ReviewDetail from "@/components/pages/review/ReviewDetail";
 
 const Search = () => {
     const [tab, setTab] = useState<number>(TabReview.quick);
@@ -15,7 +16,7 @@ const Search = () => {
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
                 <BackButton label="Quay lại trang trước" />
-                <Box maxW="119.6rem" w="100%" p="0 1.5rem">
+                <Box maxW="116.6rem" w="100%" m="0 auto">
                     <Heading
                         as="h2"
                         fontSize="3rem"
@@ -32,6 +33,7 @@ const Search = () => {
                         gap="1.6rem"
                         color="var(--base-black)"
                         justifyContent="center"
+                        mb="2rem"
                     >
                         <Text>Đơn hàng: #1234567</Text>
                         <Text>-</Text>
@@ -49,9 +51,7 @@ const Search = () => {
                             onClick={() => handleTab(TabReview.detail)}
                         />
                     </Flex>
-                    <Box>
-                        <ReviewQuick />
-                    </Box>
+                    <Box mt="2rem">{tab === TabReview.quick ? <ReviewQuick /> : <ReviewDetail />}</Box>
                 </Box>
             </Flex>
         </Flex>
