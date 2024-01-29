@@ -89,12 +89,14 @@ const PhoneVerification = () => {
         setOtpError("");
         setToken(access_token);
         setTokenRefresh(refresh_token);
-        setUserInfo({
-            userType,
-            userId,
-            userName,
-            permissions,
-        });
+        dispatch(
+            setUserInfo({
+                userType,
+                userId,
+                userName,
+                permissions,
+            }),
+        );
         setWebStorage("userInfo", {
             userType,
             userId,
@@ -104,7 +106,7 @@ const PhoneVerification = () => {
         dispatch(setAccessToken(access_token));
         dispatch(setRefreshToken(refresh_token));
         const { data: customerData } = await apiServices.customerProfile({ userId });
-        setProfile(customerData);
+        dispatch(setProfile(customerData));
         if (customerData.name) {
             router.push(routes.Home);
         } else {
