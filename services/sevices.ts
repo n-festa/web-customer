@@ -1,3 +1,4 @@
+import { Cart } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesResponse";
@@ -11,17 +12,24 @@ import { AxiosError } from "axios";
 import { FullRequestParams, HttpClient } from "./apiClient";
 import { handleRefreshToken } from "./sessionInvalid";
 
+let errorRetryCount = 0;
 class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
-    handleError(
+    async handleError<T>(
         _err: AxiosError & { config: { ignoreAll?: boolean; ignoreErrorCode?: number[] } },
-    ): Promise<never | string> | undefined {
-        const { ignoreAll, ignoreErrorCode } = _err?.config || {};
+    ): Promise<string | T | undefined> {
+        const { ignoreAll, ignoreErrorCode } = _err?.request || {};
         const status = _err.response?.status;
         if (ignoreAll || (status && ignoreErrorCode?.includes(status))) return;
         switch (status) {
             case 401: {
-                handleRefreshToken();
-                return Promise.reject("401");
+                const result = await handleRefreshToken();
+                if (result) {
+                    errorRetryCount++;
+                    if (errorRetryCount <= 5) {
+                        return this.simpleRequest(_err?.config, result);
+                    }
+                    return;
+                }
             }
         }
         return Promise.reject();
@@ -171,7 +179,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
         },
 
         getCartDetail: (id: string) => {
-            return this.request({
+            return this.request<{ data: Cart }>({
                 path: `/cart/get-detail/${id}`,
                 method: "GET",
             });

@@ -19,9 +19,10 @@ export const cartSelector = selector({
             const { userId } = getWebStorage("userInfo", { userId: undefined });
             if (userId) {
                 const res = await apiServices.getCartDetail(userId);
-                return {
-                    [userId]: res.data,
-                };
+                if (res?.data)
+                    return {
+                        [userId]: { ...res.data, restaurant_id: res.data.cart_info?.[0].restaurant_id },
+                    };
             }
         }
 

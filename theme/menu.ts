@@ -25,4 +25,32 @@ const baseStyle = definePartsStyle({
         },
     },
 });
-export const menuTheme = defineMultiStyleConfig({ baseStyle });
+
+const variants = {
+    user: {
+        list: {
+            // this will style the MenuList component
+            py: "4",
+            borderRadius: "xl",
+            bg: "var(--main-bg-color)",
+
+            border: "var(--divider)",
+            _hover: {
+                boxShadow: "0px 20px 24px -4px rgba(16, 24, 40, 0.08)",
+            },
+        },
+        item: {
+            // this will style the MenuItem and MenuItemOption components
+            fontSize: "1.4rem",
+            bg: "var(--main-bg-color)",
+            color: "var(--primary-text-color)",
+            _hover: {
+                bg: "var(--main-bg-color-light-alpha)",
+            },
+            _focus: {
+                bg: "var(--main-bg-color-light-alpha)",
+            },
+        },
+    },
+};
+export const menuTheme = defineMultiStyleConfig({ baseStyle, variants });

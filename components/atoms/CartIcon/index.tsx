@@ -16,8 +16,8 @@ const CartIcon = () => {
             _hover={{
                 "#cart-image": {
                     p: "0rem",
-                    width: "30",
-                    height: "30",
+                    width: "35",
+                    height: "35",
                 },
                 "#cart-number": {
                     p: "0rem",
@@ -49,8 +49,8 @@ const CartIcon = () => {
                 id="cart-image"
                 cursor="pointer"
                 p="0.2rem"
-                width="30"
-                height="30"
+                width="35"
+                height="35"
                 alt="small-icon"
                 src="/images/shoppingbag03.svg"
             />

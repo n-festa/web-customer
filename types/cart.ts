@@ -20,6 +20,7 @@ export interface CartItem {
 }
 
 export type Cart = {
+    restaurant_id?: string | number;
     customer_id: string | number;
     cart_info?: CartItem[];
 };

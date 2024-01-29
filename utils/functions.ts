@@ -1,5 +1,5 @@
 import { locationRef } from "@/app/providers";
-import { getWebStorage } from "./sessionStorage";
+import { getToken } from "./auth";
 
 /// Client side only
 export const requestGEOPermission = () => {
@@ -41,8 +41,8 @@ export const createQueryString = (queries: { name: string; value: string }[]) =>
 };
 
 export const isLoggedIn = () => {
-    const userInfo = getWebStorage("userInfo", 0);
-    if (userInfo) {
+    const token = getToken();
+    if (token) {
         return true;
     }
     return false;

@@ -1,4 +1,6 @@
 import config from "@/config";
+import { store } from "@/store";
+import { setUserInfo } from "@/store/reducers/userInfo";
 import Cookies from "js-cookie";
 
 interface CookieConfig {
@@ -33,4 +35,10 @@ function removeTokenRefresh(): void {
     Cookies.remove(cookieConfig.auth_refresh_token);
 }
 
-export { getToken, getTokenRefresh, removeToken, removeTokenRefresh, setToken, setTokenRefresh };
+const logout = () => {
+    removeToken();
+    removeTokenRefresh();
+    store.dispatch(setUserInfo(undefined));
+};
+
+export { getToken, getTokenRefresh, logout, removeToken, removeTokenRefresh, setToken, setTokenRefresh };
