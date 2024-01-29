@@ -1,15 +1,13 @@
-import { cartState, showCartState } from "@/recoil/recoilState";
+import { showCartState } from "@/recoil/recoilState";
 import { routes } from "@/utils/routes";
 import { Button, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
 
 const Cart = (props: FlexProps) => {
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
-
-    const cart = useRecoilValue(cartState);
 
     return (
         <Flex
