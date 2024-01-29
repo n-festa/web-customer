@@ -30,7 +30,6 @@ const PhoneVerification = () => {
     const { seconds, formattedTime, resetCountdown } = useCountdown(120);
     const restrictStorage = loadState("restrict");
     const { formattedTime: lockFormattedTime, changeInitialValue } = useCountdown(0);
-
     const handleChange = (value: string, index: number) => {
         const newArr = [...otpState];
         if (value.length === numberOfDigits) {
@@ -90,12 +89,14 @@ const PhoneVerification = () => {
         setOtpError("");
         setToken(access_token);
         setTokenRefresh(refresh_token);
-        setUserInfo({
-            userType,
-            userId,
-            userName,
-            permissions,
-        });
+        dispatch(
+            setUserInfo({
+                userType,
+                userId,
+                userName,
+                permissions,
+            }),
+        );
         setWebStorage("userInfo", {
             userType,
             userId,
@@ -105,7 +106,7 @@ const PhoneVerification = () => {
         dispatch(setAccessToken(access_token));
         dispatch(setRefreshToken(refresh_token));
         const { data: customerData } = await apiServices.customerProfile({ userId });
-        setProfile(customerData);
+        dispatch(setProfile(customerData));
         if (customerData.name) {
             router.push(routes.Home);
         } else {
@@ -130,7 +131,7 @@ const PhoneVerification = () => {
 
     useEffect(() => {
         fetchData();
-    }, [otpState, otp, numberError, phoneNumber]);
+    }, [otpState, otp, numberError, phoneNumber, fetchData]);
 
     useEffect(() => {
         if (restrictStorage) {
@@ -142,7 +143,11 @@ const PhoneVerification = () => {
                 removeState("restrict");
             }
         }
-    }, []);
+    }, [changeInitialValue, restrictStorage]);
+
+    useEffect(() => {
+        console.log({ otp });
+    }, [otp]);
 
     return (
         <UISignWrap maxW="45.6rem">

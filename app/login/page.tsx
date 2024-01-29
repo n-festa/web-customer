@@ -24,6 +24,8 @@ import { convertToInternationalFormat } from "@/utils/functions";
 const Login = () => {
     const router = useRouter();
     const dispatch = useDispatch();
+    const phoneRegExp =
+        /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
     const handleSubmit = async (_values: { phoneNumber: string }, _actions: FormikHelpers<{ phoneNumber: string }>) => {
         const valuePhone = convertToInternationalFormat(_values.phoneNumber);
         const { data } = await apiServices.requestOTP({
@@ -58,7 +60,8 @@ const Login = () => {
                         validationSchema={Yup.object({
                             phoneNumber: Yup.string()
                                 .required("Vui lòng nhập số điện thoại")
-                                .length(10, "Vui lòng nhập đúng 10 số"),
+                                .length(10, "Vui lòng nhập đúng 10 số")
+                                .matches(phoneRegExp, "Vui lòng nhập đúng định dạng số điện thoại"),
                         })}
                         onSubmit={(values, actions) => {
                             handleSubmit(values, actions);
