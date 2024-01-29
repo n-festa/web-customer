@@ -1,4 +1,3 @@
-import { svnGilroy } from "@/theme/fonts";
 import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
 import MobileMock from "./mobile_mock";
 
@@ -33,14 +32,7 @@ const Download = () => {
                     >
                         Tải ứng dụng dùng ngay
                     </Text>
-                    <Text
-                        zIndex={1}
-                        maxW="57.6rem"
-                        fontSize="2rem"
-                        fontFamily={svnGilroy.style.fontFamily}
-                        lineHeight="3rem"
-                        color="white"
-                    >
+                    <Text zIndex={1} maxW="57.6rem" fontSize="2rem" lineHeight="3rem" color="white">
                         Trải nghiệm tìm kiềm món ngon tại 2ALL tốt hơn trên ứng dụng điện thoại. Hiện đã có mặt tại 2
                         nền tảng iOS và Android.
                     </Text>

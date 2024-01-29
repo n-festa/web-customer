@@ -7,6 +7,7 @@ import buttonStyle from "./button";
 import { checkboxTheme } from "./checkbox";
 import colors from "./colors";
 import inputStyle from "./input";
+import { menuTheme } from "./menu";
 import { radioTheme } from "./radio";
 import textStyle from "./text";
 import textAreaStyle from "./textArea";
@@ -58,6 +59,7 @@ const theme: ThemeOverride = extendTheme({
         Table: tableStyle,
         Tabs: tabStyle,
         Switch: switchStyle,
+        Menu: menuTheme,
     },
     textStyles,
 });

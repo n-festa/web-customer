@@ -1,17 +1,17 @@
 "use client";
-import { Box, Button, Text, Flex, Stack, RadioGroup, Radio } from "@chakra-ui/react";
-import { Field, Form, Formik, FormikHelpers } from "formik";
-import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
-import UISignWrap from "@/components/molecules/UISignWrap";
-import InputForm from "@/components/molecules/InputForm";
 import RadioCardGroup from "@/components/atoms/RadioCardGroup";
-import apiServices from "@/services/sevices";
+import InputForm from "@/components/molecules/InputForm";
+import UISignWrap from "@/components/molecules/UISignWrap";
 import config from "@/config";
-import { UserType } from "@/types";
+import apiServices from "@/services/sevices";
 import { setProfile } from "@/store/reducers/auth";
-import { routes } from "@/utils/routes";
+import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
+import { routes } from "@/utils/routes";
+import { Box, Button, Flex, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
+import { Field, Form, Formik, FormikHelpers } from "formik";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 const {
     signUp: { formData, initialValues, validationSchema },
 } = config;

@@ -1,5 +1,3 @@
-import { svnGilroy } from "./fonts";
-
 const buttonStyle = {
     defaultProps: {
         minWidth: "1rem",
@@ -19,7 +17,6 @@ const buttonStyle = {
             },
         },
         solid: {
-            ...svnGilroy.style,
             background: "var(--primary-color)",
             color: "var(--primary-button-text-color)",
             _hover: {
@@ -114,6 +111,14 @@ const buttonStyle = {
             p: "0",
             w: "2.4rem",
             h: "2.4rem",
+            bg: "transparent",
+            _active: {
+                opacity: 0.5,
+            },
+            _hover: {},
+        },
+        btnTransparent: {
+            p: "0",
             bg: "transparent",
             _active: {
                 opacity: 0.5,

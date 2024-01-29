@@ -7,4 +7,5 @@ export const routes = {
     AdditionalSignUpInfo: "/additional",
     RegistrationSuccess: "/registration_success",
     ProductDetail: "/detail",
+    ConfirmOrder: "/confirm",
 };

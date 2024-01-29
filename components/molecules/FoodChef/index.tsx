@@ -1,6 +1,6 @@
 import { RestaurantDto } from "@/types/response/base";
-import { Button, Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Box, Button, Center, Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
+import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player/lazy";
 
 interface Props {
@@ -23,6 +23,7 @@ const FoodChef = ({ data }: Props) => {
     } = data;
     const [mounted, setMounted] = useState(false);
     const [playing, setPlaying] = useState(false);
+    const ref = useRef(null);
     useEffect(() => {
         if (!mounted) {
             setMounted(true);
@@ -40,25 +41,22 @@ const FoodChef = ({ data }: Props) => {
             w="100%"
             flexDir="column"
         >
-            <VStack w="100%" bg="var(--primary-500)" spacing={"0"}>
+            <VStack w="100%" bg="var(--primary-500)" position={"relative"} spacing={"0"}>
                 {mounted ? (
                     <ReactPlayer
                         playing={playing}
                         height={224}
                         width={"100%"}
+                        ref={ref}
                         url={intro_video}
-                        controls
-                        pip
-                        playIcon={
-                            <Button
-                                variant={"btnPlayVideo"}
-                                onClick={() => {
-                                    setPlaying(true);
-                                }}
-                            >
-                                <Img src={"/images/play_button.svg"} />
-                            </Button>
-                        }
+                        onClick={() => {
+                            const video: any = ref.current;
+                            if (video) {
+                                video.player.handlePause();
+                                console.log(video);
+                            }
+                        }}
+                        playsInline
                         stopOnUnmount
                         config={{
                             youtube: {
@@ -67,10 +65,30 @@ const FoodChef = ({ data }: Props) => {
                                     rel: 0,
                                 },
                             },
+                            file: {
+                                attributes: {
+                                    controlsList: "nodownload",
+                                },
+                            },
                         }}
                     />
                 ) : (
                     <></>
+                )}
+                {!playing && (
+                    <Box position={"absolute"} top="0" left={"0"} right={"0"} bottom={"0"} bg="rgba(0,0,0,0.5)">
+                        <Center h="100%">
+                            <Button
+                                variant={"btnPlayVideo"}
+                                onClick={() => {
+                                    setPlaying(true);
+                                }}
+                                className="plz"
+                            >
+                                <Img src={"/images/play_button.svg"} />
+                            </Button>
+                        </Center>
+                    </Box>
                 )}
             </VStack>
             <VStack w="100%" alignItems={"flex-start"} spacing={"0"} padding="0.8rem 2.4rem" position="relative">

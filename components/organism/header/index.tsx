@@ -1,12 +1,15 @@
 "use client";
 import DeliveryLocation from "@/components/molecules/SearchLocation/DeliveryLocation";
 import { routes } from "@/utils/routes";
-import { Button, Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
+import { Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import SlideMenu from "../SlideMenu";
 import NavigationButton from "./NavigationButton";
+const UserGroup = dynamic(() => import("./UserGroup"), { ssr: false });
+const CartIcon = dynamic(() => import("@/components/atoms/CartIcon"), { ssr: false });
 
 const Header = () => {
     const { isOpen, onClose, onOpen } = useDisclosure();
@@ -16,7 +19,6 @@ const Header = () => {
         let showDeliveryBox = false;
         let showSignUpGroup = true;
         let showListNavi = false;
-
         switch (pathname) {
             case routes.Home:
                 showListNavi = true;
@@ -41,7 +43,7 @@ const Header = () => {
     return (
         <>
             <SlideMenu onClose={onClose} isOpen={isOpen} />
-            <Flex
+            <HStack
                 position="fixed"
                 px="3.1rem"
                 h="8rem"
@@ -52,7 +54,11 @@ const Header = () => {
                 justifyContent="space-between"
                 borderBottom="1px solid var(--gray-100)"
             >
-                <HStack spacing="4rem" cursor="pointer" display={{ base: "flex", lg: !showListNavi ? "flex" : "none" }}>
+                <HStack
+                    spacing={{ lg: "4rem", base: "1rem" }}
+                    cursor="pointer"
+                    display={{ base: "flex", lg: !showListNavi ? "flex" : "none" }}
+                >
                     <Image alt="menu" onClick={onOpen} color="red" src={"/images/menu-03.svg"} />
                     <Link href="/">
                         <Image width={143} height={33} alt="fictional-company-logo" src="/images/logo1.svg" />
@@ -83,28 +89,8 @@ const Header = () => {
                 )}
 
                 <HStack spacing="1.6rem">
-                    {showSignUpGroup && (
-                        <>
-                            <Link href={routes.SignIn}>
-                                <Button borderRadius="0.8rem" variant="solid" width="13.1rem" height="4.4rem">
-                                    Đăng nhập
-                                </Button>
-                            </Link>
-                            <Image
-                                cursor="pointer"
-                                p="0.2rem"
-                                width="30"
-                                height="30"
-                                _hover={{
-                                    p: "0rem",
-                                    width: "30",
-                                    height: "30",
-                                }}
-                                alt="small-icon"
-                                src="/images/shoppingbag03.svg"
-                            />
-                        </>
-                    )}
+                    {showSignUpGroup && <UserGroup />}
+                    <CartIcon />
                     <HStack as="button" alignItems="center">
                         <Text
                             color="var(--text-gray)"
@@ -117,7 +103,7 @@ const Header = () => {
                         <Image width={19} height={19} alt="" src="/images/vn.svg" />
                     </HStack>
                 </HStack>
-            </Flex>
+            </HStack>
         </>
     );
 };

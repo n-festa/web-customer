@@ -1,18 +1,19 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { HighlightedText } from "@/components/atoms/Label/HighlightedLabel";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import useCountdown from "@/hooks/useCountDown";
 import apiServices from "@/services/sevices";
-import { setInfoSign, setAccessToken, setRefreshToken, setUserInfo, setProfile } from "@/store/reducers/auth";
 import { RootState } from "@/store";
+import { setAccessToken, setInfoSign, setProfile, setRefreshToken, setUserInfo } from "@/store/reducers/auth";
 import { setToken, setTokenRefresh } from "@/utils/auth";
-import { routes } from "@/utils/routes";
-import { saveState, loadState, removeState } from "@/utils/localstorage";
 import { isTimeDiffMoreThan30Min } from "@/utils/functions";
-import { HighlightedText } from "@/components/atoms/Label/HighlightedLabel";
+import { loadState, removeState, saveState } from "@/utils/localstorage";
+import { routes } from "@/utils/routes";
+import { setWebStorage } from "@/utils/sessionStorage";
+import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const numberOfDigits = 6;
 
@@ -90,6 +91,12 @@ const PhoneVerification = () => {
         setToken(access_token);
         setTokenRefresh(refresh_token);
         setUserInfo({
+            userType,
+            userId,
+            userName,
+            permissions,
+        });
+        setWebStorage("userInfo", {
             userType,
             userId,
             userName,

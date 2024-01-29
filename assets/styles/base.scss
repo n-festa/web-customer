@@ -33,7 +33,7 @@ html {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
     @media screen and (min-width: 414px) {
-        font-size: 7px;
+        font-size: 7.5px;
     }
     @media screen and (min-width: 550px) {
         font-size: 8px;
@@ -129,4 +129,12 @@ img {
 
 .pagination-dot-indicator.active {
     background-color: #b7eb52;
+}
+
+.disabled-scroll {
+    pointer-events: none;
+}
+
+.disabled-scroll #bottom-sheet-container {
+    pointer-events: all;
 }
