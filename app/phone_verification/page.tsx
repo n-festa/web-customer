@@ -4,12 +4,12 @@ import UISignWrap from "@/components/molecules/UISignWrap";
 import useCountdown from "@/hooks/useCountDown";
 import apiServices from "@/services/sevices";
 import { RootState } from "@/store";
-import { setAccessToken, setInfoSign, setProfile, setRefreshToken, setUserInfo } from "@/store/reducers/auth";
+import { setInfoSign } from "@/store/reducers/auth";
+import { setUserInfo } from "@/store/reducers/userInfo";
 import { setToken, setTokenRefresh } from "@/utils/auth";
 import { isTimeDiffMoreThan30Min } from "@/utils/functions";
 import { loadState, removeState, saveState } from "@/utils/localstorage";
 import { routes } from "@/utils/routes";
-import { setWebStorage } from "@/utils/sessionStorage";
 import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -85,28 +85,13 @@ const PhoneVerification = () => {
 
     const handleSuccessfulOtpVerification = async () => {
         const { data } = await apiServices.authOTP({ phoneNumber, inputOTP: otp });
-        const { access_token, refresh_token, permissions, userType, userId, userName } = data;
+        const { access_token, refresh_token, userId } = data;
         setOtpError("");
         setToken(access_token);
         setTokenRefresh(refresh_token);
-        dispatch(
-            setUserInfo({
-                userType,
-                userId,
-                userName,
-                permissions,
-            }),
-        );
-        setWebStorage("userInfo", {
-            userType,
-            userId,
-            userName,
-            permissions,
-        });
-        dispatch(setAccessToken(access_token));
-        dispatch(setRefreshToken(refresh_token));
+
         const { data: customerData } = await apiServices.customerProfile({ userId });
-        dispatch(setProfile(customerData));
+        dispatch(setUserInfo(customerData));
         if (customerData.name) {
             router.push(routes.Home);
         } else {

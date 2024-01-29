@@ -4,7 +4,7 @@ import InputForm from "@/components/molecules/InputForm";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import config from "@/config";
 import apiServices from "@/services/sevices";
-import { setProfile } from "@/store/reducers/auth";
+import { setUserInfo } from "@/store/reducers/userInfo";
 import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
 import { routes } from "@/utils/routes";
@@ -22,7 +22,7 @@ const Additional = () => {
     const handleSubmit = async (_values: UserType, _actions: FormikHelpers<UserType>) => {
         try {
             const { data } = await apiServices.createProfile(_values);
-            dispatch(setProfile(data));
+            dispatch(setUserInfo(data));
             router.push(routes.RegistrationSuccess);
         } catch (error) {
             console.error("Error while resending OTP:", error);

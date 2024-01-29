@@ -2,7 +2,7 @@
 import { locationRef } from "@/app/providers";
 import apiServices from "@/services/sevices";
 import { RootState } from "@/store";
-import { setProfile } from "@/store/reducers/auth";
+import { setUserInfo } from "@/store/reducers/userInfo";
 import { SearchError, SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
 import { storageKeys } from "@/utils/constants";
@@ -22,7 +22,7 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
     const [suggestionPlaces, setSuggestionPlace] = useState<SearchPlaceResponse[]>([]);
     const [error, setError] = useState<SearchError>();
     const dispatch = useDispatch();
-    const profile = useSelector((state: RootState) => state.auth.profile);
+    const profile = useSelector((state: RootState) => state.userInfo);
     const [selectedPlace, setSelectedPlace] = useState<SearchPlaceResponse>();
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -91,7 +91,7 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
             latAddress: data.geometry.location.lat,
             address: data.formatted_address ?? "",
         };
-        dispatch(setProfile(newProfile));
+        dispatch(setUserInfo(newProfile));
         saveState(storageKeys.userProfile, newProfile);
     };
 

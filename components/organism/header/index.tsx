@@ -89,8 +89,10 @@ const Header = () => {
                 )}
 
                 <HStack spacing="1.6rem">
-                    {showSignUpGroup && <UserGroup />}
-                    <CartIcon />
+                    <HStack spacing="1.6rem">
+                        {showSignUpGroup && <UserGroup />}
+                        <CartIcon />
+                    </HStack>
                     <HStack as="button" alignItems="center">
                         <Text
                             color="var(--text-gray)"

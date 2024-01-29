@@ -9,8 +9,6 @@ const Cart = (props: FlexProps) => {
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
 
-    // const _cart = useRecoilValue(cartState);
-
     return (
         <Flex
             color="black"

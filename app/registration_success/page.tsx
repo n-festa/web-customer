@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const RegistrationSuccess = () => {
     const router = useRouter();
-    const { profile } = useSelector((state: RootState) => state.auth);
+    const profile = useSelector((state: RootState) => state.userInfo.userInfo);
     const health_info = {
         bmi: profile?.health_info?.bmi,
         recommended_dietary_allowance_kcal: profile?.health_info?.recommended_dietary_allowance_kcal,

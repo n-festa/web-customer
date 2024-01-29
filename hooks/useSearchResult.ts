@@ -24,7 +24,7 @@ const useSearchResult = () => {
         viewAllRestaurant?: boolean;
     }>({});
     useParams();
-    const profile = useSelector((state: RootState) => state.auth.profile);
+    const profile = useSelector((state: RootState) => state.userInfo.userInfo);
 
     const [state, setState] = useState<DiscoveryState>({
         keySearch: "",

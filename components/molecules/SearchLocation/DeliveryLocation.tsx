@@ -9,7 +9,9 @@ import { useSelector } from "react-redux";
 
 const DeliveryLocation = () => {
     const defaultAddress: Customer = loadState(storageKeys.userProfile);
-    const address = useSelector((state: RootState) => state.auth.profile?.address ?? defaultAddress?.address ?? "");
+    const address = useSelector(
+        (state: RootState) => state.userInfo?.userInfo?.address ?? defaultAddress?.address ?? "",
+    );
     return (
         <SearchLocation
             variant={"searchBox"}
