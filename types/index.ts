@@ -40,6 +40,7 @@ export type ProductTypeList = {
     units_sold?: number;
     promotion?: string;
     cutoff_time?: string;
+    cooking_time_s?: number;
 };
 export type ProductStoreType = {
     id: string;

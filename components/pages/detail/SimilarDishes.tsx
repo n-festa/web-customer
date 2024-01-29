@@ -33,7 +33,7 @@ const SimilarDishes = () => {
                             price={item.price}
                             ingredient={item.ingredient}
                             kcal={item.kcal}
-                            time={item.time}
+                            cooking_time_s={item.cooking_time_s}
                             distance={item.distance}
                             ratings={item.ratings}
                             units_sold={item.units_sold}

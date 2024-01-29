@@ -26,6 +26,7 @@ const Today = () => {
             ratings: item.rating,
             promotion: item.promotion,
             cutoff_time: item.cutoff_time,
+            cooking_time_s: item.cooking_time_s,
         }));
     }, [data]);
 
@@ -56,7 +57,7 @@ const Today = () => {
                             price={item.price}
                             ingredientName={item.ingredientName}
                             kcal={item.kcal}
-                            time={item.time}
+                            cooking_time_s={item.cooking_time_s}
                             distance={item.distance}
                             ratings={item.ratings}
                             promotion={item.promotion}

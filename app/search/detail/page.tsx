@@ -3,19 +3,12 @@ import { BackButton } from "@/components/atoms/bottom/BackButton";
 import SeachBox from "@/components/molecules/SearchBox";
 import FilterBox from "@/components/pages/search/FilterBox";
 import SearchResult from "@/components/pages/search/SearchResult";
-import { useFoodDiscovery } from "@/hooks/useFoodDecovery";
+import { useSearchResult } from "@/hooks/useSearchResult";
 import { Flex } from "@chakra-ui/react";
 
 const SearchDetailPage = () => {
-    const {
-        keySearch,
-        searchResult,
-        filterCondition,
-
-        onSearch,
-        onChangeValue,
-        onChangeFilterOptions,
-    } = useFoodDiscovery();
+    const { isLoading, keySearch, searchResult, filterCondition, onSearch, onChangeValue, onChangeFilterOptions } =
+        useSearchResult();
     const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.key === "Enter") onSearch();
     };
@@ -34,7 +27,12 @@ const SearchDetailPage = () => {
                     onKeyDown={onKeyDown}
                 />
                 <FilterBox condition={filterCondition} onChangeFilterOptions={onChangeFilterOptions} />
-                <SearchResult type={filterCondition.type} result={searchResult} />
+                <SearchResult
+                    type={filterCondition.type}
+                    result={searchResult}
+                    isLoading={isLoading}
+                    filterCondition={filterCondition}
+                />
             </Flex>
         </Flex>
     );

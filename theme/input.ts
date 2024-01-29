@@ -1,3 +1,4 @@
+import textStyles from "@/theme/textStyle";
 import { createMultiStyleConfigHelpers } from "@chakra-ui/react";
 
 const helpers = createMultiStyleConfigHelpers(["field"]);
@@ -38,12 +39,12 @@ const inputStyle = helpers.defineMultiStyleConfig({
         },
         searchBox: {
             field: {
+                ...textStyles.small1,
                 bg: "white",
                 border: "1px solid var(--gray-300)",
                 borderRadius: "10px",
                 color: "var(--gray-600)",
                 height: "6rem",
-                fontSize: "1.8rem",
                 fontWeight: "medium",
                 _focus: {},
                 _hover: {},

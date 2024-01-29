@@ -1,10 +1,10 @@
 "use client";
 import CheckBoxButton from "@/components/atoms/checkbox/CheckboxButton";
 import GroupRadioButton from "@/components/atoms/radio/GroupRadioButton";
-import { FilterOptionKey } from "@/hooks/useFoodDecovery";
+import { FilterOptionKey } from "@/hooks/useSearchResult";
 import { FilterType, SortOrder } from "@/types/enum";
 import { FilterCondition } from "@/types/interfaces";
-import { HStack, Select } from "@chakra-ui/react";
+import { HStack, Select, Wrap, WrapItem } from "@chakra-ui/react";
 
 interface Props {
     condition: FilterCondition;
@@ -28,45 +28,53 @@ const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
         });
     };
     return (
-        <HStack py="1rem" w="100%">
-            <GroupRadioButton
-                options={[
-                    {
-                        value: FilterType.Food,
-                        name: "Món ăn",
-                    },
-                    {
-                        value: FilterType.Restaurant,
-                        name: "Nhà hàng",
-                    },
-                ]}
-                defaultValue={condition.type}
-                onChange={(value) => {
-                    onChangeFilterOptions<FilterType>("type", value as FilterType);
-                }}
-            />
-            <Select
-                placeholder="Săp xếp"
-                w="11.6rem"
-                variant={"filter"}
-                onChange={(e) => {
-                    const value = e.target.value ? (e.target.value as SortOrder) : undefined;
-                    onChangeFilterOptions<SortOrder | undefined>("sort", value);
-                }}
-            >
-                <option value={SortOrder.ASC}>Giá tăng</option>
-                <option value={SortOrder.DESC}>Giá giảm</option>
-            </Select>
-            {otherOptions.map((el) => (
-                <CheckBoxButton
-                    isChecked={otherSelectedOptions.includes(el.key)}
-                    onChange={onFilterOthers(el.key)}
-                    key={el.key}
+        <Wrap py="1rem" w="100%">
+            <WrapItem>
+                <GroupRadioButton
+                    options={[
+                        {
+                            value: FilterType.Food,
+                            name: "Món ăn",
+                        },
+                        {
+                            value: FilterType.Restaurant,
+                            name: "Nhà hàng",
+                        },
+                    ]}
+                    value={condition.type}
+                    onChange={(value) => {
+                        onChangeFilterOptions<FilterType>("type", value as FilterType);
+                    }}
+                />
+            </WrapItem>
+            <WrapItem>
+                <Select
+                    placeholder="Săp xếp"
+                    w="11.6rem"
+                    variant={"filter"}
+                    onChange={(e) => {
+                        const value = e.target.value ? (e.target.value as SortOrder) : undefined;
+                        onChangeFilterOptions<SortOrder | undefined>("sort", value);
+                    }}
                 >
-                    {el.name}
-                </CheckBoxButton>
-            ))}
-        </HStack>
+                    <option value={SortOrder.ASC}>Giá tăng</option>
+                    <option value={SortOrder.DESC}>Giá giảm</option>
+                </Select>
+            </WrapItem>
+            <WrapItem>
+                <HStack alignItems={"center"} h="100%">
+                    {otherOptions.map((el) => (
+                        <CheckBoxButton
+                            isChecked={otherSelectedOptions.includes(el.key)}
+                            onChange={onFilterOthers(el.key)}
+                            key={el.key}
+                        >
+                            {el.name}
+                        </CheckBoxButton>
+                    ))}
+                </HStack>
+            </WrapItem>
+        </Wrap>
     );
 };
 
