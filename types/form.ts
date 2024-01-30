@@ -3,8 +3,9 @@ import { ChangeEvent } from "react";
 export type filedType = {
     name?: string;
     value?: string;
-    onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement> | string | number) => void;
     onBlur?: () => void;
+    onChangeValue?: (value: string) => void;
 };
 
 export type formType = {

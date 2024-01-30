@@ -11,3 +11,9 @@ export const storageKeys = {
 };
 
 export const RestaurantOtherFilterOptions = [{ key: FoodOtherFilterOptionsKeys.GT4Star, name: "> 4 Sao" }];
+
+export const DefaultTasteOption = "7";
+export const DefaultOtherOption = false;
+export const PortionCustomization = "PortionCustomization";
+export const TasteCustomization = "TasteCustomization";
+export const OtherCustomization = "OtherCustomization";

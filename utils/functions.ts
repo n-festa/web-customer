@@ -52,3 +52,14 @@ export const formatMoney = (input?: string | number) => {
     if (input === undefined) return "-";
     return `${input.toLocaleString()} đ`;
 };
+
+export const getCutoffTime = (cutoffTime?: string) => {
+    if (cutoffTime) {
+        const split = cutoffTime.split(":");
+        if (split.length > 1) {
+            return `${split[0]}:${split[1]}`;
+        }
+        return "-";
+    }
+    return "-";
+};
