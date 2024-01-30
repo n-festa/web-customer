@@ -1,13 +1,13 @@
-import { getTokenRefresh, setToken, setTokenRefresh } from "@/utils/auth";
+"use client";
+import { getTokenRefresh, removeToken, setToken, setTokenRefresh } from "@/utils/auth";
 import { routes } from "@/utils/routes";
-import Router from "next/router";
 import apiServices from "./sevices";
 
 export const handleRefreshToken = async (): Promise<string | undefined> => {
     const refresh_token = getTokenRefresh();
     if (refresh_token) {
         const res = await apiServices.requestToken(refresh_token);
-        if (res.data) {
+        if (res?.data) {
             const { access_token, refresh_token } = res.data;
             setToken(access_token);
             setTokenRefresh(refresh_token);
@@ -15,6 +15,8 @@ export const handleRefreshToken = async (): Promise<string | undefined> => {
             return Promise.resolve(access_token);
         }
     }
-    Router.push(routes.SignIn);
+    removeToken();
+
+    if (typeof window !== "undefined") window.location.href = routes.SignIn;
     return;
 };

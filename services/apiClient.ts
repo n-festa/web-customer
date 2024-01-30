@@ -26,7 +26,7 @@ export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "pa
     format?: ResponseType;
     /** request body */
     body?: unknown;
-
+    ignoreAll?: boolean;
     isUncheckAuthor?: boolean;
 }
 

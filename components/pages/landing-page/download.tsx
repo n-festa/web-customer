@@ -37,8 +37,8 @@ const Download = () => {
                         nền tảng iOS và Android.
                     </Text>
                     <HStack zIndex={1} spacing="1.2rem" mt="4.8rem">
-                        <Img className="" alt="" src="/images/mobile-app-store-badge.svg" />
-                        <Img className="" alt="" src="/images/mobile-app-store-badge1.svg" />
+                        <Img cursor="pointer" className="" alt="" src="/images/mobile-app-store-badge.svg" />
+                        <Img cursor="pointer" className="" alt="" src="/images/mobile-app-store-badge1.svg" />
                     </HStack>
                     <Img w="42.4rem" h="42.4rem" alt="" src="/images/foodbox-2-1@2x.png" />
                     <Img

@@ -17,7 +17,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
     async handleError<T>(
         _err: AxiosError & { config: { ignoreAll?: boolean; ignoreErrorCode?: number[] } },
     ): Promise<string | T | undefined> {
-        const { ignoreAll, ignoreErrorCode } = _err?.request || {};
+        const { ignoreAll, ignoreErrorCode } = _err?.config || {};
         const status = _err.response?.status;
         if (ignoreAll || (status && ignoreErrorCode?.includes(status))) return;
         switch (status) {
@@ -63,6 +63,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 headers: {
                     Authorization: refresh_token ? "Bearer " + refresh_token : undefined,
                 },
+                ignoreAll: true,
             });
         },
         authOTP: (data: { phoneNumber: string; inputOTP: string }) => {

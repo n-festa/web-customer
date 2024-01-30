@@ -2,7 +2,7 @@ import { RootState } from "@/store";
 import { logout } from "@/utils/auth";
 import { isLoggedIn } from "@/utils/functions";
 import { routes } from "@/utils/routes";
-import { Avatar, Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { Avatar, Button, Image, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -19,16 +19,9 @@ const UserGroup = () => {
         </Link>
     ) : (
         <Menu variant="user">
-            <MenuButton
-                as={Avatar}
-                cursor="pointer"
-                borderRadius="50%"
-                overflow="hidden"
-                src={image?.url}
-                w="4.8rem"
-                h="4.8rem"
-                order="1"
-            />
+            <MenuButton cursor="pointer" borderRadius="unset" overflow="hidden" w="4.8rem" h="4.8rem" order="1">
+                {image?.url ? <Image src={image.url} alt="avt" /> : <Avatar w="4.8rem" h="4.8rem" />}
+            </MenuButton>
             <MenuList>
                 <MenuItem as={Link} href={routes.AdditionalSignUpInfo}>
                     Thay đổi thông tin
