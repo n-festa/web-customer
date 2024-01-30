@@ -21,6 +21,9 @@ export const switchStyle = {
                 w: "4.4rem",
                 h: "2.4rem",
             },
+            container: {
+                m: 0,
+            },
         },
     },
 };

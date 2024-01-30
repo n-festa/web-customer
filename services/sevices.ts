@@ -1,9 +1,11 @@
 import { Cart } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
+import { GetFoodDetailResponse, GetSideDishesResponse } from "@/types/response/FoodResponse";
 import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesResponse";
 import { GetGeneralFoodRecommendResponse } from "@/types/response/GetGeneralFoodRecommendResponse";
 import { GetGeneralRestaurantRecommendationResponse } from "@/types/response/GetGeneralRestaurantRecommendationResponse";
+import { GetListSKUsByIdResponse } from "@/types/response/GetListSKUsByIdResponse";
 import { SearchFoodAndRestaurantByCategoryIdResponse } from "@/types/response/SearchFoodAndRestaurantByCategoryIdResponse";
 import { SearchFoodByNameResponse } from "@/types/response/SearchFoodByNameResponse";
 import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
@@ -171,6 +173,28 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 },
             });
         },
+
+        getFoodDetailById: (id: number) => {
+            return this.request<GetFoodDetailResponse>({
+                path: `food/get-detail/${id}`,
+                method: "GET",
+            });
+        },
+
+        getListOfSKUsById: (id: number) => {
+            return this.request<GetListSKUsByIdResponse>({
+                path: `food/get-sku-list/${id}`,
+                method: "GET",
+            });
+        },
+
+        getSideDishByMenuItemId: (id: number) => {
+            return this.request<GetSideDishesResponse>({
+                path: `food/get-side-dish${id}`,
+                method: "GET",
+            });
+        },
+
         searchFoodByName: (params: SearchFoodByNameRequest) => {
             return this.request<SearchFoodByNameResponse>({
                 path: "/food/search-by-name",

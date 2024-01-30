@@ -10,14 +10,22 @@ interface Props {
     value?: string;
     defaultValue?: string;
     isRounded?: boolean;
-    onChange: (value: string) => void;
+    isFormikControl?: boolean;
+    onChange?: (value: React.ChangeEvent<HTMLInputElement> | string | number) => void;
 }
 
-const GroupRadioButton = ({ options, defaultValue, isRounded = false, value, onChange }: Props) => {
+const GroupRadioButton = ({
+    options,
+    defaultValue,
+    isRounded = false,
+    value,
+    isFormikControl = false,
+    ...rest
+}: Props) => {
     const { getRootProps, getRadioProps } = useRadioGroup({
         defaultValue: defaultValue,
         value: value,
-        onChange: onChange,
+        ...rest,
     });
 
     const group = getRootProps();
@@ -34,12 +42,19 @@ const GroupRadioButton = ({ options, defaultValue, isRounded = false, value, onC
             borderRadius: "0.8rem",
         };
     }, [isRounded]);
+
     return (
-        <HStack spacing={"0"} overflow={"hidden"} {...style} {...group}>
+        <HStack
+            spacing={"0"}
+            overflow={"hidden"}
+            {...style}
+            {...(isFormikControl ? (rest as any) : undefined)}
+            {...group}
+        >
             {options.map((el) => {
                 const radio = getRadioProps({ value: el.value });
                 return (
-                    <RadioButton key={el.value} isRounded={isRounded} {...radio}>
+                    <RadioButton key={el.value} value={el.value} isRounded={isRounded} {...radio}>
                         {el.name}
                     </RadioButton>
                 );

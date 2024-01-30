@@ -44,17 +44,14 @@ const FoodChef = ({ data }: Props) => {
             <VStack w="100%" bg="var(--primary-500)" position={"relative"} spacing={"0"}>
                 {mounted ? (
                     <ReactPlayer
+                        key={String(playing)}
                         playing={playing}
                         height={224}
                         width={"100%"}
                         ref={ref}
                         url={intro_video}
                         onClick={() => {
-                            const video: any = ref.current;
-                            if (video) {
-                                video.player.handlePause();
-                                console.log(video);
-                            }
+                            setPlaying(false);
                         }}
                         playsInline
                         stopOnUnmount

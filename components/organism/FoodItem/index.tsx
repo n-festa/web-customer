@@ -1,3 +1,4 @@
+import { getCutoffTime } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Box, Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
@@ -37,17 +38,6 @@ const FoodItem = ({
     isShowQuantityAvailable?: boolean;
 }) => {
     const router = useRouter();
-
-    const cutoffTime = useMemo(() => {
-        if (cutoff_time) {
-            const split = cutoff_time.split(":");
-            if (split.length > 1) {
-                return `${split[0]}:${split[1]}`;
-            }
-            return undefined;
-        }
-        return undefined;
-    }, [cutoff_time]);
 
     const cookingTime = useMemo(() => {
         return cooking_time_s
@@ -167,10 +157,10 @@ const FoodItem = ({
                         <Text>{promotion}</Text>
                     </HStack>
                 )}
-                {cutoffTime && (
+                {cutoff_time && (
                     <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
                         <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2725.svg" />
-                        <Text>Đặt trước {cutoffTime} giờ sáng để điều chỉnh vị</Text>
+                        <Text>Đặt trước {getCutoffTime(cutoff_time)} giờ sáng để điều chỉnh vị</Text>
                     </HStack>
                 )}
             </VStack>

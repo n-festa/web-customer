@@ -1,43 +1,8 @@
+import { FoodDetailDto } from "@/types/response/FoodResponse";
+import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
 import { Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text, VStack, Wrap, WrapItem } from "@chakra-ui/react";
 
-const IngredientInfo = () => {
-    const ingredients = [
-        {
-            name: "Ức gà",
-            weight: "150",
-            unit: "gr",
-        },
-        {
-            name: "Gạo lứt",
-            weight: "150",
-            unit: "gr",
-        },
-        {
-            name: "Bông cải trắng",
-            weight: "30",
-            unit: "gr",
-        },
-        {
-            name: "Ớt chuông",
-            weight: "20",
-            unit: "gr",
-        },
-        {
-            name: "Bánh Tart",
-            weight: "150",
-            unit: "gr",
-        },
-        {
-            name: "Hành lá",
-            weight: "1",
-            unit: "muỗng cà phê",
-        },
-        {
-            name: "Tiêu",
-            weight: "1/3",
-            unit: "muỗng cà phê",
-        },
-    ];
+const IngredientInfo = ({ info, activeSKU: _activeSKU }: { info?: FoodDetailDto; activeSKU?: SKUsDto }) => {
     return (
         <Tabs position="relative" variant="ingredient" mt="0.8rem" isFitted>
             <TabList>
@@ -48,19 +13,19 @@ const IngredientInfo = () => {
             <TabPanels>
                 <TabPanel>
                     <Wrap>
-                        {ingredients.map((el, index) => (
+                        {info?.ingredients.map((el, index) => (
                             <WrapItem key={String(index)}>
                                 <VStack p="1.6rem 2.4rem" fontSize={"1.4rem"} spacing={"0"} alignItems={"flex-start"}>
-                                    <Text color="var(--gray-900)">{el.name}</Text>
-                                    <Text color="var(--gray-600)">{`${el.weight} ${el.unit}`}</Text>
+                                    <Text color="var(--gray-900)">{el.item_name_vie ?? "-"}</Text>
+                                    <Text color="var(--gray-600)">{`${el.quantity?.toLocaleString() ?? "-"}${el.unit ?? ""}`}</Text>
                                 </VStack>
                             </WrapItem>
                         ))}
                     </Wrap>
                 </TabPanel>
-                <TabPanel>
+                <TabPanel minH={"10rem"}>
                     <Text fontSize={"1.4rem"} color="var(--gray-900)">
-                        Updating...
+                        {info?.description?.[0].text ?? "-"}
                     </Text>
                 </TabPanel>
             </TabPanels>

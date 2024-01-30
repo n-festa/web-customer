@@ -1,9 +1,72 @@
 "use client";
 import GroupRadioButton from "@/components/atoms/radio/GroupRadioButton";
 import WraperInfo from "@/components/molecules/WraperInfo";
-import { HStack, Switch, Text, Textarea, VStack } from "@chakra-ui/react";
+import { filedType, formType } from "@/types/form";
+import { FoodDetailDto } from "@/types/response/FoodResponse";
+import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
+import {
+    DefaultOtherOption,
+    DefaultTasteOption,
+    OtherCustomization,
+    PortionCustomization,
+    TasteCustomization,
+} from "@/utils/constants";
+import { FormControl, Grid, GridItem, HStack, Switch, Text, Textarea, VStack } from "@chakra-ui/react";
+import { Field, Form, Formik } from "formik";
+import { forwardRef, useMemo } from "react";
 
-const ServingSize = () => {
+interface Props {
+    info?: FoodDetailDto;
+    listSKUs?: SKUsDto[];
+}
+
+// eslint-disable-next-line react/display-name
+const ServingSize = forwardRef((props: Props, ref: any) => {
+    const { listSKUs = [], info } = props;
+    const activeSKU = useMemo(() => {
+        const item = listSKUs.find((el) => el.is_standard);
+        if (item) {
+            return item;
+        }
+        return undefined;
+    }, [listSKUs]);
+
+    const initFormData = useMemo(() => {
+        let initValues = activeSKU?.portion_customization.reduce(
+            (prev, curr) => ({ ...prev, [`${PortionCustomization}-${curr.option_id}`]: curr.value_id }),
+            {},
+        );
+        if (info?.taste_customization && info?.taste_customization.length > 0) {
+            const tasteCustomizationObj = info?.taste_customization.reduce(
+                (prev, curr) => ({ ...prev, [`${TasteCustomization}-${curr.option_id}`]: DefaultTasteOption }),
+                {},
+            );
+            initValues = {
+                ...initValues,
+                ...tasteCustomizationObj,
+            };
+        }
+
+        if (info?.other_customizaton && info?.other_customizaton.length > 0) {
+            const otherCustomizatonObj = info?.other_customizaton.reduce(
+                (prev, curr) => ({ ...prev, [`${OtherCustomization}-${curr.no_adding_id}`]: DefaultOtherOption }),
+                {},
+            );
+            initValues = {
+                ...initValues,
+                ...otherCustomizatonObj,
+            };
+        }
+
+        return { ...initValues, notes: "", sku_id: activeSKU?.sku_id ?? -1, item_id: info?.menu_item_id ?? -1 };
+    }, [
+        activeSKU?.portion_customization,
+        activeSKU?.sku_id,
+        info?.menu_item_id,
+        info?.other_customizaton,
+        info?.taste_customization,
+    ]);
+
     return (
         <VStack
             alignItems={"flex-start"}
@@ -15,179 +78,190 @@ const ServingSize = () => {
             borderRadius={"0.8rem"}
             position={"relative"}
         >
-            <WraperInfo
-                title="Chọn khẩu phần"
-                titleProps={{ fontSize: "2.4rem" }}
-                isViewAll={false}
-                contentProps={{ mt: "1.6rem" }}
+            <Formik
+                initialValues={initFormData}
+                key={JSON.stringify(initFormData)}
+                onSubmit={(values, _actions) => {
+                    console.log(values);
+                }}
+                onKeyPress={(e: { key: string; preventDefault: () => void }) => {
+                    if (e.key === "Enter") {
+                        e.preventDefault();
+                    }
+                }}
+                innerRef={ref}
             >
-                <VStack alignItems={"flex-start"} w="100%" spacing={"1.6rem"}>
-                    <HStack>
-                        <Text fontSize={"1.6rem"} fontWeight={"500"} lineHeight={"2.4rem"} minW="12rem">
-                            Ức gà
-                        </Text>
-                        <GroupRadioButton
-                            isRounded
-                            options={[
-                                { name: "100g", value: "100" },
-                                { name: "150g", value: "150" },
-                                { name: "200g", value: "200" },
-                            ]}
-                            defaultValue={"100"}
-                            onChange={function (_value: string): void {
-                                //
-                            }}
-                        ></GroupRadioButton>
-                    </HStack>
-                    <HStack>
-                        <Text fontSize={"1.6rem"} fontWeight={"500"} lineHeight={"2.4rem"} minW="12rem">
-                            Gạo lứt
-                        </Text>
-                        <GroupRadioButton
-                            isRounded
-                            options={[
-                                { name: "100g", value: "100" },
-                                { name: "150g", value: "150" },
-                                { name: "200g", value: "200" },
-                            ]}
-                            defaultValue={"100"}
-                            onChange={function (_value: string): void {
-                                //
-                            }}
-                        ></GroupRadioButton>
-                    </HStack>
-                    <HStack>
-                        <Text fontSize={"1.6rem"} fontWeight={"500"} lineHeight={"2.4rem"} minW="12rem">
-                            Bánh tart
-                        </Text>
-                        <GroupRadioButton
-                            isRounded
-                            options={[
-                                { name: "Không", value: "0" },
-                                { name: "1 cái", value: "1" },
-                                { name: "2 cái", value: "2" },
-                            ]}
-                            defaultValue={"0"}
-                            onChange={function (_value: string): void {
-                                //
-                            }}
-                        ></GroupRadioButton>
-                    </HStack>
-                </VStack>
-            </WraperInfo>
-
-            <WraperInfo
-                title="Điều chỉnh vị (Trước 9h sáng)"
-                titleProps={{ fontSize: "2.4rem" }}
-                isViewAll={false}
-                contentProps={{ mt: "1.6rem" }}
-            >
-                <VStack alignItems={"flex-start"} w="100%" spacing={"1.6rem"}>
-                    <HStack>
-                        <Text
-                            fontSize={"1.6rem"}
-                            fontWeight={"500"}
-                            lineHeight={"2.4rem"}
-                            minW={{ lg: "12rem", base: "7rem" }}
+                {(_) => (
+                    <Form style={{ width: "100%" }}>
+                        <WraperInfo
+                            title="Chọn khẩu phần"
+                            titleProps={{ fontSize: "2.4rem" }}
+                            isViewAll={false}
+                            contentProps={{ mt: "1.6rem" }}
                         >
-                            Mặn
-                        </Text>
-                        <GroupRadioButton
-                            isRounded
-                            options={[
-                                { name: "Không mặn", value: "0" },
-                                { name: "Ít mặn", value: "1" },
-                                { name: "Nguyên bản", value: "3" },
-                                { name: "Mặn mà", value: "4" },
-                            ]}
-                            defaultValue={"100"}
-                            onChange={function (_value: string): void {
-                                //
-                            }}
-                        ></GroupRadioButton>
-                    </HStack>
-                    <HStack>
-                        <Text
-                            fontSize={"1.6rem"}
-                            fontWeight={"500"}
-                            lineHeight={"2.4rem"}
-                            minW={{ lg: "12rem", base: "7rem" }}
-                        >
-                            Ngọt
-                        </Text>
-                        <GroupRadioButton
-                            isRounded
-                            options={[
-                                { name: "Không ngọt", value: "0" },
-                                { name: "Ít ngọt", value: "1" },
-                                { name: "Nguyên bản", value: "3" },
-                                { name: "Ngọt nhiều", value: "4" },
-                            ]}
-                            defaultValue={"100"}
-                            onChange={function (_value: string): void {
-                                //
-                            }}
-                        ></GroupRadioButton>
-                    </HStack>
-                    <HStack>
-                        <Text
-                            fontSize={"1.6rem"}
-                            fontWeight={"500"}
-                            lineHeight={"2.4rem"}
-                            minW={{ lg: "12rem", base: "7rem" }}
-                        >
-                            Cay
-                        </Text>
-                        <GroupRadioButton
-                            isRounded
-                            options={[
-                                { name: "Không cay", value: "0" },
-                                { name: "Ít cay", value: "1" },
-                                { name: "Nguyên bản", value: "3" },
-                                { name: "Cay nhiều", value: "4" },
-                            ]}
-                            defaultValue={"0"}
-                            onChange={function (_value: string): void {
-                                //
-                            }}
-                        ></GroupRadioButton>
-                    </HStack>
-                </VStack>
-            </WraperInfo>
+                            <VStack alignItems={"flex-start"} w="100%" spacing={"1.6rem"}>
+                                {info?.portion_customization?.map((el, index) => {
+                                    return (
+                                        <Field
+                                            name={`${PortionCustomization}-${el.option_id}`}
+                                            key={el.option_id + index}
+                                        >
+                                            {({ field }: { field: filedType }) => {
+                                                const options = el.option_values.map((option) => ({
+                                                    name: `${option.value_nubmer}${option.value_unit}`,
+                                                    value: option.value_id,
+                                                }));
+                                                return (
+                                                    <FormControl>
+                                                        <HStack>
+                                                            <Text
+                                                                fontSize={"1.6rem"}
+                                                                fontWeight={"500"}
+                                                                lineHeight={"2.4rem"}
+                                                                minW="12rem"
+                                                                textTransform={"capitalize"}
+                                                            >
+                                                                {el.option_name?.[0]?.text}
+                                                            </Text>
+                                                            <GroupRadioButton
+                                                                isRounded
+                                                                options={options}
+                                                                isFormikControl={true}
+                                                                {...field}
+                                                            ></GroupRadioButton>
+                                                        </HStack>
+                                                    </FormControl>
+                                                );
+                                            }}
+                                        </Field>
+                                    );
+                                })}
+                            </VStack>
+                        </WraperInfo>
 
-            <WraperInfo
-                title="Điều chỉnh khác"
-                titleProps={{ fontSize: "2.4rem" }}
-                isViewAll={false}
-                contentProps={{ mt: "1.6rem" }}
-            >
-                <VStack alignItems={"flex-start"} spacing={"1.6rem"}>
-                    <HStack spacing={"7.2rem"}>
-                        <HStack minW="17rem" justifyContent={"space-between"}>
-                            <Text variant={"toggle"}>Không hành</Text>
-                            <Switch id="isCheckedw" variant={"green"} size="lg" />
-                        </HStack>
-                        <HStack minW="17rem" justifyContent={"space-between"}>
-                            <Text variant={"toggle"}>Không tiêu</Text>
-                            <Switch id="isCheckede" variant={"green"} size="lg" />
-                        </HStack>
-                    </HStack>
-                    <HStack minW="17rem" justifyContent={"space-between"}>
-                        <Text variant={"toggle"}>Không ớt thêm</Text>
-                        <Switch id="isCheckedr" variant={"green"} size="lg"></Switch>
-                    </HStack>
-                </VStack>
-            </WraperInfo>
+                        {info?.taste_customization && info?.taste_customization.length > 0 && (
+                            <WraperInfo
+                                title="Điều chỉnh vị (Trước 9h sáng)"
+                                titleProps={{ fontSize: "2.4rem" }}
+                                isViewAll={false}
+                                contentProps={{ mt: "1.6rem" }}
+                                mt="2.1rem"
+                            >
+                                <VStack alignItems={"flex-start"} w="100%" spacing={"1.6rem"}>
+                                    {info?.taste_customization?.map((el, index) => {
+                                        return (
+                                            <Field
+                                                key={el.option_id + index}
+                                                name={`${TasteCustomization}-${el.option_id}`}
+                                            >
+                                                {({ field }: { field: filedType }) => {
+                                                    const options = el.option_values.map((option) => ({
+                                                        name: option.value_txt?.[0]?.text,
+                                                        value: option.value_id,
+                                                    }));
+                                                    return (
+                                                        <FormControl>
+                                                            <HStack>
+                                                                <Text
+                                                                    fontSize={"1.6rem"}
+                                                                    fontWeight={"500"}
+                                                                    lineHeight={"2.4rem"}
+                                                                    minW="12rem"
+                                                                    textTransform={"capitalize"}
+                                                                >
+                                                                    {el.option_name?.[0]?.text}
+                                                                </Text>
+                                                                <GroupRadioButton
+                                                                    isRounded
+                                                                    options={options}
+                                                                    isFormikControl={true}
+                                                                    {...field}
+                                                                ></GroupRadioButton>
+                                                            </HStack>
+                                                        </FormControl>
+                                                    );
+                                                }}
+                                            </Field>
+                                        );
+                                    })}
+                                </VStack>
+                            </WraperInfo>
+                        )}
 
-            <WraperInfo
-                title="Ghi chú"
-                titleProps={{ fontSize: "2.4rem" }}
-                isViewAll={false}
-                contentProps={{ mt: "1.6rem" }}
-            >
-                <Textarea placeholder="Ví dụ: Dị ứng với đậu phộng " rows={5} p="1.2rem 1.4rem" bg="white" />
-            </WraperInfo>
+                        <WraperInfo
+                            title="Điều chỉnh khác"
+                            titleProps={{ fontSize: "2.4rem" }}
+                            isViewAll={false}
+                            contentProps={{ mt: "1.6rem" }}
+                            mt="2.1rem"
+                        >
+                            <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(2, 25rem)" }} gap={4}>
+                                {info?.other_customizaton?.map((el, index) => {
+                                    return (
+                                        <GridItem
+                                            key={el.no_adding_id + index}
+                                            w="100%"
+                                            minH="3rem"
+                                            justifyContent={"flex-start"}
+                                        >
+                                            <Field name={`${OtherCustomization}-${el.no_adding_id}`}>
+                                                {({ field }: { field: filedType }) => {
+                                                    const { value, ...rest } = field;
+                                                    return (
+                                                        <FormControl>
+                                                            <HStack minW="17rem" justifyContent={"space-between"}>
+                                                                <Switch
+                                                                    variant={"green"}
+                                                                    size="lg"
+                                                                    display={"flex"}
+                                                                    flexDirection={"row-reverse"}
+                                                                    isChecked={value as unknown as boolean}
+                                                                    {...rest}
+                                                                >
+                                                                    <Text
+                                                                        variant={"toggle"}
+                                                                        minW="12rem"
+                                                                        textTransform={"capitalize"}
+                                                                    >
+                                                                        {el.description?.[0]?.text}
+                                                                    </Text>
+                                                                </Switch>
+                                                            </HStack>
+                                                        </FormControl>
+                                                    );
+                                                }}
+                                            </Field>
+                                        </GridItem>
+                                    );
+                                })}
+                            </Grid>
+                        </WraperInfo>
+
+                        <WraperInfo
+                            title="Ghi chú"
+                            titleProps={{ fontSize: "2.4rem" }}
+                            isViewAll={false}
+                            contentProps={{ mt: "1.6rem" }}
+                            mt="2.1rem"
+                        >
+                            <Field name={"notes"}>
+                                {({ field }: { field: formType }) => {
+                                    return (
+                                        <Textarea
+                                            placeholder="Ví dụ: Dị ứng với đậu phộng "
+                                            rows={5}
+                                            p="1.2rem 1.4rem"
+                                            bg="white"
+                                            {...field}
+                                        />
+                                    );
+                                }}
+                            </Field>
+                        </WraperInfo>
+                    </Form>
+                )}
+            </Formik>
         </VStack>
     );
-};
+});
 export default ServingSize;
