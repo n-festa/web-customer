@@ -4,25 +4,41 @@ import InputForm from "@/components/molecules/InputForm";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import config from "@/config";
 import apiServices from "@/services/sevices";
-import { setUserInfo } from "@/store/reducers/userInfo";
+import { setUserInfo, setUserForm } from "@/store/reducers/userInfo";
 import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
 import { routes } from "@/utils/routes";
 import { Box, Button, Flex, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const {
-    signUp: { formData, initialValues, validationSchema },
+    signUp: { formData, validationSchema },
 } = config;
 
 const Additional = () => {
     const router = useRouter();
     const dispatch = useDispatch();
+    const { userForm } = useSelector((state: any) => state.userInfo);
     const handleSubmit = async (_values: UserType, _actions: FormikHelpers<UserType>) => {
         try {
             const { data } = await apiServices.createProfile(_values);
+            const { name, email, birthday, sex, health_info } = data;
+            const valueSubmit = {
+                name,
+                email,
+                birthday,
+                sex,
+                height_m: health_info?.height_m || NaN,
+                weight_kg: health_info?.weight_kg || NaN,
+                physical_activity_level: health_info?.physical_activity_level,
+                current_diet: health_info?.current_diet,
+                allergic_food: health_info?.allergic_food,
+                expected_diet: health_info?.expected_diet,
+            };
             dispatch(setUserInfo(data));
+            dispatch(setUserForm(valueSubmit));
+
             router.push(routes.RegistrationSuccess);
         } catch (error) {
             console.error("Error while resending OTP:", error);
@@ -40,7 +56,7 @@ const Additional = () => {
                 </Text>
                 <Box w="100%" maxW="36rem" m="0 auto">
                     <Formik
-                        initialValues={initialValues}
+                        initialValues={userForm}
                         validationSchema={validationSchema.validation}
                         validateOnBlur={false}
                         validateOnChange={false}

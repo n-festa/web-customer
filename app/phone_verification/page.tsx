@@ -5,7 +5,7 @@ import useCountdown from "@/hooks/useCountDown";
 import apiServices from "@/services/sevices";
 import { RootState } from "@/store";
 import { setInfoSign } from "@/store/reducers/auth";
-import { setUserInfo } from "@/store/reducers/userInfo";
+import { setUserInfo, setUserForm } from "@/store/reducers/userInfo";
 import { setToken, setTokenRefresh } from "@/utils/auth";
 import { isTimeDiffMoreThan30Min } from "@/utils/functions";
 import { loadState, removeState, saveState } from "@/utils/localstorage";
@@ -91,7 +91,22 @@ const PhoneVerification = () => {
         setTokenRefresh(refresh_token);
 
         const { data: customerData } = await apiServices.customerProfile({ userId });
+        console.log({ customerData });
+        const { name, email, birthday, sex, health_info } = customerData;
+        const userForm = {
+            name,
+            email,
+            birthday,
+            sex,
+            height_m: health_info?.height_m || NaN,
+            weight_kg: health_info?.weight_kg || NaN,
+            physical_activity_level: health_info?.physical_activity_level,
+            current_diet: health_info?.current_diet,
+            allergic_food: health_info?.allergic_food,
+            expected_diet: health_info?.expected_diet,
+        };
         dispatch(setUserInfo(customerData));
+        dispatch(setUserForm(userForm));
         if (customerData.name) {
             router.push(routes.Home);
         } else {

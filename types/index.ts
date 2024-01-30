@@ -123,3 +123,16 @@ export interface Customer {
     longAddress?: number;
     address?: string;
 }
+
+export interface UserForm {
+    name?: string;
+    email?: string;
+    birthday?: string;
+    sex?: string;
+    height_m?: number;
+    weight_kg?: number;
+    physical_activity_level?: string;
+    current_diet?: string;
+    allergic_food?: string;
+    expected_diet?: string;
+}

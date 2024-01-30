@@ -21,7 +21,7 @@ export const cartSelector = selector({
                 const res = await apiServices.getCartDetail(userId);
                 if (res?.data)
                     return {
-                        [userId]: { ...res.data, restaurant_id: res.data.cart_info?.[0].restaurant_id },
+                        [userId]: { ...res.data, restaurant_id: res.data.cart_info?.[0]?.restaurant_id },
                     };
             }
         }
