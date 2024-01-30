@@ -1,3 +1,4 @@
+import { getCutoffTime } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Box, Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
@@ -12,7 +13,6 @@ const FoodItem = ({
     merchart,
     currentPrice,
     cook_method,
-    time,
     ingredientName,
     distance,
     ratings,
@@ -28,6 +28,7 @@ const FoodItem = ({
     isShowTime = true,
     isShowUnitSold = false,
     isShowQuantityAvailable = false,
+    cooking_time_s,
 }: ProductTypeList & {
     isShowMerchart?: boolean;
     isShowRating?: boolean;
@@ -38,16 +39,11 @@ const FoodItem = ({
 }) => {
     const router = useRouter();
 
-    const cutoffTime = useMemo(() => {
-        if (cutoff_time) {
-            const split = cutoff_time.split(":");
-            if (split.length > 1) {
-                return `${split[0]}:${split[1]}`;
-            }
-            return undefined;
-        }
-        return undefined;
-    }, [cutoff_time]);
+    const cookingTime = useMemo(() => {
+        return cooking_time_s
+            ? Number((cooking_time_s / 60).toLocaleString(undefined, { maximumFractionDigits: 2 }))
+            : undefined;
+    }, [cooking_time_s]);
 
     return (
         <Flex
@@ -117,7 +113,7 @@ const FoodItem = ({
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/timer.svg" />
                                 <Text wordBreak="keep-all" className="text">
-                                    {time} min
+                                    {cookingTime} min
                                 </Text>
                             </HStack>
                         )}
@@ -161,10 +157,10 @@ const FoodItem = ({
                         <Text>{promotion}</Text>
                     </HStack>
                 )}
-                {cutoffTime && (
+                {cutoff_time && (
                     <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
                         <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2725.svg" />
-                        <Text>Đặt trước {cutoffTime} giờ sáng để điều chỉnh vị</Text>
+                        <Text>Đặt trước {getCutoffTime(cutoff_time)} giờ sáng để điều chỉnh vị</Text>
                     </HStack>
                 )}
             </VStack>
@@ -174,6 +170,10 @@ const FoodItem = ({
                 right="2.5rem"
                 w="4rem"
                 h="4rem"
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }}
                 _hover={{ opacity: 0.7 }}
                 _active={{ opacity: 0.5 }}
                 borderRadius="50%"

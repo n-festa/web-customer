@@ -7,7 +7,7 @@ import { Wrap, WrapItem } from "@chakra-ui/react";
 const SideDishes = () => {
     return (
         <WraperInfo
-            title="Chọn khẩu phần"
+            title="Món ăn kèm"
             titleProps={{ fontSize: "2.4rem" }}
             isViewAll={false}
             contentProps={{ mt: "1.6rem" }}
@@ -34,7 +34,7 @@ const SideDishes = () => {
                             price={item.price}
                             ingredient={item.ingredient}
                             kcal={item.kcal}
-                            time={item.time}
+                            cooking_time_s={item.cooking_time_s}
                             distance={item.distance}
                             ratings={item.ratings}
                             units_sold={item.units_sold}

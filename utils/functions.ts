@@ -1,4 +1,5 @@
 import { locationRef } from "@/app/providers";
+import { getToken } from "./auth";
 
 /// Client side only
 export const requestGEOPermission = () => {
@@ -37,4 +38,28 @@ export const createQueryString = (queries: { name: string; value: string }[]) =>
     });
 
     return params.toString();
+};
+
+export const isLoggedIn = () => {
+    const token = getToken();
+    if (token) {
+        return true;
+    }
+    return false;
+};
+
+export const formatMoney = (input?: string | number) => {
+    if (input === undefined) return "-";
+    return `${input.toLocaleString()} đ`;
+};
+
+export const getCutoffTime = (cutoffTime?: string) => {
+    if (cutoffTime) {
+        const split = cutoffTime.split(":");
+        if (split.length > 1) {
+            return `${split[0]}:${split[1]}`;
+        }
+        return "-";
+    }
+    return "-";
 };

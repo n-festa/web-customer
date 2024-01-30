@@ -1,15 +1,40 @@
+import { Cart } from "@/types/cart";
+import { FetchMode } from "@/types/enum";
+import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
+import { GetFoodDetailResponse, GetSideDishesResponse } from "@/types/response/FoodResponse";
 import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesResponse";
 import { GetGeneralFoodRecommendResponse } from "@/types/response/GetGeneralFoodRecommendResponse";
 import { GetGeneralRestaurantRecommendationResponse } from "@/types/response/GetGeneralRestaurantRecommendationResponse";
+import { GetListSKUsByIdResponse } from "@/types/response/GetListSKUsByIdResponse";
 import { SearchFoodAndRestaurantByCategoryIdResponse } from "@/types/response/SearchFoodAndRestaurantByCategoryIdResponse";
+import { SearchFoodByNameResponse } from "@/types/response/SearchFoodByNameResponse";
 import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
 import { AxiosError } from "axios";
 import { FullRequestParams, HttpClient } from "./apiClient";
+import { handleRefreshToken } from "./sessionInvalid";
 
+let errorRetryCount = 0;
 class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
-    handleError(_err: AxiosError): void {
-        // TODO:
+    async handleError<T>(
+        _err: AxiosError & { config: { ignoreAll?: boolean; ignoreErrorCode?: number[] } },
+    ): Promise<string | T | undefined> {
+        const { ignoreAll, ignoreErrorCode } = _err?.config || {};
+        const status = _err.response?.status;
+        if (ignoreAll || (status && ignoreErrorCode?.includes(status))) return;
+        switch (status) {
+            case 401: {
+                const result = await handleRefreshToken();
+                if (result) {
+                    errorRetryCount++;
+                    if (errorRetryCount <= 5) {
+                        return this.simpleRequest(_err?.config, result);
+                    }
+                    return;
+                }
+            }
+        }
+        return Promise.reject();
     }
     constructor() {
         // Add BaseConfig Into Super Constructor
@@ -21,6 +46,26 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: "auth/request-otp",
                 method: "POST",
                 body: data,
+            });
+        },
+        requestToken: (refresh_token: string) => {
+            return this.request<{
+                data: {
+                    statusCode: number;
+                    userType: string;
+                    userId: number;
+                    userName: string;
+                    permissions: string;
+                    access_token: string;
+                    refresh_token: string;
+                };
+            }>({
+                path: "auth/refresh-token",
+                method: "GET",
+                headers: {
+                    Authorization: refresh_token ? "Bearer " + refresh_token : undefined,
+                },
+                ignoreAll: true,
             });
         },
         authOTP: (data: { phoneNumber: string; inputOTP: string }) => {
@@ -66,7 +111,10 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: data,
             });
         },
-        getGeneralFoodRecommendation: (query?: { lat?: number; long?: number }) => {
+        getGeneralFoodRecommendation: (
+            query?: { lat?: number; long?: number; fetch_mode?: FetchMode },
+            reqParams?: FullRequestParams,
+        ) => {
             return this.request<GetGeneralFoodRecommendResponse>({
                 path: "food/get-general-food-recomendation",
                 method: "GET",
@@ -75,6 +123,8 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                     lat: 10.820557580712087,
                     long: 106.7723030321775,
                 },
+
+                ...reqParams,
             });
         },
 
@@ -112,15 +162,51 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             });
         },
 
-        getGeneralRestaurantRecommendation: () => {
+        getGeneralRestaurantRecommendation: (query?: { lat?: number; long?: number; fetch_mode?: FetchMode }) => {
             return this.request<GetGeneralRestaurantRecommendationResponse>({
                 path: "/restaurant/get-general-recomendation?",
                 method: "GET",
                 //TODO
-                query: {
+                query: query ?? {
                     lat: 10.820557580712087,
                     long: 106.7723030321775,
                 },
+            });
+        },
+
+        getFoodDetailById: (id: number) => {
+            return this.request<GetFoodDetailResponse>({
+                path: `food/get-detail/${id}`,
+                method: "GET",
+            });
+        },
+
+        getListOfSKUsById: (id: number) => {
+            return this.request<GetListSKUsByIdResponse>({
+                path: `food/get-sku-list/${id}`,
+                method: "GET",
+            });
+        },
+
+        getSideDishByMenuItemId: (id: number) => {
+            return this.request<GetSideDishesResponse>({
+                path: `food/get-side-dish${id}`,
+                method: "GET",
+            });
+        },
+
+        searchFoodByName: (params: SearchFoodByNameRequest) => {
+            return this.request<SearchFoodByNameResponse>({
+                path: "/food/search-by-name",
+                method: "POST",
+                body: params,
+            });
+        },
+
+        getCartDetail: (id: string) => {
+            return this.request<{ data: Cart }>({
+                path: `/cart/get-detail/${id}`,
+                method: "GET",
             });
         },
     };

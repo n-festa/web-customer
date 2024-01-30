@@ -3,8 +3,9 @@ import { ChangeEvent } from "react";
 export type filedType = {
     name?: string;
     value?: string;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement> | string | number) => void;
     onBlur?: () => void;
+    onChangeValue?: (value: string) => void;
 };
 
 export type formType = {
@@ -16,5 +17,9 @@ export type formType = {
         height_m: number;
         weight_kg: number;
         phoneNumber: string;
+        address: string;
+        province: string;
+        district: string;
+        ward: string;
     };
 };

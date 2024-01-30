@@ -34,6 +34,35 @@ const sizes = {
             color: "var(--gray-700)",
         }),
     }),
+    l: definePartsStyle({
+        control: defineStyle({
+            w: "2rem",
+            h: "2rem",
+            borderRadius: "50%",
+            border: "1px solid var(--gray-300)",
+            bg: "#fff",
+            _checked: {
+                bg: "#CCDAD8",
+                border: "1px solid #00473C",
+                _hover: {
+                    bg: "#CCDAD8",
+                    border: "1px solid #00473C",
+                },
+                _before: {
+                    bg: "#00473C",
+                    w: "1rem",
+                    h: "1rem",
+                    borderRadius: "999px",
+                },
+            },
+        }),
+        label: defineStyle({
+            fontSize: "1.6rem",
+            fontWeight: "400",
+            w: "max-content",
+            color: "var(--gray-700)",
+        }),
+    }),
 };
 
 export const radioTheme = defineMultiStyleConfig({

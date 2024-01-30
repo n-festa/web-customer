@@ -26,7 +26,7 @@ export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "pa
     format?: ResponseType;
     /** request body */
     body?: unknown;
-
+    ignoreAll?: boolean;
     isUncheckAuthor?: boolean;
 }
 
@@ -77,15 +77,11 @@ export abstract class HttpClient<SecurityDataType = unknown> {
                 return Promise.resolve(res.data);
             },
             (err) => {
-                const { ignoreAll } = err?.config || {};
-                if (ignoreAll) return err;
-                this.handleError(err);
-
-                return Promise.reject(err);
+                return this.handleError(err);
             },
         );
     }
-    abstract handleError(err: AxiosError): void;
+    abstract handleError<T>(err: AxiosError): Promise<string | undefined | T>;
 
     public setSecurityData = (data: SecurityDataType | null) => {
         this.securityData = data;
@@ -171,6 +167,18 @@ export abstract class HttpClient<SecurityDataType = unknown> {
             data: body,
             url: path,
             cancelToken: requestParams.cancelToken,
+        });
+    };
+    public simpleRequest = async <T = any, _E = any>(config: AxiosRequestConfig, newToken?: string): Promise<T> => {
+        return this.instance.request({
+            ...config,
+            headers: {
+                ...(config.headers?.Authorization
+                    ? {
+                          Authorization: newToken ? "Bearer " + newToken : undefined,
+                      }
+                    : {}),
+            },
         });
     };
 }

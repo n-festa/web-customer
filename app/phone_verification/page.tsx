@@ -1,18 +1,19 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { HighlightedText } from "@/components/atoms/Label/HighlightedLabel";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import useCountdown from "@/hooks/useCountDown";
 import apiServices from "@/services/sevices";
-import { setInfoSign, setAccessToken, setRefreshToken, setUserInfo, setProfile } from "@/store/reducers/auth";
 import { RootState } from "@/store";
+import { setInfoSign } from "@/store/reducers/auth";
+import { setUserInfo } from "@/store/reducers/userInfo";
 import { setToken, setTokenRefresh } from "@/utils/auth";
-import { routes } from "@/utils/routes";
-import { saveState, loadState, removeState } from "@/utils/localstorage";
 import { isTimeDiffMoreThan30Min } from "@/utils/functions";
-import { HighlightedText } from "@/components/atoms/Label/HighlightedLabel";
+import { loadState, removeState, saveState } from "@/utils/localstorage";
+import { routes } from "@/utils/routes";
+import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const numberOfDigits = 6;
 
@@ -29,7 +30,6 @@ const PhoneVerification = () => {
     const { seconds, formattedTime, resetCountdown } = useCountdown(120);
     const restrictStorage = loadState("restrict");
     const { formattedTime: lockFormattedTime, changeInitialValue } = useCountdown(0);
-
     const handleChange = (value: string, index: number) => {
         const newArr = [...otpState];
         if (value.length === numberOfDigits) {
@@ -85,20 +85,13 @@ const PhoneVerification = () => {
 
     const handleSuccessfulOtpVerification = async () => {
         const { data } = await apiServices.authOTP({ phoneNumber, inputOTP: otp });
-        const { access_token, refresh_token, permissions, userType, userId, userName } = data;
+        const { access_token, refresh_token, userId } = data;
         setOtpError("");
         setToken(access_token);
         setTokenRefresh(refresh_token);
-        setUserInfo({
-            userType,
-            userId,
-            userName,
-            permissions,
-        });
-        dispatch(setAccessToken(access_token));
-        dispatch(setRefreshToken(refresh_token));
+
         const { data: customerData } = await apiServices.customerProfile({ userId });
-        setProfile(customerData);
+        dispatch(setUserInfo(customerData));
         if (customerData.name) {
             router.push(routes.Home);
         } else {
@@ -123,7 +116,7 @@ const PhoneVerification = () => {
 
     useEffect(() => {
         fetchData();
-    }, [otpState, otp, numberError, phoneNumber]);
+    }, [otpState, otp, numberError, phoneNumber, fetchData]);
 
     useEffect(() => {
         if (restrictStorage) {
@@ -135,7 +128,11 @@ const PhoneVerification = () => {
                 removeState("restrict");
             }
         }
-    }, []);
+    }, [changeInitialValue, restrictStorage]);
+
+    useEffect(() => {
+        console.log({ otp });
+    }, [otp]);
 
     return (
         <UISignWrap maxW="45.6rem">

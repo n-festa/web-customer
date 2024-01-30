@@ -1,14 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UserAuth } from "@/types";
-import { Customer } from "@/types";
 
 interface initialStateType {
     phoneNumber: string;
     otp: string;
     access_token: string;
     refresh_token: string;
-    userInfo?: UserAuth;
-    profile?: Customer;
 }
 
 const initialState: initialStateType = {
@@ -22,9 +18,6 @@ const authSlice = createSlice({
     name: "sign",
     initialState,
     reducers: {
-        setUserInfo: (state, { payload }) => {
-            state.userInfo = payload;
-        },
         setInfoSign: (state, { payload }) => {
             state.otp = payload.otp;
             state.phoneNumber = payload.phoneNumber;
@@ -35,12 +28,9 @@ const authSlice = createSlice({
         setRefreshToken: (state, { payload }) => {
             state.refresh_token = payload;
         },
-        setProfile: (state, { payload }) => {
-            state.profile = payload;
-        },
     },
 });
 
-export const { setAccessToken, setRefreshToken, setProfile, setUserInfo, setInfoSign } = authSlice.actions;
+export const { setAccessToken, setRefreshToken, setInfoSign } = authSlice.actions;
 
 export default authSlice.reducer;

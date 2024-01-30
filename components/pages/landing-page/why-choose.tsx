@@ -1,4 +1,3 @@
-import { svnGilroy } from "@/theme/fonts";
 import { Box, Flex, Img, Text, VStack } from "@chakra-ui/react";
 
 const WhyChoose = () => {
@@ -30,13 +29,7 @@ const WhyChoose = () => {
                         <Text fontSize="2rem" fontWeight="600" color="var(--icterine-500)">
                             Bữa ăn theo nhu cầu
                         </Text>
-                        <Text
-                            maxW="34rem"
-                            textAlign="center"
-                            color="white"
-                            fontSize="1.6rem"
-                            className={svnGilroy.className}
-                        >
+                        <Text maxW="34rem" textAlign="center" color="white" fontSize="1.6rem">
                             Lựa chọn thực phẩm, các món ăn theo nhu cầu dinh dưỡng, khẩu vị và thể trạng của bạn
                         </Text>
                     </VStack>
@@ -54,13 +47,7 @@ const WhyChoose = () => {
                         <Text fontSize="2rem" fontWeight="600" color="var(--icterine-500)">
                             Thông tin dinh dưỡng đầy đủ
                         </Text>
-                        <Text
-                            maxW="34rem"
-                            textAlign="center"
-                            color="white"
-                            fontSize="1.6rem"
-                            className={svnGilroy.className}
-                        >
+                        <Text maxW="34rem" textAlign="center" color="white" fontSize="1.6rem">
                             Thông tin dinh dưỡng cho từng món ăn bao gồm số Kcal, protein, lipid,carb,...
                         </Text>
                     </VStack>
@@ -79,13 +66,7 @@ const WhyChoose = () => {
                         <Text fontSize="2rem" fontWeight="600" color="var(--icterine-500)">
                             Đặt hàng hẹn giờ linh hoạt
                         </Text>
-                        <Text
-                            maxW="34rem"
-                            textAlign="center"
-                            color="white"
-                            fontSize="1.6rem"
-                            className={svnGilroy.className}
-                        >
+                        <Text maxW="34rem" textAlign="center" color="white" fontSize="1.6rem">
                             Đặt hàng với khung giờ giao linh hoạt, phù hợp với nhu cầu của bạn.
                         </Text>
                     </VStack>

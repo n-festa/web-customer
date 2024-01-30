@@ -1,4 +1,3 @@
-import { svnGilroy } from "@/theme/fonts";
 import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
 import MobileMock from "./mobile_mock";
 
@@ -33,20 +32,13 @@ const Download = () => {
                     >
                         Tải ứng dụng dùng ngay
                     </Text>
-                    <Text
-                        zIndex={1}
-                        maxW="57.6rem"
-                        fontSize="2rem"
-                        fontFamily={svnGilroy.style.fontFamily}
-                        lineHeight="3rem"
-                        color="white"
-                    >
+                    <Text zIndex={1} maxW="57.6rem" fontSize="2rem" lineHeight="3rem" color="white">
                         Trải nghiệm tìm kiềm món ngon tại 2ALL tốt hơn trên ứng dụng điện thoại. Hiện đã có mặt tại 2
                         nền tảng iOS và Android.
                     </Text>
                     <HStack zIndex={1} spacing="1.2rem" mt="4.8rem">
-                        <Img className="" alt="" src="/images/mobile-app-store-badge.svg" />
-                        <Img className="" alt="" src="/images/mobile-app-store-badge1.svg" />
+                        <Img cursor="pointer" className="" alt="" src="/images/mobile-app-store-badge.svg" />
+                        <Img cursor="pointer" className="" alt="" src="/images/mobile-app-store-badge1.svg" />
                     </HStack>
                     <Img w="42.4rem" h="42.4rem" alt="" src="/images/foodbox-2-1@2x.png" />
                     <Img

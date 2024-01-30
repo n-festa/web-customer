@@ -1,4 +1,4 @@
-import { inter, svnGilroy } from "@/theme/fonts";
+import { inter } from "@/theme/fonts";
 
 const textStyle = {
     baseStyle: {
@@ -16,7 +16,6 @@ const textStyle = {
             letterSpacing: "-0.072rem",
         },
         description: {
-            ...svnGilroy.style,
             color: "#000",
             fontSize: "2rem",
             fontStyle: "normal",
