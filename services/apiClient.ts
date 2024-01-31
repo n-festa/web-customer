@@ -26,9 +26,11 @@ export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "pa
     format?: ResponseType;
     /** request body */
     body?: unknown;
+    /** additional params */
     ignoreAll?: boolean;
     isUncheckAuthor?: boolean;
     hasLoading?: boolean;
+    errDest?: string;
 }
 
 export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {

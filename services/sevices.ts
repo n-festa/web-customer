@@ -44,9 +44,11 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
         endLoading(req?.hasLoading);
     }
     async handleError<T>(
-        _err: AxiosError & { config: { ignoreAll?: boolean; ignoreErrorCode?: number[]; hasLoading?: boolean } },
+        _err: AxiosError & {
+            config: { ignoreAll?: boolean; ignoreErrorCode?: number[]; hasLoading?: boolean; errDest?: string };
+        },
     ): Promise<string | T | undefined> {
-        const { ignoreAll, ignoreErrorCode, hasLoading } = _err?.config || {};
+        const { ignoreAll, ignoreErrorCode, hasLoading, errDest } = _err?.config || {};
 
         const status = _err.response?.status;
         if (ignoreAll || (status && ignoreErrorCode?.includes(status))) {
@@ -55,7 +57,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
         }
         switch (status) {
             case 401: {
-                const result = await handleRefreshToken();
+                const result = await handleRefreshToken(errDest);
                 if (result) {
                     errorRetryCount++;
                     if (errorRetryCount <= 5) {
@@ -238,10 +240,11 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             });
         },
 
-        getCartDetail: (id: string) => {
+        getCartDetail: (id: string, errDest?: string) => {
             return this.request<{ data: Cart }>({
                 path: `/cart/get-detail/${id}`,
                 method: "GET",
+                errDest: errDest,
             });
         },
         addCart: (params: CartItem) => {
