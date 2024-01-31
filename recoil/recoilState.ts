@@ -21,11 +21,12 @@ export const cartApiState = selector({
             const { customer_id: userId } = store.getState().userInfo.userInfo ?? {};
             if (userId) {
                 const res = await apiServices.getCartDetail(`${userId}`);
-                if (res?.data)
+                if (res?.data) {
                     return {
                         ...res.data,
                         restaurant_id: res.data.restaurant_id ?? res.data.cart_info?.[0].restaurant_id,
                     };
+                }
             }
         }
 
@@ -57,7 +58,6 @@ export const cartSynced = selector({
 export const totalQuantityState = selector({
     key: "totalQuantity",
     get: async ({ get }) => {
-        // const cart = get(cartSynced);
         const cart = get(cartSynced);
 
         const totalQuantity = cart?.cart_info?.reduce?.((prev, cur) => prev + cur.qty_ordered, 0) ?? -1;

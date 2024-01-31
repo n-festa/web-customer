@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
 import { PersistGate } from "redux-persist/integration/react";
+import LoginEffect from "./LoginEffect";
 import { NavigationEvents } from "./NavigationEvents";
 
 export const locationRef: React.MutableRefObject<{ lng: number; lat: number } | null> = React.createRef<{
@@ -28,6 +29,7 @@ export function Providers({ children }: PropsWithChildren) {
                     <RecoilNexus />
                     <Suspense fallback={null}>
                         <NavigationEvents />
+                        <LoginEffect />
                     </Suspense>
                     <ChakraProvider theme={theme}>{children}</ChakraProvider>;
                 </RecoilRoot>
