@@ -44,23 +44,31 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
         endLoading(req?.hasLoading);
     }
     async handleError<T>(
-        _err: AxiosError & { config: { ignoreAll?: boolean; ignoreErrorCode?: number[] } },
+        _err: AxiosError & { config: { ignoreAll?: boolean; ignoreErrorCode?: number[]; hasLoading?: boolean } },
     ): Promise<string | T | undefined> {
-        const { ignoreAll, ignoreErrorCode } = _err?.config || {};
+        const { ignoreAll, ignoreErrorCode, hasLoading } = _err?.config || {};
+
         const status = _err.response?.status;
-        if (ignoreAll || (status && ignoreErrorCode?.includes(status))) return;
+        if (ignoreAll || (status && ignoreErrorCode?.includes(status))) {
+            endLoading(hasLoading);
+            return;
+        }
         switch (status) {
             case 401: {
                 const result = await handleRefreshToken();
                 if (result) {
                     errorRetryCount++;
                     if (errorRetryCount <= 5) {
-                        return this.simpleRequest(_err?.config, result);
+                        const resReq = this.simpleRequest(_err?.config, result);
+                        endLoading(hasLoading);
+                        return resReq;
                     }
+                    endLoading(hasLoading);
                     return;
                 }
             }
         }
+        endLoading(hasLoading);
         return Promise.reject();
     }
     constructor() {
