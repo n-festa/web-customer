@@ -68,6 +68,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                     endLoading(hasLoading);
                     return;
                 }
+                return;
             }
         }
         endLoading(hasLoading);

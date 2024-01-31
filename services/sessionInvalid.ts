@@ -2,7 +2,7 @@
 import { store } from "@/store";
 import { setErrorScreenDes } from "@/store/reducers/appSlice";
 import { setUserInfo } from "@/store/reducers/userInfo";
-import { getTokenRefresh, removeToken, setToken, setTokenRefresh } from "@/utils/auth";
+import { getTokenRefresh, removeToken, removeTokenRefresh, setToken, setTokenRefresh } from "@/utils/auth";
 import { routes } from "@/utils/routes";
 import apiServices from "./sevices";
 
@@ -20,6 +20,7 @@ export const handleRefreshToken = async (errDest?: string): Promise<string | und
     }
     store.dispatch(setUserInfo(undefined));
     removeToken();
+    removeTokenRefresh();
 
     if (typeof window !== "undefined") {
         store.dispatch(setErrorScreenDes(errDest ?? routes.SignIn));

@@ -1,3 +1,4 @@
+"use client";
 import { cartState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";

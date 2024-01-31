@@ -20,7 +20,9 @@ export const cartApiState = selector({
         if (isLoggedIn()) {
             const { customer_id: userId } = store.getState().userInfo.userInfo ?? {};
             if (userId) {
-                const res = await apiServices.getCartDetail(`${userId}`);
+                const errDest = window.location.pathname;
+
+                const res = await apiServices.getCartDetail(`${userId}`, errDest);
                 if (res?.data) {
                     return {
                         ...res.data,
