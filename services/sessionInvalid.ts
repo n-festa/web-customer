@@ -1,4 +1,6 @@
 "use client";
+import { store } from "@/store";
+import { setErrorScreenDes } from "@/store/reducers/appSlice";
 import { getTokenRefresh, removeToken, setToken, setTokenRefresh } from "@/utils/auth";
 import { routes } from "@/utils/routes";
 import apiServices from "./sevices";
@@ -17,6 +19,8 @@ export const handleRefreshToken = async (): Promise<string | undefined> => {
     }
     removeToken();
 
-    if (typeof window !== "undefined") window.location.href = routes.SignIn;
+    if (typeof window !== "undefined") {
+        store.dispatch(setErrorScreenDes(routes.SignIn));
+    }
     return;
 };
