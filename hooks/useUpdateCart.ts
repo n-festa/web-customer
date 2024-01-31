@@ -3,6 +3,7 @@
 import { loginSuccessUrl } from "@/app/providers";
 import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import { cartState } from "@/recoil/recoilState";
+import apiServices from "@/services/sevices";
 import { store } from "@/store";
 import { setErrorScreenDes } from "@/store/reducers/appSlice";
 import { CartItem } from "@/types/cart";
@@ -34,22 +35,10 @@ const useUpdateCart = () => {
                         },
                     },
                 });
-                if (!result) return;
+                if (!result || !cartItem.customer_id) return;
+                await apiServices.deleteWholdCart({ customerId: cartItem.customer_id });
             }
-            // const index = cartInfo.findIndex((item) => {
-            //     const _item = { ...item, qty_ordered: undefined };
-            //     return isEqual(_item, { ...cartItem, qty_ordered: undefined });
-            // });
-            // if (index != -1) {
-            //     cartInfo[index] = {
-            //         ...cartInfo[index],
-            //         qty_ordered: (cartInfo[index].qty_ordered ?? 1) + (cartItem?.qty_ordered ?? 0),
-            //     };
-            // } else {
-            //     if (cartItem) {
-            //         cartInfo.push({ ...cartItem, item_id: undefined });
-            //     }
-            // }
+
             const newCart = {
                 ...currentCart,
                 cart_info: cartInfo,

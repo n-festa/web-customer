@@ -216,6 +216,12 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: params,
             });
         },
+        deleteWholdCart: (params: { customerId: string | number }) => {
+            return this.request({
+                path: `/cart/delete-all/${params.customerId}`,
+                method: "POST",
+            });
+        },
         basicUpdateCart: (params: {
             customer_id: number;
             updated_items: {
