@@ -1,3 +1,5 @@
+import { store } from "@/store";
+import { setLoading } from "@/store/reducers/appSlice";
 import { Cart, CartItem } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
@@ -14,8 +16,33 @@ import { AxiosError } from "axios";
 import { FullRequestParams, HttpClient } from "./apiClient";
 import { handleRefreshToken } from "./sessionInvalid";
 
+let callNumber = 0;
+
+export const startLoading = (hasLoading?: boolean) => {
+    if (hasLoading) {
+        callNumber++;
+        store.dispatch(setLoading(true));
+    }
+};
+
+export const endLoading = (hasLoading?: boolean) => {
+    if (hasLoading) {
+        callNumber--;
+        if (callNumber > 0) {
+            return;
+        }
+        store.dispatch(setLoading(false));
+    }
+};
+
 let errorRetryCount = 0;
 class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
+    async preRequest(req: FullRequestParams) {
+        startLoading(req?.hasLoading);
+    }
+    async preResponse(req: FullRequestParams) {
+        endLoading(req?.hasLoading);
+    }
     async handleError<T>(
         _err: AxiosError & { config: { ignoreAll?: boolean; ignoreErrorCode?: number[] } },
     ): Promise<string | T | undefined> {
@@ -214,12 +241,14 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: `/cart/add`,
                 method: "POST",
                 body: params,
+                hasLoading: true,
             });
         },
         deleteWholdCart: (params: { customerId: string | number }) => {
             return this.request({
                 path: `/cart/delete-all/${params.customerId}`,
                 method: "POST",
+                hasLoading: true,
             });
         },
         basicUpdateCart: (params: {

@@ -28,6 +28,7 @@ export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "pa
     body?: unknown;
     ignoreAll?: boolean;
     isUncheckAuthor?: boolean;
+    hasLoading?: boolean;
 }
 
 export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
@@ -67,6 +68,7 @@ export abstract class HttpClient<SecurityDataType = unknown> {
         this.format = format;
         this.securityWorker = securityWorker;
         this.instance.interceptors.request.use((req) => {
+            this.preRequest(req as FullRequestParams);
             return {
                 ...req,
             };
@@ -74,6 +76,7 @@ export abstract class HttpClient<SecurityDataType = unknown> {
 
         this.instance.interceptors.response.use(
             (res) => {
+                this.preResponse(res?.config);
                 return Promise.resolve(res.data);
             },
             (err) => {
@@ -81,6 +84,9 @@ export abstract class HttpClient<SecurityDataType = unknown> {
             },
         );
     }
+    abstract preRequest(req: FullRequestParams): void;
+    abstract preResponse(req: FullRequestParams): void;
+
     abstract handleError<T>(err: AxiosError): Promise<string | undefined | T>;
 
     public setSecurityData = (data: SecurityDataType | null) => {

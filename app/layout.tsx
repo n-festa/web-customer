@@ -7,6 +7,7 @@ import { Providers } from "./providers";
 
 import CartModal from "@/components/modal/CartModal";
 import DialogWrapper from "@/components/modal/dialog/DialogWrapper";
+import Loading from "@/components/organism/Loading";
 import Footer from "@/components/organism/footer";
 import Header from "@/components/organism/header";
 import "../assets/css/bootstrap.min.css";
@@ -47,6 +48,7 @@ export default async function RootLayout({ children }: LayoutProps) {
                         <Footer />
                         <CartModal />
                         <DialogWrapper />
+                        <Loading />
                     </Flex>
                 </Providers>
             </body>

@@ -138,3 +138,7 @@ img {
 .disabled-scroll #bottom-sheet-container {
     pointer-events: all;
 }
+
+.disable-mouse-event {
+    pointer-events: none;
+}
