@@ -1,13 +1,15 @@
-import { showCartState } from "@/recoil/recoilState";
+import { cartSynced, showCartState } from "@/recoil/recoilState";
+import { genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
 
 const Cart = (props: FlexProps) => {
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
+    const cart = useRecoilValue(cartSynced);
 
     return (
         <Flex
@@ -36,27 +38,17 @@ const Cart = (props: FlexProps) => {
                     </Text>
                 </Flex>
                 <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
-                    <CartItem
-                        image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"}
-                        name="Mỳ Cá Cờ Sốt Yakitori"
-                        note="Ghi chú 1  - Lorem ipsum dolor sit amet Ghi chú 1  - Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet"
-                        price="90,000"
-                        nowPrice="75,000"
-                    />
-                    <CartItem
-                        image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"}
-                        name="Mỳ Cá Cờ Sốt Yakitori"
-                        note="Ghi chú 1  - Lorem ipsum dolor sit amet Ghi chú 1  - Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet"
-                        price="90,000"
-                        nowPrice="75,000"
-                    />
-                    <CartItem
-                        image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"}
-                        name="Mỳ Cá Cờ Sốt Yakitori"
-                        note="Ghi chú 1  - Lorem ipsum dolor sit amet Ghi chú 1  - Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet"
-                        price="90,000"
-                        nowPrice="75,000"
-                    />
+                    {cart.cart_info?.map((item) => (
+                        <CartItem
+                            key={item.item_id}
+                            image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"} //TODO
+                            name="Mỳ Cá Cờ Sốt Yakitori" //TODO
+                            note={genCartNote(item)}
+                            price="90,000"
+                            nowPrice="75,000"
+                            quantity={item.qty_ordered}
+                        />
+                    ))}
                 </VStack>
             </Flex>
             <Flex p="1.6rem" h="19rem" flexDir="column" gap="2.4rem">

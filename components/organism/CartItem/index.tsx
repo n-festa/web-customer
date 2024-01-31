@@ -7,12 +7,14 @@ const CartItem = ({
     note,
     name,
     image,
+    quantity,
 }: {
     price?: string | number;
     nowPrice?: string | number;
     note?: string;
     name: string;
     image: string;
+    quantity?: number;
 }) => {
     return (
         <Flex w="100%" px="1.6rem" justifyContent="flex-start">
@@ -40,7 +42,7 @@ const CartItem = ({
                     mx="1.6rem"
                     minW="6.3rem"
                     h="2.4rem"
-                    defaultValue={0}
+                    defaultValue={quantity}
                     onChangeValue={() => {
                         //
                     }}

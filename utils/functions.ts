@@ -1,4 +1,5 @@
 import { locationRef, loginSuccessUrl } from "@/app/providers";
+import { CartItem } from "@/types/cart";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { getToken } from "./auth";
 import { routes } from "./routes";
@@ -70,4 +71,14 @@ export const redirectAfterLogin = (router: AppRouterInstance) => {
     const destination = loginSuccessUrl.current ?? routes.Home;
     loginSuccessUrl.current = null;
     router.push(destination);
+};
+
+export const genCartNote = (cartItem: CartItem) => {
+    const mapString = [];
+    cartItem.portion_customization && mapString.push(cartItem.portion_customization);
+    cartItem.advanced_taste_customization && mapString.push(cartItem.advanced_taste_customization);
+    cartItem.basic_taste_customization && mapString.push(cartItem.basic_taste_customization);
+    cartItem.notes && mapString.push(cartItem.notes);
+    //<portion> - <advanced> - <basic> - <note>
+    return mapString.join(" - ");
 };
