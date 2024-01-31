@@ -1,6 +1,7 @@
 "use client";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import { RootState } from "@/store";
+import { redirectAfterLogin } from "@/utils/functions";
 import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -13,7 +14,7 @@ const RegistrationSuccess = () => {
         recommended_dietary_allowance_kcal: profile?.health_info?.recommended_dietary_allowance_kcal,
     };
     const handleRedirect = () => {
-        router.push("/");
+        redirectAfterLogin(router);
     };
     return (
         <UISignWrap maxW="40.6rem">

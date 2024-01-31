@@ -21,7 +21,6 @@ const InputSelectForm: React.FC<
         name: string;
     }
 > = ({ name, onChange, options, title, labelProps, placeholder, note, error, formControlProps, ...props }) => {
-    console.log("ERRRR", error);
     return (
         <FormControl w="100%" isInvalid={!!error} {...formControlProps}>
             <FormLabel color="var(--gray-700)" fontSize="1.4rem" fontWeight="500" mb="0.6rem" {...labelProps}>

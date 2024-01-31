@@ -1,5 +1,7 @@
-import { locationRef } from "@/app/providers";
+import { locationRef, loginSuccessUrl } from "@/app/providers";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { getToken } from "./auth";
+import { routes } from "./routes";
 
 /// Client side only
 export const requestGEOPermission = () => {
@@ -62,4 +64,10 @@ export const getCutoffTime = (cutoffTime?: string) => {
         return "-";
     }
     return "-";
+};
+
+export const redirectAfterLogin = (router: AppRouterInstance) => {
+    const destination = loginSuccessUrl.current ?? routes.Home;
+    loginSuccessUrl.current = null;
+    router.push(destination);
 };

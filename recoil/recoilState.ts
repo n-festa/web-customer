@@ -1,7 +1,8 @@
 import apiServices from "@/services/sevices";
-import { CartByCustomer } from "@/types/cart";
+import { store } from "@/store";
+import { Cart } from "@/types/cart";
 import { isLoggedIn } from "@/utils/functions";
-import { getWebStorage } from "@/utils/sessionStorage";
+
 import { DefaultValue, WrappedValue, atom, selector } from "recoil";
 export type SetSelf<T> = (
     param:
@@ -12,46 +13,54 @@ export type SetSelf<T> = (
         | ((param: T | DefaultValue) => T | DefaultValue | WrappedValue<T>),
 ) => void;
 
-export const cartSelector = selector({
-    key: "cartSelector",
-    get: async ({}) => {
+//Use for get cart default
+export const cartApiState = selector({
+    key: "cartApiSelector",
+    get: async () => {
         if (isLoggedIn()) {
-            const { userId } = getWebStorage("userInfo", { userId: undefined });
+            const { customer_id: userId } = store.getState().userInfo.userInfo ?? {};
             if (userId) {
-                const res = await apiServices.getCartDetail(userId);
+                const res = await apiServices.getCartDetail(`${userId}`);
                 if (res?.data)
                     return {
-                        [userId]: { ...res.data, restaurant_id: res.data.cart_info?.[0].restaurant_id },
+                        ...res.data,
+                        restaurant_id: res.data.restaurant_id ?? res.data.cart_info?.[0].restaurant_id,
                     };
             }
         }
 
-        return {
-            quickCart: {
-                customer_id: "quickCart",
-            },
-        };
+        return;
     },
 });
 
-export const cartState = atom<CartByCustomer | undefined>({
+export const cartState = atom<Cart | undefined>({
     key: "cart",
-    default: cartSelector,
+    default: cartApiState,
 });
 
 export const showCartState = atom<boolean>({
     key: "cartModal",
     default: false,
 });
+export const cartSynced = selector({
+    key: "cartSynced",
+    get: async ({ get }) => {
+        const { cartUpdate: cartItem, ...currentCart } = get(cartState) ?? {};
+        if (cartItem) {
+            const res = await apiServices.addCart({ ...cartItem, item_id: undefined });
+            return res.data;
+        }
+        return currentCart;
+    },
+});
 
 export const totalQuantityState = selector({
     key: "totalQuantity",
     get: async ({ get }) => {
-        const cart = get(cartState);
-        const { userId } = getWebStorage("userInfo", { userId: undefined });
+        // const cart = get(cartSynced);
+        const cart = get(cartSynced);
 
-        const totalQuantity =
-            cart?.[userId ?? "quickCart"]?.cart_info?.reduce?.((prev, cur) => prev + cur.qty_ordered, 0) ?? -1;
+        const totalQuantity = cart?.cart_info?.reduce?.((prev, cur) => prev + cur.qty_ordered, 0) ?? -1;
         return totalQuantity;
     },
 });

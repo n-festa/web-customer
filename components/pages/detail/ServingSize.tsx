@@ -4,13 +4,7 @@ import WraperInfo from "@/components/molecules/WraperInfo";
 import { filedType, formType } from "@/types/form";
 import { FoodDetailDto } from "@/types/response/FoodResponse";
 import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
-import {
-    DefaultOtherOption,
-    DefaultTasteOption,
-    OtherCustomization,
-    PortionCustomization,
-    TasteCustomization,
-} from "@/utils/constants";
+import { DefaultOtherOption, OtherCustomization, PortionCustomization, TasteCustomization } from "@/utils/constants";
 import { FormControl, Grid, GridItem, HStack, Switch, Text, Textarea, VStack } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { forwardRef, useMemo } from "react";
@@ -38,7 +32,10 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
         );
         if (info?.taste_customization && info?.taste_customization.length > 0) {
             const tasteCustomizationObj = info?.taste_customization.reduce(
-                (prev, curr) => ({ ...prev, [`${TasteCustomization}-${curr.option_id}`]: DefaultTasteOption }),
+                (prev, curr) => ({
+                    ...prev,
+                    [`${TasteCustomization}-${curr.option_id}`]: curr.option_values?.[0].value_id,
+                }),
                 {},
             );
             initValues = {
@@ -81,8 +78,8 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
             <Formik
                 initialValues={initFormData}
                 key={JSON.stringify(initFormData)}
-                onSubmit={(values, _actions) => {
-                    console.log(values);
+                onSubmit={() => {
+                    // console.log(values);
                 }}
                 onKeyPress={(e: { key: string; preventDefault: () => void }) => {
                     if (e.key === "Enter") {

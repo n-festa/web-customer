@@ -9,20 +9,17 @@ import ServingSize from "@/components/pages/detail/ServingSize";
 import SideDishes from "@/components/pages/detail/SideDishes";
 import SimilarDishes from "@/components/pages/detail/SimilarDishes";
 import useFoodDetail from "@/hooks/useFoodDetail";
-import { cartState } from "@/recoil/recoilState";
+import useUpdateCart from "@/hooks/useUpdateCart";
 import { RootState } from "@/store";
 import { CartItem } from "@/types/cart";
 import { OtherCustomization, PortionCustomization, TasteCustomization } from "@/utils/constants";
 import { Flex } from "@chakra-ui/react";
-import { cloneDeep, isEqual } from "lodash";
 import { useSelector } from "react-redux";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const ProductDetailPage = () => {
-    const setCart = useSetRecoilState(cartState);
     const { isLoading, foodInfo, formRef } = useFoodDetail();
     const useInfo = useSelector((state: RootState) => state.userInfo.userInfo?.customer_id ?? -1);
-    const currentCartState = useRecoilValue(cartState);
+    const { handleUpdateCart } = useUpdateCart();
 
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
@@ -59,6 +56,7 @@ const ProductDetailPage = () => {
                             advanced_portion_customization_obj: [],
                             advanced_taste_customization_obj: [],
                             basic_taste_customization_obj: [],
+                            restaurant_id: foodInfo.info?.restaurant_id,
                         };
 
                         Object.keys(foodValueSetting).forEach((item) => {
@@ -109,27 +107,7 @@ const ProductDetailPage = () => {
                                 }
                             }
                         });
-
-                        const cartInfo = cloneDeep(currentCartState?.["quickCart"]?.cart_info ?? []);
-                        const index = cartInfo.findIndex((item) => {
-                            const _item = { ...item, qty_ordered: undefined };
-                            console.log(isEqual(_item, { ...cartItem, qty_ordered: undefined }));
-                            return isEqual(_item, { ...cartItem, qty_ordered: undefined });
-                        });
-                        if (index != -1) {
-                            cartInfo[index] = {
-                                ...cartInfo[index],
-                                qty_ordered: (cartInfo[index].qty_ordered ?? 1) + _quantity,
-                            };
-                        } else cartInfo.push(cartItem);
-
-                        setCart((cur) => ({
-                            ...cur,
-                            quickCart: {
-                                customer_id: "quickCart",
-                                cart_info: cartInfo,
-                            },
-                        }));
+                        handleUpdateCart(cartItem);
                     }}
                 />
             </Flex>

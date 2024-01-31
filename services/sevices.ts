@@ -1,4 +1,4 @@
-import { Cart } from "@/types/cart";
+import { Cart, CartItem } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import { GetFoodDetailResponse, GetSideDishesResponse } from "@/types/response/FoodResponse";
@@ -207,6 +207,26 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             return this.request<{ data: Cart }>({
                 path: `/cart/get-detail/${id}`,
                 method: "GET",
+            });
+        },
+        addCart: (params: CartItem) => {
+            return this.request<{ data: Cart }>({
+                path: `/cart/add`,
+                method: "POST",
+                body: params,
+            });
+        },
+        basicUpdateCart: (params: {
+            customer_id: number;
+            updated_items: {
+                item_id: number;
+                qty_ordered: number;
+            }[];
+        }) => {
+            return this.request<{ data: Cart }>({
+                path: `/cart/basic-update`,
+                method: "POST",
+                body: params,
             });
         },
     };
