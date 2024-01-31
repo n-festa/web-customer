@@ -11,13 +11,20 @@ const RadioButton = (props: { isRounded?: boolean } & RadioProps) => {
     const style: BoxProps = useMemo(() => {
         if (isRounded)
             return {
+                fontSize: {
+                    base: "1rem",
+                    md: "1.4rem",
+                },
                 p: "0.8rem 1.4rem",
                 borderRadius: "2.4rem",
                 border: "1px solid var(--gray-300)",
                 color: "var(--gray-700)",
                 lineHeight: "2rem",
                 fontWeight: "600",
-                minW: "10.3rem",
+                minW: {
+                    md: "10.3rem",
+                    base: "9rem",
+                },
                 textAlign: "center",
             };
         return {
@@ -33,7 +40,7 @@ const RadioButton = (props: { isRounded?: boolean } & RadioProps) => {
     }, [isRounded]);
 
     return (
-        <Box as="label" fontSize={"1.4rem"}>
+        <Box as="label">
             <input {...input} />
             <Box
                 {...checkbox}
@@ -43,6 +50,7 @@ const RadioButton = (props: { isRounded?: boolean } & RadioProps) => {
                     color: "var(--icterine-500)",
                 }}
                 textTransform={"capitalize"}
+                whiteSpace={"nowrap"}
                 _focus={{}}
                 {...style}
             >

@@ -3,19 +3,22 @@ import { Button, HStack, Img, StackProps, Text } from "@chakra-ui/react";
 import { css } from "@emotion/react";
 
 import React, { useEffect, useState } from "react";
+import { useSwiper } from "swiper/react";
 
 interface Props extends StackProps {
     totalPage: number;
     currentPage: number;
     showAll?: boolean;
+    isDisabledDot?: boolean;
     onChangePage: (currentPage: number) => void;
 }
 
-const Pagination = ({ currentPage, onChangePage, totalPage, showAll, ...rest }: Props) => {
+const Pagination = ({ currentPage, onChangePage, totalPage, showAll, isDisabledDot = true, ...rest }: Props) => {
     const [firstThreeArray, setFirstThreeArray] = useState([1]);
     const [showLastEllipis, setShowLastEllipis] = useState(true);
     const [isNext, setNext] = useState(true);
     const [initPage, setInitPage] = useState(currentPage);
+    const swiper = useSwiper();
 
     useEffect(() => {
         if (totalPage <= 5) {
@@ -66,12 +69,14 @@ const Pagination = ({ currentPage, onChangePage, totalPage, showAll, ...rest }: 
     const prev = () => {
         if (currentPage > 1) {
             setNext(false);
+            swiper.slidePrev();
             onChangePage(currentPage - 1);
         }
     };
     const next = () => {
         if (currentPage < totalPage) {
             setNext(true);
+            swiper.slideNext();
             onChangePage(currentPage + 1);
         }
     };
@@ -103,6 +108,8 @@ const Pagination = ({ currentPage, onChangePage, totalPage, showAll, ...rest }: 
                 _disabled={{}}
                 disabled={pageNo === currentPage}
                 onClick={() => {
+                    if (isDisabledDot) return;
+
                     if (pageNo !== currentPage) {
                         setNext(pageNo > currentPage);
                         onChangePage(pageNo);

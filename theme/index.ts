@@ -16,6 +16,8 @@ import textStyles from "./textStyle";
 const breakpoints = {
     sm: "414px",
     md: "550px",
+    xmd: "700px",
+    xxmd: "850px",
     lg: "960px",
     xl: "1100px",
     "2xl": "1300px",

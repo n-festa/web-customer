@@ -40,7 +40,7 @@ const ProductDetailPage = () => {
                 <SideDishes />
                 <FoodInRestaurant />
                 <SimilarDishes />
-                <Feedback />
+                <Feedback reviews={foodInfo.info?.reviews ?? []} />
                 <OrderFooter
                     quantity={0}
                     price={80000}
