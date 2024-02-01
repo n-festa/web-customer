@@ -43,6 +43,7 @@ const FoodChef = ({ data }: Props) => {
             boxShadow="var(--box-shadow-md)"
             bg="white"
             w="100%"
+            cursor="pointer"
             flexDir="column"
             onClick={() => {
                 router.push(`${routes.RestaurantDetail}/${id}`);
@@ -57,7 +58,9 @@ const FoodChef = ({ data }: Props) => {
                         width={"100%"}
                         ref={ref}
                         url={intro_video}
-                        onClick={() => {
+                        onClick={(e: any) => {
+                            e.preventDefault();
+                            e.stopPropagation();
                             setPlaying(false);
                         }}
                         playsInline
@@ -84,7 +87,9 @@ const FoodChef = ({ data }: Props) => {
                         <Center h="100%">
                             <Button
                                 variant={"btnPlayVideo"}
-                                onClick={() => {
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     setPlaying(true);
                                 }}
                                 className="plz"
