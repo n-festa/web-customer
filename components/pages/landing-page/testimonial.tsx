@@ -99,6 +99,12 @@ const Testimonial = () => {
             remarks:
                 "“4. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
         },
+        {
+            food_rating_id: 5,
+            score: 5,
+            remarks:
+                "“5. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
+        },
     ];
     const [isSmaller] = useMediaQuery("(max-width: 700px)");
 

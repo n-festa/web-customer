@@ -39,7 +39,7 @@ const SlideSwiper = ({ items, perPage = 3, spaceBetween = "16", paginationGroupP
                     onChangePage={(_index: number) => {
                         setPage(_index);
                     }}
-                    totalPage={Math.ceil(items.length / perPage)}
+                    totalPage={items.length - perPage + 1}
                     alignSelf={"flex-end"}
                     my="1rem"
                 />
