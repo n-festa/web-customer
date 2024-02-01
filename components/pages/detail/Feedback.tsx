@@ -3,23 +3,34 @@ import SlideSwiper from "@/components/molecules/SlideSwiper";
 import WraperInfo from "@/components/molecules/WraperInfo";
 import { ReviewCard } from "@/components/pages/landing-page/testimonial";
 import { Review } from "@/types/response/FoodResponse";
-import { Flex, useMediaQuery } from "@chakra-ui/react";
+import { Flex, StackProps, useMediaQuery } from "@chakra-ui/react";
 import { useMemo } from "react";
 
 interface Props {
     reviews: Review[];
+    isShowAuthor?: boolean;
+    title?: string;
+    reviewItemProps?: StackProps;
+    defaultPerpage?: number;
 }
 
-const Feedback = ({ reviews }: Props) => {
+const Feedback = ({
+    reviews,
+    isShowAuthor = false,
+    title,
+    reviewItemProps,
+    defaultPerpage = 3,
+    ...rest
+}: Props & StackProps) => {
     const [isSmaller] = useMediaQuery("(max-width: 700px)");
 
     const perPage = useMemo(() => {
-        return isSmaller ? 1 : 3;
-    }, [isSmaller]);
+        return isSmaller ? 1 : defaultPerpage;
+    }, [isSmaller, defaultPerpage]);
     return (
-        <Flex flexDirection={"column"} w="100%">
+        <Flex flexDirection={"column"} w="100%" {...rest}>
             <WraperInfo
-                title="Nhận xét món ăn"
+                title={title ?? "Nhận xét món ăn"}
                 titleProps={{ fontSize: "2.4rem" }}
                 isViewAll={false}
                 contentProps={{ mt: "1.6rem" }}
@@ -27,7 +38,13 @@ const Feedback = ({ reviews }: Props) => {
             >
                 <SlideSwiper
                     items={reviews.map((el, index) => (
-                        <ReviewCard key={String(index)} star={el.score} isShowAuthor={false} comment={el.remarks} />
+                        <ReviewCard
+                            key={String(index)}
+                            star={el.score}
+                            isShowAuthor={isShowAuthor}
+                            comment={el.remarks}
+                            {...reviewItemProps}
+                        />
                     ))}
                     perPage={perPage}
                 />

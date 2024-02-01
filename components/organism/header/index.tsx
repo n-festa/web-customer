@@ -30,10 +30,11 @@ const Header = () => {
                 showListNavi = true;
                 showSignUpGroup = false;
                 break;
-            case routes.Search:
-            case routes.SearchDetail:
-                showDeliveryBox = true;
-
+            default:
+                const index = [routes.RestaurantDetail, routes.Search, routes.SearchDetail].findIndex((el) =>
+                    pathname.includes(el),
+                );
+                if (index != -1) showDeliveryBox = true;
                 break;
         }
         return { showDeliveryBox, showSignUpGroup, showListNavi };
@@ -50,7 +51,7 @@ const Header = () => {
                 zIndex="999"
                 alignItems="center"
                 w="100%"
-                bg="var(--main-bg-color)"
+                bg={showDeliveryBox ? "white" : "var(--main-bg-color)"}
                 justifyContent="space-between"
                 borderBottom="1px solid var(--gray-100)"
             >
