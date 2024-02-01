@@ -30,6 +30,7 @@ export interface Review {
     food_rating_id: number;
     score: number;
     remarks: string;
+    isShowAuthor?: boolean;
 }
 
 export interface OtherCustomization {

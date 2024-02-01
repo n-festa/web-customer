@@ -28,6 +28,22 @@ const RestautantDetailPage = () => {
                                 food_rating_id: 1,
                                 score: 5,
                                 remarks: "“ Đồ ăn tươi, rất hợp khẩu vị mình.”",
+                                isShowAuthor: true,
+                            },
+                            {
+                                food_rating_id: 1,
+                                score: 5,
+                                remarks: "“ Đóng gói đẹp, thức ăn rất tươi.”",
+                            },
+                            {
+                                food_rating_id: 1,
+                                score: 5,
+                                remarks: "“ Đóng gói đẹp, thức ăn rất tươi.”",
+                            },
+                            {
+                                food_rating_id: 1,
+                                score: 5,
+                                remarks: "“ Đóng gói đẹp, thức ăn rất tươi.”",
                             },
                             {
                                 food_rating_id: 1,
@@ -35,7 +51,6 @@ const RestautantDetailPage = () => {
                                 remarks: "“ Đóng gói đẹp, thức ăn rất tươi.”",
                             },
                         ]}
-                        isShowAuthor={true}
                         title="Khách hàng nhận xét"
                         bg="#F4F9EC"
                         p="1.6rem 3.2rem"
