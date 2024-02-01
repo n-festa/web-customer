@@ -1,4 +1,6 @@
-import { Cart } from "@/types/cart";
+import { store } from "@/store";
+import { setLoading } from "@/store/reducers/appSlice";
+import { Cart, CartItem } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import { GetFoodDetailResponse, GetSideDishesResponse } from "@/types/response/FoodResponse";
@@ -14,26 +16,62 @@ import { AxiosError } from "axios";
 import { FullRequestParams, HttpClient } from "./apiClient";
 import { handleRefreshToken } from "./sessionInvalid";
 
+let callNumber = 0;
+
+export const startLoading = (hasLoading?: boolean) => {
+    if (hasLoading) {
+        callNumber++;
+        store.dispatch(setLoading(true));
+    }
+};
+
+export const endLoading = (hasLoading?: boolean) => {
+    if (hasLoading) {
+        callNumber--;
+        if (callNumber > 0) {
+            return;
+        }
+        store.dispatch(setLoading(false));
+    }
+};
+
 let errorRetryCount = 0;
 class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
+    async preRequest(req: FullRequestParams) {
+        startLoading(req?.hasLoading);
+    }
+    async preResponse(req: FullRequestParams) {
+        endLoading(req?.hasLoading);
+    }
     async handleError<T>(
-        _err: AxiosError & { config: { ignoreAll?: boolean; ignoreErrorCode?: number[] } },
+        _err: AxiosError & {
+            config: { ignoreAll?: boolean; ignoreErrorCode?: number[]; hasLoading?: boolean; errDest?: string };
+        },
     ): Promise<string | T | undefined> {
-        const { ignoreAll, ignoreErrorCode } = _err?.config || {};
+        const { ignoreAll, ignoreErrorCode, hasLoading, errDest } = _err?.config || {};
+
         const status = _err.response?.status;
-        if (ignoreAll || (status && ignoreErrorCode?.includes(status))) return;
+        if (ignoreAll || (status && ignoreErrorCode?.includes(status))) {
+            endLoading(hasLoading);
+            return;
+        }
         switch (status) {
             case 401: {
-                const result = await handleRefreshToken();
+                const result = await handleRefreshToken(errDest);
                 if (result) {
                     errorRetryCount++;
                     if (errorRetryCount <= 5) {
-                        return this.simpleRequest(_err?.config, result);
+                        const resReq = this.simpleRequest(_err?.config, result);
+                        endLoading(hasLoading);
+                        return resReq;
                     }
+                    endLoading(hasLoading);
                     return;
                 }
+                return;
             }
         }
+        endLoading(hasLoading);
         return Promise.reject();
     }
     constructor() {
@@ -190,7 +228,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
 
         getSideDishByMenuItemId: (id: number) => {
             return this.request<GetSideDishesResponse>({
-                path: `food/get-side-dish${id}`,
+                path: `food/get-side-dish/${id}`,
                 method: "GET",
             });
         },
@@ -203,10 +241,39 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             });
         },
 
-        getCartDetail: (id: string) => {
+        getCartDetail: (id: string, errDest?: string) => {
             return this.request<{ data: Cart }>({
                 path: `/cart/get-detail/${id}`,
                 method: "GET",
+                errDest: errDest,
+            });
+        },
+        addCart: (params: CartItem) => {
+            return this.request<{ data: Cart }>({
+                path: `/cart/add`,
+                method: "POST",
+                body: params,
+                hasLoading: true,
+            });
+        },
+        deleteWholdCart: (params: { customerId: string | number }) => {
+            return this.request({
+                path: `/cart/delete-all/${params.customerId}`,
+                method: "POST",
+                hasLoading: true,
+            });
+        },
+        basicUpdateCart: (params: {
+            customer_id: number;
+            updated_items: {
+                item_id: number;
+                qty_ordered: number;
+            }[];
+        }) => {
+            return this.request<{ data: Cart }>({
+                path: `/cart/basic-update`,
+                method: "POST",
+                body: params,
             });
         },
     };

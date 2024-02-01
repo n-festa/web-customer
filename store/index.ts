@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
+import appSlice from "./reducers/appSlice";
 import authReducer from "./reducers/auth";
 import userInfoReducer from "./reducers/userInfo";
 import storage from "./storage";
@@ -7,11 +8,12 @@ import storage from "./storage";
 const rootReducer = combineReducers({
     auth: authReducer,
     userInfo: userInfoReducer,
+    app: appSlice,
 });
 
 const persistConfig = {
     key: "shoppingcart",
-    blacklist: ["auth"], // only counter will be persisted, add other reducers if needed
+    blacklist: ["auth", "app"], // only counter will be persisted, add other reducers if needed
     storage, // if needed, use a safer storage
 };
 

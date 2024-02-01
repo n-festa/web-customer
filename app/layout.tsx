@@ -6,6 +6,8 @@ import React from "react";
 import { Providers } from "./providers";
 
 import CartModal from "@/components/modal/CartModal";
+import DialogWrapper from "@/components/modal/dialog/DialogWrapper";
+import Loading from "@/components/organism/Loading";
 import Footer from "@/components/organism/footer";
 import Header from "@/components/organism/header";
 import "../assets/css/bootstrap.min.css";
@@ -38,13 +40,15 @@ export default async function RootLayout({ children }: LayoutProps) {
             <body suppressHydrationWarning className={`${quicksand.className}`}>
                 <ColorModeScript initialColorMode={theme.config?.initialColorMode} />
                 <Providers>
-                    <Flex h="100%" w="100%" overflow="auto" flexDir="column">
+                    <Flex pos="absolute" h="calc(100% - 8rem)" w="100%" top="8rem" overflow="overlay" flexDir="column">
                         <Header />
-                        <Flex flex={1} w="100%" pt="8rem">
+                        <Flex flex={1} w="100%">
                             {children}
                         </Flex>
                         <Footer />
                         <CartModal />
+                        <DialogWrapper />
+                        <Loading />
                     </Flex>
                 </Providers>
             </body>

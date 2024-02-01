@@ -1,60 +1,54 @@
 "use client";
-import Pagination from "@/components/molecules/Pagination";
+import SlideSwiper from "@/components/molecules/SlideSwiper";
 import WraperInfo from "@/components/molecules/WraperInfo";
 import { ReviewCard } from "@/components/pages/landing-page/testimonial";
-import { Flex, Wrap, WrapItem } from "@chakra-ui/react";
+import { Review } from "@/types/response/FoodResponse";
+import { Flex, StackProps, useMediaQuery } from "@chakra-ui/react";
+import { useMemo } from "react";
 
-const Feedback = () => {
-    const feedback = [
-        {
-            name: "Alexander R.",
-            loyalCustomers: true,
-            comment: "“Đồ ăn tươi, rất hợp khẩu vị mình.”",
-            star: 5,
-            isShowAuthor: true,
-        },
-        {
-            loyalCustomers: false,
-            comment: "“Đóng gói đẹp, thức ăn ngon”",
-            star: 5,
-        },
-        {
-            loyalCustomers: false,
-            comment: "“Nhà hàng nấu rất có tâm.”",
-            star: 5,
-        },
-    ];
+interface Props {
+    reviews: Review[];
+    isShowAuthor?: boolean;
+    title?: string;
+    reviewItemProps?: StackProps;
+    defaultPerpage?: number;
+}
+
+const Feedback = ({
+    reviews,
+    isShowAuthor = false,
+    title,
+    reviewItemProps,
+    defaultPerpage = 3,
+    ...rest
+}: Props & StackProps) => {
+    const [isSmaller] = useMediaQuery("(max-width: 700px)");
+
+    const perPage = useMemo(() => {
+        return isSmaller ? 1 : defaultPerpage;
+    }, [isSmaller, defaultPerpage]);
     return (
-        <Flex flexDirection={"column"} w="100%">
+        <Flex flexDirection={"column"} w="100%" {...rest}>
             <WraperInfo
-                title="Nhận xét món ăn"
+                title={title ?? "Nhận xét món ăn"}
                 titleProps={{ fontSize: "2.4rem" }}
                 isViewAll={false}
                 contentProps={{ mt: "1.6rem" }}
                 mt="5.6rem"
             >
-                <Wrap align="center" justify={"center"} spacing="1.6rem" w="100%">
-                    {feedback.map((el, index) => (
-                        <WrapItem key={String(index)}>
-                            <ReviewCard
-                                name={el.name}
-                                star={el.star}
-                                isShowAuthor={el.isShowAuthor}
-                                comment={el.comment}
-                            />
-                        </WrapItem>
+                <SlideSwiper
+                    items={reviews.map((el, index) => (
+                        <ReviewCard
+                            key={String(index)}
+                            star={el.score}
+                            isShowAuthor={isShowAuthor}
+                            comment={el.remarks}
+                            {...reviewItemProps}
+                        />
                     ))}
-                </Wrap>
+                    perPage={perPage}
+                />
             </WraperInfo>
-            <Pagination
-                currentPage={1}
-                onChangePage={(_index: number) => {
-                    //
-                }}
-                totalPage={3}
-                alignSelf={"flex-end"}
-                my="1rem"
-            />
         </Flex>
     );
 };

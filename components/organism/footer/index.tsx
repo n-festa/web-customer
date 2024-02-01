@@ -1,6 +1,27 @@
+"use client";
+import { routes } from "@/utils/routes";
 import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
+import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 
 const Footer = () => {
+    const pathname = usePathname();
+
+    const showFooter = useMemo(() => {
+        switch (pathname) {
+            case routes.Home:
+            case routes.Otp:
+            case routes.RegistrationSuccess:
+            case routes.SignIn:
+            case routes.AdditionalSignUpInfo:
+                return true;
+            default:
+                return false;
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pathname]);
+    if (!showFooter) return <></>;
+
     return (
         <Flex
             flexDir="column"
