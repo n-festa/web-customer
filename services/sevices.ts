@@ -228,7 +228,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
 
         getSideDishByMenuItemId: (id: number) => {
             return this.request<GetSideDishesResponse>({
-                path: `food/get-side-dish${id}`,
+                path: `food/get-side-dish/${id}`,
                 method: "GET",
             });
         },

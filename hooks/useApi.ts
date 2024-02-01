@@ -49,6 +49,11 @@ const useSWRAPI = () => {
                 ...swrConfig,
                 ...config,
             }),
+        GetSideDishByMenuItemId: (id: number, config?: SWRConfiguration) =>
+            useSWR("getSideDishByMenuItemId", async () => apiServices.getSideDishByMenuItemId(id), {
+                ...swrConfig,
+                ...config,
+            }),
     };
 };
 

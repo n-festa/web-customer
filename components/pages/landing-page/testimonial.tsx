@@ -1,29 +1,31 @@
 import { poppins } from "@/theme/fonts";
-import { Box, Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, IconButton, Img, StackProps, Text, VStack } from "@chakra-ui/react";
 
-const GroupStars = () => {
+const GroupStars = ({ star = 5 }: { star?: number }) => {
     return (
         <HStack alignSelf="flex-start" spacing="0.4rem">
-            <Img w="2rem" h="2rem" alt="" src="/images/star-icon2.svg" />
-            <Img w="2rem" h="2rem" alt="" src="/images/star-icon2.svg" />
-            <Img w="2rem" h="2rem" alt="" src="/images/star-icon2.svg" />
-            <Img w="2rem" h="2rem" alt="" src="/images/star-icon2.svg" />
-            <Img w="2rem" h="2rem" alt="" src="/images/star-icon2.svg" />
+            {Array(star)
+                .fill(0)
+                .map((_, index) => (
+                    <Img key={String(index)} w="2rem" h="2rem" alt="" src="/images/star-icon2.svg" />
+                ))}
         </HStack>
     );
 };
 
 export const ReviewCard = ({
     name,
+    star,
     comment,
     isShowAuthor,
+    ...rest
 }: {
     isShowAuthor?: boolean;
     comment: string;
     name?: string;
     loyalCustomers?: boolean;
     star?: number;
-}) => {
+} & StackProps) => {
     return (
         <VStack
             spacing="1.6rem"
@@ -34,6 +36,7 @@ export const ReviewCard = ({
             overflow="hidden"
             p="4rem 3.2rem"
             height={{ md: "fit-content", base: "100%" }}
+            {...rest}
         >
             {isShowAuthor && (
                 <Flex w="100%" display={{ base: "none", md: "flex" }} justifyContent="space-between">
@@ -58,10 +61,10 @@ export const ReviewCard = ({
                     />
                 </Flex>
             )}
-            <Text fontSize="1.8rem" lineHeight="2.4rem" fontWeight={600}>
+            <Text fontSize="1.8rem" lineHeight="2.4rem" fontWeight={600} alignSelf={"flex-start"}>
                 {comment}
             </Text>
-            <GroupStars />
+            <GroupStars star={star} />
         </VStack>
     );
 };
