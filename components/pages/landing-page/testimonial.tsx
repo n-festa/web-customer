@@ -61,7 +61,7 @@ export const ReviewCard = ({
                     />
                 </Flex>
             )}
-            <Text fontSize="1.8rem" lineHeight="2.4rem" fontWeight={600} alignSelf={"flex-start"}>
+            <Text fontSize="1.8rem" lineHeight="2.4rem" fontWeight={600} alignSelf={"flex-start"} textAlign={"left"}>
                 {comment}
             </Text>
             <GroupStars star={star} />

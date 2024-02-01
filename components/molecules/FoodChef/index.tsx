@@ -1,5 +1,7 @@
 import { RestaurantDto } from "@/types/response/base";
+import { routes } from "@/utils/routes";
 import { Box, Button, Center, Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player/lazy";
 
@@ -9,6 +11,7 @@ interface Props {
 
 const FoodChef = ({ data }: Props) => {
     const {
+        id,
         name,
         intro_video,
         rating,
@@ -24,6 +27,7 @@ const FoodChef = ({ data }: Props) => {
     const [mounted, setMounted] = useState(false);
     const [playing, setPlaying] = useState(false);
     const ref = useRef(null);
+    const router = useRouter();
     useEffect(() => {
         if (!mounted) {
             setMounted(true);
@@ -40,6 +44,9 @@ const FoodChef = ({ data }: Props) => {
             bg="white"
             w="100%"
             flexDir="column"
+            onClick={() => {
+                router.push(`${routes.RestaurantDetail}/${id}`);
+            }}
         >
             <VStack w="100%" bg="var(--primary-500)" position={"relative"} spacing={"0"}>
                 {mounted ? (

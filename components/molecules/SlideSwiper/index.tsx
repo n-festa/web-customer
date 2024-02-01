@@ -32,7 +32,7 @@ const SlideSwiper = ({ items, perPage = 3, spaceBetween = "16" }: Props) => {
                 <SwiperSlide key={index}>{el}</SwiperSlide>
             ))}
 
-            <Flex w="100%" justifyContent={"flex-end"} mt="1.6rem">
+            <Flex w="100%" justifyContent={"flex-end"} mt="1.6rem" bg="transparent">
                 <Pagination
                     currentPage={page}
                     onChangePage={(_index: number) => {
