@@ -1,6 +1,10 @@
 "use client";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import apiServices from "@/services/sevices";
+import { setInfoSign } from "@/store/reducers/auth";
+import { filedType, formType } from "@/types/form";
+import { convertToInternationalFormat } from "@/utils/functions";
+import { routes } from "@/utils/routes";
 import {
     Box,
     Button,
@@ -13,13 +17,9 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { setInfoSign } from "@/store/reducers/auth";
-import { routes } from "@/utils/routes";
-import { filedType, formType } from "@/types/form";
-import { convertToInternationalFormat } from "@/utils/functions";
 
 const Login = () => {
     const router = useRouter();
@@ -60,8 +60,9 @@ const Login = () => {
                         validationSchema={Yup.object({
                             phoneNumber: Yup.string()
                                 .required("Vui lòng nhập số điện thoại")
-                                .length(10, "Vui lòng nhập đúng 10 số")
-                                .matches(phoneRegExp, "Vui lòng nhập đúng định dạng số điện thoại"),
+                                .min(9, "Số điện thoại không hợp lệ")
+                                .max(10, "Số điện thoại không hợp lệ")
+                                .matches(phoneRegExp, "Số điện thoại không hợp lệ"),
                         })}
                         onSubmit={(values, actions) => {
                             handleSubmit(values, actions);
@@ -115,13 +116,25 @@ const Login = () => {
                                                     border="none"
                                                     h="4.0rem"
                                                     type="tel"
-                                                    placeholder="+84 (555) 000-0000"
+                                                    placeholder="(555) 000-0000"
                                                     fontSize="1.6rem"
                                                     fontWeight="400"
                                                     color="#667085"
-                                                    pl="5.7rem"
+                                                    pl="9rem"
+                                                    pb="0.2rem"
                                                     {...field}
                                                 />
+                                                <Text
+                                                    position="absolute"
+                                                    left="5.7rem"
+                                                    top="50%"
+                                                    transform="translateY(-50%)"
+                                                    fontSize="1.6rem"
+                                                    fontWeight="400"
+                                                    color="#667085"
+                                                >
+                                                    +84
+                                                </Text>
                                             </InputGroup>
                                             <FormErrorMessage fontSize="1.4rem">
                                                 {form.errors.phoneNumber}

@@ -28,10 +28,12 @@ export const isTimeDiffMoreThan30Min = (afterCurrent: number) => {
 };
 
 export const convertToInternationalFormat = (phoneNumber: string): string => {
-    if (!phoneNumber.startsWith("84")) {
+    const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+    const phoneSubmit = `84${phoneNumber}`;
+    if (phoneSubmit.match(regexPhoneNumber)) {
         return `84${phoneNumber.slice(1)}`;
     }
-    return phoneNumber;
+    return phoneSubmit;
 };
 
 export const createQueryString = (queries: { name: string; value: string }[]) => {
