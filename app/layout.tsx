@@ -40,9 +40,9 @@ export default async function RootLayout({ children }: LayoutProps) {
             <body suppressHydrationWarning className={`${quicksand.className}`}>
                 <ColorModeScript initialColorMode={theme.config?.initialColorMode} />
                 <Providers>
-                    <Flex h="100%" w="100%" overflow="auto" flexDir="column">
+                    <Flex pos="absolute" h="calc(100% - 8rem)" w="100%" top="8rem" overflow="overlay" flexDir="column">
                         <Header />
-                        <Flex flex={1} w="100%" pt="8rem">
+                        <Flex flex={1} w="100%">
                             {children}
                         </Flex>
                         <Footer />

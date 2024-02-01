@@ -5,8 +5,11 @@ import Feedback from "@/components/pages/detail/Feedback";
 import MenuToday from "@/components/pages/detail/MenuToday";
 import RestaurantGallery from "@/components/pages/detail/RestautantGallery";
 import { Box, Flex, HStack } from "@chakra-ui/react";
+import { useParams } from "next/navigation";
 
 const RestautantDetailPage = () => {
+    const { detail } = useParams();
+
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
             <HStack w="100%" justifyContent={"flex-start"} alignItems={"flex-start"} spacing={"2rem"} px="4rem">
@@ -42,7 +45,11 @@ const RestautantDetailPage = () => {
                     <MenuToday />
                 </Flex>
                 <Box display={{ base: "none", lg: "block" }}>
-                    <Cart border="1px solid var(--gray-300)" w={{ xl: "42.6rem", base: "35rem" }} display={{}} />
+                    <Cart
+                        border="1px solid var(--gray-300)"
+                        w={{ xl: "42.6rem", base: "35rem" }}
+                        restaurant_id={Number(detail)}
+                    />
                 </Box>
             </HStack>
         </Flex>

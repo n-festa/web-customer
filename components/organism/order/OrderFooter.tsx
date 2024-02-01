@@ -27,7 +27,7 @@ const OrderFooter = ({ quantity = 1, price = 0, onUpdateCart }: Props) => {
             w="100%"
             justifyContent={"center"}
             bg="#FAFFDD"
-            position={"absolute"}
+            position={"fixed"}
             left={"0"}
             bottom="0"
             right="0"

@@ -51,9 +51,10 @@ const Header = () => {
                 zIndex="999"
                 alignItems="center"
                 w="100%"
+                top="0"
                 bg={showDeliveryBox ? "white" : "var(--main-bg-color)"}
                 justifyContent="space-between"
-                borderBottom="1px solid var(--gray-100)"
+                borderBottom="1px solid var(--gray-300)"
             >
                 <HStack
                     spacing={{ lg: "4rem", base: "1rem" }}

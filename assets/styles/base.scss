@@ -23,15 +23,11 @@
     text-decoration-color: var(--main-color);
     -webkit-text-decoration-color: var(--main-color);
 }
-::-webkit-scrollbar {
-    display: none;
-}
 
 html {
     font-size: 6.5px;
     overflow: hidden;
     -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
     @media screen and (min-width: 414px) {
         font-size: 7.5px;
     }
@@ -48,14 +44,7 @@ html {
         font-size: 10px;
     }
 }
-* {
-    /* Only allow scroll gestures */
-    touch-action: pan-x pan-y;
-    -webkit-overflow-scrolling: touch;
-    outline-color: transparent;
-    outline-style: none;
-    outline-width: 0;
-}
+
 img {
     user-select: none;
     -moz-user-select: none;
