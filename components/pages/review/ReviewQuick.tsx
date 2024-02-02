@@ -1,6 +1,6 @@
-import { Box, Button, Flex, HStack, Img, Input, Text, Textarea } from "@chakra-ui/react";
-import config from "@/config";
 import GroupRadioButton from "@/components/atoms/radio/GroupRadioButton";
+import config from "@/config";
+import { Box, Button, Flex, HStack, Img, Input, Text, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 import UIRating from "./UIRating";
 const {
@@ -48,9 +48,6 @@ const ReviewQuick = () => {
                 isRounded
                 options={formData.satisfied}
                 defaultValue={"Đồ ăn chất lượng"}
-                onChange={function (_value: string): void {
-                    //
-                }}
             ></GroupRadioButton>
             <Box m="1.8rem 0 1rem">
                 <Textarea placeholder="Hãy chia sẻ nhận xét cho dịch vụ này bạn nhé!" minH="12.8rem" />

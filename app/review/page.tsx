@@ -1,17 +1,10 @@
 "use client";
-import { useState } from "react";
 import { BackButton } from "@/components/atoms/bottom/BackButton";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import { TabReview } from "@/utils/constants";
-import TabItem from "@/components/pages/review/TabItem";
-import ReviewQuick from "@/components/pages/review/ReviewQuick";
 import ReviewDetail from "@/components/pages/review/ReviewDetail";
+import ReviewQuick from "@/components/pages/review/ReviewQuick";
+import { Box, Flex, Heading, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 
 const Review = () => {
-    const [tab, setTab] = useState<number>(TabReview.quick);
-    const handleTab = (numberTab: number) => {
-        setTab(numberTab);
-    };
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
@@ -39,19 +32,34 @@ const Review = () => {
                         <Text>-</Text>
                         <Text>Ngày: 26/07/2023</Text>
                     </Flex>
-                    <Flex gap="2rem" w="100%" justifyContent="start" borderBottom="1px solid var(--gray-300)">
-                        <TabItem
-                            active={tab === TabReview.quick}
-                            content="Đánh giá nhanh"
-                            onClick={() => handleTab(TabReview.quick)}
-                        />
-                        <TabItem
-                            active={tab === TabReview.detail}
-                            content="Đánh giá chi tiết"
-                            onClick={() => handleTab(TabReview.detail)}
-                        />
-                    </Flex>
-                    <Box mt="2rem">{tab === TabReview.quick ? <ReviewQuick /> : <ReviewDetail />}</Box>
+                    <Tabs>
+                        <TabList>
+                            <Tab
+                                color="var(--gray-500)"
+                                fontSize="1.6rem"
+                                fontWeight="600"
+                                _selected={{ borderColor: "#00322A", color: "var(--gray-700)" }}
+                            >
+                                Đánh giá nhanh
+                            </Tab>
+                            <Tab
+                                color="var(--gray-500)"
+                                fontSize="1.6rem"
+                                fontWeight="600"
+                                _selected={{ borderColor: "#00322A", color: "var(--gray-700)" }}
+                            >
+                                Đánh giá chi tiết
+                            </Tab>
+                        </TabList>
+                        <TabPanels mt="2rem">
+                            <TabPanel>
+                                <ReviewQuick />
+                            </TabPanel>
+                            <TabPanel>
+                                <ReviewDetail />
+                            </TabPanel>
+                        </TabPanels>
+                    </Tabs>
                 </Box>
             </Flex>
         </Flex>

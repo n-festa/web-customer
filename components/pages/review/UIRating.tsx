@@ -42,7 +42,7 @@ const UIRating = ({ maxRating, size }: UIRatingProps) => {
 
     return (
         <Flex gap={`${size === "lg" ? "0.7rem" : "0.4rem"}`}>
-            {[...Array(maxRating)].map((star, index) => renderStar(index + 1))}
+            {[...Array(maxRating)].map((_star, index) => renderStar(index + 1))}
         </Flex>
     );
 };

@@ -5,7 +5,7 @@ interface ReviewDetailItemProps {
     title: string;
     iconTitle: string;
 }
-const ReviewDetail = ({ title, iconTitle }: ReviewDetailItemProps) => {
+const ReviewDetailItem = ({ title, iconTitle }: ReviewDetailItemProps) => {
     const [listImage, setListImage] = useState<string[]>([]);
     const [listImageUpload, setListImageUpload] = useState<File[]>([]);
     const handleUpload = (event: any) => {
@@ -13,7 +13,7 @@ const ReviewDetail = ({ title, iconTitle }: ReviewDetailItemProps) => {
         setListImageUpload([...listImageUpload, event.target.files[0]]);
     };
     return (
-        <Flex pb="4.8rem" w="100%">
+        <Flex pb="4.8rem" w="100%" gap="2rem" flexDirection={{ base: "column", md: "row" }}>
             <Box flex="1">
                 <Flex gap="1.6rem" alignItems="center">
                     <Img w="3.6rem" height="auto" src={iconTitle} />
@@ -59,4 +59,4 @@ const ReviewDetail = ({ title, iconTitle }: ReviewDetailItemProps) => {
     );
 };
 
-export default ReviewDetail;
+export default ReviewDetailItem;

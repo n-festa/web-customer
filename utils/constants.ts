@@ -6,11 +6,6 @@ export const FoodOtherFilterOptions = [
     { key: FoodOtherFilterOptionsKeys.LT500Kcal, name: "< 500 Kcal" },
 ];
 
-export const TabReview = {
-    quick: 1,
-    detail: 2,
-};
-
 export const storageKeys = {
     userProfile: "userProfile",
 };
