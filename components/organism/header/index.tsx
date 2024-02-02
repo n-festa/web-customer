@@ -50,7 +50,7 @@ const Header = () => {
             <SlideMenu onClose={onClose} isOpen={isOpen} />
             <HStack
                 position="fixed"
-                pr={{ base: "1.5rem", lg: "8.3rem" }}
+                pr={{ base: "1.5rem", lg: showDeliveryBox ? "7.1rem" : "8.3rem" }}
                 h="8rem"
                 zIndex="999"
                 alignItems="center"
