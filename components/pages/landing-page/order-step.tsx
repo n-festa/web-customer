@@ -15,18 +15,18 @@ const StepItem = ({
         <Flex
             mx="1rem"
             position="relative"
-            maxW={{ base: "100%", md: "30.5rem" }}
-            flexDir={{ base: "row", md: "column" }}
+            maxW={{ base: "100%", lg: "30.5rem" }}
+            flexDir={{ base: "row", lg: "column" }}
             alignItems="center"
-            justifyContent={{ base: "space-between", md: "flex-start" }}
+            justifyContent={{ base: "space-between", lg: "flex-start" }}
         >
             {index != 4 && (
                 <Box
                     w="50%"
-                    position={{ base: "absolute", md: "relative" }}
-                    top={{ base: "100%", md: "unset" }}
-                    left={{ base: "-6rem", md: "unset" }}
-                    transform={{ base: "rotate(90deg)", md: "translate(100%,2.8rem)" }}
+                    position={{ base: "absolute", lg: "relative" }}
+                    top={{ base: "100%", lg: "unset" }}
+                    left={{ base: "-6rem", lg: "unset" }}
+                    transform={{ base: "rotate(90deg)", lg: "translate(100%,2.8rem)" }}
                     borderTop="2px dashed var(--color-yellowgreen-100)"
                 />
             )}
@@ -63,13 +63,14 @@ const OrderStep = () => {
             id="order-section"
             alignItems="center"
             py="5rem"
+            px={{ base: "unser", lg: "6.7rem" }}
             flexDir="column"
             justifyContent="space-between"
         >
             <Text fontSize="4.8rem" fontWeight="bold" textAlign="center" color="var(--sub-text-color)">
                 Cách đặt hàng
             </Text>
-            <Flex mt="3.6rem" flexDir={{ base: "column", md: "row" }} justifyContent="space-between">
+            <Flex mt="3.6rem" flexDir={{ base: "column", lg: "row" }} justifyContent="space-between">
                 <StepItem
                     title="Tìm món ăn"
                     index={1}
