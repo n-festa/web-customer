@@ -18,3 +18,11 @@ export enum FoodOtherFilterOptionsKeys {
     Vegetarian = "vegetarian",
     LT500Kcal = "less-than-500-kcal",
 }
+
+export enum KeyPress {
+    up = "ArrowUp",
+    down = "ArrowDown",
+    left = "ArrowLeft",
+    right = "ArrowRight",
+    enter = "Enter",
+}

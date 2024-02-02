@@ -1,7 +1,9 @@
 import { HighlightedText } from "@/components/atoms/Label/HighlightedLabel";
 import { SearchLocationErrorType } from "@/hooks/useSearchPlace";
+import { KeyPress } from "@/types/enum";
 import { SearchError, SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { Collapse, CollapseProps, Flex, Spinner, StackProps, VStack } from "@chakra-ui/react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const LocationSuggestion = ({
     input,
@@ -20,8 +22,28 @@ const LocationSuggestion = ({
     styleProps?: StackProps & { hoverBg?: string };
 } & CollapseProps) => {
     const { hoverBg, ...styles } = styleProps || {};
+    const ref = useRef<HTMLDivElement>(null);
+    const [selectState, setSelectState] = useState<number>(0);
+    const handleKeyboard = useCallback(
+        (e: KeyboardEvent) => {
+            e.key === KeyPress.down && setSelectState((prev) => Math.min(prev + 1, suggestionPlaces.length - 1 ?? 0));
+            e.key === KeyPress.up && setSelectState((prev) => Math.max(prev - 1, 0));
+            e.key === KeyPress.enter && onClickRow?.(suggestionPlaces[selectState]);
+        },
+        [onClickRow, selectState, suggestionPlaces],
+    );
+    useEffect(() => {
+        if (props.in && ref.current) {
+            document.addEventListener("keydown", handleKeyboard);
+        } else {
+            setSelectState(0);
+        }
+        return () => {
+            document.removeEventListener("keydown", handleKeyboard);
+        };
+    }, [handleKeyboard, props.in]);
     return (
-        <Collapse {...props}>
+        <Collapse {...props} ref={ref}>
             <VStack
                 position="absolute"
                 zIndex={999}
@@ -53,9 +75,7 @@ const LocationSuggestion = ({
                         cursor="pointer"
                         borderRadius="0.6rem"
                         px="1rem"
-                        _hover={{
-                            bg: hoverBg ?? "var(--main-bg-color-light-alpha)",
-                        }}
+                        bg={selectState === index ? hoverBg ?? "var(--main-bg-color-light-alpha)" : undefined}
                         onClick={() => onClickRow?.(suggestion)}
                         w="100%"
                         key={"suggestion" + index}
@@ -63,6 +83,9 @@ const LocationSuggestion = ({
                         fontSize="1.6rem"
                         alignItems="center"
                         textOverflow="ellipsis"
+                        onMouseEnter={() => {
+                            setSelectState(index);
+                        }}
                     >
                         <HighlightedText
                             text={suggestion?.formatted_address ?? ""}
