@@ -28,6 +28,22 @@ const RestautantDetailPage = () => {
                                 food_rating_id: 1,
                                 score: 5,
                                 remarks: "“ Đồ ăn tươi, rất hợp khẩu vị mình.”",
+                                isShowAuthor: true,
+                            },
+                            {
+                                food_rating_id: 1,
+                                score: 5,
+                                remarks: "“ Đóng gói đẹp, thức ăn rất tươi.”",
+                            },
+                            {
+                                food_rating_id: 1,
+                                score: 5,
+                                remarks: "“ Đóng gói đẹp, thức ăn rất tươi.”",
+                            },
+                            {
+                                food_rating_id: 1,
+                                score: 5,
+                                remarks: "“ Đóng gói đẹp, thức ăn rất tươi.”",
                             },
                             {
                                 food_rating_id: 1,
@@ -35,7 +51,6 @@ const RestautantDetailPage = () => {
                                 remarks: "“ Đóng gói đẹp, thức ăn rất tươi.”",
                             },
                         ]}
-                        isShowAuthor={true}
                         title="Khách hàng nhận xét"
                         bg="#F4F9EC"
                         p="1.6rem 3.2rem"
@@ -46,6 +61,9 @@ const RestautantDetailPage = () => {
                 </Flex>
                 <Box display={{ base: "none", lg: "block" }}>
                     <Cart
+                        h="calc(100dvh - 8.8rem)"
+                        position="fixed"
+                        borderTop="none"
                         border="1px solid var(--gray-300)"
                         w={{ xl: "42.6rem", base: "35rem" }}
                         restaurant_id={Number(detail)}

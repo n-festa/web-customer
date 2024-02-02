@@ -52,23 +52,17 @@ const SearchLocation = ({
     });
     const [isShowSuggestion, setShowSuggestion] = useState(false);
     const ref = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const router = useRouter();
 
     useOnClickOutside(ref, () => {
         setShowSuggestion(false);
     });
 
-    const onSubmit = useCallback(
-        (e: FormEvent<HTMLDivElement>) => {
-            e.preventDefault();
-
-            if (!isShowSuggestion) {
-                setShowSuggestion(true);
-                return;
-            }
-        },
-        [isShowSuggestion],
-    );
+    const onSubmit = useCallback((e: FormEvent<HTMLDivElement>) => {
+        e.preventDefault();
+    }, []);
     const handleOnClickSearch = useCallback(() => {
         if (selectedPlace) {
             router.push(routes.Search);
@@ -101,6 +95,7 @@ const SearchLocation = ({
                     </InputLeftElement>
                 )}
                 <Input
+                    ref={inputRef}
                     placeholder="Nhập địa chỉ để tìm món ngon gần bạn"
                     ml="1.6rem"
                     fontSize="1.8rem"
@@ -113,6 +108,9 @@ const SearchLocation = ({
                     {...inputProps}
                     value={input}
                     onChange={(e) => {
+                        if (!isShowSuggestion) {
+                            setShowSuggestion(true);
+                        }
                         setSelectedPlace(undefined);
                         setInput(e.target.value);
                     }}
@@ -123,6 +121,7 @@ const SearchLocation = ({
                     <InputRightElement mr="1.6rem" h="100%" w="fit-content" display="flex" gap="0.5rem">
                         <LocateFixed
                             onClick={() => {
+                                inputRef.current?.focus();
                                 setShowSuggestion(true);
                                 onClickDetect();
                             }}

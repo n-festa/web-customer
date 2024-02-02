@@ -1,6 +1,7 @@
 "use client";
 import { routes } from "@/utils/routes";
 import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
@@ -94,13 +95,34 @@ const Footer = () => {
                             Về chúng tôi
                         </Text>
                         <VStack alignItems="flex-start" className="footer-links">
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text
+                                as={Link}
+                                href="#"
+                                variant="hoverWhite"
+                                fontSize="1.6rem"
+                                fontWeight="600"
+                                wordBreak="keep-all"
+                            >
                                 Đội ngũ
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text
+                                as={Link}
+                                href="#"
+                                variant="hoverWhite"
+                                fontSize="1.6rem"
+                                fontWeight="600"
+                                wordBreak="keep-all"
+                            >
                                 Việc làm
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text
+                                as={Link}
+                                href="#"
+                                variant="hoverWhite"
+                                fontSize="1.6rem"
+                                fontWeight="600"
+                                wordBreak="keep-all"
+                            >
                                 Tin tức
                             </Text>
                         </VStack>
@@ -158,25 +180,25 @@ const Footer = () => {
                             Theo dõi tại
                         </Text>
                         <VStack alignItems="flex-start" className="footer-links">
-                            <HStack>
+                            <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/instagram.svg" />
                                 <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
                                     Instagram
                                 </Text>
                             </HStack>
-                            <HStack>
+                            <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/facebook.svg" />
                                 <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
                                     Facebook
                                 </Text>
                             </HStack>
-                            <HStack>
+                            <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/linkedin.svg" />
                                 <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
                                     Linkedin
                                 </Text>
                             </HStack>
-                            <HStack>
+                            <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/246x0w-1@2x.png" />
                                 <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
                                     Zalo

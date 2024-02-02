@@ -42,7 +42,7 @@ const ProductDetailPage = () => {
                 <SimilarDishes />
                 <Feedback reviews={foodInfo.info?.reviews ?? []} />
                 <OrderFooter
-                    quantity={0}
+                    quantity={1}
                     price={80000}
                     onUpdateCart={(_quantity: number) => {
                         const foodValueSetting = formRef.current?.values;

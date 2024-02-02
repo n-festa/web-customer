@@ -15,12 +15,14 @@ const Header = () => {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const pathname = usePathname();
 
-    const { showDeliveryBox, showSignUpGroup, showListNavi } = useMemo(() => {
+    const { showDeliveryBox, showSignUpGroup, showListNavi, bg } = useMemo(() => {
         let showDeliveryBox = false;
+        let bg = "white";
         let showSignUpGroup = true;
         let showListNavi = false;
         switch (pathname) {
             case routes.Home:
+                bg = "var(--main-bg-color)";
                 showListNavi = true;
                 break;
             case routes.Otp:
@@ -29,6 +31,8 @@ const Header = () => {
             case routes.AdditionalSignUpInfo:
                 showListNavi = true;
                 showSignUpGroup = false;
+                bg = "var(--main-bg-color)";
+
                 break;
             default:
                 const index = [routes.RestaurantDetail, routes.Search, routes.SearchDetail].findIndex((el) =>
@@ -37,7 +41,7 @@ const Header = () => {
                 if (index != -1) showDeliveryBox = true;
                 break;
         }
-        return { showDeliveryBox, showSignUpGroup, showListNavi };
+        return { showDeliveryBox, showSignUpGroup, showListNavi, bg };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
@@ -46,31 +50,42 @@ const Header = () => {
             <SlideMenu onClose={onClose} isOpen={isOpen} />
             <HStack
                 position="fixed"
-                px="3.1rem"
+                pr={{ base: "1.5rem", lg: showDeliveryBox ? "7.1rem" : "8.3rem" }}
                 h="8rem"
                 zIndex="999"
                 alignItems="center"
                 w="100%"
                 top="0"
-                bg={showDeliveryBox ? "white" : "var(--main-bg-color)"}
+                bg={bg}
                 justifyContent="space-between"
                 borderBottom="1px solid var(--gray-300)"
             >
                 <HStack
                     spacing={{ lg: "4rem", base: "1rem" }}
                     cursor="pointer"
+                    pl={"3.1rem"}
                     display={{ base: "flex", lg: !showListNavi ? "flex" : "none" }}
                 >
                     <Image alt="menu" onClick={onOpen} color="red" src={"/images/menu-03.svg"} />
                     <Link href="/">
-                        <Image width={143} height={33} alt="fictional-company-logo" src="/images/logo1.svg" />
+                        <Image
+                            width={"14.3rem"}
+                            height={"3.3rem"}
+                            alt="fictional-company-logo"
+                            src="/images/logo1.svg"
+                        />
                     </Link>
                     {showDeliveryBox && <DeliveryLocation />}
                 </HStack>
                 {showListNavi && (
-                    <Flex display={{ base: "none", lg: "flex" }} h="100%" alignItems="center">
+                    <Flex pl="8.3rem" display={{ base: "none", lg: "flex" }} h="100%" alignItems="center">
                         <Link href="/">
-                            <Image width={143} height={33} alt="fictional-company-logo" src="/images/logo1.svg" />
+                            <Image
+                                width={"14.3rem"}
+                                height={"3.3rem"}
+                                alt="fictional-company-logo"
+                                src="/images/logo1.svg"
+                            />
                         </Link>
 
                         <HStack alignItems="center" h="100%" gap="3.2rem" mr="3rem">
@@ -92,10 +107,21 @@ const Header = () => {
 
                 <HStack spacing="1.6rem">
                     <HStack spacing="1.6rem">
-                        {showSignUpGroup && <UserGroup />}
+                        {!showListNavi && (
+                            <Text
+                                whiteSpace="nowrap"
+                                color="var(--gray-600)"
+                                fontSize="1.6rem"
+                                fontWeight="medium"
+                                display={{ base: "none", lg: "block" }}
+                            >
+                                Hotline: 1900 54 54
+                            </Text>
+                        )}
+                        {showSignUpGroup && <UserGroup bg={bg} />}
                         <CartIcon />
                     </HStack>
-                    <HStack as="button" alignItems="center">
+                    <HStack as="button" alignItems="center" display={{ base: "none", lg: "flex" }}>
                         <Text
                             color="var(--text-gray)"
                             display={{ base: "none", md: "block" }}
