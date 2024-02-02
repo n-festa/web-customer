@@ -58,12 +58,10 @@ const LocationSuggestion = ({
                         }}
                         onClick={() => onClickRow?.(suggestion)}
                         w="100%"
-                        h="4.8rem"
                         key={"suggestion" + index}
                         color="var(--gray-600)"
                         fontSize="1.6rem"
                         alignItems="center"
-                        overflow="hidden"
                         textOverflow="ellipsis"
                     >
                         <HighlightedText
