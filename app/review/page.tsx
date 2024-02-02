@@ -7,7 +7,7 @@ import TabItem from "@/components/pages/review/TabItem";
 import ReviewQuick from "@/components/pages/review/ReviewQuick";
 import ReviewDetail from "@/components/pages/review/ReviewDetail";
 
-const Search = () => {
+const Review = () => {
     const [tab, setTab] = useState<number>(TabReview.quick);
     const handleTab = (numberTab: number) => {
         setTab(numberTab);
@@ -58,4 +58,4 @@ const Search = () => {
     );
 };
 
-export default Search;
+export default Review;
