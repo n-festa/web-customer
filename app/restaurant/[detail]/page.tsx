@@ -61,6 +61,9 @@ const RestautantDetailPage = () => {
                 </Flex>
                 <Box display={{ base: "none", lg: "block" }}>
                     <Cart
+                        h="calc(100dvh - 8.8rem)"
+                        position="fixed"
+                        borderTop="none"
                         border="1px solid var(--gray-300)"
                         w={{ xl: "42.6rem", base: "35rem" }}
                         restaurant_id={Number(detail)}

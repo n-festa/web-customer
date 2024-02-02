@@ -15,12 +15,14 @@ const Header = () => {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const pathname = usePathname();
 
-    const { showDeliveryBox, showSignUpGroup, showListNavi } = useMemo(() => {
+    const { showDeliveryBox, showSignUpGroup, showListNavi, bg } = useMemo(() => {
         let showDeliveryBox = false;
+        let bg = "white";
         let showSignUpGroup = true;
         let showListNavi = false;
         switch (pathname) {
             case routes.Home:
+                bg = "var(--main-bg-color)";
                 showListNavi = true;
                 break;
             case routes.Otp:
@@ -29,6 +31,8 @@ const Header = () => {
             case routes.AdditionalSignUpInfo:
                 showListNavi = true;
                 showSignUpGroup = false;
+                bg = "var(--main-bg-color)";
+
                 break;
             default:
                 const index = [routes.RestaurantDetail, routes.Search, routes.SearchDetail].findIndex((el) =>
@@ -37,7 +41,7 @@ const Header = () => {
                 if (index != -1) showDeliveryBox = true;
                 break;
         }
-        return { showDeliveryBox, showSignUpGroup, showListNavi };
+        return { showDeliveryBox, showSignUpGroup, showListNavi, bg };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
@@ -52,7 +56,7 @@ const Header = () => {
                 alignItems="center"
                 w="100%"
                 top="0"
-                bg={showDeliveryBox ? "white" : "var(--main-bg-color)"}
+                bg={bg}
                 justifyContent="space-between"
                 borderBottom="1px solid var(--gray-300)"
             >
