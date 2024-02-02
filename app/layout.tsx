@@ -42,9 +42,7 @@ export default async function RootLayout({ children }: LayoutProps) {
                 <Providers>
                     <Flex pos="absolute" h="calc(100% - 8rem)" w="100%" top="8rem" overflow="overlay" flexDir="column">
                         <Header />
-                        <Flex flex={1} w="100%">
-                            {children}
-                        </Flex>
+                        {children}
                         <Footer />
                         <CartModal />
                         <DialogWrapper />

@@ -98,7 +98,7 @@ const Login = () => {
                                                     zIndex={2}
                                                 >
                                                     <Image
-                                                        src="/images/vn.png"
+                                                        src="/images/vn.svg"
                                                         alt="Dan Abramov"
                                                         w="1.6rem"
                                                         h="1.6rem"
