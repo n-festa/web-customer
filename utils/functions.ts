@@ -1,5 +1,7 @@
 import { locationRef, loginSuccessUrl } from "@/app/providers";
 import { CartItem } from "@/types/cart";
+import { formatDate } from "@/utils/date";
+import { isBefore } from "date-fns/isBefore";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { getToken } from "./auth";
 import { routes } from "./routes";
@@ -58,15 +60,35 @@ export const formatMoney = (input?: string | number) => {
     return `${input.toLocaleString()} đ`;
 };
 
-export const getCutoffTime = (cutoffTime?: string) => {
-    if (cutoffTime) {
+export const getCutoffTime = (cutoffTime?: string | string[]) => {
+    if (!cutoffTime) return;
+    if (typeof cutoffTime === "string") {
         const split = cutoffTime.split(":");
         if (split.length > 1) {
             return `${split[0]}:${split[1]}`;
         }
-        return "-";
+        return;
     }
-    return "-";
+
+    const _cutoffTime = cutoffTime ?? [];
+    let date: Date | null = null;
+    if (_cutoffTime.length > 0) {
+        const currentData = new Date();
+
+        _cutoffTime.forEach((el) => {
+            const dateString = formatDate(new Date());
+            if (!isNullOrEmpty(el) && date == null) {
+                const _itemDate = new Date(`${dateString} ${el}`);
+                if (isBefore(currentData, _itemDate)) {
+                    date = _itemDate;
+                }
+            }
+        });
+    }
+    if (date) {
+        return formatDate(date, "HH:mm aa");
+    }
+    return;
 };
 
 export const redirectAfterLogin = (router: AppRouterInstance) => {
@@ -83,4 +105,8 @@ export const genCartNote = (cartItem: CartItem) => {
     cartItem.notes && mapString.push(cartItem.notes);
     //<portion> - <advanced> - <basic> - <note>
     return mapString.join(" - ");
+};
+
+export const isNullOrEmpty = (value?: number | string | Date | null): value is null | undefined => {
+    return (value ?? "") === "";
 };

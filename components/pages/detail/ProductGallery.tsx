@@ -3,7 +3,18 @@ import NutritionInfo from "@/components/pages/detail/NutritionInfo";
 import ProductInfo from "@/components/pages/detail/ProductInfo";
 import { FoodDetailDto } from "@/types/response/FoodResponse";
 import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
-import { Center, Flex, Image, Stack, VStack } from "@chakra-ui/react";
+import {
+    Center,
+    Flex,
+    Image,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalOverlay,
+    Stack,
+    VStack,
+    useDisclosure,
+} from "@chakra-ui/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 interface Props {
@@ -13,11 +24,11 @@ interface Props {
 
 const ProductGallery = ({ info, listSKUs = [] }: Props) => {
     const ref = useRef<HTMLDivElement>(null);
-
-    const [img, setImg] = useState<string>("");
+    const { isOpen: isOpenModal, onOpen, onClose } = useDisclosure();
+    const [img, setImg] = useState<{ img: string; index: number }>({ img: "", index: 0 });
 
     useEffect(() => {
-        const current = document.getElementById(img);
+        const current = document.getElementById(img.img);
         if (current) {
             current.scrollIntoView({ behavior: "smooth", block: "end", inline: "center" });
         }
@@ -25,7 +36,10 @@ const ProductGallery = ({ info, listSKUs = [] }: Props) => {
 
     useEffect(() => {
         if (info?.images && info?.images.length > 0) {
-            setImg(info?.images[0]);
+            setImg({
+                img: info?.images[0],
+                index: 0,
+            });
         }
     }, [info?.images]);
 
@@ -68,11 +82,13 @@ const ProductGallery = ({ info, listSKUs = [] }: Props) => {
                                 borderRadius={"0.8rem"}
                                 id={el}
                                 onClick={() => {
-                                    if (img !== el) {
-                                        setImg(el);
-                                    }
+                                    setImg({
+                                        img: el,
+                                        index: index,
+                                    });
                                 }}
                                 fallbackSrc="/images/food-detail.png"
+                                border={img.index == index ? "1px solid var(--gray-500)" : ""}
                             />
                         ))}
                     </Stack>
@@ -80,10 +96,12 @@ const ProductGallery = ({ info, listSKUs = [] }: Props) => {
                         <Image
                             maxH="30rem"
                             maxW="90%"
-                            src={img}
+                            key={String(img.index)}
+                            src={img.img}
                             alt=""
                             objectFit={"contain"}
                             fallbackSrc="/images/food-detail.png"
+                            onClick={onOpen}
                         />
                     </Center>
                 </Stack>
@@ -95,6 +113,25 @@ const ProductGallery = ({ info, listSKUs = [] }: Props) => {
                 </Flex>
             </Stack>
             <IngredientInfo info={info} activeSKU={activeSKU} />
+            <Modal isOpen={isOpenModal} onClose={onClose} isCentered variant={"preview"}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalBody position={"relative"} borderRadius={"1.6rem"}>
+                        <Center
+                            borderRadius={"1.6rem"}
+                            w="100%"
+                            h="100%"
+                            overflow={"hidden"}
+                            bgPosition={"center"}
+                            bgSize={"contain"}
+                            bgRepeat={"no-repeat"}
+                            style={{
+                                backgroundImage: `url("${img.img}"), url("/images/food-detail.png")`,
+                            }}
+                        ></Center>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </Flex>
     );
 };

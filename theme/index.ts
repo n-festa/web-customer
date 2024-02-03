@@ -1,3 +1,4 @@
+import { modalStyle } from "@/theme/modal";
 import { selectStyle } from "@/theme/select";
 import { switchStyle } from "@/theme/switch";
 import tabStyle from "@/theme/tab";
@@ -62,6 +63,7 @@ const theme: ThemeOverride = extendTheme({
         Tabs: tabStyle,
         Switch: switchStyle,
         Menu: menuTheme,
+        Modal: modalStyle,
     },
     textStyles,
 });
