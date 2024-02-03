@@ -10,7 +10,6 @@ import DialogWrapper from "@/components/modal/dialog/DialogWrapper";
 import Loading from "@/components/organism/Loading";
 import Footer from "@/components/organism/footer";
 import Header from "@/components/organism/header";
-import "@goongmaps/goong-js/dist/goong-js.css";
 import "../assets/css/bootstrap.min.css";
 import "../assets/css/global.css";
 import "../assets/css/style.css";

@@ -34,9 +34,12 @@ const Header = () => {
 
                 break;
             default:
-                const index = [routes.RestaurantDetail, routes.Search, routes.SearchDetail].findIndex((el) =>
-                    pathname.includes(el),
-                );
+                const index = [
+                    routes.RestaurantDetail,
+                    routes.Search,
+                    routes.SearchDetail,
+                    routes.OrderDetail,
+                ].findIndex((el) => pathname.includes(el));
                 if (index != -1) showDeliveryBox = true;
                 break;
         }

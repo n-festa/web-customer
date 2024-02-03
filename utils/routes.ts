@@ -10,4 +10,5 @@ export const routes = {
     ProductDetail: "/detail",
     ConfirmOrder: "/confirm",
     review: "/review",
+    OrderDetail: "/order/detail",
 };

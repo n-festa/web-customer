@@ -10,6 +10,7 @@ import colors from "./colors";
 import inputStyle from "./input";
 import { menuTheme } from "./menu";
 import { radioTheme } from "./radio";
+import { stepperTheme } from "./stepper";
 import textStyle from "./text";
 import textAreaStyle from "./textArea";
 import textStyles from "./textStyle";
@@ -64,6 +65,7 @@ const theme: ThemeOverride = extendTheme({
         Switch: switchStyle,
         Menu: menuTheme,
         Modal: modalStyle,
+        Stepper: stepperTheme,
     },
     textStyles,
 });
