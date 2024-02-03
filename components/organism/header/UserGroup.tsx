@@ -32,13 +32,13 @@ const UserGroup = ({ bg }: { bg?: string }) => {
             </MenuButton>
             <MenuList bg={bg}>
                 <MenuItem bg={bg} as={Link} href={routes.AdditionalSignUpInfo}>
-                    Thay đổi thông tin
+                    Hồ sơ
                 </MenuItem>
                 <MenuItem bg={bg} as={Link} href={"/history"}>
-                    Lịch sử đơn hàng
+                    Đơn hàng
                 </MenuItem>
                 <MenuItem bg={bg} onClick={() => logout()}>
-                    Đăng xuất
+                    Thoát
                 </MenuItem>
             </MenuList>
         </Menu>
