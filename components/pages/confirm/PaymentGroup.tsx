@@ -1,11 +1,14 @@
 import CartItem from "@/components/organism/CartItem";
 import { cartSynced } from "@/recoil/recoilState";
 import { formatMoney, genCartNote } from "@/utils/functions";
+import { routes } from "@/utils/routes";
 import { Button, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import { useRecoilValue } from "recoil";
 
 const PaymentGroup = (props: FlexProps) => {
     const cart = useRecoilValue(cartSynced);
+    const router = useRouter();
     return (
         <Flex
             color="black"
@@ -90,7 +93,13 @@ const PaymentGroup = (props: FlexProps) => {
                         {formatMoney(160000)}
                     </Text>
                 </Flex>
-                <Button h="4.8rem" borderRadius="2.4rem">
+                <Button
+                    h="4.8rem"
+                    onClick={() => {
+                        router.push(routes.OrderDetail);
+                    }}
+                    borderRadius="2.4rem"
+                >
                     ĐẶT HÀNG
                 </Button>
             </Flex>
