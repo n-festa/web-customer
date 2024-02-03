@@ -14,7 +14,6 @@ const CartIcon = dynamic(() => import("@/components/atoms/CartIcon"), { ssr: fal
 const Header = () => {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const pathname = usePathname();
-
     const { showDeliveryBox, showSignUpGroup, showListNavi, bg } = useMemo(() => {
         let showDeliveryBox = false;
         let bg = "white";

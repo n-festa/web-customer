@@ -24,7 +24,7 @@ const useUpdateCart = () => {
                 return;
             }
             let cartInfo = cloneDeep(currentCart?.cart_info ?? []);
-            if (cartItem?.restaurant_id != currentCart?.restaurant_id) {
+            if (cartItem?.restaurant_id != currentCart?.restaurant_id && currentCart?.restaurant_id != undefined) {
                 //Show Dialog Clear Current Cart
                 const result = await dialogRef.current?.show({
                     title: "Bạn muốn đặt món ở nhà hàng này?",
