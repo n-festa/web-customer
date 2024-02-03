@@ -1,8 +1,9 @@
 import { RestaurantDto } from "@/types/response/base";
+import { getCutoffTime } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Box, Button, Center, Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player/lazy";
 
 interface Props {
@@ -23,6 +24,7 @@ const FoodChef = ({ data }: Props) => {
         max_price,
         having_vegeterian_food,
         promotion,
+        cutoff_time,
     } = data;
     const [mounted, setMounted] = useState(false);
     const [playing, setPlaying] = useState(false);
@@ -33,6 +35,10 @@ const FoodChef = ({ data }: Props) => {
             setMounted(true);
         }
     }, [mounted]);
+
+    const _time = useMemo(() => {
+        return getCutoffTime(cutoff_time);
+    }, [cutoff_time]);
 
     return (
         <Flex
@@ -140,12 +146,14 @@ const FoodChef = ({ data }: Props) => {
                         </Text>
                     </HStack>
                 )}
-                <HStack spacing="0">
-                    <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2725.svg" />
-                    <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
-                        Đặt trước 09:00 giờ sáng để điều chỉnh vị
-                    </Text>
-                </HStack>
+                {_time && (
+                    <HStack spacing="0">
+                        <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2725.svg" />
+                        <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
+                            Đặt trước {_time} để điều chỉnh vị
+                        </Text>
+                    </HStack>
+                )}
                 {having_vegeterian_food && (
                     <HStack spacing="0">
                         <Img w="2.4rem" height={"2.4rem"} src="/images/icons/vegan.svg" />

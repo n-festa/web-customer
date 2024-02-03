@@ -26,3 +26,8 @@ export enum KeyPress {
     right = "ArrowRight",
     enter = "Enter",
 }
+
+export enum MediaType {
+    Video = "video",
+    Image = "image",
+}

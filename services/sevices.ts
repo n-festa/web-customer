@@ -8,6 +8,7 @@ import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesRespo
 import { GetGeneralFoodRecommendResponse } from "@/types/response/GetGeneralFoodRecommendResponse";
 import { GetGeneralRestaurantRecommendationResponse } from "@/types/response/GetGeneralRestaurantRecommendationResponse";
 import { GetListSKUsByIdResponse } from "@/types/response/GetListSKUsByIdResponse";
+import { RestaurantDetailResponse } from "@/types/response/RestaurantDetailResponse";
 import { SearchFoodAndRestaurantByCategoryIdResponse } from "@/types/response/SearchFoodAndRestaurantByCategoryIdResponse";
 import { SearchFoodByNameResponse } from "@/types/response/SearchFoodByNameResponse";
 import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
@@ -238,6 +239,13 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: "/food/search-by-name",
                 method: "POST",
                 body: params,
+            });
+        },
+
+        getRestaurantDetail: (id: number) => {
+            return this.request<RestaurantDetailResponse>({
+                path: `/restaurant/get-detail/${id}`,
+                method: "GET",
             });
         },
 

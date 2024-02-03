@@ -1,14 +1,17 @@
+import { MediaType } from "@/types/enum";
+import { Review } from "@/types/response/FoodResponse";
+
 export interface BaseNameInterface {
     ISO_language_code: string;
     text: string;
 }
 
 export interface CookingSchedule {
-    dayId: number;
-    dayName: string;
+    day_id: number;
+    day_name: string;
     from: string;
     to: string;
-    isAvailable: boolean;
+    is_available: boolean;
 }
 
 export interface GeoCode {
@@ -39,7 +42,7 @@ export interface FoodDto {
     cooking_time_s?: number;
     quantity_available?: number;
     is_vegetarian?: false;
-    cooking_schedule?: CookingSchedule[];
+    cooking_schedule?: string; // CookingSchedule[];
     units_sold?: number;
 }
 
@@ -59,4 +62,37 @@ export interface RestaurantDto {
     max_price: number;
     min_price: number;
     unit: string;
+}
+
+export interface Media {
+    type: MediaType;
+    url: string;
+}
+
+export interface RestaurantDetailDto {
+    restaurant_id: number;
+    medias: Media[];
+
+    address: {
+        address_line: string;
+        city: string;
+        district: string;
+        ward: string;
+        country: string;
+        latitude: string;
+        longitude: string;
+    };
+    logo_img: string;
+    rating: string;
+    top_food?: string;
+    promotion?: string;
+    reviews: Review[];
+    name: BaseNameInterface[];
+    specialty: BaseNameInterface[];
+    introduction: BaseNameInterface[];
+    review_total_count: number;
+    cutoff_time: string[];
+    having_vegeterian_food: boolean;
+    unit: string;
+    menu: FoodDto[];
 }
