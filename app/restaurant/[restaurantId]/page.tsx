@@ -4,13 +4,28 @@ import Cart from "@/components/organism/Cart";
 import Feedback from "@/components/pages/detail/Feedback";
 import MenuToday from "@/components/pages/detail/MenuToday";
 import RestaurantGallery from "@/components/pages/detail/RestautantGallery";
+import useParams from "@/hooks/useParams";
 import useRestaurantDetail from "@/hooks/useRestaurantDetail";
+import { isNullOrEmpty } from "@/utils/functions";
 import { Box, Flex, HStack } from "@chakra-ui/react";
-import { useParams } from "next/navigation";
+import { useParams as useNextParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const RestautantDetailPage = () => {
-    const { restaurantId } = useParams();
+    const { restaurantId } = useNextParams();
+    const router = useRouter();
+    const {
+        params: { des },
+    } = useParams<{ des?: string }>({ des: undefined });
     const { restaurantInfo } = useRestaurantDetail();
+
+    useEffect(() => {
+        if (!isNullOrEmpty(des)) {
+            setTimeout(() => {
+                router.replace(des);
+            }, 3000);
+        }
+    }, [des, router]);
 
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">

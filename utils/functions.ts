@@ -110,3 +110,7 @@ export const genCartNote = (cartItem: CartItem) => {
 export const isNullOrEmpty = (value?: number | string | Date | null): value is null | undefined => {
     return (value ?? "") === "";
 };
+
+export function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}

@@ -27,7 +27,7 @@ const useSearchResult = () => {
     const profile = useSelector((state: RootState) => state.userInfo.userInfo);
 
     const [state, setState] = useState<DiscoveryState>({
-        keySearch: "",
+        keySearch: params.searchKey ?? "",
         filterCondition: {
             type: params.viewAllRestaurant ? FilterType.Restaurant : FilterType.Food,
             orderOptions: {
@@ -193,11 +193,19 @@ const useSearchResult = () => {
     useEffect(() => {
         // search by food name
         if (params.searchKey) {
+            setState((prevState) => ({
+                ...prevState,
+                keySearch: params.searchKey ?? "",
+            }));
             searchFoodByName();
             return;
         }
         // search food and restaurant by Category
         if (params.categoryId) {
+            setState((prevState) => ({
+                ...prevState,
+                keySearch: "Tất cả",
+            }));
             searchFoodAndRestaurantByCategory();
             return;
         }
@@ -205,6 +213,7 @@ const useSearchResult = () => {
         if (params.viewAllFood) {
             setState((prevState) => ({
                 ...prevState,
+                keySearch: "Tất cả",
                 filterCondition: {
                     ...prevState.filterCondition,
                     type: FilterType.Food,
@@ -217,6 +226,7 @@ const useSearchResult = () => {
         if (params.viewAllRestaurant) {
             setState((prevState) => ({
                 ...prevState,
+                keySearch: "Tất cả",
                 filterCondition: {
                     ...prevState.filterCondition,
                     type: FilterType.Restaurant,

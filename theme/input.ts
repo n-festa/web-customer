@@ -53,6 +53,26 @@ const inputStyle = helpers.defineMultiStyleConfig({
                 },
             },
         },
+        searchBoxViewOnly: {
+            field: {
+                ...textStyles.small1,
+                bg: "white",
+                border: "1px solid var(--gray-300)",
+                borderRadius: "10px",
+                color: "var(--gray-600)",
+                height: "6rem",
+                fontWeight: "medium",
+                _focus: {},
+                _hover: {},
+                _placeholder: {
+                    color: "var(--gray-600)",
+                },
+                _disabled: {
+                    border: "1px solid var(--gray-300)",
+                    opacity: 1,
+                },
+            },
+        },
         stepper: {
             field: {
                 border: "none",

@@ -1,6 +1,6 @@
 import { cartState } from "@/recoil/recoilState";
 import { ProductTypeList } from "@/types";
-import { getCutoffTime } from "@/utils/functions";
+import { getCutoffTime, isNullOrEmpty } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Box, Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
 import { cloneDeep } from "lodash";
@@ -32,6 +32,7 @@ const FoodItemSuspense = ({
     isShowUnitSold = false,
     isShowQuantityAvailable = false,
     cooking_time_s,
+    restaurantId,
 }: ProductTypeList & {
     isShowMerchart?: boolean;
     isShowRating?: boolean;
@@ -81,7 +82,10 @@ const FoodItemSuspense = ({
             flexDir="column"
             cursor={"pointer"}
             onClick={() => {
-                router.push(`${routes.ProductDetail}/${id}`);
+                const path = !isNullOrEmpty(restaurantId)
+                    ? `${routes.ProductDetail}/${id}?restaurantId=${restaurantId}`
+                    : `${routes.ProductDetail}/${id}`;
+                router.push(path);
             }}
         >
             <Flex flexDir="column" background="var(--primary-color)" p="0.8rem 1.6rem 3.2rem 1.6rem">
