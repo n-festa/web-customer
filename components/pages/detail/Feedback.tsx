@@ -1,4 +1,5 @@
 "use client";
+import SkeletonBox from "@/components/molecules/SkeletonBox";
 import SlideSwiper from "@/components/molecules/SlideSwiper";
 import WraperInfo from "@/components/molecules/WraperInfo";
 import { ReviewCard } from "@/components/pages/landing-page/testimonial";
@@ -11,9 +12,10 @@ interface Props {
     title?: string;
     reviewItemProps?: StackProps;
     defaultPerpage?: number;
+    isLoading?: boolean;
 }
 
-const Feedback = ({ reviews, title, reviewItemProps, defaultPerpage = 3, ...rest }: Props & StackProps) => {
+const Feedback = ({ reviews, title, reviewItemProps, defaultPerpage = 3, isLoading, ...rest }: Props & StackProps) => {
     const [isSmaller] = useMediaQuery("(max-width: 700px)");
 
     const perPage = useMemo(() => {
@@ -28,18 +30,22 @@ const Feedback = ({ reviews, title, reviewItemProps, defaultPerpage = 3, ...rest
                 contentProps={{ mt: "1.6rem" }}
                 mt="5.6rem"
             >
-                <SlideSwiper
-                    items={reviews.map((el, index) => (
-                        <ReviewCard
-                            key={String(index)}
-                            star={el.score}
-                            isShowAuthor={el.isShowAuthor}
-                            comment={el.remarks}
-                            {...reviewItemProps}
-                        />
-                    ))}
-                    perPage={perPage}
-                />
+                {isLoading ? (
+                    <SkeletonBox isLoaded={false} />
+                ) : (
+                    <SlideSwiper
+                        items={reviews.map((el, index) => (
+                            <ReviewCard
+                                key={String(index)}
+                                star={el.score}
+                                isShowAuthor={el.isShowAuthor}
+                                comment={el.remarks}
+                                {...reviewItemProps}
+                            />
+                        ))}
+                        perPage={perPage}
+                    />
+                )}
             </WraperInfo>
         </Flex>
     );

@@ -8,6 +8,8 @@ export interface Options {
 export interface FilterCondition {
     type: FilterType;
     sort?: SortOrder;
+    viewAllFood?: boolean;
+    viewAllRestaurant?: boolean;
     other: {
         [FilterType.Food]: string[];
         [FilterType.Restaurant]: string[];

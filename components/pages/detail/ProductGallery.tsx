@@ -1,3 +1,4 @@
+import SkeletonBox from "@/components/molecules/SkeletonBox";
 import IngredientInfo from "@/components/pages/detail/IngredientInfo";
 import NutritionInfo from "@/components/pages/detail/NutritionInfo";
 import ProductInfo from "@/components/pages/detail/ProductInfo";
@@ -20,9 +21,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 interface Props {
     info?: FoodDetailDto;
     listSKUs?: SKUsDto[];
+    isLoading?: boolean;
 }
 
-const ProductGallery = ({ info, listSKUs = [] }: Props) => {
+const ProductGallery = ({ info, listSKUs = [], isLoading }: Props) => {
     const ref = useRef<HTMLDivElement>(null);
     const { isOpen: isOpenModal, onOpen, onClose } = useDisclosure();
     const [img, setImg] = useState<{ img: string; index: number }>({ img: "", index: 0 });
@@ -54,65 +56,84 @@ const ProductGallery = ({ info, listSKUs = [] }: Props) => {
     return (
         <Flex w="100%" flexDirection={"column"} mt="1rem">
             <Stack direction={{ lg: "row", base: "column" }} w="100%">
-                <Stack
-                    direction={{ md: "row", base: "column-reverse" }}
-                    flex="1"
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                >
+                {isLoading ? (
+                    <SkeletonBox isLoaded={false} mt="0.8rem" />
+                ) : (
                     <Stack
-                        direction={{ base: "row", md: "column" }}
-                        justifyContent={{ md: "space-between", base: "center" }}
-                        h={{ base: "10rem", md: "100%" }}
-                        w={{ base: "100%", md: "10rem" }}
-                        maxH={{ base: "unset", md: "33rem" }}
-                        overflow={"hidden"}
-                        overflowY={{ md: "scroll", base: "hidden" }}
-                        overflowX={{ md: "hidden", base: "scroll" }}
-                        ref={ref}
+                        direction={{ md: "row", base: "column-reverse" }}
+                        flex="1"
+                        justifyContent={"center"}
+                        alignItems={"center"}
                     >
-                        {info?.images?.map((el, index) => (
+                        <Stack
+                            direction={{ base: "row", md: "column" }}
+                            justifyContent={{ md: "space-between", base: "center" }}
+                            h={{ base: "10rem", md: "100%" }}
+                            w={{ base: "100%", md: "10rem" }}
+                            maxH={{ base: "unset", md: "33rem" }}
+                            overflow={"hidden"}
+                            overflowY={{ md: "scroll", base: "hidden" }}
+                            overflowX={{ md: "hidden", base: "scroll" }}
+                            ref={ref}
+                        >
+                            {info?.images?.map((el, index) => (
+                                <Image
+                                    boxSize="10rem"
+                                    objectFit="cover"
+                                    src={el}
+                                    alt=""
+                                    key={String(index)}
+                                    cursor={"pointer"}
+                                    borderRadius={"0.8rem"}
+                                    id={el}
+                                    onClick={() => {
+                                        setImg({
+                                            img: el,
+                                            index: index,
+                                        });
+                                    }}
+                                    fallbackSrc="/images/food-detail.png"
+                                    border={img.index == index ? "1px solid var(--gray-500)" : ""}
+                                />
+                            ))}
+                        </Stack>
+                        <Center
+                            flex="1"
+                            h="100%"
+                            bg="var(--primary-500)"
+                            borderRadius={"1.6rem"}
+                            maxH={"33rem"}
+                            p="1.5rem"
+                        >
                             <Image
-                                boxSize="10rem"
-                                objectFit="cover"
-                                src={el}
+                                maxH="30rem"
+                                maxW="90%"
+                                key={String(img.index)}
+                                src={img.img}
                                 alt=""
-                                key={String(index)}
-                                cursor={"pointer"}
-                                borderRadius={"0.8rem"}
-                                id={el}
-                                onClick={() => {
-                                    setImg({
-                                        img: el,
-                                        index: index,
-                                    });
-                                }}
+                                objectFit={"contain"}
                                 fallbackSrc="/images/food-detail.png"
-                                border={img.index == index ? "1px solid var(--gray-500)" : ""}
+                                onClick={onOpen}
                             />
-                        ))}
+                        </Center>
                     </Stack>
-                    <Center flex="1" h="100%" bg="var(--primary-500)" borderRadius={"1.6rem"} maxH={"33rem"} p="1.5rem">
-                        <Image
-                            maxH="30rem"
-                            maxW="90%"
-                            key={String(img.index)}
-                            src={img.img}
-                            alt=""
-                            objectFit={"contain"}
-                            fallbackSrc="/images/food-detail.png"
-                            onClick={onOpen}
-                        />
-                    </Center>
-                </Stack>
-                <Flex w={{ lg: "40%", base: "100%" }}>
-                    <VStack w="100%" align="flex-start" p="0.8rem 0rem 0.8rem 2.4rem" spacing="1rem">
-                        <ProductInfo info={info} activeSKU={activeSKU} />
-                        <NutritionInfo activeSKU={activeSKU} />
-                    </VStack>
-                </Flex>
+                )}
+                {isLoading ? (
+                    <SkeletonBox isLoaded={false} mt="0.8rem" />
+                ) : (
+                    <Flex w={{ lg: "40%", base: "100%" }}>
+                        <VStack w="100%" align="flex-start" p="0.8rem 0rem 0.8rem 2.4rem" spacing="1rem">
+                            <ProductInfo info={info} activeSKU={activeSKU} />
+                            <NutritionInfo activeSKU={activeSKU} />
+                        </VStack>
+                    </Flex>
+                )}
             </Stack>
-            <IngredientInfo info={info} activeSKU={activeSKU} />
+            {isLoading ? (
+                <SkeletonBox isLoaded={false} mt="0.8rem" />
+            ) : (
+                <IngredientInfo info={info} activeSKU={activeSKU} />
+            )}
             <Modal isOpen={isOpenModal} onClose={onClose} isCentered variant={"preview"}>
                 <ModalOverlay />
                 <ModalContent>

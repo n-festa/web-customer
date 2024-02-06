@@ -1,3 +1,4 @@
+import SkeletonBox from "@/components/molecules/SkeletonBox";
 import FoodItem from "@/components/organism/FoodItem";
 import { CookingSchedule, RestaurantDetailDto } from "@/types/response/base";
 import { EEE } from "@/utils/constants";
@@ -11,9 +12,10 @@ import { useMemo, useState } from "react";
 
 interface Props {
     restaurantInfo?: RestaurantDetailDto;
+    isLoading?: boolean;
 }
 
-const MenuToday = ({ restaurantInfo }: Props) => {
+const MenuToday = ({ restaurantInfo, isLoading }: Props) => {
     const defaultValue = formatDate(new Date());
     const listOptions = useMemo(() => {
         const currentDate = new Date();
@@ -137,41 +139,47 @@ const MenuToday = ({ restaurantInfo }: Props) => {
 
             <Box w="100%" mt="2.4rem" flex={1}>
                 <Wrap align="center" justify={"space-between"} spacing={{ base: "4rem", "2xl": "1rem" }} w="100%">
-                    {lstFood.map((item) => (
-                        <WrapItem
-                            key={item.id}
-                            flex={1}
-                            minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
-                            maxW={{ base: "unset", md: "38.4rem" }}
-                        >
-                            <FoodItem
-                                key={item.id}
-                                id={item.id}
-                                name={item.name?.[0].text}
-                                images={item.image}
-                                top_label={item.top_label}
-                                merchart={item.restaurant_name?.[0].text}
-                                cook_method={item.main_cooking_method?.[0].text}
-                                currentPrice={item.price_after_discount}
-                                price={item.price}
-                                ingredientName={item.ingredient_brief_vie}
-                                kcal={item.calorie_kcal}
-                                cooking_time_s={item.cooking_time_s}
-                                distance={item.distance_km}
-                                ratings={item.rating}
-                                units_sold={item.units_sold}
-                                quantity_available={item.quantity_available}
-                                promotion={item.promotion}
-                                cutoff_time={item.cutoff_time}
-                                isShowRating={false}
-                                isShowDistance={false}
-                                isShowTime={false}
-                                isShowMerchart={false}
-                                isShowUnitSold={true}
-                                isShowQuantityAvailable={true}
-                            />
-                        </WrapItem>
-                    ))}
+                    {isLoading
+                        ? Array.from([1, 2, 3], (index) => (
+                              <WrapItem key={`skeleton${index}`} display="flex" flexDir="column" flex={1}>
+                                  <SkeletonBox isLoaded={false} />
+                              </WrapItem>
+                          ))
+                        : lstFood.map((item) => (
+                              <WrapItem
+                                  key={item.id}
+                                  flex={1}
+                                  minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
+                                  maxW={{ base: "unset", md: "38.4rem" }}
+                              >
+                                  <FoodItem
+                                      key={item.id}
+                                      id={item.id}
+                                      name={item.name?.[0].text}
+                                      images={item.image}
+                                      top_label={item.top_label}
+                                      merchart={item.restaurant_name?.[0].text}
+                                      cook_method={item.main_cooking_method?.[0].text}
+                                      currentPrice={item.price_after_discount}
+                                      price={item.price}
+                                      ingredientName={item.ingredient_brief_vie}
+                                      kcal={item.calorie_kcal}
+                                      cooking_time_s={item.cooking_time_s}
+                                      distance={item.distance_km}
+                                      ratings={item.rating}
+                                      units_sold={item.units_sold}
+                                      quantity_available={item.quantity_available}
+                                      promotion={item.promotion}
+                                      cutoff_time={item.cutoff_time}
+                                      isShowRating={false}
+                                      isShowDistance={false}
+                                      isShowTime={false}
+                                      isShowMerchart={false}
+                                      isShowUnitSold={true}
+                                      isShowQuantityAvailable={true}
+                                  />
+                              </WrapItem>
+                          ))}
                 </Wrap>
             </Box>
         </Flex>

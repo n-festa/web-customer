@@ -52,6 +52,9 @@ const RadioButton = (props: { isRounded?: boolean } & RadioProps) => {
                 textTransform={"capitalize"}
                 whiteSpace={"nowrap"}
                 _focus={{}}
+                _disabled={{
+                    cursor: "not-allowed",
+                }}
                 {...style}
             >
                 {props.children}

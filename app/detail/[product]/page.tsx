@@ -1,6 +1,5 @@
 "use client";
 import { BackButton } from "@/components/atoms/bottom/BackButton";
-import SkeletonBox from "@/components/molecules/SkeletonBox";
 import OrderFooter from "@/components/organism/order/OrderFooter";
 import Feedback from "@/components/pages/detail/Feedback";
 import FoodInRestaurant from "@/components/pages/detail/FoodInRestaurant";
@@ -25,22 +24,13 @@ const ProductDetailPage = () => {
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
                 <BackButton label="Quay lại trang trước" />
-                {isLoading ? (
-                    <>
-                        <SkeletonBox isLoaded={false} />
-                        <SkeletonBox isLoaded={false} />
-                    </>
-                ) : (
-                    <>
-                        <ProductGallery info={foodInfo.info} listSKUs={foodInfo.listSKUs} />
-                        <ServingSize info={foodInfo.info} listSKUs={foodInfo.listSKUs} ref={formRef} />
-                    </>
-                )}
+                <ProductGallery info={foodInfo.info} listSKUs={foodInfo.listSKUs} isLoading={isLoading} />
+                <ServingSize info={foodInfo.info} listSKUs={foodInfo.listSKUs} ref={formRef} isLoading={isLoading} />
 
                 <SideDishes />
                 <FoodInRestaurant />
                 <SimilarDishes />
-                <Feedback reviews={foodInfo.info?.reviews ?? []} />
+                <Feedback reviews={foodInfo.info?.reviews ?? []} isLoading={isLoading} />
                 <OrderFooter
                     quantity={1}
                     price={80000}

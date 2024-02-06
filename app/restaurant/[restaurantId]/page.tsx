@@ -17,7 +17,7 @@ const RestautantDetailPage = () => {
     const {
         params: { des },
     } = useParams<{ des?: string }>({ des: undefined });
-    const { restaurantInfo } = useRestaurantDetail();
+    const { restaurantInfo, isLoading } = useRestaurantDetail();
 
     useEffect(() => {
         if (!isNullOrEmpty(des)) {
@@ -38,7 +38,8 @@ const RestautantDetailPage = () => {
                     boxSizing="border-box"
                 >
                     <BackButton label="Quay lại trang trước" />
-                    <RestaurantGallery restaurantInfo={restaurantInfo} />
+                    <RestaurantGallery restaurantInfo={restaurantInfo} isLoading={isLoading} />
+
                     <Feedback
                         reviews={restaurantInfo?.reviews ?? []}
                         title="Khách hàng nhận xét"
@@ -46,8 +47,10 @@ const RestautantDetailPage = () => {
                         p="1.6rem 3.2rem"
                         borderRadius={"1.6rem"}
                         defaultPerpage={2}
+                        isLoading={isLoading}
                     />
-                    <MenuToday restaurantInfo={restaurantInfo} />
+
+                    <MenuToday restaurantInfo={restaurantInfo} isLoading={isLoading} />
                 </Flex>
                 <Box display={{ base: "none", lg: "block" }}>
                     <Cart
