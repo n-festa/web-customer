@@ -94,6 +94,17 @@ const buttonStyle = {
                 color: "white",
             },
         },
+        btnDisable: {
+            w: "100%",
+            bg: "var(--primary-500) !important",
+            border: "1px solid var(--primary-500)",
+            color: "var(--icterine-500)",
+            fontSize: "1.4rem",
+            fontWeight: "600",
+            borderRadius: "99.9rem",
+            h: "3.6rem",
+            p: "0.6rem 1.2rem",
+        },
         btnAddToCart: {
             p: "1.2rem 4rem",
             bg: "var(--primary-500)",

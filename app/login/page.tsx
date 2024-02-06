@@ -139,16 +139,22 @@ const Login = () => {
                                             <FormErrorMessage fontSize="1.4rem">
                                                 {form.errors.phoneNumber}
                                             </FormErrorMessage>
+                                            <Text fontSize="1.4rem" fontWeight="400" m="1rem 0 1.6rem" color="#475467">
+                                                Chúng tôi sẽ gửi tới số điện thoại bạn đăng ký mã số OTP để kích hoạt
+                                                tài khoản
+                                            </Text>
+
+                                            <Button
+                                                isDisabled={!!form.errors.phoneNumber}
+                                                variant={form.errors.phoneNumber ? "btnDisable" : "btnSubmit"}
+                                                isLoading={props.isSubmitting}
+                                                type="submit"
+                                            >
+                                                Tiếp tục
+                                            </Button>
                                         </FormControl>
                                     )}
                                 </Field>
-                                <Text fontSize="1.4rem" fontWeight="400" m="1rem 0 1.6rem" color="#475467">
-                                    Chúng tôi sẽ gửi tới số điện thoại bạn đăng ký mã số OTP để kích hoạt tài khoản
-                                </Text>
-
-                                <Button variant="btnSubmit" isLoading={props.isSubmitting} type="submit">
-                                    Tiếp tục
-                                </Button>
                             </Form>
                         )}
                     </Formik>
