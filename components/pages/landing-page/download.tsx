@@ -40,7 +40,7 @@ const Download = () => {
                         <Img cursor="pointer" className="" alt="" src="/images/mobile-app-store-badge.svg" />
                         <Img cursor="pointer" className="" alt="" src="/images/mobile-app-store-badge1.svg" />
                     </HStack>
-                    <Img w="42.4rem" h="42.4rem" alt="" src="/images/foodbox-2-1@2x.png" />
+                    <Img mt="2.5rem" w="42.4rem" h="42.4rem" alt="" src="/images/foodbox-2-1@2x.png" />
                     <Img
                         zIndex={0}
                         w="23rem"

@@ -1,8 +1,14 @@
 import CartItem from "@/components/organism/CartItem";
-import { formatMoney } from "@/utils/functions";
+import { cartSynced } from "@/recoil/recoilState";
+import { formatMoney, genCartNote } from "@/utils/functions";
+import { routes } from "@/utils/routes";
 import { Button, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useRecoilValue } from "recoil";
 
 const PaymentGroup = (props: FlexProps) => {
+    const cart = useRecoilValue(cartSynced);
+    const router = useRouter();
     return (
         <Flex
             color="black"
@@ -28,20 +34,17 @@ const PaymentGroup = (props: FlexProps) => {
                     </Text>
                 </Flex>
                 <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
-                    <CartItem
-                        image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"}
-                        name="Mỳ Cá Cờ Sốt Yakitori"
-                        note="Ghi chú 1  - Lorem ipsum dolor sit amet Ghi chú 1  - Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet"
-                        price="90,000"
-                        nowPrice="75,000"
-                    />
-                    <CartItem
-                        image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"}
-                        name="Mỳ Cá Cờ Sốt Yakitori"
-                        note="Ghi chú 1  - Lorem ipsum dolor sit amet Ghi chú 1  - Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet"
-                        price="90,000"
-                        nowPrice="75,000"
-                    />
+                    {cart.cart_info?.map((item) => (
+                        <CartItem
+                            key={item.item_id}
+                            image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"} //TODO
+                            name="Mỳ Cá Cờ Sốt Yakitori" //TODO
+                            note={genCartNote(item)}
+                            price="90,000"
+                            nowPrice="75,000"
+                            quantity={item.qty_ordered}
+                        />
+                    ))}
                 </VStack>
             </Flex>
             <VStack
@@ -90,7 +93,13 @@ const PaymentGroup = (props: FlexProps) => {
                         {formatMoney(160000)}
                     </Text>
                 </Flex>
-                <Button h="4.8rem" borderRadius="2.4rem">
+                <Button
+                    h="4.8rem"
+                    onClick={() => {
+                        router.push(routes.OrderDetail);
+                    }}
+                    borderRadius="2.4rem"
+                >
                     ĐẶT HÀNG
                 </Button>
             </Flex>

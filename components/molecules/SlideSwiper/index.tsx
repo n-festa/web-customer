@@ -1,6 +1,6 @@
 "use client";
 import Pagination from "@/components/molecules/Pagination";
-import { Flex } from "@chakra-ui/react";
+import { Flex, FlexProps } from "@chakra-ui/react";
 import { useState } from "react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -12,9 +12,10 @@ interface Props {
     items: React.ReactNode[];
     perPage?: number;
     spaceBetween?: number | string;
+    paginationGroupProps?: FlexProps;
 }
 
-const SlideSwiper = ({ items, perPage = 3, spaceBetween = "16" }: Props) => {
+const SlideSwiper = ({ items, perPage = 3, spaceBetween = "16", paginationGroupProps }: Props) => {
     const [page, setPage] = useState(1);
 
     return (
@@ -32,13 +33,13 @@ const SlideSwiper = ({ items, perPage = 3, spaceBetween = "16" }: Props) => {
                 <SwiperSlide key={index}>{el}</SwiperSlide>
             ))}
 
-            <Flex w="100%" justifyContent={"flex-end"} mt="1.6rem" bg="transparent">
+            <Flex w="100%" justifyContent={"flex-end"} mt="1.6rem" bg="transparent" {...paginationGroupProps}>
                 <Pagination
                     currentPage={page}
                     onChangePage={(_index: number) => {
                         setPage(_index);
                     }}
-                    totalPage={Math.ceil(items.length / perPage)}
+                    totalPage={items.length - perPage + 1}
                     alignSelf={"flex-end"}
                     my="1rem"
                 />

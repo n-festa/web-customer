@@ -17,3 +17,9 @@ export const DefaultOtherOption = false;
 export const PortionCustomization = "PortionCustomization";
 export const TasteCustomization = "TasteCustomization";
 export const OtherCustomization = "OtherCustomization";
+
+// date
+
+export const YYYYMMDD = "yyyy-MM-dd";
+export const yyyMMdd = "yyyy/MM/dd";
+export const EEE = "EEE";

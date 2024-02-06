@@ -8,20 +8,12 @@ import { useMemo } from "react";
 
 interface Props {
     reviews: Review[];
-    isShowAuthor?: boolean;
     title?: string;
     reviewItemProps?: StackProps;
     defaultPerpage?: number;
 }
 
-const Feedback = ({
-    reviews,
-    isShowAuthor = false,
-    title,
-    reviewItemProps,
-    defaultPerpage = 3,
-    ...rest
-}: Props & StackProps) => {
+const Feedback = ({ reviews, title, reviewItemProps, defaultPerpage = 3, ...rest }: Props & StackProps) => {
     const [isSmaller] = useMediaQuery("(max-width: 700px)");
 
     const perPage = useMemo(() => {
@@ -41,7 +33,7 @@ const Feedback = ({
                         <ReviewCard
                             key={String(index)}
                             star={el.score}
-                            isShowAuthor={isShowAuthor}
+                            isShowAuthor={el.isShowAuthor}
                             comment={el.remarks}
                             {...reviewItemProps}
                         />

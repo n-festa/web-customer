@@ -1,3 +1,6 @@
+import { MediaType } from "@/types/enum";
+import { Media, RestaurantDetailDto } from "@/types/response/base";
+import { getCutoffTime } from "@/utils/functions";
 import {
     Box,
     Button,
@@ -7,29 +10,44 @@ import {
     HStack,
     Image,
     Img,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalOverlay,
     Stack,
     Text,
     VStack,
     useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 
-interface Props {}
+interface Props {
+    restaurantInfo?: RestaurantDetailDto;
+}
 
-const RestaurantGallery = (_props: Props) => {
+const RestaurantGallery = ({ restaurantInfo }: Props) => {
     const ref = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
     const [playing, setPlaying] = useState(false);
     const { isOpen, onToggle } = useDisclosure();
-    const [img, setImg] = useState<string>("");
+    const { isOpen: isOpenModal, onOpen, onClose } = useDisclosure();
+    const [media, setMedia] = useState<Media & { id: string }>({
+        type: MediaType.Video,
+        url: "",
+        id: "",
+    });
 
-    useEffect(() => {
-        const current = document.getElementById(img);
+    const onChangeMedia = (value: Media, id: string) => {
+        setMedia({
+            ...value,
+            id: id,
+        });
+        const current = document.getElementById(id);
         if (current) {
             current.scrollIntoView({ behavior: "smooth", block: "end", inline: "center" });
         }
-    }, [img]);
+    };
 
     const videoRef = useRef(null);
     useEffect(() => {
@@ -37,6 +55,29 @@ const RestaurantGallery = (_props: Props) => {
             setMounted(true);
         }
     }, [mounted]);
+
+    useEffect(() => {
+        const medias = restaurantInfo?.medias ?? [];
+        if (medias.length > 0) {
+            const videoIndex = medias.findIndex((el) => el.type === MediaType.Video);
+            if (videoIndex != -1) {
+                setMedia({
+                    ...medias[videoIndex],
+                    id: `media_${videoIndex}`,
+                });
+            } else
+                setMedia({
+                    ...medias[0],
+                    id: `media_0`,
+                });
+        }
+    }, [restaurantInfo]);
+
+    const _time = useMemo(() => {
+        const cutoffTime = restaurantInfo?.cutoff_time ?? [];
+
+        return getCutoffTime(cutoffTime);
+    }, [restaurantInfo?.cutoff_time]);
 
     return (
         <Flex w="100%" flexDirection={"column"} mt="1rem">
@@ -57,52 +98,81 @@ const RestaurantGallery = (_props: Props) => {
                         overflow={"hidden"}
                         h={"47.4rem"}
                     >
-                        {mounted ? (
-                            <ReactPlayer
-                                key={String(playing)}
-                                playing={playing}
-                                height={"100%"}
-                                width={"100%"}
-                                ref={videoRef}
-                                url={"intro_video"}
-                                light="/images/fallback-restaurant.png"
-                                onClick={() => {
-                                    setPlaying(false);
-                                }}
-                                playsInline
-                                playIcon={<></>}
-                                stopOnUnmount
-                                config={{
-                                    youtube: {
-                                        playerVars: {
-                                            controls: 0,
-                                            rel: 0,
+                        {media?.type === MediaType.Video ? (
+                            <>
+                                <ReactPlayer
+                                    key={String(playing)}
+                                    playing={playing}
+                                    height={"100%"}
+                                    width={"100%"}
+                                    ref={videoRef}
+                                    url={media?.url}
+                                    light={
+                                        !media || (media && !media?.url) ? "/images/fallback-restaurant.png" : undefined
+                                    }
+                                    onClick={() => {
+                                        setPlaying(false);
+                                    }}
+                                    playsInline
+                                    playIcon={<></>}
+                                    stopOnUnmount
+                                    config={{
+                                        youtube: {
+                                            playerVars: {
+                                                controls: 0,
+                                                rel: 0,
+                                            },
                                         },
-                                    },
-                                    file: {
-                                        attributes: {
-                                            controlsList: "nodownload",
+                                        file: {
+                                            attributes: {
+                                                controlsList: "nodownload",
+                                            },
                                         },
-                                    },
-                                }}
-                            />
-                        ) : (
-                            <></>
-                        )}
-                        {!playing && (
-                            <Box position={"absolute"} top="0" left={"0"} right={"0"} bottom={"0"} bg="rgba(0,0,0,0.5)">
-                                <Center h="100%">
-                                    <Button
-                                        variant={"btnPlayVideo"}
-                                        onClick={() => {
-                                            setPlaying(true);
-                                        }}
-                                        className="plz"
+                                    }}
+                                />
+                                {!playing && (
+                                    <Box
+                                        position={"absolute"}
+                                        top="0"
+                                        left={"0"}
+                                        right={"0"}
+                                        bottom={"0"}
+                                        bg="rgba(0,0,0,0.5)"
                                     >
-                                        <Img src={"/images/play_button.svg"} w="10rem" h="10rem" />
-                                    </Button>
-                                </Center>
-                            </Box>
+                                        <Center h="100%">
+                                            <Button
+                                                variant={"btnPlayVideo"}
+                                                onClick={() => {
+                                                    setPlaying(true);
+                                                }}
+                                                className="plz"
+                                            >
+                                                <Img src={"/images/play_button.svg"} w="10rem" h="10rem" />
+                                            </Button>
+                                        </Center>
+                                    </Box>
+                                )}
+                            </>
+                        ) : (
+                            <Center
+                                flex="1"
+                                h="100%"
+                                bg="var(--primary-500)"
+                                borderRadius={"1.6rem"}
+                                w="100%"
+                                p="1.5rem"
+                            >
+                                <Image
+                                    maxH="100%"
+                                    maxW="100%"
+                                    src={media?.url}
+                                    alt=""
+                                    objectFit={"contain"}
+                                    transition="transform .2s"
+                                    fallbackSrc="/images/fallback-restaurant.jpeg"
+                                    onClick={onOpen}
+                                />
+                            </Center>
                         )}
                     </VStack>
                     <Stack
@@ -116,27 +186,66 @@ const RestaurantGallery = (_props: Props) => {
                         overflowX={{ md: "hidden", base: "scroll" }}
                         ref={ref}
                     >
-                        {["/images/restaurant-1.png", "/images/restaurant-2.png", "/images/restaurant-3.png"]?.map(
-                            (el, index) => (
-                                <Image
-                                    w="23.5rem"
-                                    h="15.1rem"
-                                    objectFit="cover"
-                                    src={el}
-                                    alt=""
+                        {restaurantInfo?.medias.map((el, index) => {
+                            const id = `media_${index}`;
+                            if (el.type === MediaType.Image) {
+                                return (
+                                    <Image
+                                        w="23.5rem"
+                                        h="15.1rem"
+                                        objectFit="cover"
+                                        src={el.url}
+                                        alt=""
+                                        key={String(index)}
+                                        cursor={"pointer"}
+                                        borderRadius={"1.6rem"}
+                                        id={id}
+                                        onClick={() => {
+                                            onChangeMedia(el, id);
+                                        }}
+                                        fallbackSrc="/images/fallback-restaurant.jpeg"
+                                        border={media.id == id ? "1px solid var(--gray-500)" : ""}
+                                    />
+                                );
+                            }
+                            return (
+                                <ReactPlayer
                                     key={String(index)}
-                                    cursor={"pointer"}
-                                    borderRadius={"1.6rem"}
-                                    id={el}
-                                    onClick={() => {
-                                        if (img !== el) {
-                                            setImg(el);
-                                        }
+                                    playing={false}
+                                    width="100%"
+                                    height="15.1rem"
+                                    style={{
+                                        border: media.id == id ? "1px solid var(--gray-500)" : "",
+                                        borderRadius: "1.6rem",
                                     }}
-                                    fallbackSrc="/images/restaurant-1.png"
+                                    url={el?.url}
+                                    light={
+                                        !media || (media && !media?.url) ? "/images/fallback-restaurant.png" : undefined
+                                    }
+                                    playsInline
+                                    playIcon={<></>}
+                                    stopOnUnmount
+                                    id={id}
+                                    config={{
+                                        youtube: {
+                                            playerVars: {
+                                                controls: 0,
+                                                rel: 0,
+                                            },
+                                        },
+                                        file: {
+                                            attributes: {
+                                                controlsList: "nodownload",
+                                            },
+                                        },
+                                    }}
+                                    onClick={() => {
+                                        setPlaying(false);
+                                        onChangeMedia(el, id);
+                                    }}
                                 />
-                            ),
-                        )}
+                            );
+                        })}
                     </Stack>
                 </Stack>
                 <VStack
@@ -146,13 +255,13 @@ const RestaurantGallery = (_props: Props) => {
                     padding="0.8rem 2.4rem"
                     position="relative"
                 >
-                    <HStack w="100%">
+                    <Stack w="100%" direction={{ md: "row", base: "column" }}>
                         <VStack flex={1} alignItems={"flex-start"}>
                             <Text fontSize={"2.4rem"} color="var(--gray-900)" fontWeight={"bold"} m="0">
-                                The Chef Town
+                                {restaurantInfo?.name?.[0].text}
                             </Text>
                             <Text fontSize={"1.8rem"} color="black" fontWeight={"600"} m="0">
-                                Eat clean | Cơm Nhật Tonkatsu
+                                {restaurantInfo?.specialty?.[0]?.text} | {restaurantInfo?.top_food}
                             </Text>
                         </VStack>
                         <VStack w="33.6rem" alignItems={"flex-start"}>
@@ -160,7 +269,7 @@ const RestaurantGallery = (_props: Props) => {
                                 <HStack spacing="1px">
                                     <Img w="2.4rem" height={"2.4rem"} src="/images/star-icon1.svg" />
                                     <Text fontSize={"1.6rem"} color="var(--gray-500)" m="0" fontWeight={"500"}>
-                                        4.5(100+)
+                                        {restaurantInfo?.rating}(100+)
                                     </Text>
                                 </HStack>
                                 <HStack spacing="0">
@@ -177,43 +286,66 @@ const RestaurantGallery = (_props: Props) => {
                                 </HStack>
                             </HStack>
 
-                            <HStack spacing="0">
-                                <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2729.svg" />
-                                <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
-                                    Ưu đãi đến 50k
-                                </Text>
-                            </HStack>
+                            {restaurantInfo?.promotion && (
+                                <HStack spacing="0">
+                                    <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2729.svg" />
+                                    <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
+                                        {restaurantInfo?.promotion ?? "-"}
+                                    </Text>
+                                </HStack>
+                            )}
 
-                            <HStack spacing="0">
-                                <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2725.svg" />
-                                <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
-                                    Đặt trước 09:00 giờ sáng để điều chỉnh vị
-                                </Text>
-                            </HStack>
+                            {_time && (
+                                <HStack spacing="0">
+                                    <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2725.svg" />
+                                    <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
+                                        Đặt trước {_time} để điều chỉnh vị
+                                    </Text>
+                                </HStack>
+                            )}
                         </VStack>
-                    </HStack>
+                    </Stack>
                     <Collapse in={isOpen} animateOpacity startingHeight={"4.8rem"}>
-                        <Text fontSize={"1.6rem"} fontWeight={400} lineHeight={"2.4rem"} color="var(--gray-600)">
-                            Khi đam mê về ẩm thực chuẩn mực và món ăn ngon hòa cùng đam mê một body khỏe đẹp và
-                            lifestyle năng động, The Chef Town ra đời! Thành lập 2019, một start-up kết hợp gồm Chef
-                            chuyên nghiệp & Chuyên Gia Dinh
-                        </Text>
-                        <Text fontSize={"1.6rem"} fontWeight={400} lineHeight={"2.4rem"} color="var(--gray-600)">
-                            Khi đam mê về ẩm thực chuẩn mực và món ăn ngon hòa cùng đam mê một body khỏe đẹp và
-                            lifestyle năng động, The Chef Town ra đời! Thành lập 2019, một start-up kết hợp gồm Chef
-                            chuyên nghiệp & Chuyên Gia Dinh
-                        </Text>
-                        <Text fontSize={"1.6rem"} fontWeight={400} lineHeight={"2.4rem"} color="var(--gray-600)">
-                            Khi đam mê về ẩm thực chuẩn mực và món ăn ngon hòa cùng đam mê một body khỏe đẹp và
-                            lifestyle năng động, The Chef Town ra đời! Thành lập 2019, một start-up kết hợp gồm Chef
-                            chuyên nghiệp & Chuyên Gia Dinh
-                        </Text>
+                        {restaurantInfo?.introduction?.map((el, index) => {
+                            return (
+                                <>
+                                    <Text
+                                        key={String(index)}
+                                        fontSize={"1.6rem"}
+                                        fontWeight={400}
+                                        lineHeight={"2.4rem"}
+                                        color="var(--gray-600)"
+                                    >
+                                        {el?.text ?? "-"}
+                                    </Text>
+                                </>
+                            );
+                        })}
                     </Collapse>
                     <Button variant={"btnViewAllSm"} onClick={onToggle} p="0">
                         Xem tất cả
                     </Button>
                 </VStack>
             </VStack>
+            <Modal isOpen={isOpenModal} onClose={onClose} isCentered variant={"preview"}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalBody position={"relative"} borderRadius={"1.6rem"}>
+                        <Center
+                            borderRadius={"1.6rem"}
+                            w="100%"
+                            h="100%"
+                            overflow={"hidden"}
+                            bgPosition={"center"}
+                            bgSize={"contain"}
+                            bgRepeat={"no-repeat"}
+                            style={{
+                                backgroundImage: `url("${media?.url}"), url("/images/fallback-restaurant.jpeg")`,
+                            }}
+                        ></Center>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </Flex>
     );
 };

@@ -2,6 +2,8 @@ import apiServices from "@/services/sevices";
 import { store } from "@/store";
 import { Cart } from "@/types/cart";
 import { isLoggedIn } from "@/utils/functions";
+import { createStandaloneToast } from "@chakra-ui/react";
+const { toast } = createStandaloneToast();
 
 import { DefaultValue, WrappedValue, atom, selector } from "recoil";
 export type SetSelf<T> = (
@@ -51,6 +53,14 @@ export const cartSynced = selector({
         const { cartUpdate: cartItem, ...currentCart } = get(cartState) ?? {};
         if (cartItem) {
             const res = await apiServices.addCart({ ...cartItem, item_id: undefined });
+            toast({
+                title: "Cập nhật giỏ hàng",
+                description: `Đã thêm vào giỏ hàng`,
+                status: "success",
+                duration: 4000,
+                position: "top",
+                isClosable: true,
+            });
             return res.data;
         }
         return currentCart;

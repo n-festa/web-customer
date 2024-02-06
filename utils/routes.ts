@@ -9,4 +9,6 @@ export const routes = {
     RegistrationSuccess: "/registration_success",
     ProductDetail: "/detail",
     ConfirmOrder: "/confirm",
+    review: "/review",
+    OrderDetail: "/order/detail",
 };

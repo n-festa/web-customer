@@ -1,6 +1,6 @@
 import "@/assets/styles/index.scss";
 import { quicksand } from "@/theme/fonts";
-import { ColorModeScript, Flex, theme } from "@chakra-ui/react";
+import { Box, ColorModeScript, Flex, theme } from "@chakra-ui/react";
 import { Viewport } from "next";
 import React from "react";
 import { Providers } from "./providers";
@@ -42,9 +42,8 @@ export default async function RootLayout({ children }: LayoutProps) {
                 <Providers>
                     <Flex pos="absolute" h="calc(100% - 8rem)" w="100%" top="8rem" overflow="overlay" flexDir="column">
                         <Header />
-                        <Flex flex={1} w="100%">
-                            {children}
-                        </Flex>
+                        <Box flex={1}>{children}</Box>
+
                         <Footer />
                         <CartModal />
                         <DialogWrapper />

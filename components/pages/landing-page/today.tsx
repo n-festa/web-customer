@@ -27,6 +27,7 @@ const Today = () => {
             promotion: item.promotion,
             cutoff_time: item.cutoff_time,
             cooking_time_s: item.cooking_time_s,
+            restaurantId: item.restaurant_id,
         }));
     }, [data]);
 
@@ -62,6 +63,7 @@ const Today = () => {
                             ratings={item.ratings}
                             promotion={item.promotion}
                             cutoff_time={item.cutoff_time}
+                            restaurantId={item.restaurantId}
                         />
                     </WrapItem>
                 )) ??

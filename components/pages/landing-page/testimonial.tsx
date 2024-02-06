@@ -1,5 +1,8 @@
+"use client";
+import SlideSwiper from "@/components/molecules/SlideSwiper";
 import { poppins } from "@/theme/fonts";
-import { Box, Flex, HStack, IconButton, Img, StackProps, Text, VStack } from "@chakra-ui/react";
+import { Flex, HStack, Img, StackProps, Text, VStack, useMediaQuery } from "@chakra-ui/react";
+import { useMemo } from "react";
 
 const GroupStars = ({ star = 5 }: { star?: number }) => {
     return (
@@ -70,71 +73,65 @@ export const ReviewCard = ({
 };
 
 const Testimonial = () => {
+    const reviews = [
+        {
+            food_rating_id: 1,
+            score: 5,
+            remarks:
+                "“1. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
+            isShowAuthor: true,
+        },
+        {
+            food_rating_id: 2,
+            score: 5,
+            remarks:
+                "“2. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
+        },
+        {
+            food_rating_id: 3,
+            score: 5,
+            remarks:
+                "“3. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
+        },
+        {
+            food_rating_id: 4,
+            score: 5,
+            remarks:
+                "“4. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
+        },
+        {
+            food_rating_id: 5,
+            score: 5,
+            remarks:
+                "“5. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
+        },
+    ];
+    const [isSmaller] = useMediaQuery("(max-width: 700px)");
+
+    const perPage = useMemo(() => {
+        return isSmaller ? 1 : 3;
+    }, [isSmaller]);
     return (
         <Flex scrollMarginTop="8rem" px="4.3rem" flexDir="column" pb="17.2rem" alignItems="center">
             <Text mt="15.6rem" mb="5.6rem" fontWeight="bold" fontSize="4.8rem" className="heading">
                 Mọi người yêu thích 2All
             </Text>
-            <HStack h="fit-content" spacing="1.6rem" alignItems="flex-start">
-                <ReviewCard
-                    isShowAuthor
-                    comment={`“1. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh
-                chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”`}
-                />
-                <ReviewCard
-                    comment={`“2. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao
-                    hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”`}
-                />
-                <ReviewCard
-                    comment={`“3. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao
-                    hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”`}
-                />
-            </HStack>
-            <Flex
-                mt={{ base: "5rem", md: "-4rem" }}
-                alignSelf="stretch"
-                mr={{ base: "unset", md: "5rem" }}
-                justifyContent={{ base: "center", md: "flex-end" }}
-                gap="3.2rem"
-            >
-                <IconButton
-                    aria-label="paginator-arrow"
-                    borderRadius="50%"
-                    w="3.6rem"
-                    h="3.6rem"
-                    bg="var(--color-palegoldenrod)"
-                    boxShadow="0 3px 10px 3px rgba(240, 255, 219, 0.7)"
-                    border="1px solid var(--color-palegoldenrod)"
-                    overflow="hidden"
-                    backdropFilter="var(--background-blur-sm)"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    icon={<Img className="small-icon" alt="" src="/images/chevronleft.svg" />}
-                    className="paginator-arrow"
-                />
-                <HStack spacing="1.2rem" alignItems="center">
-                    <Box className="pagination-dot-indicator active"></Box>
-                    <Box className="pagination-dot-indicator"></Box>
-                    <Box className="pagination-dot-indicator"></Box>
-                </HStack>
-                <IconButton
-                    aria-label="paginator-arrow"
-                    borderRadius="50%"
-                    w="3.6rem"
-                    h="3.6rem"
-                    bg="var(--color-palegoldenrod)"
-                    boxShadow="0 3px 10px 3px rgba(240, 255, 219, 0.7)"
-                    border="1px solid var(--color-palegoldenrod)"
-                    overflow="hidden"
-                    backdropFilter="var(--background-blur-sm)"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    icon={<Img className="small-icon" alt="" src="/images/chevronright.svg" />}
-                    className="paginator-arrow"
-                />
-            </Flex>
+            <SlideSwiper
+                items={reviews.map((el, index) => (
+                    <ReviewCard
+                        key={String(index)}
+                        star={el.score}
+                        isShowAuthor={el.isShowAuthor}
+                        comment={el.remarks}
+                    />
+                ))}
+                paginationGroupProps={{
+                    zIndex: 10,
+                    position: "relative",
+                    mt: isSmaller ? "1.6rem" : "-4rem",
+                }}
+                perPage={perPage}
+            />
         </Flex>
     );
 };

@@ -49,8 +49,8 @@ const CartIcon = () => {
                 id="cart-image"
                 cursor="pointer"
                 p="0.2rem"
-                width="35"
-                height="35"
+                width="3.5rem"
+                height="3.5rem"
                 alt="small-icon"
                 src="/images/shoppingbag03.svg"
             />

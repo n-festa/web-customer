@@ -7,24 +7,20 @@ import { useSearchResult } from "@/hooks/useSearchResult";
 import { Flex } from "@chakra-ui/react";
 
 const SearchDetailPage = () => {
-    const { isLoading, keySearch, searchResult, filterCondition, onSearch, onChangeValue, onChangeFilterOptions } =
-        useSearchResult();
-    const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-        if (e.key === "Enter") onSearch();
-    };
+    const { isLoading, keySearch, searchResult, filterCondition, onChangeFilterOptions } = useSearchResult();
+
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
                 <BackButton label="Quay lại trang trước" />
                 <SeachBox
-                    placeholder="Gõ tên món ăn, nhà hàng mà bạn đang muốn tìm"
+                    placeholder="Gõ tên món ăn mà bạn đang muốn tìm"
                     flex="1"
                     groupsProps={{ my: "1rem" }}
                     value={keySearch}
-                    onChange={(e) => {
-                        onChangeValue<string>("keySearch", e.target.value ?? "");
-                    }}
-                    onKeyDown={onKeyDown}
+                    key={keySearch}
+                    isDisabled={true}
+                    variant={"searchBoxViewOnly"}
                 />
                 <FilterBox condition={filterCondition} onChangeFilterOptions={onChangeFilterOptions} />
                 <SearchResult

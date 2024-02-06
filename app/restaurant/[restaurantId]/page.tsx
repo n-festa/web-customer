@@ -4,11 +4,28 @@ import Cart from "@/components/organism/Cart";
 import Feedback from "@/components/pages/detail/Feedback";
 import MenuToday from "@/components/pages/detail/MenuToday";
 import RestaurantGallery from "@/components/pages/detail/RestautantGallery";
+import useParams from "@/hooks/useParams";
+import useRestaurantDetail from "@/hooks/useRestaurantDetail";
+import { isNullOrEmpty } from "@/utils/functions";
 import { Box, Flex, HStack } from "@chakra-ui/react";
-import { useParams } from "next/navigation";
+import { useParams as useNextParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const RestautantDetailPage = () => {
-    const { detail } = useParams();
+    const { restaurantId } = useNextParams();
+    const router = useRouter();
+    const {
+        params: { des },
+    } = useParams<{ des?: string }>({ des: undefined });
+    const { restaurantInfo } = useRestaurantDetail();
+
+    useEffect(() => {
+        if (!isNullOrEmpty(des)) {
+            setTimeout(() => {
+                router.replace(des);
+            }, 3000);
+        }
+    }, [des, router]);
 
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
@@ -21,34 +38,25 @@ const RestautantDetailPage = () => {
                     boxSizing="border-box"
                 >
                     <BackButton label="Quay lại trang trước" />
-                    <RestaurantGallery />
+                    <RestaurantGallery restaurantInfo={restaurantInfo} />
                     <Feedback
-                        reviews={[
-                            {
-                                food_rating_id: 1,
-                                score: 5,
-                                remarks: "“ Đồ ăn tươi, rất hợp khẩu vị mình.”",
-                            },
-                            {
-                                food_rating_id: 1,
-                                score: 5,
-                                remarks: "“ Đóng gói đẹp, thức ăn rất tươi.”",
-                            },
-                        ]}
-                        isShowAuthor={true}
+                        reviews={restaurantInfo?.reviews ?? []}
                         title="Khách hàng nhận xét"
                         bg="#F4F9EC"
                         p="1.6rem 3.2rem"
                         borderRadius={"1.6rem"}
                         defaultPerpage={2}
                     />
-                    <MenuToday />
+                    <MenuToday restaurantInfo={restaurantInfo} />
                 </Flex>
                 <Box display={{ base: "none", lg: "block" }}>
                     <Cart
+                        h="calc(100dvh - 8.8rem)"
+                        position="fixed"
+                        borderTop="none"
                         border="1px solid var(--gray-300)"
                         w={{ xl: "42.6rem", base: "35rem" }}
-                        restaurant_id={Number(detail)}
+                        restaurant_id={Number(restaurantId)}
                     />
                 </Box>
             </HStack>
