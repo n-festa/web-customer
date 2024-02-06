@@ -16,7 +16,7 @@ const useFoodDetail = () => {
     });
 
     const getFoodDetail = (id: number) => {
-        apiServices.getFoodDetailById(id).then(({ data }) => {
+        return apiServices.getFoodDetailById(id).then(({ data }) => {
             setFoodInfo((prevState) => ({
                 ...prevState,
                 info: data,
@@ -25,7 +25,7 @@ const useFoodDetail = () => {
     };
 
     const getListOfSKUs = (id: number) => {
-        apiServices.getListOfSKUsById(id).then(({ data }) => {
+        return apiServices.getListOfSKUsById(id).then(({ data }) => {
             setFoodInfo((prevState) => ({
                 ...prevState,
                 listSKUs: data,
