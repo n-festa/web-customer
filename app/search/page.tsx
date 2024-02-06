@@ -17,7 +17,7 @@ const Search = () => {
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
                 <BackButton label="Quay lại trang trước" />
                 <SeachBox
-                    placeholder="Gõ tên món ăn, nhà hàng mà bạn đang muốn tìm"
+                    placeholder="Gõ tên món ăn mà bạn đang muốn tìm"
                     flex="1"
                     groupsProps={{ my: "1rem" }}
                     value={keySearch}

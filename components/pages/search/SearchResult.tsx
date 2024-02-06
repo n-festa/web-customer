@@ -107,6 +107,7 @@ const SearchResult = ({
                                     promotion={item.promotion}
                                     cutoff_time={item.cutoff_time}
                                     cooking_time_s={item.cooking_time_s}
+                                    restaurantId={item.restaurant_id}
                                 />
                             ) : (
                                 <FoodChef data={el as RestaurantDto} />
