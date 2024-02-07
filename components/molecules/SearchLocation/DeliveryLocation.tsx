@@ -44,6 +44,7 @@ const DeliveryLocation = () => {
                 flex: 1,
                 color: "var(--gray-600)",
                 fontSize: "1.6rem",
+                fontWeight: "bold",
                 bg: "transparent",
             }}
             locationSuggestionProps={{

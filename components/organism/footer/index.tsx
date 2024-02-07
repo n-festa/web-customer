@@ -27,11 +27,11 @@ const Footer = () => {
         <Flex
             flexDir="column"
             alignItems="center"
-            px={{ base: "3rem", md: "3rem" }}
+            px={{ base: "1rem", md: "3rem" }}
             justifyContent="center"
             id="footer-section"
         >
-            <Flex w="100%" flexDir={{ base: "column", lg: "row" }} mb="4.8rem" mt="6.4rem" justify="space-evenly">
+            <Flex w="100%" flexDir={{ base: "column", lg: "row" }} mb="4.8rem" mt="6.4rem" justify={"space-evenly"}>
                 <VStack alignItems="flex-start" spacing="3.2rem">
                     <Img className="" alt="" src="/images/fictional-company-logo1.svg" />
                     <Text
@@ -49,9 +49,9 @@ const Footer = () => {
                 </VStack>
                 <Flex justifyContent="space-evenly" flex={1}>
                     <VStack
-                        px="1.6rem"
+                        px={{ base: "1rem", md: "1.6rem" }}
                         alignItems="flex-start"
-                        borderLeft="1px solid var(--primary-100)"
+                        borderLeft={{ base: "none", lg: "1px solid var(--primary-100)" }}
                         spacing="1.6rem"
                     >
                         <Text
@@ -79,7 +79,7 @@ const Footer = () => {
                         </VStack>
                     </VStack>
                     <VStack
-                        px="1.6rem"
+                        px={{ base: "1rem", md: "1.6rem" }}
                         alignItems="flex-start"
                         borderLeft="1px solid var(--primary-100)"
                         spacing="1.6rem"
@@ -128,7 +128,7 @@ const Footer = () => {
                         </VStack>
                     </VStack>
                     <VStack
-                        px="1.6rem"
+                        px={{ base: "1rem", md: "1.6rem" }}
                         alignItems="flex-start"
                         borderLeft="1px solid var(--primary-100)"
                         spacing="1.6rem"
@@ -142,29 +142,33 @@ const Footer = () => {
                         >
                             Khu vực hoạt động
                         </Text>
-                        <VStack alignItems="flex-start" className="footer-links">
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                        <VStack
+                            alignItems="flex-start"
+                            className="footer-links"
+                            fontSize={{ base: "1rem", md: "1.6rem" }}
+                        >
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 Quận 1, Tp. Hồ Chí Minh
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 Quận 2, Tp. Hồ Chí Minh
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 Quận 3, Tp. Hồ Chí Minh
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 Quận 4, Tp. Hồ Chí Minh
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 Bình Tân, Tp. Hồ Chí Minh
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 Phú Nhuận, Tp. Hồ Chí Minh
                             </Text>
                         </VStack>
                     </VStack>
                     <VStack
-                        px="1.6rem"
+                        px={{ base: "1rem", md: "1.6rem" }}
                         alignItems="flex-start"
                         borderLeft="1px solid var(--primary-100)"
                         spacing="1.6rem"
