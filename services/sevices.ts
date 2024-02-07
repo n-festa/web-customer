@@ -284,6 +284,26 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: params,
             });
         },
+        getAvailableTime: (params: {
+            menu_item_ids?: (number | undefined)[];
+            now?: number;
+            long?: number;
+            lat?: number;
+            utc_offset?: number;
+        }) => {
+            return this.request({
+                path: `https://api.2all.com.vn/web-customer/cart/get-available-delivery-time`,
+                method: "POST",
+                body: {
+                    ...params,
+                    //Temp
+                    menu_item_ids: [1, 2],
+                    now: 1706517908122,
+                    long: 106.7723030321775,
+                    lat: 10.820557580712087,
+                },
+            });
+        },
     };
 }
 

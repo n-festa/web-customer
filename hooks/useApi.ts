@@ -25,11 +25,26 @@ const useSWRAPI = () => {
         };
     }, []);
     return {
+        GetAvailableTime: (
+            params: {
+                menu_item_ids?: (number | undefined)[];
+                now?: number;
+                long?: number;
+                lat?: number;
+                utc_offset?: number;
+            },
+            config?: SWRConfiguration,
+        ) =>
+            useSWR("getAvailableTime", async () => apiServices.getAvailableTime(params), {
+                ...swrConfig,
+                ...config,
+            }),
         GetGeneralFoodRecommendation: (query?: { lat?: number; long?: number }, config?: SWRConfiguration) =>
             useSWR("getGeneralFoodRecommendation", async () => apiServices.getGeneralFoodRecommendation(query), {
                 ...swrConfig,
                 ...config,
             }),
+
         GetAllCategories: (config?: SWRConfiguration) =>
             useSWR("getAllCategories", async () => apiServices.getAllCategories(), {
                 ...swrConfig,

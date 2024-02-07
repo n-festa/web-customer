@@ -1,8 +1,13 @@
-import { cartSynced, showCartState } from "@/recoil/recoilState";
+import useSWRAPI from "@/hooks/useApi";
+import { cartState, cartSynced, showCartState } from "@/recoil/recoilState";
+import apiServices from "@/services/sevices";
+import { useAppSelector } from "@/store/hooks";
 import { genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, Center, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
+import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
 
@@ -10,7 +15,42 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValue(cartSynced);
+    const setCart = useSetRecoilState(cartState);
+
+    const profile = useAppSelector((app) => app.userInfo.userInfo);
     const isCartEmpty = !cart.cart_info?.length || (restaurant_id != undefined && cart.restaurant_id != restaurant_id);
+    const { GetAvailableTime } = useSWRAPI();
+    const { data: timeDate, isLoading: isLoadingTime } = GetAvailableTime({
+        lat: profile?.latAddress,
+        long: profile?.longAddress,
+        utc_offset: -(new Date().getTimezoneOffset() / 60),
+        menu_item_ids: cart.cart_info?.map((item) => item.item_id),
+        now: new Date().getTime(),
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const handleChangeCartQuantity = useCallback(
+        debounce(
+            async (id?: number, value?: number) => {
+                if (!id || !cart?.customer_id || !value) return;
+                const res = await apiServices.basicUpdateCart({
+                    customer_id: Number(cart?.customer_id),
+                    updated_items: [
+                        {
+                            item_id: id,
+                            qty_ordered: value,
+                        },
+                    ],
+                });
+                if (res.data) {
+                    setCart((prev) => ({ ...prev, ...res.data }));
+                }
+            },
+            300,
+            { leading: true },
+        ),
+        [],
+    );
 
     return (
         <Flex
@@ -31,7 +71,9 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                 </Text>
                 {!isCartEmpty && (
                     <Text fontSize="1.6rem" textAlign="center">
-                        Thời gian nhận đồ ăn gần nhất: 12:00 - 12:30
+                        {!isLoadingTime
+                            ? `Thời gian nhận đồ ăn gần nhất: ${timeDate?.data?.[0].hours}:${timeDate?.data?.[0].minutes}`
+                            : "-"}
                     </Text>
                 )}
             </VStack>
@@ -55,6 +97,9 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                         <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
                             {cart.cart_info?.map((item) => (
                                 <CartItem
+                                    onChangeValue={(value) => {
+                                        handleChangeCartQuantity(item.item_id, value);
+                                    }}
                                     key={item.item_id}
                                     image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"} //TODO
                                     name="Mỳ Cá Cờ Sốt Yakitori" //TODO

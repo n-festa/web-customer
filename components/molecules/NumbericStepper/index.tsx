@@ -17,7 +17,7 @@ const NumbericStepper = ({
     const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } = useNumberInput({
         step: 1,
         defaultValue: defaultValue,
-        min: 0,
+        min: 1,
         max: 999,
         onChange: (_, valueAsNumber) => {
             onChangeValue?.(valueAsNumber);

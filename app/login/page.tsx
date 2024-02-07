@@ -1,5 +1,6 @@
 "use client";
 import UISignWrap from "@/components/molecules/UISignWrap";
+import { showCartState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { setInfoSign } from "@/store/reducers/auth";
 import { filedType, formType } from "@/types/form";
@@ -18,10 +19,14 @@ import {
 } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useSetRecoilState } from "recoil";
 import * as Yup from "yup";
 
 const Login = () => {
+    const setShow = useSetRecoilState(showCartState);
+
     const router = useRouter();
     const dispatch = useDispatch();
     const phoneRegExp =
@@ -34,6 +39,11 @@ const Login = () => {
         dispatch(setInfoSign({ otp: data.otpCode, phoneNumber: data.phoneNumber }));
         router.push(routes.Otp);
     };
+
+    useEffect(() => {
+        setShow(false);
+    }, [setShow]);
+
     return (
         <UISignWrap maxW="45.6rem">
             <Box bg="white">

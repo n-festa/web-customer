@@ -1,15 +1,23 @@
 "use client";
 import { showCartState, totalQuantityState } from "@/recoil/recoilState";
+import { isLoggedIn } from "@/utils/functions";
+import { routes } from "@/utils/routes";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const CartIcon = () => {
     const totalQuanity = useRecoilValue(totalQuantityState);
+    const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
     return (
         <Box
             onClick={() => {
-                setShow(true);
+                if (isLoggedIn()) {
+                    setShow(true);
+                    return;
+                }
+                router.push(routes.SignIn);
             }}
             cursor="pointer"
             position="relative"
