@@ -128,7 +128,7 @@ const PhoneVerification = () => {
                 removeState("restrict");
             }
         }
-    }, [changeInitialValue, restrictStorage]);
+    }, []);
 
     useEffect(() => {
         console.log({ otp });
