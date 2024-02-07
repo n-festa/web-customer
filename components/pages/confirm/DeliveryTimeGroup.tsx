@@ -1,14 +1,67 @@
+import useSWRAPI from "@/hooks/useApi";
+import { cartSynced } from "@/recoil/recoilState";
+import { useAppSelector } from "@/store/hooks";
+import { DateStep } from "@/types/interfaces";
+import { HHmm } from "@/utils/constants";
 import { Button, HStack, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { addMinutes, formatDate, isToday, isTomorrow } from "date-fns";
 import { ChevronDownIcon } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useRecoilValue } from "recoil";
 import GroupWrapper from "./GroupWrapper";
 
-const dateOptions = ["Hôm nay", "Ngày mai", "15/10/2023"];
-const timeOptions = ["11:45 - 12:00", "12:00 - 12:15", "12:15 - 12:30", "12:30 - 12:45", "12:45 - 13:00"];
-
 const DeliveryTimeGroup = () => {
-    const [dateIndex, setDate] = useState(0);
+    const [date, setDate] = useState<string>();
     const [timeIndex, setTime] = useState(0);
+    const { GetAvailableTime } = useSWRAPI();
+    const cart = useRecoilValue(cartSynced);
+    const profile = useAppSelector((app) => app.userInfo.userInfo);
+    const { data, isLoading: isLoadingTime } = GetAvailableTime({
+        lat: profile?.latAddress,
+        long: profile?.longAddress,
+        utc_offset: -(new Date().getTimezoneOffset() / 60),
+        menu_item_ids: cart.cart_info?.map((item) => item.item_id),
+        now: new Date().getTime(),
+    });
+    const { dateOptions, timeOptionsByDate, dateOptionsList } = useMemo(() => {
+        const dateOptions: { [key: string]: { value: string; name: string } } = {};
+        const timeOptionsByDate: {
+            [key: string]: DateStep[];
+        } = {};
+
+        data?.data.forEach((item) => {
+            if (item.date && !dateOptions[item.date]) {
+                let name = item.date;
+                name = isTomorrow(item.date) ? "Ngày mai" : isToday(item.date) ? "Hôm nay" : name;
+
+                dateOptions[item.date] = {
+                    name: name,
+                    value: item.date,
+                };
+            }
+
+            if (item.date) {
+                if (!timeOptionsByDate[item.date]) {
+                    timeOptionsByDate[item.date] = [item];
+                } else {
+                    timeOptionsByDate[item.date].push(item);
+                }
+            }
+        });
+        const dateOptionsList = Object.values(dateOptions);
+
+        return { dateOptions, timeOptionsByDate, dateOptionsList };
+    }, [data?.data]);
+    const timeList = useMemo(() => {
+        const currentDate = date ? dateOptions[date]?.value : dateOptionsList[0]?.value;
+        const timeByDateList = timeOptionsByDate[currentDate] ?? [];
+        return timeByDateList.map((item) => {
+            const currentTime = formatDate(`${item.date} ${item.hours}:${item.minutes}`, HHmm);
+            const nextQuaterTime = addMinutes(`${item.date} ${item.hours}:${item.minutes}`, 15);
+            const nextQuater = formatDate(nextQuaterTime, HHmm);
+            return `${currentTime} - ${nextQuater}`;
+        });
+    }, [date, dateOptions, dateOptionsList, timeOptionsByDate]);
 
     return (
         <GroupWrapper title="Thời gian giao hàng">
@@ -25,16 +78,17 @@ const DeliveryTimeGroup = () => {
                             color: "var(--gray-700)",
                             boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
                         }}
+                        isLoading={isLoadingTime}
                         border="1px solid transparent"
                         borderRadius="0.8rem"
                         rightIcon={<ChevronDownIcon width={15} />}
                     >
-                        {dateOptions[dateIndex]}
+                        {date ? dateOptions[date].name : dateOptionsList?.[0]?.name ?? "-"}
                     </MenuButton>
                     <MenuList>
-                        {dateOptions.map((item, i) => (
-                            <MenuItem key={`date-${i}`} onClick={() => setDate(i)}>
-                                {item}
+                        {dateOptionsList.map((item, i) => (
+                            <MenuItem key={`date-${i}`} onClick={() => setDate(item.value)}>
+                                {item.name}
                             </MenuItem>
                         ))}
                     </MenuList>
@@ -49,16 +103,17 @@ const DeliveryTimeGroup = () => {
                             color: "var(--gray-700)",
                             boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
                         }}
+                        isLoading={isLoadingTime}
                         border="1px solid transparent"
                         as={Button}
                         h="4.4rem"
                         borderRadius="0.8rem"
                         rightIcon={<ChevronDownIcon width={15} />}
                     >
-                        {timeOptions[timeIndex]}
+                        {timeList[timeIndex]}
                     </MenuButton>
-                    <MenuList>
-                        {timeOptions.map((item, i) => (
+                    <MenuList maxHeight="30rem" overflow="auto">
+                        {timeList.map((item, i) => (
                             <MenuItem key={`time-${i}`} onClick={() => setTime(i)}>
                                 {item}
                             </MenuItem>

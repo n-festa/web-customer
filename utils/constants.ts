@@ -21,5 +21,7 @@ export const OtherCustomization = "OtherCustomization";
 // date
 
 export const YYYYMMDD = "yyyy-MM-dd";
+export const YYYYMMDDHHmm = "yyyy-MM-dd HH:mm";
+export const HHmm = "HH:mm";
 export const yyyMMdd = "yyyy/MM/dd";
 export const EEE = "EEE";

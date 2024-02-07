@@ -23,3 +23,12 @@ export interface SearchResult {
     [FilterType.Food]: FoodDto[];
     [FilterType.Restaurant]: RestaurantDto[];
 }
+
+export interface DateStep {
+    date?: string;
+    dayId?: number;
+    dayName?: string;
+    hours?: string;
+    minutes?: string;
+    utc_offset?: number;
+}

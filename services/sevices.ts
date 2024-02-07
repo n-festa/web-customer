@@ -2,6 +2,7 @@ import { store } from "@/store";
 import { setLoading } from "@/store/reducers/appSlice";
 import { Cart, CartItem } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
+import { DateStep } from "@/types/interfaces";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import { GetFoodDetailResponse, GetSideDishesResponse } from "@/types/response/FoodResponse";
 import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesResponse";
@@ -291,14 +292,15 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             lat?: number;
             utc_offset?: number;
         }) => {
-            return this.request({
-                path: `https://api.2all.com.vn/web-customer/cart/get-available-delivery-time`,
+            return this.request<{
+                data: DateStep[];
+            }>({
+                path: `/cart/get-available-delivery-time`,
                 method: "POST",
                 body: {
                     ...params,
                     //Temp
                     menu_item_ids: [1, 2],
-                    now: 1706517908122,
                     long: 106.7723030321775,
                     lat: 10.820557580712087,
                 },

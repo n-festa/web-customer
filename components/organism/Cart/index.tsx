@@ -47,7 +47,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                     setCart((prev) => ({ ...prev, ...res.data }));
                 }
             },
-            300,
+            1000,
             { leading: true },
         ),
         [],
