@@ -9,8 +9,9 @@ import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
 import { routes } from "@/utils/routes";
 import { Box, Button, Flex, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
-import { Field, Form, Formik, FormikHelpers } from "formik";
+import { Field, Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 const {
@@ -20,15 +21,18 @@ const {
 const Additional = () => {
     const router = useRouter();
     const dispatch = useDispatch();
-    const handleSubmit = async (_values: UserType, _actions: FormikHelpers<UserType>) => {
+    const [showExpect, setShowExpect] = useState(false);
+    const handleSubmit = async ({ expected_diet_diff, expected_diet, ...rest }: UserType) => {
         try {
-            const { data } = await apiServices.createProfile(_values);
+            const expectedDietValue = expected_diet === "Khác" ? expected_diet_diff : expected_diet;
+            const { data } = await apiServices.createProfile({ ...rest, expected_diet: expectedDietValue });
             dispatch(setUserInfo(data));
             router.push(routes.RegistrationSuccess);
         } catch (error) {
             console.error("Error while resending OTP:", error);
         }
     };
+
     return (
         <UISignWrap maxW="63rem" bg="var(--gray-100)">
             <Box p="4rem" w="100%" bg="white">
@@ -45,8 +49,8 @@ const Additional = () => {
                         validationSchema={validationSchema.validation}
                         validateOnBlur={true}
                         validateOnChange={false}
-                        onSubmit={(values, actions) => {
-                            handleSubmit(values as UserType, actions as FormikHelpers<UserType>);
+                        onSubmit={(values) => {
+                            handleSubmit(values as UserType);
                         }}
                     >
                         {(props) => (
@@ -223,7 +227,10 @@ const Additional = () => {
                                                             size="xxl"
                                                             colorScheme="green"
                                                             value={data.value}
-                                                            onChange={onChange}
+                                                            onChange={(e) => {
+                                                                onChange(e);
+                                                                setShowExpect(e.target.value === "Khác");
+                                                            }}
                                                         >
                                                             {data.content}
                                                         </Radio>
@@ -233,6 +240,17 @@ const Additional = () => {
                                         );
                                     }}
                                 </Field>
+                                {showExpect && (
+                                    <Field name="expected_diet_diff">
+                                        {({ field }: { field: filedType; form: formType }) => (
+                                            <InputForm
+                                                type="text"
+                                                placeholder="Vui lòng điền tên chế độ ăn mong muốn"
+                                                {...field}
+                                            />
+                                        )}
+                                    </Field>
+                                )}
                                 <Button variant="btnSubmit" mt="3.2rem" isLoading={props.isSubmitting} type="submit">
                                     Hoàn tất
                                 </Button>

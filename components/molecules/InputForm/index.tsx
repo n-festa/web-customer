@@ -10,9 +10,9 @@ import {
 } from "@chakra-ui/react";
 
 type InputFormProps = {
-    title: string;
-    placeholder: string;
-    type: string;
+    title?: string;
+    placeholder?: string;
+    type?: string;
     note?: string;
     error?: string | number;
     labelProps?: FormLabelProps;
