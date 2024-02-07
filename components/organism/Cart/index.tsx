@@ -5,17 +5,18 @@ import { useAppSelector } from "@/store/hooks";
 import { genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, Center, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
+import isEqual from "lodash/isEqual";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useCallback, useEffect } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
 
 const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number | string }) => {
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValue(cartSynced);
-    const setCart = useSetRecoilState(cartState);
+    const [rawCart, setCart] = useRecoilState(cartState);
 
     const profile = useAppSelector((app) => app.userInfo.userInfo);
     const isCartEmpty = !cart.cart_info?.length || (restaurant_id != undefined && cart.restaurant_id != restaurant_id);
@@ -51,6 +52,14 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
         ),
         [],
     );
+
+    //Sync
+    useEffect(() => {
+        if (!isEqual(rawCart?.cart_info, cart.cart_info)) {
+            setCart((prev) => ({ ...prev, ...cart }));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <Flex
