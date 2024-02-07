@@ -23,7 +23,7 @@ const RestautantDetailPage = () => {
         if (!isNullOrEmpty(des)) {
             setTimeout(() => {
                 router.replace(des);
-            }, 3000);
+            }, 800);
         }
     }, [des, router]);
 

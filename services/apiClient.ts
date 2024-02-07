@@ -31,6 +31,7 @@ export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "pa
     isUncheckAuthor?: boolean;
     hasLoading?: boolean;
     errDest?: string;
+    ignoreErrorCode?: number[];
 }
 
 export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {

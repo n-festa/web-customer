@@ -311,6 +311,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                     long: 106.7723030321775,
                     lat: 10.820557580712087,
                 },
+                ignoreErrorCode: [401],
             });
         },
     };
