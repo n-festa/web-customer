@@ -11,6 +11,7 @@ interface Props {
     defaultValue?: string;
     isRounded?: boolean;
     isFormikControl?: boolean;
+    isDisabled?: boolean;
     onChange?: (value: React.ChangeEvent<HTMLInputElement> | string | number) => void;
 }
 
@@ -20,6 +21,7 @@ const GroupRadioButton = ({
     isRounded = false,
     value,
     isFormikControl = false,
+    isDisabled,
     ...rest
 }: Props) => {
     const { getRootProps, getRadioProps } = useRadioGroup({
@@ -54,7 +56,13 @@ const GroupRadioButton = ({
             {options.map((el) => {
                 const radio = getRadioProps({ value: el.value });
                 return (
-                    <RadioButton key={el.value} value={el.value} isRounded={isRounded} {...radio}>
+                    <RadioButton
+                        key={el.value}
+                        value={el.value}
+                        isRounded={isRounded}
+                        isDisabled={isDisabled}
+                        {...radio}
+                    >
                         {el.name}
                     </RadioButton>
                 );

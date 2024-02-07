@@ -8,6 +8,8 @@ export interface Options {
 export interface FilterCondition {
     type: FilterType;
     sort?: SortOrder;
+    viewAllFood?: boolean;
+    viewAllRestaurant?: boolean;
     other: {
         [FilterType.Food]: string[];
         [FilterType.Restaurant]: string[];
@@ -20,4 +22,13 @@ export interface FilterCondition {
 export interface SearchResult {
     [FilterType.Food]: FoodDto[];
     [FilterType.Restaurant]: RestaurantDto[];
+}
+
+export interface DateStep {
+    date?: string;
+    dayId?: number;
+    dayName?: string;
+    hours?: string;
+    minutes?: string;
+    utc_offset?: number;
 }

@@ -30,6 +30,8 @@ const useSearchResult = () => {
         keySearch: params.searchKey ?? "",
         filterCondition: {
             type: params.viewAllRestaurant ? FilterType.Restaurant : FilterType.Food,
+            viewAllFood: false,
+            viewAllRestaurant: false,
             orderOptions: {
                 [FilterType.Food]: FoodOtherFilterOptions,
                 [FilterType.Restaurant]: RestaurantOtherFilterOptions,
@@ -214,8 +216,10 @@ const useSearchResult = () => {
             setState((prevState) => ({
                 ...prevState,
                 keySearch: "Tất cả",
+
                 filterCondition: {
                     ...prevState.filterCondition,
+                    viewAllFood: true,
                     type: FilterType.Food,
                 },
             }));
@@ -229,6 +233,7 @@ const useSearchResult = () => {
                 keySearch: "Tất cả",
                 filterCondition: {
                     ...prevState.filterCondition,
+                    viewAllRestaurant: true,
                     type: FilterType.Restaurant,
                 },
             }));

@@ -52,6 +52,7 @@ const FoodItemSuspense = ({
 
     const handleAddCart = useCallback(() => {
         const newCartInfo = cloneDeep(cart?.cart_info ?? []);
+        //TODO:
         newCartInfo?.push({
             item_id: 22,
             customer_id: 3,

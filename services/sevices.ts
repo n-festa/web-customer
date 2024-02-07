@@ -2,6 +2,7 @@ import { store } from "@/store";
 import { setLoading } from "@/store/reducers/appSlice";
 import { Cart, CartItem } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
+import { DateStep } from "@/types/interfaces";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import { GetFoodDetailResponse, GetSideDishesResponse } from "@/types/response/FoodResponse";
 import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesResponse";
@@ -271,6 +272,13 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 hasLoading: true,
             });
         },
+        deleteCartItem: (params: { customer_id: string | number; cart_items: number[] }) => {
+            return this.request<{ data: Cart }>({
+                path: `/cart/delelte-item`,
+                method: "POST",
+                body: params,
+            });
+        },
         basicUpdateCart: (params: {
             customer_id: number;
             updated_items: {
@@ -282,6 +290,27 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: `/cart/basic-update`,
                 method: "POST",
                 body: params,
+            });
+        },
+        getAvailableTime: (params: {
+            menu_item_ids?: (number | undefined)[];
+            now?: number;
+            long?: number;
+            lat?: number;
+            utc_offset?: number;
+        }) => {
+            return this.request<{
+                data: DateStep[];
+            }>({
+                path: `/cart/get-available-delivery-time`,
+                method: "POST",
+                body: {
+                    ...params,
+                    //Temp
+                    menu_item_ids: [1, 2],
+                    long: 106.7723030321775,
+                    lat: 10.820557580712087,
+                },
             });
         },
     };

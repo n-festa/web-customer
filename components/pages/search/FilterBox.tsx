@@ -45,6 +45,7 @@ const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
                     onChange={(value) => {
                         onChangeFilterOptions<FilterType>("type", value as FilterType);
                     }}
+                    isDisabled={condition.viewAllFood || condition.viewAllRestaurant}
                 />
             </WrapItem>
             <WrapItem>

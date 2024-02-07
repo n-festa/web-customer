@@ -7,6 +7,7 @@ import { routes } from "@/utils/routes";
 import apiServices from "./sevices";
 
 export const handleRefreshToken = async (errDest?: string): Promise<string | undefined> => {
+    removeToken();
     const refresh_token = getTokenRefresh();
     if (refresh_token) {
         const res = await apiServices.requestToken(refresh_token);
@@ -19,7 +20,6 @@ export const handleRefreshToken = async (errDest?: string): Promise<string | und
         }
     }
     store.dispatch(setUserInfo(undefined));
-    removeToken();
     removeTokenRefresh();
 
     if (typeof window !== "undefined") {

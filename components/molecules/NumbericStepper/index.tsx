@@ -1,8 +1,10 @@
 import { Button, ButtonProps, HStack, Img, Input, InputProps, StackProps, useNumberInput } from "@chakra-ui/react";
+import { useState } from "react";
 
 interface Props {
     defaultValue?: number;
     onChangeValue?: (value: number) => void;
+    onReachZero?: () => void;
     buttonProps?: ButtonProps;
     inputProps?: InputProps;
 }
@@ -10,17 +12,25 @@ interface Props {
 const NumbericStepper = ({
     defaultValue = 1,
     onChangeValue,
+    onReachZero,
     buttonProps,
     inputProps,
     ...props
 }: Props & StackProps) => {
+    const [value, setValue] = useState(defaultValue);
     const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } = useNumberInput({
         step: 1,
         defaultValue: defaultValue,
         min: 0,
         max: 999,
+        value: value,
         onChange: (_, valueAsNumber) => {
-            onChangeValue?.(valueAsNumber);
+            if (!onReachZero || valueAsNumber > 0) {
+                setValue(valueAsNumber);
+                onChangeValue?.(valueAsNumber);
+                return;
+            }
+            onReachZero?.();
         },
     });
 

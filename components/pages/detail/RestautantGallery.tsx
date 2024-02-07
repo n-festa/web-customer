@@ -1,3 +1,4 @@
+import SkeletonBox from "@/components/molecules/SkeletonBox";
 import { MediaType } from "@/types/enum";
 import { Media, RestaurantDetailDto } from "@/types/response/base";
 import { getCutoffTime } from "@/utils/functions";
@@ -24,9 +25,10 @@ import ReactPlayer from "react-player";
 
 interface Props {
     restaurantInfo?: RestaurantDetailDto;
+    isLoading?: boolean;
 }
 
-const RestaurantGallery = ({ restaurantInfo }: Props) => {
+const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
     const ref = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
     const [playing, setPlaying] = useState(false);
@@ -143,7 +145,7 @@ const RestaurantGallery = ({ restaurantInfo }: Props) => {
                                             <Button
                                                 variant={"btnPlayVideo"}
                                                 onClick={() => {
-                                                    setPlaying(true);
+                                                    if (!isLoading) setPlaying(true);
                                                 }}
                                                 className="plz"
                                             >
@@ -248,84 +250,88 @@ const RestaurantGallery = ({ restaurantInfo }: Props) => {
                         })}
                     </Stack>
                 </Stack>
-                <VStack
-                    w="100%"
-                    alignItems={"flex-start"}
-                    spacing={"1.6rem"}
-                    padding="0.8rem 2.4rem"
-                    position="relative"
-                >
-                    <Stack w="100%" direction={{ md: "row", base: "column" }}>
-                        <VStack flex={1} alignItems={"flex-start"}>
-                            <Text fontSize={"2.4rem"} color="var(--gray-900)" fontWeight={"bold"} m="0">
-                                {restaurantInfo?.name?.[0].text}
-                            </Text>
-                            <Text fontSize={"1.8rem"} color="black" fontWeight={"600"} m="0">
-                                {restaurantInfo?.specialty?.[0]?.text} | {restaurantInfo?.top_food}
-                            </Text>
-                        </VStack>
-                        <VStack w="33.6rem" alignItems={"flex-start"}>
-                            <HStack spacing="0.8rem" w="100%">
-                                <HStack spacing="1px">
-                                    <Img w="2.4rem" height={"2.4rem"} src="/images/star-icon1.svg" />
-                                    <Text fontSize={"1.6rem"} color="var(--gray-500)" m="0" fontWeight={"500"}>
-                                        {restaurantInfo?.rating}(100+)
-                                    </Text>
+                {isLoading ? (
+                    <SkeletonBox mt="0.8rem" isLoaded={false} />
+                ) : (
+                    <VStack
+                        w="100%"
+                        alignItems={"flex-start"}
+                        spacing={"1.6rem"}
+                        padding="0.8rem 2.4rem"
+                        position="relative"
+                    >
+                        <Stack w="100%" direction={{ md: "row", base: "column" }}>
+                            <VStack flex={1} alignItems={"flex-start"}>
+                                <Text fontSize={"2.4rem"} color="var(--gray-900)" fontWeight={"bold"} m="0">
+                                    {restaurantInfo?.name?.[0].text}
+                                </Text>
+                                <Text fontSize={"1.8rem"} color="black" fontWeight={"600"} m="0">
+                                    {restaurantInfo?.specialty?.[0]?.text} | {restaurantInfo?.top_food}
+                                </Text>
+                            </VStack>
+                            <VStack w="33.6rem" alignItems={"flex-start"}>
+                                <HStack spacing="0.8rem" w="100%">
+                                    <HStack spacing="1px">
+                                        <Img w="2.4rem" height={"2.4rem"} src="/images/star-icon1.svg" />
+                                        <Text fontSize={"1.6rem"} color="var(--gray-500)" m="0" fontWeight={"500"}>
+                                            {restaurantInfo?.rating}(100+)
+                                        </Text>
+                                    </HStack>
+                                    <HStack spacing="0">
+                                        <Img w="2.4rem" height={"2.4rem"} src="/images/markerpin021.svg" />
+                                        <Text fontSize={"1.6rem"} color="var(--gray-500)" m="0" fontWeight={"500"}>
+                                            3.2km
+                                        </Text>
+                                    </HStack>
+                                    <HStack spacing="0">
+                                        <Img w="2.4rem" height={"2.4rem"} src="/images/timer.svg" />
+                                        <Text fontSize={"1.6rem"} color="var(--gray-500)" m="0" fontWeight={"500"}>
+                                            20min
+                                        </Text>
+                                    </HStack>
                                 </HStack>
-                                <HStack spacing="0">
-                                    <Img w="2.4rem" height={"2.4rem"} src="/images/markerpin021.svg" />
-                                    <Text fontSize={"1.6rem"} color="var(--gray-500)" m="0" fontWeight={"500"}>
-                                        3.2km
-                                    </Text>
-                                </HStack>
-                                <HStack spacing="0">
-                                    <Img w="2.4rem" height={"2.4rem"} src="/images/timer.svg" />
-                                    <Text fontSize={"1.6rem"} color="var(--gray-500)" m="0" fontWeight={"500"}>
-                                        20min
-                                    </Text>
-                                </HStack>
-                            </HStack>
 
-                            {restaurantInfo?.promotion && (
-                                <HStack spacing="0">
-                                    <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2729.svg" />
-                                    <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
-                                        {restaurantInfo?.promotion ?? "-"}
-                                    </Text>
-                                </HStack>
-                            )}
+                                {restaurantInfo?.promotion && (
+                                    <HStack spacing="0">
+                                        <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2729.svg" />
+                                        <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
+                                            {restaurantInfo?.promotion ?? "-"}
+                                        </Text>
+                                    </HStack>
+                                )}
 
-                            {_time && (
-                                <HStack spacing="0">
-                                    <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2725.svg" />
-                                    <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
-                                        Đặt trước {_time} để điều chỉnh vị
-                                    </Text>
-                                </HStack>
-                            )}
-                        </VStack>
-                    </Stack>
-                    <Collapse in={isOpen} animateOpacity startingHeight={"4.8rem"}>
-                        {restaurantInfo?.introduction?.map((el, index) => {
-                            return (
-                                <>
-                                    <Text
-                                        key={String(index)}
-                                        fontSize={"1.6rem"}
-                                        fontWeight={400}
-                                        lineHeight={"2.4rem"}
-                                        color="var(--gray-600)"
-                                    >
-                                        {el?.text ?? "-"}
-                                    </Text>
-                                </>
-                            );
-                        })}
-                    </Collapse>
-                    <Button variant={"btnViewAllSm"} onClick={onToggle} p="0">
-                        Xem tất cả
-                    </Button>
-                </VStack>
+                                {_time && (
+                                    <HStack spacing="0">
+                                        <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2725.svg" />
+                                        <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
+                                            Đặt trước {_time} để điều chỉnh vị
+                                        </Text>
+                                    </HStack>
+                                )}
+                            </VStack>
+                        </Stack>
+                        <Collapse in={isOpen} animateOpacity startingHeight={"4.8rem"}>
+                            {restaurantInfo?.introduction?.map((el, index) => {
+                                return (
+                                    <>
+                                        <Text
+                                            key={String(index)}
+                                            fontSize={"1.6rem"}
+                                            fontWeight={400}
+                                            lineHeight={"2.4rem"}
+                                            color="var(--gray-600)"
+                                        >
+                                            {el?.text ?? "-"}
+                                        </Text>
+                                    </>
+                                );
+                            })}
+                        </Collapse>
+                        <Button variant={"btnViewAllSm"} onClick={onToggle} p="0">
+                            Xem tất cả
+                        </Button>
+                    </VStack>
+                )}
             </VStack>
             <Modal isOpen={isOpenModal} onClose={onClose} isCentered variant={"preview"}>
                 <ModalOverlay />
