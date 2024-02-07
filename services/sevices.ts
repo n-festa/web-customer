@@ -143,7 +143,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             current_diet?: string;
             allergic_food?: string;
             chronic_disease: string;
-            expected_diet: string;
+            expected_diet?: string;
         }) => {
             return this.request({
                 path: "create-customer-profile",

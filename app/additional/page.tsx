@@ -9,9 +9,11 @@ import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
 import { routes } from "@/utils/routes";
 import { Box, Button, Flex, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
-import { Field, Form, Formik, FormikHelpers } from "formik";
+import { Field, Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
+
 const {
     signUp: { formData, initialValues, validationSchema },
 } = config;
@@ -19,15 +21,18 @@ const {
 const Additional = () => {
     const router = useRouter();
     const dispatch = useDispatch();
-    const handleSubmit = async (_values: UserType, _actions: FormikHelpers<UserType>) => {
+    const [showExpect, setShowExpect] = useState(false);
+    const handleSubmit = async ({ expected_diet_diff, expected_diet, ...rest }: UserType) => {
         try {
-            const { data } = await apiServices.createProfile(_values);
+            const expectedDietValue = expected_diet === "Khác" ? expected_diet_diff : expected_diet;
+            const { data } = await apiServices.createProfile({ ...rest, expected_diet: expectedDietValue });
             dispatch(setUserInfo(data));
             router.push(routes.RegistrationSuccess);
         } catch (error) {
             console.error("Error while resending OTP:", error);
         }
     };
+
     return (
         <UISignWrap maxW="63rem" bg="var(--gray-100)">
             <Box p="4rem" w="100%" bg="white">
@@ -42,10 +47,10 @@ const Additional = () => {
                     <Formik
                         initialValues={initialValues}
                         validationSchema={validationSchema.validation}
-                        validateOnBlur={false}
+                        validateOnBlur={true}
                         validateOnChange={false}
-                        onSubmit={(values, actions) => {
-                            handleSubmit(values as UserType, actions as FormikHelpers<UserType>);
+                        onSubmit={(values) => {
+                            handleSubmit(values as UserType);
                         }}
                     >
                         {(props) => (
@@ -53,10 +58,10 @@ const Additional = () => {
                                 <Field name="name">
                                     {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="Tên"
+                                            title="*Tên"
                                             type="text"
                                             placeholder="Ví dụ: Nguyễn Văn A"
-                                            error={form.errors.name}
+                                            error={form.errors.name && form.touched?.name ? form.errors.name : ""}
                                             {...field}
                                         ></InputForm>
                                     )}
@@ -64,10 +69,10 @@ const Additional = () => {
                                 <Field name="email">
                                     {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="Email"
+                                            title="*Email"
                                             type="email"
-                                            placeholder="Ví dụ: nguyen.vana@email.com"
-                                            error={form.errors.email}
+                                            placeholder="Ví dụ: nguyen.vana@gmail.com"
+                                            error={form.errors.email && form.touched?.email ? form.errors.email : ""}
                                             {...field}
                                         />
                                     )}
@@ -75,16 +80,20 @@ const Additional = () => {
                                 <Field name="birthday">
                                     {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="Ngày sinh"
-                                            type="text"
+                                            title="*Ngày sinh"
+                                            type="date"
                                             placeholder="Ví dụ: 27/07/1995"
-                                            error={form.errors.birthday}
+                                            error={
+                                                form.errors.birthday && form.touched?.birthday
+                                                    ? form.errors.birthday
+                                                    : ""
+                                            }
                                             {...field}
                                         />
                                     )}
                                 </Field>
                                 <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem">
-                                    Giới tính
+                                    *Giới tính
                                 </Text>
                                 <Field name="sex">
                                     {({ field }: { field: filedType; form: formType }) => {
@@ -119,10 +128,14 @@ const Additional = () => {
                                     <Field name="height_m">
                                         {({ field, form }: { field: filedType; form: formType }) => (
                                             <InputForm
-                                                title="Chiều cao ( cm )"
+                                                title="*Chiều cao ( cm )"
                                                 type="number"
                                                 placeholder="Ví dụ: 163"
-                                                error={form.errors.height_m}
+                                                error={
+                                                    form.errors.height_m && form.touched?.height_m
+                                                        ? form.errors.height_m
+                                                        : ""
+                                                }
                                                 {...field}
                                             />
                                         )}
@@ -130,10 +143,14 @@ const Additional = () => {
                                     <Field name="weight_kg">
                                         {({ field, form }: { field: filedType; form: formType }) => (
                                             <InputForm
-                                                title="Cân nặng ( kg )"
+                                                title="*Cân nặng ( kg )"
                                                 type="number"
                                                 placeholder="Ví dụ: 58"
-                                                error={form.errors.weight_kg}
+                                                error={
+                                                    form.errors.weight_kg && form.touched?.weight_kg
+                                                        ? form.errors.weight_kg
+                                                        : ""
+                                                }
                                                 {...field}
                                             />
                                         )}
@@ -144,7 +161,7 @@ const Additional = () => {
                                         const { onChange, ...rest } = field;
                                         return (
                                             <RadioCardGroup
-                                                title="Mức độ vận động hàng ngày"
+                                                title="*Mức độ vận động hàng ngày"
                                                 name="physical_activity_level"
                                                 data={formData.physicalActivityLevel}
                                                 {...rest}
@@ -210,7 +227,10 @@ const Additional = () => {
                                                             size="xxl"
                                                             colorScheme="green"
                                                             value={data.value}
-                                                            onChange={onChange}
+                                                            onChange={(e) => {
+                                                                onChange(e);
+                                                                setShowExpect(e.target.value === "Khác");
+                                                            }}
                                                         >
                                                             {data.content}
                                                         </Radio>
@@ -220,6 +240,17 @@ const Additional = () => {
                                         );
                                     }}
                                 </Field>
+                                {showExpect && (
+                                    <Field name="expected_diet_diff">
+                                        {({ field }: { field: filedType; form: formType }) => (
+                                            <InputForm
+                                                type="text"
+                                                placeholder="Vui lòng điền tên chế độ ăn mong muốn"
+                                                {...field}
+                                            />
+                                        )}
+                                    </Field>
+                                )}
                                 <Button variant="btnSubmit" mt="3.2rem" isLoading={props.isSubmitting} type="submit">
                                     Hoàn tất
                                 </Button>

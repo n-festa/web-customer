@@ -128,7 +128,7 @@ const PhoneVerification = () => {
                 removeState("restrict");
             }
         }
-    }, [changeInitialValue, restrictStorage]);
+    }, []);
 
     useEffect(() => {
         console.log({ otp });
@@ -151,7 +151,7 @@ const PhoneVerification = () => {
                 ></HighlightedText>
                 <Box mb="3.2rem">
                     <Flex gap="0.8rem">
-                        <PinInput placeholder="0" otp value={otpState.join("")}>
+                        <PinInput placeholder="0" otp>
                             {Array.from({ length: 6 }, (_, index) => (
                                 <PinInputField
                                     key={index}
@@ -183,7 +183,11 @@ const PhoneVerification = () => {
                         </Text>
                     )}
                 </Box>
-                <Button isDisabled={seconds >= 90 || isLock} variant="btnSubmit" onClick={handleResend}>
+                <Button
+                    isDisabled={seconds >= 90 || isLock}
+                    variant={seconds >= 90 || isLock ? "btnDisable" : "btnSubmit"}
+                    onClick={handleResend}
+                >
                     Gửi lại mã OTP
                 </Button>
                 <Text

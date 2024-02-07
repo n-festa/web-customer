@@ -71,7 +71,8 @@ export type UserType = {
     current_diet?: string;
     allergic_food?: string;
     chronic_disease: string;
-    expected_diet: string;
+    expected_diet?: string;
+    expected_diet_diff?: string;
 };
 
 export type UserAuth = {

@@ -1,3 +1,4 @@
+import { FormikTouched } from "formik";
 import { ChangeEvent } from "react";
 
 export type filedType = {
@@ -9,7 +10,18 @@ export type filedType = {
 };
 
 export type formType = {
-    touched?: () => void;
+    touched?: FormikTouched<{
+        name: boolean;
+        email: boolean;
+        birthday: boolean;
+        height_m: boolean;
+        weight_kg: boolean;
+        phoneNumber: boolean;
+        address: boolean;
+        province: boolean;
+        district: boolean;
+        ward: boolean;
+    }>;
     errors: {
         name: string;
         email: string;
