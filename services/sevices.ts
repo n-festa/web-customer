@@ -272,6 +272,13 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 hasLoading: true,
             });
         },
+        deleteCartItem: (params: { customer_id: string | number; cart_items: number[] }) => {
+            return this.request<{ data: Cart }>({
+                path: `/cart/delelte-item`,
+                method: "POST",
+                body: params,
+            });
+        },
         basicUpdateCart: (params: {
             customer_id: number;
             updated_items: {

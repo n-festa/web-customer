@@ -9,6 +9,7 @@ const CartItem = ({
     image,
     quantity,
     onChangeValue,
+    onDeleteCartItem,
 }: {
     price?: string | number;
     nowPrice?: string | number;
@@ -17,6 +18,7 @@ const CartItem = ({
     image: string;
     quantity?: number;
     onChangeValue?: (value: number) => void;
+    onDeleteCartItem?: () => void;
 }) => {
     return (
         <Flex w="100%" px="1.6rem" justifyContent="flex-start">
@@ -50,6 +52,7 @@ const CartItem = ({
                         maxW: "3.5rem",
                         fontSize: "1.6rem",
                     }}
+                    onReachZero={onDeleteCartItem}
                     buttonProps={{
                         w: "2rem",
                         h: "2rem",

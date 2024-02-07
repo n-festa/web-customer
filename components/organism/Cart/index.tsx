@@ -1,4 +1,5 @@
 import useSWRAPI from "@/hooks/useApi";
+import useDeleteCartItem from "@/hooks/useDeleteCartItem";
 import { cartState, cartSynced, showCartState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";
@@ -17,6 +18,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValue(cartSynced);
     const [rawCart, setCart] = useRecoilState(cartState);
+    const { handleDeleteCartItem } = useDeleteCartItem();
 
     const profile = useAppSelector((app) => app.userInfo.userInfo);
     const isCartEmpty = !cart.cart_info?.length || (restaurant_id != undefined && cart.restaurant_id != restaurant_id);
@@ -44,7 +46,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                     ],
                 });
                 if (res.data) {
-                    setCart((prev) => ({ ...prev, ...res.data }));
+                    setCart((prev) => ({ ...prev, ...res.data, cartUpdate: undefined }));
                 }
             },
             1000,
@@ -56,7 +58,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
     //Sync
     useEffect(() => {
         if (!isEqual(rawCart?.cart_info, cart.cart_info)) {
-            setCart((prev) => ({ ...prev, ...cart }));
+            setCart((prev) => ({ ...prev, ...cart, cartUpdate: undefined }));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -108,6 +110,10 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                                 <CartItem
                                     onChangeValue={(value) => {
                                         handleChangeCartQuantity(item.item_id, value);
+                                    }}
+                                    onDeleteCartItem={() => {
+                                        if (item.item_id != undefined && cart.customer_id != undefined)
+                                            handleDeleteCartItem(item.item_id, cart.customer_id);
                                     }}
                                     key={item.item_id}
                                     image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"} //TODO
