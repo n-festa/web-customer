@@ -31,7 +31,7 @@ const UserGroup = ({ bg }: { bg?: string }) => {
                 {image?.url ? <Image src={image.url} alt="avt" /> : <Avatar w="4.8rem" h="4.8rem" />}
             </MenuButton>
             <MenuList bg={bg}>
-                <MenuItem bg={bg} as={Link} href={routes.AdditionalSignUpInfo}>
+                <MenuItem bg={bg} as={Link} href={routes.Profile}>
                     Hồ sơ
                 </MenuItem>
                 <MenuItem bg={bg} as={Link} href={"/history"}>

@@ -135,7 +135,6 @@ const PhoneVerification = () => {
             if (beingLocked) {
                 setIsLock(true);
                 changeInitialValue(timeDifferenceInMinutes * 60);
-                router.push(routes.SignIn);
             } else {
                 removeState("restrict");
             }
