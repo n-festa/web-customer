@@ -149,10 +149,10 @@ const FoodItemSuspense = ({
                     </HStack>
                 </Flex>
                 <Text minH="4rem" color="var(--gray-600)" as="span" fontSize="1.4rem" className="text-ellipsis">
-                    <Text as="span" wordBreak="keep-all" color="var(--color-mediumslateblue)" fontWeight="bold">
+                    <Text as="span" wordBreak="keep-all" color="var(--color-mediumslateblue)" fontWeight="600">
                         {cook_method}
                     </Text>
-                    <Text wordBreak="break-word" fontWeight="medium" as="span">
+                    <Text wordBreak="break-word" fontWeight="600" as="span">
                         {ingredientName && ` |  ${ingredientName}`}
                     </Text>
                 </Text>
