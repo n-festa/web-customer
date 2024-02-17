@@ -9,11 +9,12 @@ import { setErrorScreenDes } from "@/store/reducers/appSlice";
 import { CartItem } from "@/types/cart";
 import { isLoggedIn } from "@/utils/functions";
 import { routes } from "@/utils/routes";
-import { cloneDeep } from "lodash";
-import { useCallback } from "react";
+import { cloneDeep, debounce } from "lodash";
+import { useCallback, useState } from "react";
 import { useRecoilState } from "recoil";
 
 const useUpdateCart = () => {
+    const [loading, setLoading] = useState(false);
     const [currentCart, setCart] = useRecoilState(cartState);
     const handleUpdateCart = useCallback(
         async (cartItem: CartItem) => {
@@ -49,7 +50,27 @@ const useUpdateCart = () => {
         },
         [currentCart, setCart],
     );
-    return { cart: currentCart, handleUpdateCart };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const handleQuickAdd = useCallback(
+        debounce(
+            async (id?: number) => {
+                if (!id || !currentCart?.customer_id) return;
+                setLoading(true);
+                const res = await apiServices.quickAddCart({
+                    customer_id: Number(currentCart?.customer_id),
+                    menu_item_id: id,
+                });
+                if (res.data) {
+                    setCart((prev) => ({ ...prev, ...res.data, cartUpdate: undefined }));
+                    setLoading(false);
+                }
+            },
+            1000,
+            { leading: true },
+        ),
+        [],
+    );
+    return { cart: currentCart, handleUpdateCart, handleQuickAdd, loading };
 };
 
 export default useUpdateCart;

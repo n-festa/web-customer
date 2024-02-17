@@ -292,6 +292,13 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: params,
             });
         },
+        quickAddCart: (params: { customer_id: number; menu_item_id: number }) => {
+            return this.request<{ data: Cart }>({
+                path: `/cart/quick-add`,
+                method: "POST",
+                body: params,
+            });
+        },
         getHotFood: () => {
             return this.request<GetGeneralFoodRecommendResponse>({
                 path: `/food/get-hot-food`,

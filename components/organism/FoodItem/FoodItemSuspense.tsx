@@ -1,12 +1,10 @@
-import { cartState } from "@/recoil/recoilState";
+import useUpdateCart from "@/hooks/useUpdateCart";
 import { ProductTypeList } from "@/types";
 import { getCutoffTime, isNullOrEmpty } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Box, Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
-import { cloneDeep } from "lodash";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
-import { useRecoilState } from "recoil";
+import { useMemo } from "react";
 
 const FoodItemSuspense = ({
     id,
@@ -46,33 +44,13 @@ const FoodItemSuspense = ({
     disableAction?: boolean;
 }) => {
     const router = useRouter();
-    const [cart, setCart] = useRecoilState(cartState);
+    const { handleQuickAdd, loading } = useUpdateCart();
 
     const cookingTime = useMemo(() => {
         return cooking_time_s
             ? Number((cooking_time_s / 60).toLocaleString(undefined, { maximumFractionDigits: 2 }))
             : undefined;
     }, [cooking_time_s]);
-
-    const handleAddCart = useCallback(() => {
-        const newCartInfo = cloneDeep(cart?.cart_info ?? []);
-        //TODO:
-        newCartInfo?.push({
-            item_id: 22,
-            customer_id: 3,
-            sku_id: 2,
-            qty_ordered: 3,
-            advanced_taste_customization: "không cay",
-            basic_taste_customization: "Không hành",
-            portion_customization: "Ức Gà 150g",
-            advanced_taste_customization_obj: [{ option_id: "3", value_id: "10" }],
-            basic_taste_customization_obj: [{ no_adding_id: "no_onion" }],
-            notes: "",
-            restaurant_id: 1,
-            created_at: "2024-01-12T11:25:37.000Z",
-        });
-        setCart({ customer_id: "", cart_info: newCartInfo });
-    }, [setCart, cart]);
 
     return (
         <Flex
@@ -209,8 +187,9 @@ const FoodItemSuspense = ({
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        handleAddCart();
+                        handleQuickAdd(Number(id));
                     }}
+                    isLoading={loading}
                     _hover={{ opacity: 0.7 }}
                     _active={{ opacity: 0.5 }}
                     borderRadius="50%"
