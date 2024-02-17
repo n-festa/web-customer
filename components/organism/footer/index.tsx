@@ -63,17 +63,21 @@ const Footer = () => {
                         >
                             Liên hệ
                         </Text>
-                        <VStack alignItems="flex-start" className="footer-links">
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                        <VStack
+                            alignItems="flex-start"
+                            className="footer-links"
+                            fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                        >
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 info@gmail.com
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 0988 989 989
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 162 Hoàng Sa
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 Q.1, Tp.HCM
                             </Text>
                         </VStack>
@@ -94,35 +98,18 @@ const Footer = () => {
                         >
                             Về chúng tôi
                         </Text>
-                        <VStack alignItems="flex-start" className="footer-links">
-                            <Text
-                                as={Link}
-                                href="#"
-                                variant="hoverWhite"
-                                fontSize="1.6rem"
-                                fontWeight="600"
-                                wordBreak="keep-all"
-                            >
+                        <VStack
+                            alignItems="flex-start"
+                            className="footer-links"
+                            fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                        >
+                            <Text as={Link} href="#" variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 Đội ngũ
                             </Text>
-                            <Text
-                                as={Link}
-                                href="#"
-                                variant="hoverWhite"
-                                fontSize="1.6rem"
-                                fontWeight="600"
-                                wordBreak="keep-all"
-                            >
+                            <Text as={Link} href="#" variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 Việc làm
                             </Text>
-                            <Text
-                                as={Link}
-                                href="#"
-                                variant="hoverWhite"
-                                fontSize="1.6rem"
-                                fontWeight="600"
-                                wordBreak="keep-all"
-                            >
+                            <Text as={Link} href="#" variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 Tin tức
                             </Text>
                         </VStack>
@@ -145,7 +132,7 @@ const Footer = () => {
                         <VStack
                             alignItems="flex-start"
                             className="footer-links"
-                            fontSize={{ base: "1rem", md: "1.6rem" }}
+                            fontSize={{ base: "1.3rem", md: "1.6rem" }}
                         >
                             <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 Quận 1, Tp. Hồ Chí Minh
@@ -183,28 +170,32 @@ const Footer = () => {
                         >
                             Theo dõi tại
                         </Text>
-                        <VStack alignItems="flex-start" className="footer-links">
+                        <VStack
+                            alignItems="flex-start"
+                            className="footer-links"
+                            fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                        >
                             <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/instagram.svg" />
-                                <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                     Instagram
                                 </Text>
                             </HStack>
                             <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/facebook.svg" />
-                                <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                     Facebook
                                 </Text>
                             </HStack>
                             <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/linkedin.svg" />
-                                <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                     Linkedin
                                 </Text>
                             </HStack>
                             <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/246x0w-1@2x.png" />
-                                <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                     Zalo
                                 </Text>
                             </HStack>
