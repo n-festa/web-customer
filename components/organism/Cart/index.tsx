@@ -129,8 +129,8 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                                     image={item.item_img ?? ""}
                                     name={item.item_name?.[0].text ?? "-"}
                                     note={genCartNote(item)}
-                                    price={item.price}
-                                    nowPrice={item.price_after_discount}
+                                    price={item.price?.toLocaleString()}
+                                    nowPrice={item.price_after_discount?.toLocaleString()}
                                     quantity={item.qty_ordered}
                                 />
                             ))}
