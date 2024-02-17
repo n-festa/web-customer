@@ -1,3 +1,6 @@
+"use client";
+import apiServices from "@/services/sevices";
+import { validateEmail } from "@/utils/functions";
 import {
     Button,
     Checkbox,
@@ -11,7 +14,10 @@ import {
     TextProps,
     Textarea,
     VStack,
+    useToast,
 } from "@chakra-ui/react";
+import debounce from "lodash/debounce";
+import { useCallback, useState } from "react";
 
 const GroupBox = ({
     img,
@@ -41,6 +47,47 @@ const GroupBox = ({
     );
 };
 const Contact = () => {
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+    const [check, setCheck] = useState(false);
+
+    const [error, setError] = useState<string[]>([]);
+    const toast = useToast();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const handleSubmitDebounce = useCallback(
+        debounce(
+            async (email: string, message: string, check: boolean) => {
+                const error = [];
+                if (!validateEmail(email)) {
+                    error.push("email");
+                }
+                if (!message || message.length === 0) {
+                    error.push("message");
+                }
+                if (!check) {
+                    error.push("check");
+                }
+                if (error.length) {
+                    setError(error);
+                    return;
+                }
+                await apiServices.sendContactForm({ email, message });
+                toast({
+                    title: "Liên hệ đối tác",
+                    description: `Đã gửi liên hệ`,
+                    status: "success",
+                    duration: 4000,
+                    position: "top",
+                    isClosable: true,
+                });
+            },
+            2000,
+            { leading: true, trailing: false },
+        ),
+        [],
+    );
+
     return (
         <Flex
             scrollMarginTop="8rem"
@@ -75,7 +122,17 @@ const Contact = () => {
                         <Text fontSize="1.6rem" fontWeight={500} lineHeight="2rem">
                             Email
                         </Text>
-                        <Input h="4.4rem" type="email" variant="email" placeholder="Vui lòng nhập email của bạn" />
+                        <Input
+                            value={email}
+                            onChange={(e) => {
+                                setError((prev) => prev.filter((err) => err !== "email"));
+                                setEmail(e.target.value);
+                            }}
+                            h="4.4rem"
+                            type="email"
+                            variant={error.includes("email") ? "emailError" : "email"}
+                            placeholder="Vui lòng nhập email của bạn"
+                        />
                     </VStack>
                     <VStack mt="2.4rem" alignItems="flex-start" color="var(--gray-700)" spacing="0.6rem">
                         <Text fontSize="1.6rem" fontWeight={500} lineHeight="2rem">
@@ -85,20 +142,41 @@ const Contact = () => {
                             outline={3}
                             h="13.4rem"
                             resize="none"
+                            value={message}
                             _active={{}}
                             _visited={{}}
                             _focusVisible={{}}
+                            onChange={(e) => {
+                                setError((prev) => prev.filter((err) => err !== "message"));
+                                setMessage(e.target.value);
+                            }}
                             placeholder="Ví dụ: xin chào 2ALL, tôi có nhu cầu muốn hợp tác với bạn"
-                            border="1px solid rgba(208, 213, 221, 1)"
+                            border={`1px solid ${error.includes("message") ? "red" : "rgba(208, 213, 221, 1)"}`}
                             boxShadow="0px 1px 2px 0px rgba(16, 24, 40, 0.05)"
                         />
                     </VStack>
 
                     <Flex justifyContent="space-between" mt="2.4rem" alignItems="center">
-                        <Checkbox>Tôi không phải robot</Checkbox>
+                        <Checkbox
+                            isChecked={check}
+                            onChange={(e) => {
+                                setError((prev) => prev.filter((err) => err !== "check"));
+                                setCheck(e.target.checked);
+                            }}
+                            borderColor={error.includes("check") ? "red" : ""}
+                        >
+                            Tôi không phải robot
+                        </Checkbox>
                         <Img h="5rem" w="5rem" alt="" src="/images/image-10@2x.png" />
                     </Flex>
-                    <Button mt="3.2rem" h="6.2rem" borderRadius="3.2rem">
+                    <Button
+                        onClick={() => {
+                            handleSubmitDebounce(email, message, check);
+                        }}
+                        mt="3.2rem"
+                        h="6.2rem"
+                        borderRadius="3.2rem"
+                    >
                         Gửi tin nhắn
                     </Button>
                 </Flex>

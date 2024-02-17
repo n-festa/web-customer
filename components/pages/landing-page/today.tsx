@@ -7,8 +7,8 @@ import React, { useMemo } from "react";
 import { ProductTypeList } from "types";
 
 const Today = () => {
-    const { GetGeneralFoodRecommendation } = useSWRAPI();
-    const { data } = GetGeneralFoodRecommendation();
+    const { GetHotFood } = useSWRAPI();
+    const { data } = GetHotFood();
 
     const processedData = useMemo(() => {
         return data?.data?.map((item) => ({
@@ -21,7 +21,6 @@ const Today = () => {
             price: item.price,
             ingredientName: item.ingredient_brief_vie,
             kcal: item.calorie_kcal?.toLocaleString(),
-            time: 122,
             distance: item.distance_km,
             ratings: item.rating,
             promotion: item.promotion,
@@ -64,6 +63,7 @@ const Today = () => {
                             promotion={item.promotion}
                             cutoff_time={item.cutoff_time}
                             restaurantId={item.restaurantId}
+                            isShowAddButton={false}
                         />
                     </WrapItem>
                 )) ??

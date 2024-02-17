@@ -44,7 +44,7 @@ const useSWRAPI = () => {
                 ...swrConfig,
                 ...config,
             }),
-
+        GetHotFood: () => useSWR("getHotFood", async () => apiServices.getHotFood()),
         GetAllCategories: (config?: SWRConfiguration) =>
             useSWR("getAllCategories", async () => apiServices.getAllCategories(), {
                 ...swrConfig,

@@ -24,7 +24,7 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
     const dispatch = useDispatch();
     const profile = useSelector((state: RootState) => state.userInfo);
     const [selectedPlace, setSelectedPlace] = useState<SearchPlaceResponse>();
-    const [input, setInput] = useState("");
+    const [input, setInput] = useState(initValue ?? "");
     const [isLoading, setIsLoading] = useState(false);
     const debouncedFunction = useCallback(
         debounce(
@@ -51,7 +51,19 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
     );
 
     useEffect(() => {
-        if (initValue) setInput(initValue);
+        if (initValue) {
+            setInput(initValue);
+            if (profile.userInfo?.latAddress && profile.userInfo?.longAddress)
+                setSelectedPlace({
+                    formatted_address: initValue,
+                    geometry: {
+                        location: {
+                            lat: profile.userInfo?.latAddress,
+                            lng: profile.userInfo?.longAddress,
+                        },
+                    },
+                });
+        }
     }, [initValue]);
 
     const onClickDetect = useCallback(async () => {

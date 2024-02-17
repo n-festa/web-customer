@@ -292,6 +292,12 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: params,
             });
         },
+        getHotFood: () => {
+            return this.request<GetGeneralFoodRecommendResponse>({
+                path: `/food/get-hot-food`,
+                method: "GET",
+            });
+        },
         getAvailableTime: (params: {
             menu_item_ids?: (number | undefined)[];
             now?: number;
@@ -312,6 +318,13 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                     lat: 10.820557580712087,
                 },
                 ignoreErrorCode: [401],
+            });
+        },
+        sendContactForm: (params: { email: string; message: string }) => {
+            return this.request({
+                path: `/restaurant/send-contact-form`,
+                method: "POST",
+                body: params,
             });
         },
     };

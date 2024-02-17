@@ -1,7 +1,13 @@
 "use client";
 import SearchLocation from "@/components/molecules/SearchLocation";
+import { useAppSelector } from "@/store/hooks";
+import { Customer } from "@/types";
+import { storageKeys } from "@/utils/constants";
+import { loadState } from "@/utils/localstorage";
 import { Flex, Img, Text } from "@chakra-ui/react";
 const Banner = () => {
+    const defaultAddress: Customer = loadState(storageKeys.userProfile);
+    const address = useAppSelector((state) => state.userInfo?.userInfo?.address ?? defaultAddress?.address ?? "");
     return (
         <Flex
             p="4rem"
@@ -36,7 +42,7 @@ const Banner = () => {
                             nghĩ, không cần nấu, hẹn giờ giao linh hoạt.
                         </Text>
                     </Flex>
-                    <SearchLocation />
+                    <SearchLocation initValue={address} />
                 </Flex>
                 <Flex flex={1} ml="-2rem">
                     <Img maxW="100%" h="auto" src="images/screen-shot-20230829-at-11-28-37-pmtransformed-5@2x.png" />

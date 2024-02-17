@@ -33,6 +33,7 @@ const FoodItemSuspense = ({
     isShowQuantityAvailable = false,
     cooking_time_s,
     restaurantId,
+    isShowAddButton = true,
 }: ProductTypeList & {
     isShowMerchart?: boolean;
     isShowRating?: boolean;
@@ -40,6 +41,7 @@ const FoodItemSuspense = ({
     isShowTime?: boolean;
     isShowUnitSold?: boolean;
     isShowQuantityAvailable?: boolean;
+    isShowAddButton?: boolean;
 }) => {
     const router = useRouter();
     const [cart, setCart] = useRecoilState(cartState);
@@ -129,7 +131,7 @@ const FoodItemSuspense = ({
                         )}
                     </HStack>
                     <HStack ml="0.5rem" spacing="0.8rem">
-                        {isShowDistance && (
+                        {isShowDistance && distance && (
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin021.svg" />
                                 <Text wordBreak="keep-all" className="text">
@@ -192,23 +194,25 @@ const FoodItemSuspense = ({
                     </HStack>
                 )}
             </VStack>
-            <IconButton
-                position="absolute"
-                bottom="5rem"
-                right="2.5rem"
-                w="4rem"
-                h="4rem"
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleAddCart();
-                }}
-                _hover={{ opacity: 0.7 }}
-                _active={{ opacity: 0.5 }}
-                borderRadius="50%"
-                aria-label="add-btn"
-                icon={<Img src="/images/plus.svg" />}
-            />
+            {isShowAddButton && (
+                <IconButton
+                    position="absolute"
+                    bottom="5rem"
+                    right="2.5rem"
+                    w="4rem"
+                    h="4rem"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleAddCart();
+                    }}
+                    _hover={{ opacity: 0.7 }}
+                    _active={{ opacity: 0.5 }}
+                    borderRadius="50%"
+                    aria-label="add-btn"
+                    icon={<Img src="/images/plus.svg" />}
+                />
+            )}
         </Flex>
     );
 };

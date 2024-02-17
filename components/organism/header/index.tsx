@@ -14,15 +14,17 @@ const CartIcon = dynamic(() => import("@/components/atoms/CartIcon"), { ssr: fal
 const Header = () => {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const pathname = usePathname();
-    const { showDeliveryBox, showSignUpGroup, showListNavi, bg } = useMemo(() => {
+    const { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart } = useMemo(() => {
         let showDeliveryBox = false;
         let bg = "white";
         let showSignUpGroup = true;
         let showListNavi = false;
+        let hideCart = false;
         switch (pathname) {
             case routes.Home:
                 bg = "var(--main-bg-color)";
                 showListNavi = true;
+                hideCart = true;
                 break;
             case routes.Otp:
             case routes.RegistrationSuccess:
@@ -30,6 +32,7 @@ const Header = () => {
             case routes.AdditionalSignUpInfo:
                 showListNavi = true;
                 showSignUpGroup = false;
+                hideCart = true;
                 bg = "var(--main-bg-color)";
 
                 break;
@@ -43,7 +46,7 @@ const Header = () => {
                 if (index != -1) showDeliveryBox = true;
                 break;
         }
-        return { showDeliveryBox, showSignUpGroup, showListNavi, bg };
+        return { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
@@ -121,7 +124,7 @@ const Header = () => {
                             </Text>
                         )}
                         {showSignUpGroup && <UserGroup bg={bg} />}
-                        <CartIcon />
+                        {!hideCart && <CartIcon />}
                     </HStack>
                     <HStack as="button" alignItems="center" display={{ base: "none", lg: "flex" }}>
                         <Text
