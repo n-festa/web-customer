@@ -34,7 +34,7 @@ const RestautantDetailPage = () => {
                     flexDirection={"column"}
                     alignItems={"flex-start"}
                     py="2rem"
-                    w={{ xl: "calc(100% - 42.6rem)", lg: "calc(100% - 35rem)", base: "100%" }}
+                    w={{ xl: "calc(100% - 42.6rem)", lg: "calc(100% - 42.6rem)", base: "100%" }}
                     boxSizing="border-box"
                 >
                     <BackButton label="Quay lại trang trước" />
@@ -57,6 +57,7 @@ const RestautantDetailPage = () => {
                         h="calc(100dvh - 8.8rem)"
                         position="fixed"
                         borderTop="none"
+                        minW="fit-content"
                         border="1px solid var(--gray-300)"
                         w={{ xl: "42.6rem", base: "35rem" }}
                         restaurant_id={Number(restaurantId)}

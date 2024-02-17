@@ -80,11 +80,11 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                 <Text fontSize="2.4rem" textAlign="center" fontWeight="600">
                     Giỏ đồ ăn
                 </Text>
-                {!isCartEmpty && (
+                {!isCartEmpty && timeDate?.data?.[0]?.hours && timeDate?.data?.[0]?.minutes && (
                     <Text fontSize="1.6rem" textAlign="center">
                         {!isLoadingTime
-                            ? `Thời gian nhận đồ ăn gần nhất: ${timeDate?.data?.[0].hours}:${timeDate?.data?.[0].minutes}`
-                            : "-"}
+                            ? `Thời gian nhận đồ ăn gần nhất: ${timeDate?.data?.[0]?.hours ?? " - "}:${timeDate?.data?.[0]?.minutes ?? " - "}`
+                            : ""}
                     </Text>
                 )}
             </VStack>

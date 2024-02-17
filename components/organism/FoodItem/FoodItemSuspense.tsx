@@ -34,6 +34,7 @@ const FoodItemSuspense = ({
     cooking_time_s,
     restaurantId,
     isShowAddButton = true,
+    disableAction = false,
 }: ProductTypeList & {
     isShowMerchart?: boolean;
     isShowRating?: boolean;
@@ -42,6 +43,7 @@ const FoodItemSuspense = ({
     isShowUnitSold?: boolean;
     isShowQuantityAvailable?: boolean;
     isShowAddButton?: boolean;
+    disableAction?: boolean;
 }) => {
     const router = useRouter();
     const [cart, setCart] = useRecoilState(cartState);
@@ -83,8 +85,9 @@ const FoodItemSuspense = ({
             minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
             maxW={{ base: "unset", md: "38.4rem" }}
             flexDir="column"
-            cursor={"pointer"}
+            cursor={disableAction ? "" : "pointer"}
             onClick={() => {
+                if (disableAction) return;
                 const path = !isNullOrEmpty(restaurantId)
                     ? `${routes.ProductDetail}/${id}?restaurantId=${restaurantId}`
                     : `${routes.ProductDetail}/${id}`;
@@ -115,13 +118,15 @@ const FoodItemSuspense = ({
                 )}
                 <Flex w="100%" fontSize="1.6rem" color="var(--gray-500)" justifyContent="space-between">
                     <HStack spacing="0.8rem">
-                        <HStack spacing="0.4rem">
-                            <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin02.svg" />
-                            <Text wordBreak="keep-all" className="kcal font-weight-600">
-                                {kcal} Kcal
-                            </Text>
-                        </HStack>
-                        {isShowRating && (
+                        {kcal && (
+                            <HStack spacing="0.4rem">
+                                <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin02.svg" />
+                                <Text wordBreak="keep-all" className="kcal font-weight-600">
+                                    {kcal} Kcal
+                                </Text>
+                            </HStack>
+                        )}
+                        {isShowRating && ratings && (
                             <HStack spacing="0.4rem" className="d-flex align-items-center gap-1">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/star-icon1.svg" />
                                 <Text wordBreak="keep-all" className="text">
@@ -139,7 +144,7 @@ const FoodItemSuspense = ({
                                 </Text>
                             </HStack>
                         )}
-                        {isShowTime && (
+                        {isShowTime && cookingTime && (
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/timer.svg" />
                                 <Text wordBreak="keep-all" className="text">
@@ -147,7 +152,7 @@ const FoodItemSuspense = ({
                                 </Text>
                             </HStack>
                         )}
-                        {isShowUnitSold && (
+                        {isShowUnitSold && units_sold && (
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/icons/package-check.svg" />
                                 <Text wordBreak="keep-all" className="text">
@@ -155,7 +160,7 @@ const FoodItemSuspense = ({
                                 </Text>
                             </HStack>
                         )}
-                        {isShowQuantityAvailable && (
+                        {isShowQuantityAvailable && quantity_available !== undefined && (
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/icons/meal.svg" />
                                 <Text wordBreak="keep-all" className="text">

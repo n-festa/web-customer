@@ -35,10 +35,13 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
             const tasteCustomizationObj = info?.taste_customization.reduce(
                 (prev, curr) => ({
                     ...prev,
-                    [`${TasteCustomization}-${curr.option_id}`]: curr.option_values?.[0].value_id,
+                    [`${TasteCustomization}-${curr.option_id}`]:
+                        curr.option_values?.find((item) => item.is_default)?.value_id ??
+                        curr.option_values?.[0].value_id,
                 }),
                 {},
             );
+            console.log("aaa", tasteCustomizationObj);
             initValues = {
                 ...initValues,
                 ...tasteCustomizationObj,
@@ -156,10 +159,17 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                                     name={`${TasteCustomization}-${el.option_id}`}
                                                 >
                                                     {({ field }: { field: filedType }) => {
-                                                        const options = el.option_values.map((option) => ({
-                                                            name: option.value_txt?.[0]?.text,
-                                                            value: option.value_id,
-                                                        }));
+                                                        const options = el.option_values
+                                                            .sort((a, b) => {
+                                                                if (a.is_default) return -1;
+                                                                if (b.is_default) return 1;
+
+                                                                return a.order - b.order;
+                                                            })
+                                                            .map((option) => ({
+                                                                name: option.value_txt?.[0]?.text,
+                                                                value: option.value_id,
+                                                            }));
                                                         return (
                                                             <FormControl>
                                                                 <Stack direction={{ base: "column", md: "row" }}>

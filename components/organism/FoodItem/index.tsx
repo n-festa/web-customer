@@ -11,6 +11,7 @@ const FoodItem = (
         isShowUnitSold?: boolean;
         isShowQuantityAvailable?: boolean;
         isShowAddButton?: boolean;
+        disableAction?: boolean;
     },
 ) => {
     return (

@@ -64,6 +64,7 @@ const Today = () => {
                             cutoff_time={item.cutoff_time}
                             restaurantId={item.restaurantId}
                             isShowAddButton={false}
+                            disableAction
                         />
                     </WrapItem>
                 )) ??

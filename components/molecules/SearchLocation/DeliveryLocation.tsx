@@ -1,17 +1,11 @@
 import SearchLocation from "@/components/molecules/SearchLocation";
 import { RootState } from "@/store";
 import textStyles from "@/theme/textStyle";
-import { Customer } from "@/types";
-import { storageKeys } from "@/utils/constants";
-import { loadState } from "@/utils/localstorage";
 import { Img, InputLeftElement, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
 const DeliveryLocation = () => {
-    const defaultAddress: Customer = loadState(storageKeys.userProfile);
-    const address = useSelector(
-        (state: RootState) => state.userInfo?.userInfo?.address ?? defaultAddress?.address ?? "",
-    );
+    const address = useSelector((state: RootState) => state.userInfo?.userInfo?.address ?? "");
     return (
         <SearchLocation
             variant={"searchBox"}

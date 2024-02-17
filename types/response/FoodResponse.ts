@@ -23,6 +23,8 @@ export interface TasteCustomization {
     option_values: {
         value_id: string;
         value_txt: BaseNameInterface[];
+        is_default: boolean;
+        order: number;
     }[];
 }
 
