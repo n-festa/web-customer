@@ -1,9 +1,9 @@
 "use client";
 import { HighlightedText } from "@/components/atoms/Label/HighlightedLabel";
+import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import useCountdown from "@/hooks/useCountDown";
 import apiServices from "@/services/sevices";
-import { RootState } from "@/store";
 import { setInfoSign } from "@/store/reducers/auth";
 import { setUserInfo } from "@/store/reducers/userInfo";
 import { setToken, setTokenRefresh } from "@/utils/auth";
@@ -13,23 +13,24 @@ import { routes } from "@/utils/routes";
 import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const numberOfDigits = 6;
 
 const PhoneVerification = () => {
     const router = useRouter();
     const dispatch = useDispatch();
-    const { phoneNumber, otp } = useSelector((state: RootState) => state.auth);
+    const { phoneNumber, otp } = loadState("infoSign");
     const [otpState, setOtpState] = useState<Array<string>>(new Array(numberOfDigits).fill(""));
     const [_otpError, setOtpError] = useState<string>("");
     const [numberError, setNumberError] = useState<number>(1);
     const [numberResend, setNumberResend] = useState<number>(1);
     const [isLock, setIsLock] = useState<boolean>(false);
     const otpBoxReference = useRef<Array<HTMLInputElement | null>>([]);
-    const { seconds, formattedTime, resetCountdown } = useCountdown(120);
+    const { seconds, formattedTime, resetCountdown } = useCountdown(30);
     const restrictStorage = loadState("restrict");
     const { formattedTime: lockFormattedTime, changeInitialValue } = useCountdown(0);
+
     const handleChange = (value: string, index: number) => {
         const newArr = [...otpState];
         if (value.length === numberOfDigits) {
@@ -42,7 +43,7 @@ const PhoneVerification = () => {
         setOtpState(newArr);
     };
 
-    const handleNumberError = () => {
+    const handleNumberError = async () => {
         const currentTime = new Date();
         const storedExpiration = {
             time: currentTime.setMinutes(currentTime.getMinutes() + 30),
@@ -51,6 +52,16 @@ const PhoneVerification = () => {
         saveState("restrict", storedExpiration);
         setIsLock(true);
         changeInitialValue(1800);
+        await dialogRef.current?.show({
+            title: "Thông báo",
+            message: "Bạn đã nhập 5 lần không chính xác. Vui lòng thử lại sau 30 phút.",
+            negative: {
+                text: "Đóng",
+                onClick: async () => {
+                    router.push(routes.Home);
+                },
+            },
+        });
     };
 
     const handleResend = useCallback(async () => {
@@ -63,8 +74,7 @@ const PhoneVerification = () => {
                 resetCountdown();
                 setOtpState(new Array(numberOfDigits).fill(""));
             } else {
-                setOtpError("Khách hàng đã yêu cầu quá nhiều lần. Vui lòng thử lại sau.");
-                handleNumberError();
+                router.push(routes.SignIn);
             }
         } catch (error) {
             console.error("Error while resending OTP:", error);
@@ -86,6 +96,7 @@ const PhoneVerification = () => {
     const handleSuccessfulOtpVerification = async () => {
         const { data } = await apiServices.authOTP({ phoneNumber, inputOTP: otp });
         const { access_token, refresh_token, userId } = data;
+
         setOtpError("");
         setToken(access_token);
         setTokenRefresh(refresh_token);
@@ -184,19 +195,13 @@ const PhoneVerification = () => {
                     )}
                 </Box>
                 <Button
-                    isDisabled={seconds >= 90 || isLock}
-                    variant={seconds >= 90 || isLock ? "btnDisable" : "btnSubmit"}
+                    isDisabled={seconds > 0 || isLock}
+                    variant={seconds > 0 || isLock ? "btnDisable" : "btnSubmit"}
                     onClick={handleResend}
                 >
                     Gửi lại mã OTP
                 </Button>
-                <Text
-                    fontSize="1.4rem"
-                    fontWeight="400"
-                    color={seconds === 0 ? "#E53E3E" : "var(--gray-950)"}
-                    textAlign="center"
-                    mt="0.8rem"
-                >
+                <Text fontSize="1.4rem" fontWeight="400" textAlign="center" mt="0.8rem">
                     {formattedTime}
                 </Text>
             </Box>

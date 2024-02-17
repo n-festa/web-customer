@@ -55,12 +55,12 @@ class DialogComponent extends React.Component<{ ref: React.Ref<DialogComponent> 
             });
         }));
     };
-    unshow = () => {
+    unShow = () => {
         this.setState({
             show: false,
             params: {},
         });
-        this.promiseInfo.resolve?.("unshow");
+        this.promiseInfo.resolve?.("unShow");
     };
     handleNegative = async () => {
         const { negative, isNavigatingAfterResolve } = this.state.params;

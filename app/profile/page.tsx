@@ -3,35 +3,59 @@ import RadioCardGroup from "@/components/atoms/RadioCardGroup";
 import InputForm from "@/components/molecules/InputForm";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import config from "@/config";
-import apiServices from "@/services/sevices";
-import { setUserInfo } from "@/store/reducers/userInfo";
+import { RootState } from "@/store";
 import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
-import { routes } from "@/utils/routes";
 import { Box, Button, Flex, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const {
-    signUp: { formData, initialValues, validationSchema },
+    signUp: { formData, validationSchema },
 } = config;
 
-const Additional = () => {
-    const router = useRouter();
-    const dispatch = useDispatch();
+const Profile = () => {
+    // const router = useRouter();
+    // const dispatch = useDispatch();
     const [showExpect, setShowExpect] = useState(false);
+    const userInfo = useSelector((state: RootState) => state.userInfo.userInfo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const initialValues = {
+        name: userInfo?.name || "",
+        email: userInfo?.email || "",
+        birthday: userInfo?.birthday,
+        sex: userInfo?.sex || "",
+        height_m: userInfo?.health_info?.height_m || "",
+        weight_kg: userInfo?.health_info?.weight_kg || "",
+        physical_activity_level: userInfo?.health_info?.physical_activity_level || "light",
+        current_diet: userInfo?.health_info?.current_diet || "Hỗn hợp",
+        allergic_food: userInfo?.health_info?.allergic_food || "",
+        expected_diet: userInfo?.health_info?.expected_diet || "Thuần chay",
+        expected_diet_diff: "",
+    };
+
     const handleSubmit = async ({ expected_diet_diff, expected_diet, ...rest }: UserType) => {
         try {
             const expectedDietValue = expected_diet === "Khác" ? expected_diet_diff : expected_diet;
-            const { data } = await apiServices.createProfile({ ...rest, expected_diet: expectedDietValue });
-            dispatch(setUserInfo(data));
-            router.push(routes.RegistrationSuccess);
+            console.log({ ...rest, expected_diet: expectedDietValue });
+            // Edit profile
+            // const { data } = await apiServices.createProfile({ ...rest, expected_diet: expectedDietValue });
+            // dispatch(setUserInfo(data));
+            // router.push(routes.RegistrationSuccess);
         } catch (error) {
             console.error("Error while resending OTP:", error);
         }
     };
+
+    useEffect(() => {
+        const hasExpect = formData.expectedDiet.some((item) => item.value === userInfo?.health_info?.expected_diet);
+        if (hasExpect) {
+            initialValues.expected_diet_diff = userInfo?.health_info?.expected_diet || "";
+            initialValues.expected_diet = "Khác";
+        }
+        setShowExpect(!hasExpect);
+    }, []);
 
     return (
         <UISignWrap maxW="63rem" bg="var(--gray-100)">
@@ -252,7 +276,7 @@ const Additional = () => {
                                     </Field>
                                 )}
                                 <Button
-                                    isDisabled={!props.isValid || !props.dirty}
+                                    isDisabled={!props.isValid}
                                     variant="btnSubmit"
                                     mt="3.2rem"
                                     isLoading={props.isSubmitting}
@@ -269,4 +293,4 @@ const Additional = () => {
     );
 };
 
-export default Additional;
+export default Profile;
