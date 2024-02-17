@@ -5,6 +5,7 @@ import apiServices from "@/services/sevices";
 import { setInfoSign } from "@/store/reducers/auth";
 import { filedType, formType } from "@/types/form";
 import { convertToInternationalFormat } from "@/utils/functions";
+import { saveState } from "@/utils/localstorage";
 import { routes } from "@/utils/routes";
 import {
     Box,
@@ -37,6 +38,7 @@ const Login = () => {
             phoneNumber: valuePhone,
         });
         dispatch(setInfoSign({ otp: data.otpCode, phoneNumber: data.phoneNumber }));
+        saveState("infoSign", { otp: data.otpCode, phoneNumber: data.phoneNumber });
         router.push(routes.Otp);
     };
 

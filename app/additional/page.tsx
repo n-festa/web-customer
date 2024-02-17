@@ -251,7 +251,13 @@ const Additional = () => {
                                         )}
                                     </Field>
                                 )}
-                                <Button variant="btnSubmit" mt="3.2rem" isLoading={props.isSubmitting} type="submit">
+                                <Button
+                                    isDisabled={!props.isValid || !props.dirty}
+                                    variant="btnSubmit"
+                                    mt="3.2rem"
+                                    isLoading={props.isSubmitting}
+                                    type="submit"
+                                >
                                     Hoàn tất
                                 </Button>
                             </Form>
