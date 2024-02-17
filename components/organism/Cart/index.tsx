@@ -6,12 +6,13 @@ import { useAppSelector } from "@/store/hooks";
 import { genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, Center, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
-import debounce from "lodash/debounce";
+import Axios, { CancelTokenSource } from "axios";
 import isEqual from "lodash/isEqual";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
+let _cts: CancelTokenSource | null = null;
 
 const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number | string }) => {
     const router = useRouter();
@@ -32,36 +33,45 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleChangeCartQuantity = useCallback(
-        debounce(
-            async (id?: number, value?: number) => {
-                if (!id || !cart?.customer_id || !value) return;
-                const res = await apiServices.basicUpdateCart({
-                    customer_id: Number(cart?.customer_id),
-                    updated_items: [
-                        {
-                            item_id: id,
-                            qty_ordered: value,
-                        },
-                    ],
-                });
-                if (res.data) {
-                    setCart((prev) => ({ ...prev, ...res.data, cartUpdate: undefined }));
-                }
+    const handleChangeCartQuantity = async (id?: number, value?: number) => {
+        if (!id || !cart?.customer_id || !value) return;
+        _cts?.cancel();
+        _cts = Axios.CancelToken.source();
+        const res = await apiServices.basicUpdateCart(
+            {
+                customer_id: Number(cart?.customer_id),
+                updated_items: [
+                    {
+                        item_id: id,
+                        qty_ordered: value,
+                    },
+                ],
             },
-            1000,
-            { leading: true },
-        ),
-        [],
-    );
+            _cts.token,
+        );
+        if (res?.data) {
+            setCart((prev) => ({ ...prev, ...res.data, cartUpdate: undefined }));
+        }
+    };
 
     //Sync
     useEffect(() => {
         if (!isEqual(rawCart?.cart_info, cart.cart_info)) {
             setCart((prev) => ({ ...prev, ...cart, cartUpdate: undefined }));
         }
+        return () => {
+            _cts?.cancel();
+            _cts = null;
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const totalPrice = useMemo(() => {
+        const totalPrice =
+            rawCart?.cart_info?.reduce?.((prev, cur) => prev + cur.qty_ordered * (cur.price_after_discount ?? 0), 0) ??
+            -1;
+        return totalPrice;
+    }, [rawCart?.cart_info]);
 
     return (
         <Flex
@@ -116,11 +126,11 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                                             handleDeleteCartItem(item.item_id, cart.customer_id);
                                     }}
                                     key={item.item_id}
-                                    image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"} //TODO
-                                    name="Mỳ Cá Cờ Sốt Yakitori" //TODO
+                                    image={item.item_img ?? ""}
+                                    name={item.item_name?.[0].text ?? "-"}
                                     note={genCartNote(item)}
-                                    price="90,000"
-                                    nowPrice="75,000"
+                                    price={item.price}
+                                    nowPrice={item.price_after_discount}
                                     quantity={item.qty_ordered}
                                 />
                             ))}
@@ -138,7 +148,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                             </Flex>
                             <Flex justifyContent="flex-end" alignItems="center">
                                 <Text color="var(--gray-900)" fontSize="2.4rem" fontWeight="600">
-                                    160,000 đ
+                                    {`${totalPrice.toLocaleString()}`} đ
                                 </Text>
                             </Flex>
                         </Flex>

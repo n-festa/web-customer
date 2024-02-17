@@ -14,7 +14,7 @@ import { SearchFoodAndRestaurantByCategoryIdResponse } from "@/types/response/Se
 import { SearchFoodByNameResponse } from "@/types/response/SearchFoodByNameResponse";
 import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
-import { AxiosError } from "axios";
+import { AxiosError, CancelToken } from "axios";
 import { FullRequestParams, HttpClient } from "./apiClient";
 import { handleRefreshToken } from "./sessionInvalid";
 
@@ -279,17 +279,21 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: params,
             });
         },
-        basicUpdateCart: (params: {
-            customer_id: number;
-            updated_items: {
-                item_id: number;
-                qty_ordered: number;
-            }[];
-        }) => {
+        basicUpdateCart: (
+            params: {
+                customer_id: number;
+                updated_items: {
+                    item_id: number;
+                    qty_ordered: number;
+                }[];
+            },
+            cts?: CancelToken,
+        ) => {
             return this.request<{ data: Cart }>({
                 path: `/cart/basic-update`,
                 method: "POST",
                 body: params,
+                cancelToken: cts,
             });
         },
         quickAddCart: (params: { customer_id: number; menu_item_id: number }) => {

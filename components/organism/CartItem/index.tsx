@@ -46,6 +46,7 @@ const CartItem = ({
                     mx="1.6rem"
                     minW="6.3rem"
                     h="2.4rem"
+                    key={`inputQuantity${quantity}`}
                     defaultValue={quantity}
                     onChangeValue={onChangeValue}
                     inputProps={{
