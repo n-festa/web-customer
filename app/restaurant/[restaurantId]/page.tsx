@@ -17,7 +17,7 @@ const RestautantDetailPage = () => {
     const {
         params: { des },
     } = useParams<{ des?: string }>({ des: undefined });
-    const { restaurantInfo, isLoading, availableTime } = useRestaurantDetail();
+    const { restaurantInfo, isLoading } = useRestaurantDetail();
 
     useEffect(() => {
         if (!isNullOrEmpty(des)) {
@@ -50,7 +50,7 @@ const RestautantDetailPage = () => {
                         isLoading={isLoading}
                     />
 
-                    <MenuToday availableTime={availableTime} restaurantInfo={restaurantInfo} isLoading={isLoading} />
+                    <MenuToday restaurantInfo={restaurantInfo} isLoading={isLoading} />
                 </Flex>
                 <Box display={{ base: "none", lg: "block" }}>
                     <Cart

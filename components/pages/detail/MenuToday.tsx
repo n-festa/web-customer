@@ -5,20 +5,56 @@ import { EEE } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import { isNullOrEmpty } from "@/utils/functions";
 import { Box, Flex, HStack, Select, Switch, Text, Wrap, WrapItem } from "@chakra-ui/react";
+import { addDays } from "date-fns";
+import { getDay } from "date-fns/getDay";
 import { rest } from "lodash";
 import { useMemo, useState } from "react";
 
 interface Props {
     restaurantInfo?: RestaurantDetailDto;
     isLoading?: boolean;
-    availableTime?: {
-        value: string;
-        name: string;
-    }[];
 }
 
-const MenuToday = ({ restaurantInfo, isLoading, availableTime }: Props) => {
+const MenuToday = ({ restaurantInfo, isLoading }: Props) => {
     const defaultValue = formatDate(new Date());
+    const listOptions = useMemo(() => {
+        const currentDate = new Date();
+        const numberDate = 7 - getDay(currentDate);
+        const options = [];
+        if (numberDate == 1)
+            return [
+                {
+                    value: defaultValue,
+                    name: "Hôm nay",
+                },
+            ];
+
+        const count = numberDate === 0 ? 7 : numberDate - 1;
+
+        for (let i = 0; i < count; i++) {
+            const item = addDays(currentDate, i);
+            if (i === 0) {
+                options.push({
+                    value: formatDate(item),
+                    name: "Hôm nay",
+                });
+                continue;
+            }
+            if (i === 1) {
+                options.push({
+                    value: formatDate(item),
+                    name: "Ngày mai",
+                });
+                continue;
+            }
+
+            options.push({
+                value: formatDate(item),
+                name: formatDate(item),
+            });
+        }
+        return options;
+    }, []);
 
     const [condition, setCondition] = useState({
         is_vegetarian: false,
@@ -76,7 +112,7 @@ const MenuToday = ({ restaurantInfo, isLoading, availableTime }: Props) => {
                         }));
                     }}
                 >
-                    {availableTime?.map((el, index) => (
+                    {listOptions.map((el, index) => (
                         <option key={String(index)} value={el.value}>
                             {el.name}
                         </option>
