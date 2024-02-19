@@ -69,6 +69,11 @@ const useSWRAPI = () => {
                 ...swrConfig,
                 ...config,
             }),
+        GetProvincesCities: (config?: SWRConfiguration) =>
+            useSWR("getProvincesCities", async () => apiServices.getProvincesCities(), {
+                ...swrConfig,
+                ...config,
+            }),
     };
 };
 

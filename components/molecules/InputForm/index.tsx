@@ -17,6 +17,7 @@ type InputFormProps = {
     error?: string | number;
     labelProps?: FormLabelProps;
     formControlProps?: FormControlProps;
+    value?: string;
 };
 
 const InputForm: React.FC<InputFormProps> = ({

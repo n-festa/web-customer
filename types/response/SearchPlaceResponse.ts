@@ -11,9 +11,9 @@ export interface PlusCode {
 }
 
 export interface Compound {
-    district: string;
-    commune: string;
-    province: string;
+    district?: string;
+    commune?: string;
+    province?: string;
 }
 export interface SearchPlaceResponse {
     address_components?: AddressComponent[];

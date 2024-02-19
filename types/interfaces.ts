@@ -83,3 +83,27 @@ export interface PackageDetail {
     height: number;
     description: string;
 }
+
+export interface ProvinceResponse {
+    country_code: number;
+    id: string;
+    name: string;
+    name_en: string;
+    region_type: string;
+}
+export interface DistrictsResponse {
+    id: string;
+    name: string;
+    name_en: string;
+    postcode: string;
+    province_id: string;
+}
+
+export interface WardsResponse {
+    id: string;
+    name: string;
+    name_en: string;
+    postcode: string;
+    district_id: string;
+    province_id: string;
+}

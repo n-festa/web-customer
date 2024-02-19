@@ -3,6 +3,7 @@ import { locationRef } from "@/app/providers";
 import apiServices from "@/services/sevices";
 import { RootState } from "@/store";
 import { setUserInfo } from "@/store/reducers/userInfo";
+import { Customer } from "@/types";
 import { SearchError, SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
 import { storageKeys } from "@/utils/constants";
@@ -62,6 +63,7 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
                             lng: profile.userInfo?.longAddress,
                         },
                     },
+                    compound: profile.userInfo?.addressCompound,
                 });
         }
     }, [initValue]);
@@ -97,11 +99,12 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
     }, []);
 
     const setLocation = (data: SearchPlaceResponse) => {
-        const newProfile = {
+        const newProfile: Customer = {
             ...profile,
             longAddress: data.geometry.location.lng,
             latAddress: data.geometry.location.lat,
             address: data.formatted_address ?? "",
+            addressCompound: data.compound,
         };
         dispatch(setUserInfo(newProfile));
         saveState(storageKeys.userProfile, newProfile);

@@ -2,7 +2,7 @@ import { store } from "@/store";
 import { setLoading } from "@/store/reducers/appSlice";
 import { Cart, CartItem } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
-import { DateStep } from "@/types/interfaces";
+import { DateStep, DistrictsResponse, ProvinceResponse } from "@/types/interfaces";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import { GetFoodDetailResponse, GetSideDishesResponse } from "@/types/response/FoodResponse";
 import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesResponse";
@@ -337,6 +337,24 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: `/restaurant/send-contact-form`,
                 method: "POST",
                 body: params,
+            });
+        },
+        getProvincesCities: () => {
+            return this.request<{ data: ProvinceResponse[] }>({
+                path: `https://pos.pages.fm/api/v1/geo/provinces?country_code=84`,
+                method: "GET",
+            });
+        },
+        getDistricts: (provinceId: string) => {
+            return this.request<{ data: DistrictsResponse[] }>({
+                path: `https://pos.pages.fm/api/v1/geo/districts?province_id=${provinceId}`,
+                method: "GET",
+            });
+        },
+        getWards: (districtId: string) => {
+            return this.request<{ data: DistrictsResponse[] }>({
+                path: `https://pos.pages.fm/api/v1/geo/communes?district_id=${districtId}`,
+                method: "GET",
             });
         },
     };

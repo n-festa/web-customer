@@ -1,3 +1,5 @@
+import { Compound } from "./response/SearchPlaceResponse";
+
 export type IngredientType = {
     name?: number | string;
     quantity?: string | number;
@@ -124,4 +126,5 @@ export interface Customer {
     latAddress?: number;
     longAddress?: number;
     address?: string;
+    addressCompound?: Compound;
 }
