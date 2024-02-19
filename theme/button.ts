@@ -115,8 +115,9 @@ const buttonStyle = {
             _active: {
                 opacity: 0.5,
             },
-
-            _hover: {},
+            _hover: {
+                color: "white",
+            },
         },
         btnNumbericStepper: {
             p: "0",

@@ -5,17 +5,21 @@ import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import { cartState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { store } from "@/store";
+import { useAppSelector } from "@/store/hooks";
 import { setErrorScreenDes } from "@/store/reducers/appSlice";
 import { CartItem } from "@/types/cart";
 import { isLoggedIn } from "@/utils/functions";
 import { routes } from "@/utils/routes";
+import { createStandaloneToast } from "@chakra-ui/react";
 import { cloneDeep, debounce } from "lodash";
 import { useCallback, useState } from "react";
 import { useRecoilState } from "recoil";
+const { toast } = createStandaloneToast();
 
 const useUpdateCart = () => {
     const [loading, setLoading] = useState(false);
     const [currentCart, setCart] = useRecoilState(cartState);
+    const customerId = useAppSelector((state) => state.userInfo.userInfo?.customer_id);
     const handleUpdateCart = useCallback(
         async (cartItem: CartItem) => {
             if (cartItem.qty_ordered <= 0) return;
@@ -24,6 +28,7 @@ const useUpdateCart = () => {
                 store.dispatch(setErrorScreenDes(routes.SignIn));
                 return;
             }
+
             let cartInfo = cloneDeep(currentCart?.cart_info ?? []);
             if (cartItem?.restaurant_id != currentCart?.restaurant_id && currentCart?.restaurant_id != undefined) {
                 //Show Dialog Clear Current Cart
@@ -53,21 +58,30 @@ const useUpdateCart = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleQuickAdd = useCallback(
         debounce(
-            async (id?: number) => {
+            async (id?: number, name?: string) => {
                 if (!isLoggedIn()) {
                     loginSuccessUrl.current = window.location.pathname;
                     store.dispatch(setErrorScreenDes(routes.SignIn));
                 }
-                if (!id || !currentCart?.customer_id) return;
+                const _customerId = currentCart?.customer_id || customerId;
+                if (!id || !_customerId) return;
                 setLoading(true);
                 const res = await apiServices.quickAddCart({
-                    customer_id: Number(currentCart?.customer_id),
+                    customer_id: Number(_customerId),
                     menu_item_id: id,
                 });
                 if (res.data) {
                     setCart((prev) => ({ ...prev, ...res.data, cartUpdate: undefined }));
-                    setLoading(false);
+                    toast({
+                        title: "Cập nhật giỏ hàng",
+                        description: `Đã thêm ${name} vào giỏ hàng`,
+                        status: "success",
+                        duration: 4000,
+                        position: "top",
+                        isClosable: true,
+                    });
                 }
+                setLoading(false);
             },
             1000,
             { leading: true },
