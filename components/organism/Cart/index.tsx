@@ -3,9 +3,11 @@ import useDeleteCartItem from "@/hooks/useDeleteCartItem";
 import { cartState, cartSynced, showCartState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";
+import { YYYYMMDD } from "@/utils/constants";
+import { formatDate } from "@/utils/date";
 import { genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
-import { Button, Center, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
+import { Button, Center, Flex, FlexProps, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import Axios, { CancelTokenSource } from "axios";
 import isEqual from "lodash/isEqual";
 import { useRouter } from "next/navigation";
@@ -19,7 +21,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValue(cartSynced);
     const [rawCart, setCart] = useRecoilState(cartState);
-    const { handleDeleteCartItem } = useDeleteCartItem();
+    const { handleDeleteCartItem, handleDeleteWholeCart } = useDeleteCartItem();
 
     const profile = useAppSelector((app) => app.userInfo.userInfo);
     const isCartEmpty = !cart.cart_info?.length || (restaurant_id != undefined && cart.restaurant_id != restaurant_id);
@@ -73,6 +75,18 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
         return totalPrice;
     }, [rawCart?.cart_info]);
 
+    const receiveTimePredict = useMemo(() => {
+        if (typeof timeDate?.data === "number") return { backTime: timeDate?.data as number };
+        if (!timeDate?.data?.[0] || !timeDate?.data?.[0].hours || !timeDate?.data?.[0].minutes) return;
+        const predictTime = `${timeDate?.data?.[0].hours}:${timeDate?.data?.[0].minutes}`;
+        const nextMinutes = Number(timeDate.data[0].minutes) + 30;
+        const predictTimeBuffer =
+            nextMinutes > 60
+                ? `${Number(timeDate?.data?.[0].hours) + 1}:${nextMinutes - 60}`
+                : `${timeDate?.data?.[0].hours}:${nextMinutes}`;
+        return { predictTimeBuffer, predictTime };
+    }, [timeDate?.data]);
+
     return (
         <Flex
             color="black"
@@ -90,17 +104,57 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                 <Text fontSize="2.4rem" textAlign="center" fontWeight="600">
                     Giỏ đồ ăn
                 </Text>
-                {!isCartEmpty && timeDate?.data?.[0]?.hours && timeDate?.data?.[0]?.minutes && (
-                    <Text fontSize="1.6rem" textAlign="center">
-                        {!isLoadingTime
-                            ? `Thời gian nhận đồ ăn gần nhất: ${timeDate?.data?.[0]?.hours ?? " - "}:${timeDate?.data?.[0]?.minutes ?? " - "}`
-                            : ""}
-                    </Text>
+                {!isCartEmpty && !isLoadingTime && (
+                    <>
+                        {receiveTimePredict?.backTime ? (
+                            <Flex
+                                alignItems="center"
+                                bg="var(--error-50)"
+                                w="100%"
+                                h="8rem"
+                                flexDir="column"
+                                px="1.7rem"
+                                py="0.8rem"
+                            >
+                                <HStack spacing="1rem">
+                                    <Image alt="warning" src="/images/icons/warning.svg" />
+                                    <Text fontSize="1.6rem" textAlign="center">
+                                        {`Giỏ hàng không khả dụng đến hết ${formatDate(receiveTimePredict.backTime, YYYYMMDD)}`}
+                                    </Text>
+                                </HStack>
+                                <Button
+                                    onClick={() => {
+                                        handleDeleteWholeCart(cart.customer_id);
+                                    }}
+                                    borderRadius="0.8rem"
+                                    mt="0.4rem"
+                                    w="11.7rem"
+                                    h="3.6rem"
+                                    variant="error"
+                                >
+                                    Xoá giỏ hàng
+                                </Button>
+                            </Flex>
+                        ) : (
+                            receiveTimePredict?.predictTime &&
+                            receiveTimePredict?.predictTimeBuffer && (
+                                <Text fontSize="1.6rem" textAlign="center">
+                                    {`Thời gian nhận đồ ăn gần nhất: ${receiveTimePredict?.predictTime} - ${receiveTimePredict?.predictTimeBuffer}`}
+                                </Text>
+                            )
+                        )}
+                    </>
                 )}
             </VStack>
             {!isCartEmpty ? (
                 <>
-                    <Flex flexDir="column" flex={1} overflow="hidden" borderBottom="1px solid var(--gray-300)">
+                    <Flex
+                        flexDir="column"
+                        mt="0.8rem"
+                        flex={1}
+                        overflow="hidden"
+                        borderBottom="1px solid var(--gray-300)"
+                    >
                         {cart?.restaurant_id !== undefined && (
                             <Flex alignItems="center" px="0.8rem" bg="var(--gray-100)" h="5.6rem" gap="1.2rem">
                                 <Image
@@ -154,6 +208,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                         </Flex>
                         <Button
                             h="4.8rem"
+                            isDisabled={!!receiveTimePredict?.backTime}
                             borderRadius="2.4rem"
                             onClick={() => {
                                 setShow(false);

@@ -49,13 +49,13 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
         _err: AxiosError & {
             config: { ignoreAll?: boolean; ignoreErrorCode?: number[]; hasLoading?: boolean; errDest?: string };
         },
-    ): Promise<string | T | undefined> {
+    ): Promise<string | T | undefined | unknown> {
         const { ignoreAll, ignoreErrorCode, hasLoading, errDest } = _err?.config || {};
 
         const status = _err.response?.status;
         if (ignoreAll || (status && ignoreErrorCode?.includes(status))) {
             endLoading(hasLoading);
-            return;
+            return Promise.resolve(_err.response?.data);
         }
         switch (status) {
             case 401: {
@@ -317,7 +317,8 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             utc_offset?: number;
         }) => {
             return this.request<{
-                data: DateStep[];
+                data: DateStep[] | number;
+                statusCode: number;
             }>({
                 path: `/cart/get-available-delivery-time`,
                 method: "POST",
@@ -328,7 +329,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                     long: 106.7723030321775,
                     lat: 10.820557580712087,
                 },
-                ignoreErrorCode: [401],
+                ignoreErrorCode: [404],
             });
         },
         sendContactForm: (params: { email: string; message: string }) => {

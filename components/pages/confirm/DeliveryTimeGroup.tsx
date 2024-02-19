@@ -1,19 +1,24 @@
+import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import useSWRAPI from "@/hooks/useApi";
+import useDeleteCartItem from "@/hooks/useDeleteCartItem";
 import { cartSynced } from "@/recoil/recoilState";
 import { useAppSelector } from "@/store/hooks";
 import { DateStep } from "@/types/interfaces";
-import { HHmm } from "@/utils/constants";
+import { HHmm, YYYYMMDD } from "@/utils/constants";
 import { Button, HStack, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { addMinutes, formatDate, isToday, isTomorrow } from "date-fns";
 import { ChevronDownIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import GroupWrapper from "./GroupWrapper";
 
 const DeliveryTimeGroup = () => {
+    const router = useRouter();
     const [date, setDate] = useState<string>();
     const [timeIndex, setTime] = useState(0);
     const { GetAvailableTime } = useSWRAPI();
+    const { handleDeleteWholeCart } = useDeleteCartItem();
     const cart = useRecoilValue(cartSynced);
     const profile = useAppSelector((app) => app.userInfo.userInfo);
     const { data, isLoading: isLoadingTime } = GetAvailableTime({
@@ -21,33 +26,61 @@ const DeliveryTimeGroup = () => {
         long: profile?.longAddress,
         utc_offset: -(new Date().getTimezoneOffset() / 60),
         menu_item_ids: cart.cart_info?.map((item) => item.item_id),
-        now: new Date().getTime(),
+        now: new Date("2024-02-17").getTime(),
     });
+    useEffect(() => {
+        if (data?.statusCode === 404) {
+            dialogRef.current?.show({
+                message: `Giỏ hàng không khả dụng đến hết ${formatDate(data.data as unknown as number, YYYYMMDD)}`,
+                title: "Giỏ hàng không khả dụng",
+                negative: {
+                    text: "Trở lại",
+                    onClick: async () => {
+                        router.back();
+                    },
+                    buttonProps: {
+                        fontSize: "1.4rem ",
+                    },
+                },
+                positive: {
+                    text: "Xoá giỏ hàng",
+                    onClick: async () => {
+                        await handleDeleteWholeCart(cart.customer_id);
+                        router.back();
+                    },
+                    buttonProps: {
+                        variant: "error",
+                    },
+                },
+            });
+        }
+    }, [cart.customer_id, data, handleDeleteWholeCart, router]);
     const { dateOptions, timeOptionsByDate, dateOptionsList } = useMemo(() => {
         const dateOptions: { [key: string]: { value: string; name: string } } = {};
         const timeOptionsByDate: {
             [key: string]: DateStep[];
         } = {};
+        if (typeof data?.data != "number") {
+            data?.data?.forEach((item) => {
+                if (item.date && !dateOptions[item.date]) {
+                    let name = item.date;
+                    name = isTomorrow(item.date) ? "Ngày mai" : isToday(item.date) ? "Hôm nay" : name;
 
-        data?.data.forEach((item) => {
-            if (item.date && !dateOptions[item.date]) {
-                let name = item.date;
-                name = isTomorrow(item.date) ? "Ngày mai" : isToday(item.date) ? "Hôm nay" : name;
-
-                dateOptions[item.date] = {
-                    name: name,
-                    value: item.date,
-                };
-            }
-
-            if (item.date) {
-                if (!timeOptionsByDate[item.date]) {
-                    timeOptionsByDate[item.date] = [item];
-                } else {
-                    timeOptionsByDate[item.date].push(item);
+                    dateOptions[item.date] = {
+                        name: name,
+                        value: item.date,
+                    };
                 }
-            }
-        });
+
+                if (item.date) {
+                    if (!timeOptionsByDate[item.date]) {
+                        timeOptionsByDate[item.date] = [item];
+                    } else {
+                        timeOptionsByDate[item.date].push(item);
+                    }
+                }
+            });
+        }
         const dateOptionsList = Object.values(dateOptions);
 
         return { dateOptions, timeOptionsByDate, dateOptionsList };

@@ -136,6 +136,21 @@ const buttonStyle = {
             },
             _hover: {},
         },
+        error: {
+            background: "var(--error-600)",
+            color: "white",
+            _hover: {
+                bg: null,
+                color: "white",
+            },
+            _active: {
+                bg: null,
+
+                opacity: 0.5,
+            },
+            fontSize: "1.4rem",
+            fontWeigth: 600,
+        },
     },
 };
 

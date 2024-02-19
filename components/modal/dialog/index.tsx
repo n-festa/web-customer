@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, HStack, Modal, ModalContent, ModalOverlay, Text } from "@chakra-ui/react";
+import { Button, ButtonProps, HStack, Modal, ModalContent, ModalOverlay, Text } from "@chakra-ui/react";
 import React, { forwardRef } from "react";
 
 interface PromiseInfo {
@@ -14,10 +14,12 @@ interface Params {
     negative?: {
         text?: string;
         onClick?: () => Promise<void>;
+        buttonProps?: ButtonProps;
     };
     positive?: {
         text?: string;
         onClick?: () => Promise<void>;
+        buttonProps?: ButtonProps;
     };
     isNavigatingAfterResolve?: boolean;
 }
@@ -163,6 +165,7 @@ class DialogComponent extends React.Component<{ ref: React.Ref<DialogComponent> 
                             h="4rem"
                             fontWeight="bold"
                             isLoading={this.state.loading}
+                            {...negative?.buttonProps}
                         >
                             {negative?.text ?? "Đóng"}
                         </Button>
@@ -174,6 +177,7 @@ class DialogComponent extends React.Component<{ ref: React.Ref<DialogComponent> 
                                 borderRadius="1.5rem"
                                 onClick={this.handlePositive}
                                 fontWeight="bold"
+                                {...positive.buttonProps}
                             >
                                 {positive?.text ?? "Xác nhận"}
                             </Button>

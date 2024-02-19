@@ -90,7 +90,7 @@ export abstract class HttpClient<SecurityDataType = unknown> {
     abstract preRequest(req: FullRequestParams): void;
     abstract preResponse(req: FullRequestParams): void;
 
-    abstract handleError<T>(err: AxiosError): Promise<string | undefined | T>;
+    abstract handleError<T>(err: AxiosError): Promise<string | undefined | T | unknown>;
 
     public setSecurityData = (data: SecurityDataType | null) => {
         this.securityData = data;

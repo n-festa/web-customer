@@ -41,7 +41,6 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                 }),
                 {},
             );
-            console.log("aaa", tasteCustomizationObj);
             initValues = {
                 ...initValues,
                 ...tasteCustomizationObj,
