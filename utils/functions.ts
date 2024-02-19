@@ -1,4 +1,4 @@
-import { locationRef, loginSuccessUrl } from "@/app/providers";
+import { locationRef, loginSuccessUrl } from "@/app/[locale]/providers";
 import { CartItem } from "@/types/cart";
 import { formatDate } from "@/utils/date";
 import { isBefore } from "date-fns/isBefore";

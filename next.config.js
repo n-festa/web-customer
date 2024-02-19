@@ -1,6 +1,10 @@
 const path = require("path");
+const createNextIntlPlugin = require("next-intl/plugin");
 
-module.exports = {
+const withNextIntl = createNextIntlPlugin("./i18n.ts");
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
     reactStrictMode: false,
     sassOptions: {
         includePaths: [path.join(__dirname, "styles")],
@@ -14,3 +18,5 @@ module.exports = {
         GEO_GOONG_API_KEY: process.env.GEO_GOONG_API_KEY,
     },
 };
+
+module.exports = withNextIntl(nextConfig);

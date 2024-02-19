@@ -1,4 +1,5 @@
 import { routes } from "@/utils/routes";
+import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
 // Limit the middleware to paths starting with `/api/`
@@ -12,6 +13,8 @@ export const config = {
          * - favicon.ico (favicon file)
          */
         "/((?!api|_next/static|_next/image|favicon.ico).*)",
+        "/",
+        "/(en|vi)/:path*",
     ],
 };
 
@@ -28,3 +31,11 @@ export async function middleware(request: NextRequest) {
 
     return NextResponse.next();
 }
+
+export default createMiddleware({
+    // A list of all locales that are supported
+    locales: ["en", "vi"],
+
+    // Used when no locale matches
+    defaultLocale: "vi",
+});

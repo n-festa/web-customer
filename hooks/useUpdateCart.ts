@@ -1,6 +1,6 @@
 "use client";
 
-import { loginSuccessUrl } from "@/app/providers";
+import { loginSuccessUrl } from "@/app/[locale]/providers";
 import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import { cartState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";

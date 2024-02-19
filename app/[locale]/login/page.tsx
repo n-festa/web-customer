@@ -19,6 +19,7 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -27,7 +28,8 @@ import * as Yup from "yup";
 
 const Login = () => {
     const setShow = useSetRecoilState(showCartState);
-
+    const t = useTranslations("Index");
+    console.log(t("title"));
     const router = useRouter();
     const dispatch = useDispatch();
     const phoneRegExp =
@@ -144,6 +146,7 @@ const Login = () => {
                                                     fontSize="1.6rem"
                                                     fontWeight="400"
                                                     color="#667085"
+                                                    zIndex="1"
                                                 >
                                                     +84
                                                 </Text>
