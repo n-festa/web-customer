@@ -62,7 +62,7 @@ const CartItem = ({
                     }}
                 />
             </Flex>
-            <Flex color="var(--gray-900)" flexDir="column">
+            <Flex color="var(--gray-900)" minW="6.7rem" flexDir="column">
                 <Text fontSize="1.8rem" fontWeight="600" textAlign="right">
                     {nowPrice}
                 </Text>

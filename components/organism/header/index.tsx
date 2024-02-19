@@ -1,15 +1,16 @@
 "use client";
+import CartIcon from "@/components/atoms/CartIcon";
+import CartIconFallBack from "@/components/atoms/CartIcon/CartIconFallback";
 import DeliveryLocation from "@/components/molecules/SearchLocation/DeliveryLocation";
 import { routes } from "@/utils/routes";
 import { Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import SlideMenu from "../SlideMenu";
 import NavigationButton from "./NavigationButton";
 const UserGroup = dynamic(() => import("./UserGroup"), { ssr: false });
-const CartIcon = dynamic(() => import("@/components/atoms/CartIcon"), { ssr: false });
 
 const Header = () => {
     const { isOpen, onClose, onOpen } = useDisclosure();
@@ -124,7 +125,11 @@ const Header = () => {
                             </Text>
                         )}
                         {showSignUpGroup && <UserGroup bg={bg} />}
-                        {!hideCart && <CartIcon />}
+                        {!hideCart && (
+                            <Suspense fallback={<CartIconFallBack />}>
+                                <CartIcon />
+                            </Suspense>
+                        )}
                     </HStack>
                     <HStack as="button" alignItems="center" display={{ base: "none", lg: "flex" }}>
                         <Text

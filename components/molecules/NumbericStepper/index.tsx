@@ -22,7 +22,7 @@ const NumbericStepper = ({
         step: 1,
         defaultValue: defaultValue,
         min: 0,
-        max: 999,
+        max: 99,
         value: value,
         onChange: (_, valueAsNumber) => {
             if (!onReachZero || valueAsNumber > 0) {

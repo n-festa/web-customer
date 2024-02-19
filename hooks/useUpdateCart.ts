@@ -54,6 +54,10 @@ const useUpdateCart = () => {
     const handleQuickAdd = useCallback(
         debounce(
             async (id?: number) => {
+                if (!isLoggedIn()) {
+                    loginSuccessUrl.current = window.location.pathname;
+                    store.dispatch(setErrorScreenDes(routes.SignIn));
+                }
                 if (!id || !currentCart?.customer_id) return;
                 setLoading(true);
                 const res = await apiServices.quickAddCart({
