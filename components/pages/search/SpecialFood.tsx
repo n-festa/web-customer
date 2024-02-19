@@ -15,7 +15,7 @@ const SpecialFood = () => {
     const router = useRouter();
 
     const onViewAll = () => {
-        router.push(`${routes.SearchDetail}?viewAllFood=true`);
+        router.push(`${routes.SearchDetail}?viewAllFood=true&name=Hấp dẫn`);
     };
     return (
         <WraperInfo

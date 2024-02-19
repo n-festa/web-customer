@@ -22,7 +22,7 @@ const RestautantDetailPage = () => {
     useEffect(() => {
         if (!isNullOrEmpty(des)) {
             setTimeout(() => {
-                router.replace(des);
+                router.push(des);
             }, 800);
         }
     }, [des, router]);

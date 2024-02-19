@@ -4,7 +4,9 @@ import GroupRadioButton from "@/components/atoms/radio/GroupRadioButton";
 import { FilterOptionKey } from "@/hooks/useSearchResult";
 import { FilterType, SortOrder } from "@/types/enum";
 import { FilterCondition } from "@/types/interfaces";
+import { isNullOrEmpty } from "@/utils/functions";
 import { HStack, Select, Wrap, WrapItem } from "@chakra-ui/react";
+import { useMemo } from "react";
 
 interface Props {
     condition: FilterCondition;
@@ -27,7 +29,12 @@ const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
             [condition.type]: [...newOptions],
         });
     };
-    return (
+
+    const isShowFilterBox = useMemo(() => {
+        return !(condition.viewAllFood || condition.viewAllRestaurant || !isNullOrEmpty(condition.categoryId));
+    }, [condition]);
+
+    return isShowFilterBox ? (
         <Wrap py="1rem" w="100%">
             <WrapItem>
                 <GroupRadioButton
@@ -76,6 +83,8 @@ const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
                 </HStack>
             </WrapItem>
         </Wrap>
+    ) : (
+        <></>
     );
 };
 

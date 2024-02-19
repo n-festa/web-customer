@@ -14,7 +14,7 @@ const SpecialRestaurants = () => {
     const router = useRouter();
 
     const onViewAll = () => {
-        router.push(`${routes.SearchDetail}?viewAllRestaurant=true`);
+        router.push(`${routes.SearchDetail}?viewAllRestaurant=true&name=Bếp nổi bật tuần này`);
     };
 
     return (
