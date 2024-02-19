@@ -63,7 +63,7 @@ const Login = () => {
                     />
                 </Box>
                 <Text mb="1.6rem" fontSize="3rem" fontWeight="700" color="#8DC63F" textAlign="center">
-                    Đặt ngay bữa ăn ngon & lành của riêng bạn!
+                    Đặt ngay bữa ăn ngon & lành của riêng bạn! {t("title")}
                 </Text>
                 <Box m="0 3.5rem">
                     <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem" color="#344054">

@@ -12,6 +12,7 @@ import "../../assets/css/bootstrap.min.css";
 import "../../assets/css/global.css";
 import "../../assets/css/style.css";
 import { Providers } from "./providers";
+import { NextIntlClientProvider } from "next-intl";
 
 export const metadata = {
     icons: {
@@ -34,21 +35,33 @@ interface LayoutProps {
 }
 
 export default async function RootLayout({ children, params: { locale } }: LayoutProps) {
+    const messages = {
+        ...(await import(`@/messages/${locale}.json`)).default,
+    };
     return (
         <html suppressHydrationWarning lang={locale}>
             <body suppressHydrationWarning className={`${quicksand.className}`}>
                 <ColorModeScript initialColorMode={theme.config?.initialColorMode} />
-                <Providers>
-                    <Flex pos="absolute" h="calc(100% - 8rem)" w="100%" top="8rem" overflow="overlay" flexDir="column">
-                        <Header />
-                        <Box flex={1}>{children}</Box>
+                <NextIntlClientProvider locale={locale} messages={messages}>
+                    <Providers>
+                        <Flex
+                            pos="absolute"
+                            h="calc(100% - 8rem)"
+                            w="100%"
+                            top="8rem"
+                            overflow="overlay"
+                            flexDir="column"
+                        >
+                            <Header />
+                            <Box flex={1}>{children}</Box>
 
-                        <Footer />
-                        <CartModal />
-                        <DialogWrapper />
-                        <Loading />
-                    </Flex>
-                </Providers>
+                            <Footer />
+                            <CartModal />
+                            <DialogWrapper />
+                            <Loading />
+                        </Flex>
+                    </Providers>
+                </NextIntlClientProvider>
             </body>
         </html>
     );
