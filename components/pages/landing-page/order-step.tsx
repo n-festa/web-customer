@@ -1,4 +1,5 @@
 import { Box, Flex, Img, Text } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 
 const StepItem = ({
     title,
@@ -57,6 +58,7 @@ const StepItem = ({
     );
 };
 const OrderStep = () => {
+    const t = useTranslations("HOME.ORDER_STEP");
     return (
         <Flex
             scrollMarginTop="8rem"
@@ -68,33 +70,33 @@ const OrderStep = () => {
             justifyContent="space-between"
         >
             <Text fontSize="4.8rem" fontWeight="bold" textAlign="center" color="var(--sub-text-color)">
-                Cách đặt hàng
+                {t("TITLE")}
             </Text>
             <Flex mt="3.6rem" flexDir={{ base: "column", lg: "row" }} justifyContent="space-between">
                 <StepItem
-                    title="Tìm món ăn"
+                    title={t("STEP_1")}
                     index={1}
-                    description="Tìm các món ngon gần bạn hoặc theo gợi ý của nền tảng 2ALL"
+                    description={t("DESCRIPTION_1")}
                     image="/images/mask-group@2x.png"
                 />
                 <StepItem
-                    title="Chọn món"
+                    title={t("STEP_2")}
                     index={2}
-                    description="Chọn và điều chỉnh món ăn theo khẩu vị hoặc nhu cầu dinh dưỡng của bạn"
+                    description={t("DESCRIPTION_2")}
                     image="/images/mask-group1@2x.png"
                 />
 
                 <StepItem
-                    title="Đặt hàng"
+                    title={t("STEP_3")}
                     index={3}
-                    description="Đặt hàng linh hoạt. Đảm bảo bạn nhận được món ăn theo khung giờ mong muốn"
+                    description={t("DESCRIPTION_3")}
                     image="/images/mask-group2@2x.png"
                 />
 
                 <StepItem
-                    title="Thưởng thức"
+                    title={t("STEP_4")}
                     index={4}
-                    description="Tận hưởng món ăn ngon, lành và được chế biến theo khẩu vị của riêng bạn"
+                    description={t("DESCRIPTION_4")}
                     image="/images/mask-group3@2x.png"
                 />
             </Flex>

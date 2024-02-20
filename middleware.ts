@@ -40,7 +40,7 @@ export const config = {
 
 export default createMiddleware({
     // A list of all locales that are supported
-    locales: ["en", "vi"],
+    locales: ["vi", "en"],
 
     // Used when no locale matches
     defaultLocale: "vi",

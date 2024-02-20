@@ -2,6 +2,7 @@
 import SlideSwiper from "@/components/molecules/SlideSwiper";
 import { poppins } from "@/theme/fonts";
 import { Flex, HStack, Img, StackProps, Text, VStack, useMediaQuery } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
 const GroupStars = ({ star = 5 }: { star?: number }) => {
@@ -73,6 +74,7 @@ export const ReviewCard = ({
 };
 
 const Testimonial = () => {
+    const t = useTranslations("HOME.TESTIMONIAL");
     const reviews = [
         {
             food_rating_id: 1,
@@ -114,7 +116,7 @@ const Testimonial = () => {
     return (
         <Flex scrollMarginTop="8rem" px="4.3rem" flexDir="column" pb="17.2rem" alignItems="center">
             <Text mt="15.6rem" mb="5.6rem" fontWeight="bold" fontSize="4.8rem" className="heading">
-                Mọi người yêu thích 2All
+                {t("TITLE")}
             </Text>
             <SlideSwiper
                 items={reviews.map((el, index) => (

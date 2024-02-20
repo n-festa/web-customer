@@ -3,10 +3,12 @@ import SkeletonBox from "@/components/molecules/SkeletonBox";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
 import { Flex, Text, Wrap, WrapItem } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import React, { useMemo } from "react";
 import { ProductTypeList } from "types";
 
 const Today = () => {
+    const t = useTranslations("HOME.TODAY");
     const { GetHotFood } = useSWRAPI();
     const { data } = GetHotFood();
 
@@ -33,7 +35,7 @@ const Today = () => {
     return (
         <Flex py="5rem" px="6.7rem" flexDir="column">
             <Text textAlign={{ base: "center", md: "unset" }} fontSize="4.8rem" fontWeight="bold">
-                Món ngon hôm nay
+                {t("TITLE")}
             </Text>
             <Wrap align="center" mt="4.8rem" justify={{ base: "center", md: "space-between" }} spacing="4rem">
                 {processedData?.map((item: ProductTypeList) => (
