@@ -1,5 +1,77 @@
 {
-    "Index": {
-        "title": "Xin chào!"
+    "BUTTON": {
+        "LOGIN": "Đăng nhập",
+        "CONTINUE": "Tiếp tục",
+        "SUBMIT": "Hoàn tất"
+    },
+    "SignIn": {
+        "TITLE": "Đặt ngay bữa ăn ngon & lành của riêng bạn!",
+        "PROVIDE_PHONE": "Điền số điện thoại của bạn",
+        "OTP_MESSAGE": "Chúng tôi sẽ gửi tới số điện thoại bạn đăng ký mã số OTP để kích hoạt tài khoản",
+        "PHONE_NUMBER_PROMPT": "Vui lòng nhập số điện thoại",
+        "INVALID_PHONE_NUMBER_MESSAGE": "Số điện thoại không hợp lệ"
+    },
+    "PhoneVerification": {
+        "TITLE": "Xác nhận mã OTP",
+        "OTP_PROMPT": "Nhập mã OTP 6 chữ số được gửi tới số điện thoại bạn đăng ký. Mã OTP chỉ có hiệu lực trong vòng 2 phút.",
+        "RESEND_OTP": "Gửi lại mã OTP",
+        "INCORRECT_ATTEMPTS": "Bạn đã nhập {0} lần không chính xác"
+    },
+    "Additional": {
+        "TITLE": "CHIA SẺ THÊM VỚI CHÚNG TÔI VỀ BẠN",
+        "DESCRIPTION": "Những thông tin bạn cung cấp sẽ giúp chúng tôi đưa ra những gợi ý về đồ ăn phù hợp hơn với thể trạng và nhu cầu của bạn."
+    },
+    "REGISTRATION_SUCCESS": {
+        "TITLE": "CHÚC MỪNG <br /> BẠN ĐÃ HOÀN THÀNH ĐĂNG KÍ",
+        "BMI_INDEX": "Chỉ số BMI",
+        "BALANCE": "Cân đối",
+        "ENERGY": "Năng lượng",
+        "KCAL_PER_DAY": "Kcal/ ngày",
+        "DISCOVER_FOOD_TODAY": "Khám phá món ăn ngay hôm nay"
+    },
+    "FORM": {
+        "NAME": {
+            "LABEL": "Tên",
+            "PLACEHOLDER": "Ví dụ: Nguyễn Văn A"
+        },
+        "EMAIL": {
+            "LABEL": "Email",
+            "PLACEHOLDER": "Ví dụ: nguyen.vana@gmail.com"
+        },
+        "BIRTH_DAY": {
+            "LABEL": "Ngày sinh",
+            "PLACEHOLDER": "Ví dụ: 27/07/1995"
+        },
+        "SEX": {
+            "LABEL": "Giới tính"
+        },
+        "HEIGHT": {
+            "LABEL": "Chiều cao ( cm )",
+            "PLACEHOLDER": "Ví dụ: 163"
+        },
+        "WEIGHT": {
+            "LABEL": "Cân nặng ( kg )",
+            "PLACEHOLDER": "Ví dụ: 58"
+        },
+        "ACTIVITY_LEVEL": {
+            "LABEL": "Mức độ vận động hàng ngày"
+        },
+        "CURRENT_DIET": {
+            "LABEL": "Chế độ ăn hiện tại"
+        },
+        "ALLERGIC_FOOD": {
+            "LABEL": "Dị ứng với đồ ăn (nếu có)"
+        },
+        "CHRONIC_DISEASE": {
+            "LABEL": "Bệnh mãn tính (nếu có)",
+            "PLACEHOLDER": "Ví dụ: Cao huyết áp...",
+            "NOTE": "Tim, Cao huyết áp, Huyết áp thấp, Gout, Tiểu đường, hen suyễn, ung thư...."
+        },
+        "EXPECTED_DIET": {
+            "LABEL": "Chế độ ăn mong đợi"
+        },
+        "EXPECTED_DIET_DIFF": {
+            "PLACEHOLDER": "Vui lòng điền tên chế độ ăn mong muốn"
+        }
     }
 }
