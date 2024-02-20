@@ -19,7 +19,6 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -28,8 +27,6 @@ import * as Yup from "yup";
 
 const Login = () => {
     const setShow = useSetRecoilState(showCartState);
-    const t = useTranslations("Index");
-    console.log(t("title"));
     const router = useRouter();
     const dispatch = useDispatch();
     const phoneRegExp =
@@ -63,7 +60,7 @@ const Login = () => {
                     />
                 </Box>
                 <Text mb="1.6rem" fontSize="3rem" fontWeight="700" color="#8DC63F" textAlign="center">
-                    Đặt ngay bữa ăn ngon & lành của riêng bạn! {t("title")}
+                    Đặt ngay bữa ăn ngon & lành của riêng bạn!
                 </Text>
                 <Box m="0 3.5rem">
                     <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem" color="#344054">

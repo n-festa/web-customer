@@ -4,9 +4,10 @@ import { routes } from "@/utils/routes";
 import { Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import SlideMenu from "../SlideMenu";
+import LocaleSwitcher from "./LocaleSwitcher";
 import NavigationButton from "./NavigationButton";
 const UserGroup = dynamic(() => import("./UserGroup"), { ssr: false });
 const CartIcon = dynamic(() => import("@/components/atoms/CartIcon"), { ssr: false });
@@ -49,11 +50,6 @@ const Header = () => {
         return { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
-    const router = useRouter();
-
-    const handleChangeLanguage = () => {
-        router.replace(`/en/login`);
-    };
 
     return (
         <>
@@ -131,7 +127,7 @@ const Header = () => {
                         {showSignUpGroup && <UserGroup bg={bg} />}
                         {!hideCart && <CartIcon />}
                     </HStack>
-                    <HStack as="button" alignItems="center" display={{ base: "none", lg: "flex" }}>
+                    {/* <HStack as="button" alignItems="center" display={{ base: "none", lg: "flex" }}>
                         <Text
                             color="var(--text-gray)"
                             display={{ base: "none", md: "block" }}
@@ -140,8 +136,9 @@ const Header = () => {
                         >
                             VIE
                         </Text>
-                        <Image onClick={handleChangeLanguage} width={19} height={19} alt="" src="/images/vn.svg" />
-                    </HStack>
+                        <Image width={19} height={19} alt="" src="/images/vn.svg" />
+                    </HStack> */}
+                    <LocaleSwitcher />
                 </HStack>
             </HStack>
         </>

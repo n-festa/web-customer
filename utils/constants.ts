@@ -25,3 +25,8 @@ export const YYYYMMDDHHmm = "yyyy-MM-dd HH:mm";
 export const HHmm = "HH:mm";
 export const yyyMMdd = "yyyy/MM/dd";
 export const EEE = "EEE";
+
+export const localeOption = [
+    { val: "en", content: "ENG" },
+    { val: "vi", content: "VIE" },
+];
