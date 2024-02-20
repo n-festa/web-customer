@@ -25,7 +25,7 @@ const FoodCategoryCard = ({ categoryId, name, imageUrl, ...rest }: Props & CardP
                 backgroundSize={"cover"}
                 cursor={"pointer"}
                 onClick={() => {
-                    router.push(`${routes.SearchDetail}?categoryId=${categoryId}`);
+                    router.push(`${routes.SearchDetail}?categoryId=${categoryId}&name=${name}`);
                 }}
                 {...rest}
             >

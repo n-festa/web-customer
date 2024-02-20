@@ -22,6 +22,7 @@ const useSearchResult = () => {
         categoryId?: number;
         viewAllFood?: boolean;
         viewAllRestaurant?: boolean;
+        name?: string;
     }>({});
     useParams();
     const profile = useSelector((state: RootState) => state.userInfo.userInfo);
@@ -206,7 +207,11 @@ const useSearchResult = () => {
         if (params.categoryId) {
             setState((prevState) => ({
                 ...prevState,
-                keySearch: "Tất cả",
+                keySearch: params.name ?? "Tất cả",
+                filterCondition: {
+                    ...prevState.filterCondition,
+                    categoryId: params.categoryId,
+                },
             }));
             searchFoodAndRestaurantByCategory();
             return;
@@ -215,7 +220,7 @@ const useSearchResult = () => {
         if (params.viewAllFood) {
             setState((prevState) => ({
                 ...prevState,
-                keySearch: "Tất cả",
+                keySearch: params.name ?? "Tất cả",
 
                 filterCondition: {
                     ...prevState.filterCondition,
@@ -230,7 +235,7 @@ const useSearchResult = () => {
         if (params.viewAllRestaurant) {
             setState((prevState) => ({
                 ...prevState,
-                keySearch: "Tất cả",
+                keySearch: params.name ?? "Tất cả",
                 filterCondition: {
                     ...prevState.filterCondition,
                     viewAllRestaurant: true,
