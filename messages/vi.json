@@ -4,7 +4,9 @@
         "CLOSE": "Đóng",
         "PROFILE": "Hồ sơ",
         "ORDERS": "Đơn hàng",
-        "LOGOUT": "Thoát"
+        "LOGOUT": "Thoát",
+        "BACK_PAGE": "Quay lại trang trước",
+        "VIEW_ALL": "Xem tất cả"
     },
     "BUTTON": {
         "LOGIN": "Đăng nhập",
@@ -131,7 +133,11 @@
             "MESSAGE_PLACEHOLDER": "Ví dụ: xin chào 2ALL, tôi có nhu cầu muốn hợp tác với bạn",
             "NOT_A_ROBOT": "Tôi không phải robot",
             "SEND_MESSAGE": "Gửi tin nhắn",
-            "IN_TRANSIT": "Đang giao hàng"
+            "IN_TRANSIT": "Đang giao hàng",
+            "TOMATOES": "Cà chua",
+            "KALE": "Cải Kale",
+            "CONTACT_PARTNERS": "Liên hệ đối tác",
+            "SENT_CONTACT": "Đã gửi liên hệ"
         },
         "DOWNLOAD_APP": {
             "TITLE": "Tải ứng dụng dùng ngay",
@@ -143,5 +149,43 @@
         "FOR_PARTNERS": "Dành cho Đối tác",
         "DOWNLOAD_APP": "Tải App",
         "CONTACT_US": "Liên hệ"
+    },
+    "SEARCH": {
+        "SEARCH_BOX_PLACEHOLDER": "Gõ tên món ăn mà bạn đang muốn tìm",
+        "SPECIAL_FOOD": {
+            "TITLE": "Hấp dẫn",
+            "DESCRIPTION": "Khám phá món hấp dẫn xung quanh bạn"
+        },
+        "SPECIAL_RESTAURANTS": {
+            "TITLE": "Bếp nổi bật tuần này",
+            "DESCRIPTION": "Khám phá những quán ăn, đầu bếp nổi bật xung quanh bạn"
+        }
+    },
+    "FOOTER": {
+        "DESCRIPTION": "Một bữa ăn ngon lành, đầy đủ dưỡng chất, được chế biến theo khẩu vị của bạn. Không cần lo nghĩ, không cần nấu, hẹn giờ giao linh hoạt.",
+        "CONTACT": {
+            "TITLE": "Liên hệ",
+            "ADDRESS1": "162 Hoàng Sa",
+            "ADDRESS2": "Q.1, Tp.HCM"
+        },
+        "ABOUT_US": {
+            "TITLE": "Về chúng tôi",
+            "TEAM": "Đội ngũ",
+            "CAREERS": "Việc làm",
+            "NEWS": "Tin tức"
+        },
+        "LOCATIONS": {
+            "TITLE": "Khu vực hoạt động",
+            "DISTRICT_1": "Quận 1, Tp. Hồ Chí Minh",
+            "DISTRICT_2": "Quận 2, Tp. Hồ Chí Minh",
+            "DISTRICT_3": "Quận 3, Tp. Hồ Chí Minh",
+            "DISTRICT_4": "Quận 4, Tp. Hồ Chí Minh",
+            "BINH_TAN": "Bình Tân, Tp. Hồ Chí Minh",
+            "PHU_NHUAN": "Phú Nhuận, Tp. Hồ Chí Minh"
+        },
+        "FOLLOW": {
+            "TITLE": "Theo dõi tại"
+        },
+        "COPYRIGHT": "© 2023 Bản quyền website, ứng dụng thuộc về 2ALL."
     }
 }

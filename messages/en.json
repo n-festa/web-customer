@@ -4,7 +4,9 @@
         "CLOSE": "Đóng",
         "PROFILE": "Profile",
         "ORDERS": "Orders",
-        "LOGOUT": "Log out"
+        "LOGOUT": "Log out",
+        "BACK_PAGE": "Back to previous page",
+        "VIEW_ALL": "See all"
     },
     "BUTTON": {
         "LOGIN": "Log in",
@@ -131,7 +133,11 @@
             "MESSAGE_PLACEHOLDER": "Example: Hello 2ALL, I am interested in cooperating with you.",
             "NOT_A_ROBOT": "I’m not a robot",
             "SEND_MESSAGE": "Send",
-            "IN_TRANSIT": "On going"
+            "IN_TRANSIT": "On going",
+            "TOMATOES": "Tomatoes",
+            "KALE": "Cải Kale",
+            "CONTACT_PARTNERS": "Contact Partners",
+            "SENT_CONTACT": "Contact Sent"
         },
         "DOWNLOAD_APP": {
             "TITLE": "Download the 2ALL app",
@@ -143,5 +149,44 @@
         "FOR_PARTNERS": "Partner",
         "DOWNLOAD_APP": "Download",
         "CONTACT_US": "Contact"
+    },
+    "SEARCH": {
+        "SEARCH_BOX_PLACEHOLDER": "Type the name of the dish you're looking for",
+        "SPECIAL_FOOD": {
+            "TITLE": "Specials",
+            "DESCRIPTION": "Discover enticing dishes around you"
+        },
+        "SPECIAL_RESTAURANTS": {
+            "TITLE": "Featured Kitchens this Week",
+            "DESCRIPTION": "Explore standout eateries and chefs nearby"
+        }
+    },
+    "FOOTER": {
+        "DESCRIPTION": "A delicious and nutritious meal, tailored to your taste. No need to worry, no need to cook, flexible delivery scheduling.",
+        "CONTACT": {
+            "TITLE": "Contact",
+            "EMAIL": "info@gmail.com",
+            "ADDRESS1": "162 Hoàng Sa",
+            "ADDRESS2": "Dist. 1, Ho Chi Minh City"
+        },
+        "ABOUT_US": {
+            "TITLE": "About Us",
+            "TEAM": "Team",
+            "CAREERS": "Careers",
+            "NEWS": "News"
+        },
+        "LOCATIONS": {
+            "TITLE": "Operating Areas",
+            "DISTRICT_1": "District 1, Ho Chi Minh City",
+            "DISTRICT_2": "District 2, Ho Chi Minh City",
+            "DISTRICT_3": "District 3, Ho Chi Minh City",
+            "DISTRICT_4": "District 4, Ho Chi Minh City",
+            "BINH_TAN": "Binh Tan, Ho Chi Minh City",
+            "PHU_NHUAN": "Phu Nhuan, Ho Chi Minh City"
+        },
+        "FOLLOW": {
+            "TITLE": "Follow us at"
+        },
+        "COPYRIGHT": "© 2023 Website and app copyrights belong to 2ALL."
     }
 }

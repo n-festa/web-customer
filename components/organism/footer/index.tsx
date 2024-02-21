@@ -4,6 +4,7 @@ import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import { useTranslations } from "use-intl";
 
 const footerAvailable = [
     routes.Home,
@@ -13,6 +14,7 @@ const footerAvailable = [
     routes.AdditionalSignUpInfo,
 ];
 const Footer = () => {
+    const t = useTranslations("FOOTER");
     const pathname = usePathname();
 
     const showFooter = useMemo(() => {
@@ -42,8 +44,7 @@ const Footer = () => {
                         mb={{ base: "2rem", lg: "unset" }}
                         mr="1rem"
                     >
-                        Một bữa ăn ngon lành, đầy đủ dưỡng chất, được chế biến theo khẩu vị của bạn. Không cần lo nghĩ,
-                        không cần nấu, hẹn giờ giao linh hoạt.
+                        {t("DESCRIPTION")}
                     </Text>
                 </VStack>
                 <Flex justifyContent="space-evenly" flex={1}>
@@ -60,7 +61,7 @@ const Footer = () => {
                             lineHeight="2rem"
                             color="var(--primary-100)"
                         >
-                            Liên hệ
+                            {t("CONTACT.TITLE")}
                         </Text>
                         <VStack
                             alignItems="flex-start"
@@ -74,10 +75,10 @@ const Footer = () => {
                                 0988 989 989
                             </Text>
                             <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
-                                162 Hoàng Sa
+                                {t("CONTACT.ADDRESS1")}
                             </Text>
                             <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
-                                Q.1, Tp.HCM
+                                {t("CONTACT.ADDRESS2")}
                             </Text>
                         </VStack>
                     </VStack>
@@ -95,7 +96,7 @@ const Footer = () => {
                             whiteSpace="nowrap"
                             color="var(--primary-100)"
                         >
-                            Về chúng tôi
+                            {t("ABOUT_US.TITLE")}
                         </Text>
                         <VStack
                             alignItems="flex-start"
@@ -103,13 +104,13 @@ const Footer = () => {
                             fontSize={{ base: "1.3rem", md: "1.6rem" }}
                         >
                             <Text as={Link} href="#" variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
-                                Đội ngũ
+                                {t("ABOUT_US.TEAM")}
                             </Text>
                             <Text as={Link} href="#" variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
-                                Việc làm
+                                {t("ABOUT_US.CAREERS")}
                             </Text>
                             <Text as={Link} href="#" variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
-                                Tin tức
+                                {t("ABOUT_US.NEWS")}
                             </Text>
                         </VStack>
                     </VStack>
@@ -126,7 +127,7 @@ const Footer = () => {
                             lineHeight="2rem"
                             color="var(--primary-100)"
                         >
-                            Khu vực hoạt động
+                            {t("LOCATIONS.TITLE")}
                         </Text>
                         <VStack
                             alignItems="flex-start"
@@ -134,22 +135,22 @@ const Footer = () => {
                             fontSize={{ base: "1.3rem", md: "1.6rem" }}
                         >
                             <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
-                                Quận 1, Tp. Hồ Chí Minh
+                                {t("LOCATIONS.DISTRICT_1")}
                             </Text>
                             <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
-                                Quận 2, Tp. Hồ Chí Minh
+                                {t("LOCATIONS.DISTRICT_2")}
                             </Text>
                             <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
-                                Quận 3, Tp. Hồ Chí Minh
+                                {t("LOCATIONS.DISTRICT_3")}
                             </Text>
                             <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
-                                Quận 4, Tp. Hồ Chí Minh
+                                {t("LOCATIONS.DISTRICT_4")}
                             </Text>
                             <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
-                                Bình Tân, Tp. Hồ Chí Minh
+                                {t("LOCATIONS.BINH_TAN")}
                             </Text>
                             <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
-                                Phú Nhuận, Tp. Hồ Chí Minh
+                                {t("LOCATIONS.PHU_NHUAN")}
                             </Text>
                         </VStack>
                     </VStack>
@@ -167,7 +168,7 @@ const Footer = () => {
                             whiteSpace="nowrap"
                             color="var(--primary-100)"
                         >
-                            Theo dõi tại
+                            {t("FOLLOW.TITLE")}
                         </Text>
                         <VStack
                             alignItems="flex-start"
@@ -203,7 +204,7 @@ const Footer = () => {
                 </Flex>
             </Flex>
             <Text fontSize="1.6rem" alignSelf={{ base: "unset", lg: "flex-start" }} color="var(--gray-500)" my="1.6rem">
-                © 2023 Bản quyền website, ứng dụng thuộc về 2ALL.
+                {t("FOLLOW.COPYRIGHT")}
             </Text>
         </Flex>
     );
