@@ -1,11 +1,11 @@
 import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
-import MobileMock from "./mobile_mock";
 import { useTranslations } from "next-intl";
+import MobileMock from "./mobile_mock";
 
 const Download = () => {
     const t = useTranslations("HOME.DOWNLOAD_APP");
     return (
-        <Flex id="download-section" scrollMarginTop="8rem">
+        <Flex id="download-section">
             <Flex
                 justifyContent={{
                     base: "center",

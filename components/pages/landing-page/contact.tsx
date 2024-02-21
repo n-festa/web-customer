@@ -92,7 +92,6 @@ const Contact = () => {
 
     return (
         <Flex
-            scrollMarginTop="8rem"
             id="contact-section"
             p="9.6rem 4.3rem"
             w="100%"

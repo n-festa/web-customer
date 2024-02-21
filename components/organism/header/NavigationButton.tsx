@@ -8,7 +8,6 @@ const NavigationButton = ({ children, ...props }: TextProps) => {
             fontSize="1.8rem"
             fontWeight="bold"
             lineHeight="2.4rem"
-            scrollMarginTop="8rem"
             {...props}
         >
             {children}

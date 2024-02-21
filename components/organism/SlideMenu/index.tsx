@@ -50,23 +50,23 @@ const SlideMenu = (props: Omit<DrawerProps, "children">) => {
                 <DrawerBody>
                     <VStack mt="3rem" as="ul" spacing="3rem" alignItems="flex-start">
                         <NavigationButton as="li" fontSize="2.4rem !important">
-                            <Link onClick={props.onClose} href="/#order-section">
+                            <Link onClick={props.onClose} href="#order-section">
+                                {t("PLACE_ORDER")}
+                            </Link>
+                        </NavigationButton>
+                        <NavigationButton as="li" fontSize="2.4rem !important">
+                            <Link onClick={props.onClose} href="#contact-section">
+                                {t("FOR_PARTNERS")}
+                            </Link>
+                        </NavigationButton>
+                        <NavigationButton as="li" fontSize="2.4rem !important">
+                            <Link onClick={props.onClose} href="#download-section">
                                 {t("DOWNLOAD_APP")}
                             </Link>
                         </NavigationButton>
                         <NavigationButton as="li" fontSize="2.4rem !important">
-                            <Link onClick={props.onClose} href="/#contact-section">
-                                {t("DOWNLOAD_APP")}
-                            </Link>
-                        </NavigationButton>
-                        <NavigationButton as="li" fontSize="2.4rem !important">
-                            <Link onClick={props.onClose} href="/#download-section">
-                                {t("DOWNLOAD_APP")}
-                            </Link>
-                        </NavigationButton>
-                        <NavigationButton as="li" fontSize="2.4rem !important">
-                            <Link onClick={props.onClose} href="/#footer-section">
-                                {t("DOWNLOAD_APP")}
+                            <Link onClick={props.onClose} href="#footer-section">
+                                {t("CONTACT_US")}
                             </Link>
                         </NavigationButton>
                     </VStack>
