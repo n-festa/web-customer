@@ -5,20 +5,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
+const footerAvailable = [
+    routes.Home,
+    routes.Otp,
+    routes.RegistrationSuccess,
+    routes.SignIn,
+    routes.AdditionalSignUpInfo,
+];
 const Footer = () => {
     const pathname = usePathname();
 
     const showFooter = useMemo(() => {
-        switch (pathname) {
-            case routes.Home:
-            case routes.Otp:
-            case routes.RegistrationSuccess:
-            case routes.SignIn:
-            case routes.AdditionalSignUpInfo:
-                return true;
-            default:
-                return false;
-        }
+        return footerAvailable.some((item) => pathname.includes(item));
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
     if (!showFooter) return <></>;

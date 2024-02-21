@@ -61,7 +61,6 @@ const OrderStep = () => {
     const t = useTranslations("HOME.ORDER_STEP");
     return (
         <Flex
-            scrollMarginTop="8rem"
             id="order-section"
             alignItems="center"
             py="5rem"

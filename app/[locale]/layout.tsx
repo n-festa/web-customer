@@ -7,12 +7,12 @@ import Header from "@/components/organism/header";
 import { quicksand } from "@/theme/fonts";
 import { Box, ColorModeScript, Flex, theme } from "@chakra-ui/react";
 import { Viewport } from "next";
+import { NextIntlClientProvider } from "next-intl";
 import React from "react";
 import "../../assets/css/bootstrap.min.css";
 import "../../assets/css/global.css";
 import "../../assets/css/style.css";
 import { Providers } from "./providers";
-import { NextIntlClientProvider } from "next-intl";
 
 export const metadata = {
     icons: {
@@ -54,7 +54,6 @@ export default async function RootLayout({ children, params: { locale } }: Layou
                         >
                             <Header />
                             <Box flex={1}>{children}</Box>
-
                             <Footer />
                             <CartModal />
                             <DialogWrapper />

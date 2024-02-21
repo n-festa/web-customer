@@ -130,12 +130,12 @@
             "EMAIL_PLACEHOLDER": "Vui lòng nhập email của bạn",
             "MESSAGE_PLACEHOLDER": "Ví dụ: xin chào 2ALL, tôi có nhu cầu muốn hợp tác với bạn",
             "NOT_A_ROBOT": "Tôi không phải robot",
-            "SEND_MESSAGE": "Gửi tin nhắn"
+            "SEND_MESSAGE": "Gửi tin nhắn",
+            "IN_TRANSIT": "Đang giao hàng"
         },
         "DOWNLOAD_APP": {
             "TITLE": "Tải ứng dụng dùng ngay",
-            "DESCRIPTION": "Trải nghiệm tìm kiềm món ngon tại 2ALL tốt hơn trên ứng dụng điện thoại. Hiện đã có mặt tại 2 nền tảng iOS và Android. ",
-            "IN_TRANSIT": "Đang giao hàng"
+            "DESCRIPTION": "Trải nghiệm tìm kiềm món ngon tại 2ALL tốt hơn trên ứng dụng điện thoại. Hiện đã có mặt tại 2 nền tảng iOS và Android. "
         }
     },
     "MENU": {

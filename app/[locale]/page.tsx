@@ -9,7 +9,7 @@ import { Flex } from "@chakra-ui/react";
 
 export default async function Home() {
     return (
-        <Flex scrollMarginTop="8rem" w="100%" flexDir="column">
+        <Flex w="100%" flexDir="column">
             <Banner />
             <Today />
             <OrderStep />

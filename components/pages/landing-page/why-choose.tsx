@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 const WhyChoose = () => {
     const t = useTranslations("HOME.WHY_CHOOSE");
     return (
-        <Flex scrollMarginTop="8rem">
+        <Flex>
             <Flex
                 flexDir="column"
                 alignItems="center"
