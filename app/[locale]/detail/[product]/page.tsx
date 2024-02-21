@@ -10,6 +10,7 @@ import SimilarDishes from "@/components/pages/detail/SimilarDishes";
 import useFoodDetail from "@/hooks/useFoodDetail";
 import useUpdateCart from "@/hooks/useUpdateCart";
 import { RootState } from "@/store";
+import { useAppSelector } from "@/store/hooks";
 import { CartItem } from "@/types/cart";
 import { OtherCustomization, PortionCustomization, TasteCustomization } from "@/utils/constants";
 import { Flex } from "@chakra-ui/react";
@@ -19,6 +20,7 @@ const ProductDetailPage = () => {
     const { isLoading, foodInfo, formRef } = useFoodDetail();
     const useInfo = useSelector((state: RootState) => state.userInfo.userInfo?.customer_id ?? -1);
     const { handleUpdateCart } = useUpdateCart();
+    const loading = useAppSelector((state) => state.app.loading);
 
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
@@ -32,6 +34,7 @@ const ProductDetailPage = () => {
                 <SimilarDishes />
                 <Feedback reviews={foodInfo.info?.reviews ?? []} isLoading={isLoading} />
                 <OrderFooter
+                    loading={loading}
                     quantity={1}
                     price={80000}
                     onUpdateCart={(_quantity: number) => {

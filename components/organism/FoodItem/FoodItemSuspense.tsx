@@ -187,7 +187,7 @@ const FoodItemSuspense = ({
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        handleQuickAdd(Number(id));
+                        handleQuickAdd(Number(id), name);
                     }}
                     isLoading={loading}
                     _hover={{ opacity: 0.7 }}

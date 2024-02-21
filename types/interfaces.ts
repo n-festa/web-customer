@@ -8,6 +8,7 @@ export interface Options {
 export interface FilterCondition {
     type: FilterType;
     sort?: SortOrder;
+    categoryId?: number;
     viewAllFood?: boolean;
     viewAllRestaurant?: boolean;
     other: {

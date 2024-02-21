@@ -37,11 +37,11 @@ const PaymentGroup = (props: FlexProps) => {
                     {cart.cart_info?.map((item) => (
                         <CartItem
                             key={item.item_id}
-                            image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"} //TODO
-                            name="Mỳ Cá Cờ Sốt Yakitori" //TODO
+                            image={item.item_img ?? ""}
+                            name={item.item_name?.[0].text ?? ""}
                             note={genCartNote(item)}
-                            price="90,000"
-                            nowPrice="75,000"
+                            price={item.price?.toLocaleString()}
+                            nowPrice={item.price_after_discount?.toLocaleString()}
                             quantity={item.qty_ordered}
                         />
                     ))}

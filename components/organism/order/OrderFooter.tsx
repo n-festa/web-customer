@@ -6,9 +6,10 @@ interface Props {
     quantity?: number;
     price: number;
     onUpdateCart: (quantity: number) => void;
+    loading?: boolean;
 }
 
-const OrderFooter = ({ quantity = 1, price = 0, onUpdateCart }: Props) => {
+const OrderFooter = ({ loading, quantity = 1, price = 0, onUpdateCart }: Props) => {
     const [state, setState] = useState(quantity);
 
     useEffect(() => {
@@ -38,8 +39,14 @@ const OrderFooter = ({ quantity = 1, price = 0, onUpdateCart }: Props) => {
                 <NumbericStepper defaultValue={quantity} onChangeValue={setState} />
                 <Button
                     h="5.4rem"
+                    isLoading={loading}
                     borderRadius="2.4rem"
                     variant={"btnAddToCart"}
+                    _loading={{
+                        _hover: {
+                            bg: "var(--primary-color)",
+                        },
+                    }}
                     onClick={() => {
                         onUpdateCart(state);
                     }}

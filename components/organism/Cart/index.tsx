@@ -3,15 +3,17 @@ import useDeleteCartItem from "@/hooks/useDeleteCartItem";
 import { cartState, cartSynced, showCartState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";
+import { Cart } from "@/types/cart";
 import { YYYYMMDD } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import { genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, Center, Flex, FlexProps, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import Axios, { CancelTokenSource } from "axios";
+import { cloneDeep } from "lodash";
 import isEqual from "lodash/isEqual";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
 let _cts: CancelTokenSource | null = null;
@@ -21,6 +23,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValue(cartSynced);
     const [rawCart, setCart] = useRecoilState(cartState);
+    const [tempCart, setTempCart] = useState<Cart>();
     const { handleDeleteCartItem, handleDeleteWholeCart } = useDeleteCartItem();
 
     const profile = useAppSelector((app) => app.userInfo.userInfo);
@@ -39,6 +42,13 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
         if (!id || !cart?.customer_id || !value) return;
         _cts?.cancel();
         _cts = Axios.CancelToken.source();
+        const tempCart = cloneDeep(rawCart);
+        tempCart?.cart_info?.forEach((item) => {
+            if (item.item_id === id) {
+                item.qty_ordered = value;
+            }
+        });
+        setTempCart(tempCart);
         const res = await apiServices.basicUpdateCart(
             {
                 customer_id: Number(cart?.customer_id),
@@ -69,11 +79,12 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
     }, []);
 
     const totalPrice = useMemo(() => {
+        const _cart = tempCart ?? rawCart;
         const totalPrice =
-            rawCart?.cart_info?.reduce?.((prev, cur) => prev + cur.qty_ordered * (cur.price_after_discount ?? 0), 0) ??
+            _cart?.cart_info?.reduce?.((prev, cur) => prev + cur.qty_ordered * (cur.price_after_discount ?? 0), 0) ??
             -1;
         return totalPrice;
-    }, [rawCart?.cart_info]);
+    }, [rawCart, tempCart]);
 
     const receiveTimePredict = useMemo(() => {
         if (typeof timeDate?.data === "number") return { backTime: timeDate?.data as number };
@@ -192,7 +203,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                     </Flex>
                     <Flex p="1.6rem" h="19rem" flexDir="column" gap="2.4rem">
                         <Flex justifyContent="space-between">
-                            <Flex flex={1} flexDir="column" justifyContent="space-between" pr="2.5rem">
+                            <Flex flex={1} flexDir="column" justifyContent="space-between" pr="2rem">
                                 <Text fontSize="2rem" fontWeight={600}>
                                     Tổng
                                 </Text>
