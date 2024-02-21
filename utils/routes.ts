@@ -1,8 +1,8 @@
 export const routes = {
-    Home: "/", //done vi
-    Search: "/search", //done vi
-    SearchDetail: "/search/detail", //done vi
-    RestaurantDetail: "/restaurant", //done vi
+    Home: "/", //done
+    Search: "/search", //done
+    SearchDetail: "/search/detail", //done
+    RestaurantDetail: "/restaurant", //done
     SignIn: "/login", //done
     Otp: "/phone_verification", //done
     AdditionalSignUpInfo: "/additional", //done vi

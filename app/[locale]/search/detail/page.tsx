@@ -8,13 +8,13 @@ import { Flex } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 
 const SearchDetailPage = () => {
-    const t = useTranslations("COMMON");
+    const t = useTranslations();
     const { isLoading, keySearch, searchResult, filterCondition, onChangeFilterOptions } = useSearchResult();
 
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
-                <BackButton label={t("BACK_PAGE")} />
+                <BackButton label={t("COMMON.BACK_PAGE")} />
                 <SeachBox
                     placeholder={t("SEARCH.SEARCH_BOX_PLACEHOLDER")}
                     flex="1"

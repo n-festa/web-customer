@@ -16,7 +16,17 @@
         "TOMORROW": "Ngày mai",
         "VEGETARIAN_DISH": "Món chay",
         "MENU": "Thực đơn",
-        "BACK": "Trở lại"
+        "BACK": "Trở lại",
+        "DELIVER_TO": "Giao đến",
+        "STARS": "> 4 Sao",
+        "VEG": "Chay",
+        "FOOD_ITEM": {
+            "QUANTITY_AVAILABLE": "Còn {number} phần",
+            "SOLD_OUT": "Đã bán",
+            "PLACE_ORDER_BEFORE": "Đặt trước {time} để điều chỉnh vị",
+            "AM": "giờ sáng",
+            "PM": "giờ chiều"
+        }
     },
     "BUTTON": {
         "LOGIN": "Đăng nhập",
@@ -205,6 +215,7 @@
         "ADJUST_TASTE": "Đặt trước {time} để điều chỉnh vị"
     },
     "CART": {
+        "ADD_NOW": "Thêm ngay bữa ăn ngon lành<br></br>của riêng bạn.",
         "FOOD_BASKET": "Giỏ đồ ăn",
         "CLEAR_CART": "Xoá giỏ hàng",
         "TOTAL": "Tổng",
@@ -217,7 +228,16 @@
         "SIDE_DISH": "Món ăn kèm",
         "SAME_RESTAURANT": "Món ăn cùng quán",
         "SIMILAR_DISHES": "Món ăn tương tự",
-        "ADD_TO_CART": "Thêm vào giỏ hàng - {money}VND"
+        "ADD_TO_CART": "Thêm vào giỏ hàng - {money}VND",
+        "COMPONENTS": "Thành phần",
+        "DESCRIPTION": "Mô tả",
+        "SERVINGSIVE": {
+            "SELECT_PORTION": "Chọn khẩu phần",
+            "ADJUST_TASTE": "Điều chỉnh vị (Trước {time}h sáng)",
+            "OTHER_ADJUSTMENT": "Điều chỉnh khác",
+            "NOTES": "Ghi chú",
+            "NOTES_PLACEHOLDER": "Ví dụ: Dị ứng với đậu phộng"
+        }
     },
     "CONFIRM_ORDER": {
         "DELIVERY_TIME_GROUP": {

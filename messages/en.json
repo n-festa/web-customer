@@ -5,13 +5,28 @@
         "PROFILE": "Profile",
         "ORDERS": "Orders",
         "LOGOUT": "Log out",
-        "BACK_PAGE": "Back to previous page",
+        "BACK_PAGE": "Go back",
         "VIEW_ALL": "See all",
         "FOOD": "Food",
         "RESTAURANT": "Restaurant",
-        "SORT": "Sort",
+        "SORT": "Sort by",
         "PRICE_ASCENDING": "Price ascending",
-        "PRICE_DESCENDING": "Price descending"
+        "PRICE_DESCENDING": "Price descending",
+        "DELIVER_TO": "Deliver to",
+        "STARS": "> 4 Stars",
+        "VEG": "Veg",
+        "MENU": "Menu",
+        "TODAY": "Today",
+        "TOMORROW": "Tomorrow",
+        "VEGETARIAN_DISH": "Veg",
+
+        "FOOD_ITEM": {
+            "QUANTITY_AVAILABLE": "{number} available",
+            "SOLD_OUT": "Sold",
+            "PLACE_ORDER_BEFORE": "Order before {time} to adjust the taste",
+            "AM": "AM",
+            "PM": "PM"
+        }
     },
     "BUTTON": {
         "LOGIN": "Log in",
@@ -156,14 +171,14 @@
         "CONTACT_US": "Contact"
     },
     "SEARCH": {
-        "SEARCH_BOX_PLACEHOLDER": "Type the name of the dish you're looking for",
+        "SEARCH_BOX_PLACEHOLDER": "Search for your food",
         "SPECIAL_FOOD": {
-            "TITLE": "Specials",
-            "DESCRIPTION": "Discover enticing dishes around you"
+            "TITLE": "Delicious",
+            "DESCRIPTION": "Explore the delicious food around you"
         },
         "SPECIAL_RESTAURANTS": {
-            "TITLE": "Featured Kitchens this Week",
-            "DESCRIPTION": "Explore standout eateries and chefs nearby"
+            "TITLE": "Must-try dish this week",
+            "DESCRIPTION": "Explore the local food scene and find your new favorite restaurant"
         }
     },
     "FOOTER": {
@@ -171,13 +186,13 @@
         "CONTACT": {
             "TITLE": "Contact",
             "EMAIL": "info@gmail.com",
-            "ADDRESS1": "162 Hoàng Sa",
-            "ADDRESS2": "Dist. 1, Ho Chi Minh City"
+            "ADDRESS1": "162 Hoang Sa",
+            "ADDRESS2": "D.1, HCMC"
         },
         "ABOUT_US": {
-            "TITLE": "About Us",
+            "TITLE": "About us",
             "TEAM": "Team",
-            "CAREERS": "Careers",
+            "CAREERS": "Jobs",
             "NEWS": "News"
         },
         "LOCATIONS": {
@@ -186,12 +201,35 @@
             "DISTRICT_2": "District 2, Ho Chi Minh City",
             "DISTRICT_3": "District 3, Ho Chi Minh City",
             "DISTRICT_4": "District 4, Ho Chi Minh City",
-            "BINH_TAN": "Binh Tan, Ho Chi Minh City",
-            "PHU_NHUAN": "Phu Nhuan, Ho Chi Minh City"
+            "BINH_TAN": "Binh Tan District, Ho Chi Minh City",
+            "PHU_NHUAN": "Phu Nhuan District, Ho Chi Minh City"
         },
         "FOLLOW": {
-            "TITLE": "Follow us at"
+            "TITLE": "Follow us"
         },
-        "COPYRIGHT": "© 2023 Website and app copyrights belong to 2ALL."
+        "COPYRIGHT": "© 2023 Copyright belongs to 2ALL "
+    },
+    "RESTAURANT": {
+        "COMMENT_CUSTOMER": "Reviews",
+        "COMMENT_FOOD": "Reviews"
+    },
+    "CART": {
+        "ADD_NOW": "Add your delicious and nutritious<br></br> meal right away.",
+        "FOOD_BASKET": "Your Cart"
+    },
+    "PRODUCT_DETAIL": {
+        "SIDE_DISH": "Eat together ",
+        "SAME_RESTAURANT": "Same restaurant",
+        "SIMILAR_DISHES": "Similar",
+        "ADD_TO_CART": "Add to cart- {money}VND",
+        "COMPONENTS": "Main ingredients",
+        "DESCRIPTION": "Description",
+        "SERVINGSIVE": {
+            "SELECT_PORTION": "Portion",
+            "ADJUST_TASTE": "Taste (Before {time} AM)",
+            "OTHER_ADJUSTMENT": "Others",
+            "NOTES": "Notes",
+            "NOTES_PLACEHOLDER": "Example: Allergic to peanuts"
+        }
     }
 }

@@ -204,7 +204,7 @@ const Footer = () => {
                 </Flex>
             </Flex>
             <Text fontSize="1.6rem" alignSelf={{ base: "unset", lg: "flex-start" }} color="var(--gray-500)" my="1.6rem">
-                {t("FOLLOW.COPYRIGHT")}
+                {t("COPYRIGHT")}
             </Text>
         </Flex>
     );

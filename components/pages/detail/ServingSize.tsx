@@ -7,6 +7,7 @@ import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
 import { DefaultOtherOption, OtherCustomization, PortionCustomization, TasteCustomization } from "@/utils/constants";
 import { FormControl, Grid, GridItem, HStack, Skeleton, Stack, Switch, Text, Textarea, VStack } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
+import { useTranslations } from "next-intl";
 import { forwardRef, useMemo } from "react";
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 
 // eslint-disable-next-line react/display-name
 const ServingSize = forwardRef((props: Props, ref: any) => {
+    const t = useTranslations("PRODUCT_DETAIL.SERVINGSIVE");
     const { listSKUs = [], info, isLoading } = props;
     const activeSKU = useMemo(() => {
         const item = listSKUs.find((el) => el.is_standard);
@@ -97,7 +99,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                     {(_) => (
                         <Form style={{ width: "100%" }}>
                             <WraperInfo
-                                title="Chọn khẩu phần"
+                                title={t("SELECT_PORTION")}
                                 titleProps={{ fontSize: "2.4rem" }}
                                 isViewAll={false}
                                 contentProps={{ mt: "1.6rem" }}
@@ -144,7 +146,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
 
                             {info?.taste_customization && info?.taste_customization.length > 0 && (
                                 <WraperInfo
-                                    title="Điều chỉnh vị (Trước 9h sáng)"
+                                    title={t("ADJUST_TASTE", { time: 9 })}
                                     titleProps={{ fontSize: "2.4rem" }}
                                     isViewAll={false}
                                     contentProps={{ mt: "1.6rem" }}
@@ -199,7 +201,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                             )}
 
                             <WraperInfo
-                                title="Điều chỉnh khác"
+                                title={t("OTHER_ADJUSTMENT")}
                                 titleProps={{ fontSize: "2.4rem" }}
                                 isViewAll={false}
                                 contentProps={{ mt: "1.6rem" }}
@@ -248,7 +250,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                             </WraperInfo>
 
                             <WraperInfo
-                                title="Ghi chú"
+                                title={t("NOTES")}
                                 titleProps={{ fontSize: "2.4rem" }}
                                 isViewAll={false}
                                 contentProps={{ mt: "1.6rem" }}
@@ -258,7 +260,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                     {({ field }: { field: formType }) => {
                                         return (
                                             <Textarea
-                                                placeholder="Ví dụ: Dị ứng với đậu phộng "
+                                                placeholder={t("NOTES_PLACEHOLDER")}
                                                 rows={5}
                                                 p="1.2rem 1.4rem"
                                                 bg="white"

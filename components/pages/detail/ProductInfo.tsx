@@ -2,9 +2,11 @@ import { FoodDetailDto } from "@/types/response/FoodResponse";
 import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
 import { getCutoffTime } from "@/utils/functions";
 import { HStack, Img, Text, VStack } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
 const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SKUsDto }) => {
+    const tFoodItem = useTranslations("COMMON.FOOD_ITEM");
     const unitSold = useMemo(() => {
         const unitSoldValue = info?.units_sold;
         if (unitSoldValue) {
@@ -81,7 +83,7 @@ const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SK
             {info?.cutoff_time && (
                 <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
                     <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2725.svg" />
-                    <Text>Đặt trước {getCutoffTime(info?.cutoff_time)} giờ sáng để điều chỉnh vị</Text>
+                    <Text>Đặt trước {getCutoffTime(info?.cutoff_time, tFoodItem)} giờ sáng để điều chỉnh vị</Text>
                 </HStack>
             )}
         </VStack>

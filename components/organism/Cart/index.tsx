@@ -248,7 +248,9 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                             fontWeight="500"
                             color="var(--gray-600)"
                         >
-                            {`Thêm ngay bữa ăn ngon lành\r\ncủa riêng bạn.`}
+                            {t.rich("ADD_NOW", {
+                                br: () => <br />,
+                            })}
                         </Text>
                     </VStack>
                 </Center>
