@@ -8,12 +8,14 @@ import { HHmm, YYYYMMDD } from "@/utils/constants";
 import { Button, HStack, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { addMinutes, formatDate, isToday, isTomorrow } from "date-fns";
 import { ChevronDownIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import GroupWrapper from "./GroupWrapper";
 
 const DeliveryTimeGroup = () => {
+    const t = useTranslations();
     const router = useRouter();
     const [date, setDate] = useState<string>();
     const [timeIndex, setTime] = useState(0);
@@ -31,10 +33,12 @@ const DeliveryTimeGroup = () => {
     useEffect(() => {
         if (data?.statusCode === 404) {
             dialogRef.current?.show({
-                message: `Giỏ hàng không khả dụng đến hết ${formatDate(data.data as unknown as number, YYYYMMDD)}`,
-                title: "Giỏ hàng không khả dụng",
+                message: t("CONFIRM_ORDER.DELIVERY_TIME_GROUP.CART_UNAVAILABLE_UTIL", {
+                    time: formatDate(data.data as unknown as number, YYYYMMDD),
+                }),
+                title: t("CONFIRM_ORDER.DELIVERY_TIME_GROUP.CART_UNAVAILABLE"),
                 negative: {
-                    text: "Trở lại",
+                    text: t("COMMON.BACK"),
                     onClick: async () => {
                         router.back();
                     },
@@ -43,7 +47,7 @@ const DeliveryTimeGroup = () => {
                     },
                 },
                 positive: {
-                    text: "Xoá giỏ hàng",
+                    text: t("CART.CLEAR_CART"),
                     onClick: async () => {
                         await handleDeleteWholeCart(cart.customer_id);
                         router.back();
@@ -64,7 +68,7 @@ const DeliveryTimeGroup = () => {
             data?.data?.forEach((item) => {
                 if (item.date && !dateOptions[item.date]) {
                     let name = item.date;
-                    name = isTomorrow(item.date) ? "Ngày mai" : isToday(item.date) ? "Hôm nay" : name;
+                    name = isTomorrow(item.date) ? t("COMMON.TOMORROW") : isToday(item.date) ? t("COMMON.TODAY") : name;
 
                     dateOptions[item.date] = {
                         name: name,
@@ -97,7 +101,7 @@ const DeliveryTimeGroup = () => {
     }, [date, dateOptions, dateOptionsList, timeOptionsByDate]);
 
     return (
-        <GroupWrapper title="Thời gian giao hàng">
+        <GroupWrapper title={t("CONFIRM_ORDER.DELIVERY_TIME_GROUP.DELIVERY_TIME")}>
             <HStack pt="1.6rem" spacing="1.6rem">
                 <Menu>
                     <MenuButton

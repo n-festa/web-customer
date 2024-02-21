@@ -1,5 +1,6 @@
 import NumbericStepper from "@/components/molecules/NumbericStepper";
 import { Button, Flex, HStack } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const OrderFooter = ({ loading, quantity = 1, price = 0, onUpdateCart }: Props) => {
+    const t = useTranslations("PRODUCT_DETAIL");
     const [state, setState] = useState(quantity);
 
     useEffect(() => {
@@ -51,7 +53,7 @@ const OrderFooter = ({ loading, quantity = 1, price = 0, onUpdateCart }: Props) 
                         onUpdateCart(state);
                     }}
                 >
-                    Thêm vào giỏ hàng - {totalPrice.toLocaleString()}VND
+                    {t("ADD_TO_CART", { money: totalPrice.toLocaleString() })}
                 </Button>
             </HStack>
         </Flex>

@@ -6,7 +6,17 @@
         "ORDERS": "Đơn hàng",
         "LOGOUT": "Thoát",
         "BACK_PAGE": "Quay lại trang trước",
-        "VIEW_ALL": "Xem tất cả"
+        "VIEW_ALL": "Xem tất cả",
+        "FOOD": "Món ăn",
+        "RESTAURANT": "Nhà hàng",
+        "SORT": "Săp xếp",
+        "PRICE_ASCENDING": "Giá tăng",
+        "PRICE_DESCENDING": "Giá giảm",
+        "TODAY": "Hôm nay",
+        "TOMORROW": "Ngày mai",
+        "VEGETARIAN_DISH": "Món chay",
+        "MENU": "Thực đơn",
+        "BACK": "Trở lại"
     },
     "BUTTON": {
         "LOGIN": "Đăng nhập",
@@ -159,7 +169,8 @@
         "SPECIAL_RESTAURANTS": {
             "TITLE": "Bếp nổi bật tuần này",
             "DESCRIPTION": "Khám phá những quán ăn, đầu bếp nổi bật xung quanh bạn"
-        }
+        },
+        "DETAIL": {}
     },
     "FOOTER": {
         "DESCRIPTION": "Một bữa ăn ngon lành, đầy đủ dưỡng chất, được chế biến theo khẩu vị của bạn. Không cần lo nghĩ, không cần nấu, hẹn giờ giao linh hoạt.",
@@ -187,5 +198,60 @@
             "TITLE": "Theo dõi tại"
         },
         "COPYRIGHT": "© 2023 Bản quyền website, ứng dụng thuộc về 2ALL."
+    },
+    "RESTAURANT": {
+        "COMMENT_CUSTOMER": "Khách hàng nhận xét",
+        "COMMENT_FOOD": "Nhận xét món ăn",
+        "ADJUST_TASTE": "Đặt trước {time} để điều chỉnh vị"
+    },
+    "CART": {
+        "FOOD_BASKET": "Giỏ đồ ăn",
+        "CLEAR_CART": "Xoá giỏ hàng",
+        "TOTAL": "Tổng",
+        "DELIVERY_FEE_NOTICE": "Phí giao hàng sẽ hiển thị khi bạn xem chi tiết đơn hàng",
+        "VIEW_ORDER": "Xem đơn hàng",
+        "CART_UNAVAILABLE": "Giỏ hàng không khả dụng đến hết {time}",
+        "NEAREST_DELIVERY_TIME": "Thời gian nhận đồ ăn gần nhất: {timeAfter} - {timeBefore}"
+    },
+    "PRODUCT_DETAIL": {
+        "SIDE_DISH": "Món ăn kèm",
+        "SAME_RESTAURANT": "Món ăn cùng quán",
+        "SIMILAR_DISHES": "Món ăn tương tự",
+        "ADD_TO_CART": "Thêm vào giỏ hàng - {money}VND"
+    },
+    "CONFIRM_ORDER": {
+        "DELIVERY_TIME_GROUP": {
+            "CART_UNAVAILABLE_UTIL": "Giỏ hàng không khả dụng đến hết {time}",
+            "CART_UNAVAILABLE": "Giỏ hàng không khả dụng",
+            "DELIVERY_TIME": "Thời gian giao hàng"
+        },
+        "PACKAGE_GROUP": {
+            "TITLE": "Đóng gói",
+            "SUGARCANE_BOX": "Đóng gói bằng hộp bã mía",
+            "EATING_UTENSILS": "Dụng cụ ăn uống",
+            "REQUEST_ONLY_WHEN_NEEDED": "Chỉ yêu cầu dụng cụ ăn uống khi bạn thực sự cần"
+        },
+        "PAYMENT_METHOD_GROUP": {
+            "TITLE": "Phương thức thanh toán",
+            "MOMO_PAYMENT": "Thanh toán bằng Momo",
+            "CASH_PAYMENT": "Thanh toán bằng tiền mặt"
+        },
+        "PROMOTION_GROUP": {
+            "TITLE": "Khuyến mãi",
+            "APPLY": "Áp dụng",
+            "ENTER_PROMO_CODE": "Nhập mã khuyến mãi"
+        },
+        "PAYMENT_GROUP": {
+            "PAYMENT": "Thanh toán",
+            "PAYMENT_INFO": "Thông tin thanh toán",
+            "TOTAL_ITEMS": "Tổng món ăn",
+            "PACKING_FEE": "Phí đóng gói",
+            "UTENSILS": "Dụng cụ ăn",
+            "DELIVERY_FEE": "Phí giao hàng | 0.8 km",
+            "PLATFORM_FEE": "Phí nền tảng",
+            "PROMOTION": "Khuyến mãi",
+            "TOTAL_PAYMENT": "Tổng thanh toán",
+            "PLACE_ORDER": "ĐẶT HÀNG"
+        }
     }
 }

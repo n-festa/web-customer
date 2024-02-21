@@ -14,9 +14,11 @@ import { useAppSelector } from "@/store/hooks";
 import { CartItem } from "@/types/cart";
 import { OtherCustomization, PortionCustomization, TasteCustomization } from "@/utils/constants";
 import { Flex } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 
 const ProductDetailPage = () => {
+    const t = useTranslations();
     const { isLoading, foodInfo, formRef } = useFoodDetail();
     const useInfo = useSelector((state: RootState) => state.userInfo.userInfo?.customer_id ?? -1);
     const { handleUpdateCart } = useUpdateCart();
@@ -25,7 +27,7 @@ const ProductDetailPage = () => {
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
-                <BackButton label="Quay lại trang trước" />
+                <BackButton label={t("COMMON.BACK_PAGE")} />
                 <ProductGallery info={foodInfo.info} listSKUs={foodInfo.listSKUs} isLoading={isLoading} />
                 <ServingSize info={foodInfo.info} listSKUs={foodInfo.listSKUs} ref={formRef} isLoading={isLoading} />
 

@@ -12,6 +12,7 @@ import { Button, Center, Flex, FlexProps, HStack, Image, Text, VStack } from "@c
 import Axios, { CancelTokenSource } from "axios";
 import { cloneDeep } from "lodash";
 import isEqual from "lodash/isEqual";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -19,6 +20,7 @@ import CartItem from "../CartItem";
 let _cts: CancelTokenSource | null = null;
 
 const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number | string }) => {
+    const t = useTranslations("CART");
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValue(cartSynced);
@@ -113,7 +115,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
         >
             <VStack borderBottom="1px solid var(--gray-300)" pb="1.6rem" spacing="0.8rem" color="black">
                 <Text fontSize="2.4rem" textAlign="center" fontWeight="600">
-                    Giỏ đồ ăn
+                    {t("FOOD_BASKET")}
                 </Text>
                 {!isCartEmpty && !isLoadingTime && (
                     <>
@@ -130,7 +132,9 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                                 <HStack spacing="1rem">
                                     <Image alt="warning" src="/images/icons/warning.svg" />
                                     <Text fontSize="1.6rem" textAlign="center">
-                                        {`Giỏ hàng không khả dụng đến hết ${formatDate(receiveTimePredict.backTime, YYYYMMDD)}`}
+                                        {t("CART_UNAVAILABLE", {
+                                            time: formatDate(receiveTimePredict.backTime, YYYYMMDD),
+                                        })}
                                     </Text>
                                 </HStack>
                                 <Button
@@ -143,14 +147,17 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                                     h="3.6rem"
                                     variant="error"
                                 >
-                                    Xoá giỏ hàng
+                                    {t("CLEAR_CART")}
                                 </Button>
                             </Flex>
                         ) : (
                             receiveTimePredict?.predictTime &&
                             receiveTimePredict?.predictTimeBuffer && (
                                 <Text fontSize="1.6rem" textAlign="center">
-                                    {`Thời gian nhận đồ ăn gần nhất: ${receiveTimePredict?.predictTime} - ${receiveTimePredict?.predictTimeBuffer}`}
+                                    {t("NEAREST_DELIVERY_TIME", {
+                                        timeAfter: receiveTimePredict?.predictTime,
+                                        timeBefore: receiveTimePredict?.predictTimeBuffer,
+                                    })}
                                 </Text>
                             )
                         )}
@@ -205,10 +212,10 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                         <Flex justifyContent="space-between">
                             <Flex flex={1} flexDir="column" justifyContent="space-between" pr="2rem">
                                 <Text fontSize="2rem" fontWeight={600}>
-                                    Tổng
+                                    {t("TOTAL")}
                                 </Text>
                                 <Text fontSize="1.6rem" lineHeight="2.4rem">
-                                    Phí giao hàng sẽ hiển thị khi bạn xem chi tiết đơn hàng
+                                    {t("DELIVERY_FEE_NOTICE")}
                                 </Text>
                             </Flex>
                             <Flex justifyContent="flex-end" alignItems="center">
@@ -226,7 +233,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                                 router.push(routes.ConfirmOrder);
                             }}
                         >
-                            Xem đơn hàng
+                            {t("VIEW_ORDER")}
                         </Button>
                     </Flex>
                 </>

@@ -6,7 +6,12 @@
         "ORDERS": "Orders",
         "LOGOUT": "Log out",
         "BACK_PAGE": "Back to previous page",
-        "VIEW_ALL": "See all"
+        "VIEW_ALL": "See all",
+        "FOOD": "Food",
+        "RESTAURANT": "Restaurant",
+        "SORT": "Sort",
+        "PRICE_ASCENDING": "Price ascending",
+        "PRICE_DESCENDING": "Price descending"
     },
     "BUTTON": {
         "LOGIN": "Log in",

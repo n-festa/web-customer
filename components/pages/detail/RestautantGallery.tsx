@@ -20,6 +20,7 @@ import {
     VStack,
     useDisclosure,
 } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 
@@ -29,6 +30,7 @@ interface Props {
 }
 
 const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
+    const t = useTranslations();
     const ref = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
     const [playing, setPlaying] = useState(false);
@@ -304,7 +306,7 @@ const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
                                     <HStack spacing="0">
                                         <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2725.svg" />
                                         <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
-                                            Đặt trước {_time} để điều chỉnh vị
+                                            {t("RESTAURANT.ADJUST_TASTE", { time: _time })}
                                         </Text>
                                     </HStack>
                                 )}
@@ -328,7 +330,7 @@ const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
                             })}
                         </Collapse>
                         <Button variant={"btnViewAllSm"} onClick={onToggle} p="0">
-                            Xem tất cả
+                            {t("COMMON.VIEW_ALL")}
                         </Button>
                     </VStack>
                 )}

@@ -8,10 +8,12 @@ import useParams from "@/hooks/useParams";
 import useRestaurantDetail from "@/hooks/useRestaurantDetail";
 import { isNullOrEmpty } from "@/utils/functions";
 import { Box, Flex, HStack } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useParams as useNextParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-const RestautantDetailPage = () => {
+const RestaurantDetailPage = () => {
+    const t = useTranslations();
     const { restaurantId } = useNextParams();
     const router = useRouter();
     const {
@@ -37,12 +39,12 @@ const RestautantDetailPage = () => {
                     w={{ xl: "calc(100% - 42.6rem)", lg: "calc(100% - 42.6rem)", base: "100%" }}
                     boxSizing="border-box"
                 >
-                    <BackButton label="Quay lại trang trước" />
+                    <BackButton label={t("COMMON.BACK_PAGE")} />
                     <RestaurantGallery restaurantInfo={restaurantInfo} isLoading={isLoading} />
 
                     <Feedback
                         reviews={restaurantInfo?.reviews ?? []}
-                        title="Khách hàng nhận xét"
+                        title={t("RESTAURANT.COMMENT_CUSTOMER")}
                         bg="#F4F9EC"
                         p="1.6rem 3.2rem"
                         borderRadius={"1.6rem"}
@@ -67,4 +69,4 @@ const RestautantDetailPage = () => {
         </Flex>
     );
 };
-export default RestautantDetailPage;
+export default RestaurantDetailPage;

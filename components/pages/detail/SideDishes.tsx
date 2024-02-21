@@ -4,16 +4,18 @@ import WraperInfo from "@/components/molecules/WraperInfo";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
 import { Wrap, WrapItem } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 
 const SideDishes = () => {
+    const t = useTranslations("PRODUCT_DETAIL");
     const { product } = useParams();
     const { GetSideDishByMenuItemId } = useSWRAPI();
     const { data, isLoading } = GetSideDishByMenuItemId(Number(product));
 
     return (
         <WraperInfo
-            title="Món ăn kèm"
+            title={t("SIDE_DISH")}
             titleProps={{ fontSize: "2.4rem" }}
             isViewAll={false}
             contentProps={{ mt: "1.6rem" }}
