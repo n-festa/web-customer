@@ -4,6 +4,7 @@ import CartIconFallBack from "@/components/atoms/CartIcon/CartIconFallback";
 import DeliveryLocation from "@/components/molecules/SearchLocation/DeliveryLocation";
 import { routes } from "@/utils/routes";
 import { Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
+import { useLocale, useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,20 +12,24 @@ import { Suspense, useMemo } from "react";
 import SlideMenu from "../SlideMenu";
 import LocaleSwitcher from "./LocaleSwitcher";
 import NavigationButton from "./NavigationButton";
-import { useTranslations } from "next-intl";
 const UserGroup = dynamic(() => import("./UserGroup"), { ssr: false });
 
 const Header = () => {
     const t = useTranslations("MENU");
     const { isOpen, onClose, onOpen } = useDisclosure();
     const pathname = usePathname();
+    const locale = useLocale();
     const { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart } = useMemo(() => {
         let showDeliveryBox = false;
         let bg = "white";
         let showSignUpGroup = true;
         let showListNavi = false;
         let hideCart = false;
-        switch (pathname) {
+        const pathNameWithoutLocale = pathname.replace(locale + "/", "");
+        const pathLocale = "/" + locale;
+
+        switch (pathNameWithoutLocale) {
+            case pathLocale:
             case routes.Home:
                 bg = "var(--main-bg-color)";
                 showListNavi = true;
