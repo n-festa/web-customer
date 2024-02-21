@@ -81,7 +81,7 @@ const Header = () => {
                     display={{ base: "flex", lg: !showListNavi ? "flex" : "none" }}
                 >
                     <Image alt="menu" onClick={onOpen} color="red" src={"/images/menu-03.svg"} />
-                    <Link href="/">
+                    <Link href={`/${locale}`}>
                         <Image
                             width={"14.3rem"}
                             height={"3.3rem"}
@@ -93,7 +93,7 @@ const Header = () => {
                 </HStack>
                 {showListNavi && (
                     <Flex pl="8.3rem" display={{ base: "none", lg: "flex" }} h="100%" alignItems="center">
-                        <Link href="/">
+                        <Link href={`/${locale}`}>
                             <Image
                                 width={"14.3rem"}
                                 height={"3.3rem"}
