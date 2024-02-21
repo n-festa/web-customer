@@ -104,16 +104,16 @@ const Header = () => {
 
                         <HStack alignItems="center" h="100%" gap="3.2rem" mr="3rem">
                             <NavigationButton>
-                                <Link href="/#order-section">{t("PLACE_ORDER")}</Link>
+                                <Link href="#order-section">{t("PLACE_ORDER")}</Link>
                             </NavigationButton>
                             <NavigationButton>
-                                <Link href="/#contact-section">{t("FOR_PARTNERS")}</Link>
+                                <Link href="#contact-section">{t("FOR_PARTNERS")}</Link>
                             </NavigationButton>
                             <NavigationButton>
-                                <Link href="/#download-section">{t("DOWNLOAD_APP")}</Link>
+                                <Link href="#download-section">{t("DOWNLOAD_APP")}</Link>
                             </NavigationButton>
                             <NavigationButton>
-                                <Link href="/#footer-section">{t("CONTACT_US")}</Link>
+                                <Link href="#footer-section">{t("CONTACT_US")}</Link>
                             </NavigationButton>
                         </HStack>
                     </Flex>
