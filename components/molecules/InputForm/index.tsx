@@ -30,14 +30,14 @@ const InputForm: React.FC<InputFormProps> = ({
     formControlProps,
     ...props
 }) => {
-    const onChangeNumberKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        const ASCIICode = e.which ? e.which : e.keyCode;
+    const onChangeNumberKey = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (type === "number") {
-            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) {
-                e.preventDefault();
-                return false;
+            const value = e.target.value;
+            const isNumber = /^[0-9]*$/u.test(value);
+            if (!isNumber) {
+                e.target.value = e.target.value.replace(/[^0-9]/g, "");
             } else {
-                return true;
+                e.target.value = value;
             }
         }
         return true;
@@ -58,7 +58,7 @@ const InputForm: React.FC<InputFormProps> = ({
                 placeholder={placeholder}
                 _focus={{ border: "1px solid var(--gray-300)" }}
                 {...props}
-                onKeyPress={onChangeNumberKey}
+                onInput={onChangeNumberKey}
             />
             <FormErrorMessage fontSize="1.4rem">{error}</FormErrorMessage>
             {note && (

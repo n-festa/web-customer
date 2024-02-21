@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { locationRef } from "@/app/providers";
+import { locationRef } from "@/app/[locale]/providers";
 import apiServices from "@/services/sevices";
 import { RootState } from "@/store";
 import { setUserInfo } from "@/store/reducers/userInfo";

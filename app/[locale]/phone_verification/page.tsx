@@ -14,10 +14,12 @@ import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/rea
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useTranslations } from "next-intl";
 
 const numberOfDigits = 6;
 
 const PhoneVerification = () => {
+    const t = useTranslations();
     const router = useRouter();
     const dispatch = useDispatch();
     const { phoneNumber, otp } = loadState("infoSign");
@@ -53,10 +55,10 @@ const PhoneVerification = () => {
         setIsLock(true);
         changeInitialValue(1800);
         await dialogRef.current?.show({
-            title: "Thông báo",
-            message: "Bạn đã nhập 5 lần không chính xác. Vui lòng thử lại sau 30 phút.",
+            title: t("COMMON.NOTIFICATION"),
+            message: t("PHONE_VERIFICATION.INCORRECT_ATTEMPTS_LIMIT_REACHED"),
             negative: {
-                text: "Đóng",
+                text: t("COMMON.CLOSE"),
                 onClick: async () => {
                     router.push(routes.Home);
                 },
@@ -83,7 +85,7 @@ const PhoneVerification = () => {
 
     const handleOtpMismatch = () => {
         if (numberError >= 3) {
-            setOtpError(`Bạn đã nhập ${numberError} lần không chính xác`);
+            setOtpError(t("PHONE_VERIFICATION.INCORRECT_ATTEMPTS", { number: numberError }));
             setNumberError(numberError + 1);
             if (numberError > 5) {
                 handleNumberError();
@@ -149,16 +151,16 @@ const PhoneVerification = () => {
         <UISignWrap maxW="45.6rem">
             <Box bg="white">
                 <Text fontSize="2.4rem" fontWeight="700" mb="1.2rem" color="var(--gray-950)">
-                    Xác nhận mã OTP
+                    {t("PHONE_VERIFICATION.TITLE")}
                 </Text>
                 <HighlightedText
-                    text="Nhập mã OTP 6 chữ số được gửi tới số điện thoại bạn đăng ký. Mã OTP chỉ có hiệu lực trong vòng 2 phút."
+                    text={t("PHONE_VERIFICATION.OTP_PROMPT")}
                     fontSize="1.4rem"
                     fontWeight="400"
                     mb="3.2rem"
                     color="var(--gray-600)"
                     highlightStyle={{ color: "var(--gray-600)", fontWeight: "700" }}
-                    highlight="2 phút."
+                    highlight={t("PHONE_VERIFICATION.TWO_MINUTES")}
                 ></HighlightedText>
                 <Box mb="3.2rem">
                     <Flex gap="0.8rem">
@@ -189,8 +191,10 @@ const PhoneVerification = () => {
                     )}
                     {isLock && (
                         <Text mt="1rem" fontSize="1.4rem" color="#E53E3E">
-                            Khách hàng đã thao tác quá số lần quy định. <br />
-                            Vui lòng chờ {lockFormattedTime} để có thể thao tác tiếp.
+                            {t.rich("PHONE_VERIFICATION.TOO_MANY_ATTEMPTS", {
+                                time: lockFormattedTime,
+                                br: () => <br />,
+                            })}
                         </Text>
                     )}
                 </Box>
@@ -199,7 +203,7 @@ const PhoneVerification = () => {
                     variant={seconds > 0 || isLock ? "btnDisable" : "btnSubmit"}
                     onClick={handleResend}
                 >
-                    Gửi lại mã OTP
+                    {t("PHONE_VERIFICATION.RESEND_OTP")}
                 </Button>
                 <Text fontSize="1.4rem" fontWeight="400" textAlign="center" mt="0.8rem">
                     {formattedTime}

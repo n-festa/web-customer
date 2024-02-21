@@ -24,10 +24,11 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSetRecoilState } from "recoil";
 import * as Yup from "yup";
+import { useTranslations } from "next-intl";
 
 const Login = () => {
+    const t = useTranslations();
     const setShow = useSetRecoilState(showCartState);
-
     const router = useRouter();
     const dispatch = useDispatch();
     const phoneRegExp =
@@ -61,20 +62,20 @@ const Login = () => {
                     />
                 </Box>
                 <Text mb="1.6rem" fontSize="3rem" fontWeight="700" color="#8DC63F" textAlign="center">
-                    Đặt ngay bữa ăn ngon & lành của riêng bạn!
+                    {t("SIGN_IN.TITLE")}
                 </Text>
                 <Box m="0 3.5rem">
                     <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem" color="#344054">
-                        Điền số điện thoại của bạn
+                        {t("SIGN_IN.PROVIDE_PHONE")}
                     </Text>
                     <Formik
                         initialValues={{ phoneNumber: "" }}
                         validationSchema={Yup.object({
                             phoneNumber: Yup.string()
-                                .required("Vui lòng nhập số điện thoại")
-                                .min(9, "Số điện thoại không hợp lệ")
-                                .max(10, "Số điện thoại không hợp lệ")
-                                .matches(phoneRegExp, "Số điện thoại không hợp lệ"),
+                                .required(t("SIGN_IN.PHONE_NUMBER_PROMPT"))
+                                .min(9, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
+                                .max(10, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
+                                .matches(phoneRegExp, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE")),
                         })}
                         onSubmit={(values, actions) => {
                             handleSubmit(values, actions);
@@ -110,7 +111,7 @@ const Login = () => {
                                                     zIndex={2}
                                                 >
                                                     <Image
-                                                        src="/images/vn.svg"
+                                                        src="/images/vi.svg"
                                                         alt="Dan Abramov"
                                                         w="1.6rem"
                                                         h="1.6rem"
@@ -144,6 +145,7 @@ const Login = () => {
                                                     fontSize="1.6rem"
                                                     fontWeight="400"
                                                     color="#667085"
+                                                    zIndex="1"
                                                 >
                                                     +84
                                                 </Text>
@@ -152,8 +154,7 @@ const Login = () => {
                                                 {form.errors.phoneNumber}
                                             </FormErrorMessage>
                                             <Text fontSize="1.4rem" fontWeight="400" m="1rem 0 1.6rem" color="#475467">
-                                                Chúng tôi sẽ gửi tới số điện thoại bạn đăng ký mã số OTP để kích hoạt
-                                                tài khoản
+                                                {t("SIGN_IN.OTP_MESSAGE")}
                                             </Text>
 
                                             <Button
@@ -162,7 +163,7 @@ const Login = () => {
                                                 isLoading={props.isSubmitting}
                                                 type="submit"
                                             >
-                                                Tiếp tục
+                                                {t("BUTTON.CONTINUE")}
                                             </Button>
                                         </FormControl>
                                     )}

@@ -9,10 +9,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useMemo } from "react";
 import SlideMenu from "../SlideMenu";
+import LocaleSwitcher from "./LocaleSwitcher";
 import NavigationButton from "./NavigationButton";
+import { useTranslations } from "next-intl";
 const UserGroup = dynamic(() => import("./UserGroup"), { ssr: false });
 
 const Header = () => {
+    const t = useTranslations("MENU");
     const { isOpen, onClose, onOpen } = useDisclosure();
     const pathname = usePathname();
     const { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart } = useMemo(() => {
@@ -96,16 +99,16 @@ const Header = () => {
 
                         <HStack alignItems="center" h="100%" gap="3.2rem" mr="3rem">
                             <NavigationButton>
-                                <Link href="/#order-section">Đặt hàng</Link>
+                                <Link href="/#order-section">{t("PLACE_ORDER")}</Link>
                             </NavigationButton>
                             <NavigationButton>
-                                <Link href="/#contact-section">Dành cho Đối tác</Link>
+                                <Link href="/#contact-section">{t("FOR_PARTNERS")}</Link>
                             </NavigationButton>
                             <NavigationButton>
-                                <Link href="/#download-section">Tải App</Link>
+                                <Link href="/#download-section">{t("DOWNLOAD_APP")}</Link>
                             </NavigationButton>
                             <NavigationButton>
-                                <Link href="/#footer-section">Liên hệ</Link>
+                                <Link href="/#footer-section">{t("CONTACT_US")}</Link>
                             </NavigationButton>
                         </HStack>
                     </Flex>
@@ -131,17 +134,7 @@ const Header = () => {
                             </Suspense>
                         )}
                     </HStack>
-                    <HStack as="button" alignItems="center" display={{ base: "none", lg: "flex" }}>
-                        <Text
-                            color="var(--text-gray)"
-                            display={{ base: "none", md: "block" }}
-                            fontSize="1.6rem"
-                            fontWeight="600"
-                        >
-                            VIE
-                        </Text>
-                        <Image width={19} height={19} alt="" src="/images/vn.svg" />
-                    </HStack>
+                    <LocaleSwitcher />
                 </HStack>
             </HStack>
         </>

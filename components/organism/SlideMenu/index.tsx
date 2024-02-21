@@ -11,8 +11,10 @@ import {
     Link,
     VStack,
 } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 
 const SlideMenu = (props: Omit<DrawerProps, "children">) => {
+    const t = useTranslations("MENU");
     return (
         <Drawer placement="left" {...props}>
             <DrawerOverlay />
@@ -49,22 +51,22 @@ const SlideMenu = (props: Omit<DrawerProps, "children">) => {
                     <VStack mt="3rem" as="ul" spacing="3rem" alignItems="flex-start">
                         <NavigationButton as="li" fontSize="2.4rem !important">
                             <Link onClick={props.onClose} href="/#order-section">
-                                Đặt hàng
+                                {t("DOWNLOAD_APP")}
                             </Link>
                         </NavigationButton>
                         <NavigationButton as="li" fontSize="2.4rem !important">
                             <Link onClick={props.onClose} href="/#contact-section">
-                                Dành cho Đối tác
+                                {t("DOWNLOAD_APP")}
                             </Link>
                         </NavigationButton>
                         <NavigationButton as="li" fontSize="2.4rem !important">
                             <Link onClick={props.onClose} href="/#download-section">
-                                Tải App
+                                {t("DOWNLOAD_APP")}
                             </Link>
                         </NavigationButton>
                         <NavigationButton as="li" fontSize="2.4rem !important">
                             <Link onClick={props.onClose} href="/#footer-section">
-                                Liên hệ
+                                {t("DOWNLOAD_APP")}
                             </Link>
                         </NavigationButton>
                     </VStack>

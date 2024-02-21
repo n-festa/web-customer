@@ -17,6 +17,7 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import debounce from "lodash/debounce";
+import { useTranslations } from "next-intl";
 import { useCallback, useState } from "react";
 
 const GroupBox = ({
@@ -47,6 +48,7 @@ const GroupBox = ({
     );
 };
 const Contact = () => {
+    const t = useTranslations("HOME.CONTACT");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
     const [check, setCheck] = useState(false);
@@ -110,11 +112,10 @@ const Contact = () => {
             >
                 <Flex flexDir="column">
                     <Text fontWeight="bold" fontSize="3.6rem" color="var(--gray-900)" lineHeight="4.4rem" mb="2rem">
-                        Liên hệ để trở thành đối tác của 2ALL hôm nay
+                        {t("TITLE")}
                     </Text>
                     <Text fontSize="2rem" fontWeight="500" lineHeight="3rem" color="var(--gray-600)">
-                        Chúng tôi chào đón đối tác trên toàn quốc để cùng cung cấp hàng triệu bữa ăn ngon và lành cho
-                        khách hàng Việt Nam.
+                        {t("DESCRIPTION")}
                     </Text>
                 </Flex>
                 <Flex flexDir="column" mt="4.8rem">
@@ -131,7 +132,7 @@ const Contact = () => {
                             h="4.4rem"
                             type="email"
                             variant={error.includes("email") ? "emailError" : "email"}
-                            placeholder="Vui lòng nhập email của bạn"
+                            placeholder={t("EMAIL_PLACEHOLDER")}
                         />
                     </VStack>
                     <VStack mt="2.4rem" alignItems="flex-start" color="var(--gray-700)" spacing="0.6rem">
@@ -150,7 +151,7 @@ const Contact = () => {
                                 setError((prev) => prev.filter((err) => err !== "message"));
                                 setMessage(e.target.value);
                             }}
-                            placeholder="Ví dụ: xin chào 2ALL, tôi có nhu cầu muốn hợp tác với bạn"
+                            placeholder={t("MESSAGE_PLACEHOLDER")}
                             border={`1px solid ${error.includes("message") ? "red" : "rgba(208, 213, 221, 1)"}`}
                             boxShadow="0px 1px 2px 0px rgba(16, 24, 40, 0.05)"
                         />
@@ -165,7 +166,7 @@ const Contact = () => {
                             }}
                             borderColor={error.includes("check") ? "red" : ""}
                         >
-                            Tôi không phải robot
+                            {t("NOT_A_ROBOT")}
                         </Checkbox>
                         <Img h="5rem" w="5rem" alt="" src="/images/image-10@2x.png" />
                     </Flex>
@@ -177,7 +178,7 @@ const Contact = () => {
                         h="6.2rem"
                         borderRadius="3.2rem"
                     >
-                        Gửi tin nhắn
+                        {t("SEND_MESSAGE")}
                     </Button>
                 </Flex>
             </Flex>
@@ -244,7 +245,7 @@ const Contact = () => {
                                     Summer Avo Salad
                                 </Text>
                                 <Text fontSize="1.1rem" fontWeight={600}>
-                                    Đang giao hàng
+                                    {t("IN_TRANSIT")}
                                 </Text>
                             </VStack>
                             <Text

@@ -1,0 +1,147 @@
+{
+    "COMMON": {
+        "NOTIFICATION": "Thông báo",
+        "CLOSE": "Đóng",
+        "PROFILE": "Hồ sơ",
+        "ORDERS": "Đơn hàng",
+        "LOGOUT": "Thoát"
+    },
+    "BUTTON": {
+        "LOGIN": "Đăng nhập",
+        "CONTINUE": "Tiếp tục",
+        "COMPLETE": "Hoàn tất"
+    },
+    "SIGN_IN": {
+        "TITLE": "Đặt ngay bữa ăn ngon & lành của riêng bạn!",
+        "PROVIDE_PHONE": "Điền số điện thoại của bạn",
+        "OTP_MESSAGE": "Chúng tôi sẽ gửi tới số điện thoại bạn đăng ký mã số OTP để kích hoạt tài khoản",
+        "PHONE_NUMBER_PROMPT": "Vui lòng nhập số điện thoại",
+        "INVALID_PHONE_NUMBER_MESSAGE": "Số điện thoại không hợp lệ"
+    },
+    "PHONE_VERIFICATION": {
+        "TITLE": "Xác nhận mã OTP",
+        "OTP_PROMPT": "Nhập mã OTP 6 chữ số được gửi tới số điện thoại bạn đăng ký. Mã OTP chỉ có hiệu lực trong vòng 2 phút.",
+        "RESEND_OTP": "Gửi lại mã OTP",
+        "INCORRECT_ATTEMPTS": "Bạn đã nhập {number} lần không chính xác",
+        "TWO_MINUTES": "2 phút",
+        "INCORRECT_ATTEMPTS_LIMIT_REACHED": "Bạn đã nhập 5 lần không chính xác. Vui lòng thử lại sau 30 phút.",
+        "TOO_MANY_ATTEMPTS": "Khách hàng đã thực hiện quá số lần quy định. <br></br> Vui lòng chờ {time} để tiếp tục."
+    },
+    "ADDITIONAL": {
+        "TITLE": "CHIA SẺ THÊM VỚI CHÚNG TÔI VỀ BẠN",
+        "DESCRIPTION": "Những thông tin bạn cung cấp sẽ giúp chúng tôi đưa ra những gợi ý về đồ ăn phù hợp hơn với thể trạng và nhu cầu của bạn."
+    },
+    "REGISTRATION_SUCCESS": {
+        "TITLE": "CHÚC MỪNG <br></br> BẠN ĐÃ HOÀN THÀNH ĐĂNG KÍ",
+        "BMI_INDEX": "Chỉ số BMI",
+        "BALANCE": "Cân đối",
+        "ENERGY": "Năng lượng",
+        "KCAL_PER_DAY": "Kcal/ ngày",
+        "DISCOVER_FOOD_TODAY": "Khám phá món ăn ngay hôm nay"
+    },
+    "FORM": {
+        "NAME": {
+            "LABEL": "*Tên",
+            "PLACEHOLDER": "Ví dụ: Nguyễn Văn A"
+        },
+        "EMAIL": {
+            "LABEL": "*Email",
+            "PLACEHOLDER": "Ví dụ: nguyen.vana@gmail.com"
+        },
+        "BIRTH_DAY": {
+            "LABEL": "*Ngày sinh",
+            "PLACEHOLDER": "Ví dụ: 27/07/1995"
+        },
+        "SEX": {
+            "LABEL": "*Giới tính"
+        },
+        "HEIGHT": {
+            "LABEL": "*Chiều cao ( cm )",
+            "PLACEHOLDER": "Ví dụ: 163"
+        },
+        "WEIGHT": {
+            "LABEL": "*Cân nặng ( kg )",
+            "PLACEHOLDER": "Ví dụ: 58"
+        },
+        "ACTIVITY_LEVEL": {
+            "LABEL": "*Mức độ vận động hàng ngày"
+        },
+        "CURRENT_DIET": {
+            "LABEL": "Chế độ ăn hiện tại"
+        },
+        "ALLERGIC_FOOD": {
+            "LABEL": "Dị ứng với đồ ăn (nếu có)",
+            "PLACEHOLDER": "Ví dụ: sữa động vật, trứng...",
+            "NOTE": "Chia sẻ thêm về đồ ăn mà bạn bị dị ứng. Ví dụ: sữa động vật, trứng, hải sản (cá, tôm, cua...), thuỷ sản (cá, tôm, lươn...), các loại hạt (đậu nành, óc chố, hạnh nhân...)"
+        },
+        "CHRONIC_DISEASE": {
+            "LABEL": "Bệnh mãn tính (nếu có)",
+            "PLACEHOLDER": "Ví dụ: Cao huyết áp...",
+            "NOTE": "Tim, Cao huyết áp, Huyết áp thấp, Gout, Tiểu đường, hen suyễn, ung thư...."
+        },
+        "EXPECTED_DIET": {
+            "LABEL": "Chế độ ăn mong đợi"
+        },
+        "EXPECTED_DIET_DIFF": {
+            "PLACEHOLDER": "Vui lòng điền tên chế độ ăn mong muốn"
+        }
+    },
+    "HOME": {
+        "BANNER": {
+            "TITLE": {
+                "0": "Đặt ngay bữa ăn",
+                "1": "ngon & lành",
+                "2": "của riêng bạn!"
+            },
+            "DESCRIPTION": "Một bữa ăn ngon lành, đầy đủ dưỡng chất, được chế biến theo khẩu vị của bạn. Không cần lo nghĩ, không cần nấu, hẹn giờ giao linh hoạt.",
+            "SEARCH": "Nhập địa chỉ để tìm món ngon gần bạn ",
+            "DISCOVER_FOOD": "Tìm món",
+            "SELECT_YOUR_ADDRESS": "Vui lòng chọn địa chỉ của bạn"
+        },
+        "TODAY": {
+            "TITLE": "Món ngon hôm nay"
+        },
+        "ORDER_STEP": {
+            "TITLE": "Cách đặt hàng",
+            "STEP_1": "Tìm món ăn",
+            "STEP_2": "Chọn món",
+            "STEP_3": "Đặt hàng",
+            "STEP_4": "Thưởng thức",
+            "DESCRIPTION_1": "Tìm các món ngon gần bạn hoặc theo gợi ý của nền tảng 2ALL",
+            "DESCRIPTION_2": "Chọn và điều chỉnh món ăn theo khẩu vị hoặc nhu cầu dinh dưỡng của bạn",
+            "DESCRIPTION_3": "Đặt hàng linh hoạt. Đảm bảo bạn nhận được món ăn theo khung giờ mong muốn",
+            "DESCRIPTION_4": "Tận hưởng món ăn ngon, lành và được chế biến theo khẩu vị của riêng bạn"
+        },
+        "WHY_CHOOSE": {
+            "TITLE": "Tại sao chọn 2All",
+            "REASON_1": "Bữa ăn theo nhu cầu",
+            "REASON_2": "Thông tin dinh dưỡng đầy đủ",
+            "REASON_3": "Đặt hàng hẹn giờ linh hoạt",
+            "DESCRIPTION_1": "Lựa chọn thực phẩm, các món ăn theo nhu cầu dinh dưỡng, khẩu vị và thể trạng của bạn",
+            "DESCRIPTION_2": "Thông tin dinh dưỡng cho từng món ăn bao gồm số Kcal, protein, lipid,carb,...",
+            "DESCRIPTION_3": "Đặt hàng với khung giờ giao linh hoạt, phù hợp với nhu cầu của bạn."
+        },
+        "TESTIMONIAL": {
+            "TITLE": "Mọi người yêu thích 2All"
+        },
+        "CONTACT": {
+            "TITLE": "Liên hệ để trở thành đối tác của 2ALL hôm nay",
+            "DESCRIPTION": "Chúng tôi chào đón đối tác trên toàn quốc để cùng cung cấp hàng triệu bữa ăn ngon và lành cho khách hàng Việt Nam.",
+            "EMAIL_PLACEHOLDER": "Vui lòng nhập email của bạn",
+            "MESSAGE_PLACEHOLDER": "Ví dụ: xin chào 2ALL, tôi có nhu cầu muốn hợp tác với bạn",
+            "NOT_A_ROBOT": "Tôi không phải robot",
+            "SEND_MESSAGE": "Gửi tin nhắn"
+        },
+        "DOWNLOAD_APP": {
+            "TITLE": "Tải ứng dụng dùng ngay",
+            "DESCRIPTION": "Trải nghiệm tìm kiềm món ngon tại 2ALL tốt hơn trên ứng dụng điện thoại. Hiện đã có mặt tại 2 nền tảng iOS và Android. ",
+            "IN_TRANSIT": "Đang giao hàng"
+        }
+    },
+    "MENU": {
+        "PLACE_ORDER": "Đặt hàng",
+        "FOR_PARTNERS": "Dành cho Đối tác",
+        "DOWNLOAD_APP": "Tải App",
+        "CONTACT_US": "Liên hệ"
+    }
+}

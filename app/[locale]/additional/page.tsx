@@ -10,6 +10,7 @@ import { filedType, formType } from "@/types/form";
 import { routes } from "@/utils/routes";
 import { Box, Button, Flex, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -19,6 +20,7 @@ const {
 } = config;
 
 const Additional = () => {
+    const t = useTranslations();
     const router = useRouter();
     const dispatch = useDispatch();
     const [showExpect, setShowExpect] = useState(false);
@@ -37,11 +39,10 @@ const Additional = () => {
         <UISignWrap maxW="63rem" bg="var(--gray-100)">
             <Box p="4rem" w="100%" bg="white">
                 <Text fontSize="2.4rem" fontWeight="700" mb="0.8rem" color="var(--gray-950)">
-                    CHIA SẺ THÊM VỚI CHÚNG TÔI VỀ BẠN
+                    {t("ADDITIONAL.TITLE")}
                 </Text>
                 <Text fontSize="1.4rem" fontWeight="400" mb="3.2rem" color="var(--gray-600)">
-                    Những thông tin bạn cung cấp sẽ giúp chúng tôi đưa ra những gợi ý về đồ ăn phù hợp hơn với thể trạng
-                    và nhu cầu của bạn.
+                    {t("ADDITIONAL.DESCRIPTION")}
                 </Text>
                 <Box w="100%" maxW="36rem" m="0 auto">
                     <Formik
@@ -58,9 +59,9 @@ const Additional = () => {
                                 <Field name="name">
                                     {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="*Tên"
+                                            title={t("FORM.NAME.LABEL")}
                                             type="text"
-                                            placeholder="Ví dụ: Nguyễn Văn A"
+                                            placeholder={t("FORM.NAME.PLACEHOLDER")}
                                             error={form.errors.name && form.touched?.name ? form.errors.name : ""}
                                             {...field}
                                         ></InputForm>
@@ -69,9 +70,9 @@ const Additional = () => {
                                 <Field name="email">
                                     {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="*Email"
+                                            title={t("FORM.EMAIL.LABEL")}
                                             type="email"
-                                            placeholder="Ví dụ: nguyen.vana@gmail.com"
+                                            placeholder={t("FORM.EMAIL.PLACEHOLDER")}
                                             error={form.errors.email && form.touched?.email ? form.errors.email : ""}
                                             {...field}
                                         />
@@ -80,9 +81,9 @@ const Additional = () => {
                                 <Field name="birthday">
                                     {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="*Ngày sinh"
+                                            title={t("FORM.BIRTH_DAY.LABEL")}
                                             type="date"
-                                            placeholder="Ví dụ: 27/07/1995"
+                                            placeholder={t("FORM.BIRTH_DAY.PLACEHOLDER")}
                                             error={
                                                 form.errors.birthday && form.touched?.birthday
                                                     ? form.errors.birthday
@@ -93,7 +94,7 @@ const Additional = () => {
                                     )}
                                 </Field>
                                 <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem">
-                                    *Giới tính
+                                    {t("FORM.SEX.LABEL")}
                                 </Text>
                                 <Field name="sex">
                                     {({ field }: { field: filedType; form: formType }) => {
@@ -128,9 +129,9 @@ const Additional = () => {
                                     <Field name="height_m">
                                         {({ field, form }: { field: filedType; form: formType }) => (
                                             <InputForm
-                                                title="*Chiều cao ( cm )"
+                                                title={t("FORM.HEIGHT.LABEL")}
                                                 type="number"
-                                                placeholder="Ví dụ: 163"
+                                                placeholder={t("FORM.HEIGHT.PLACEHOLDER")}
                                                 error={
                                                     form.errors.height_m && form.touched?.height_m
                                                         ? form.errors.height_m
@@ -143,9 +144,9 @@ const Additional = () => {
                                     <Field name="weight_kg">
                                         {({ field, form }: { field: filedType; form: formType }) => (
                                             <InputForm
-                                                title="*Cân nặng ( kg )"
+                                                title={t("FORM.WEIGHT.LABEL")}
                                                 type="number"
-                                                placeholder="Ví dụ: 58"
+                                                placeholder={t("FORM.WEIGHT.PLACEHOLDER")}
                                                 error={
                                                     form.errors.weight_kg && form.touched?.weight_kg
                                                         ? form.errors.weight_kg
@@ -161,7 +162,7 @@ const Additional = () => {
                                         const { onChange, ...rest } = field;
                                         return (
                                             <RadioCardGroup
-                                                title="*Mức độ vận động hàng ngày"
+                                                title={t("FORM.ACTIVITY_LEVEL.LABEL")}
                                                 name="physical_activity_level"
                                                 data={formData.physicalActivityLevel}
                                                 {...rest}
@@ -175,7 +176,7 @@ const Additional = () => {
                                         const { onChange, ...rest } = field;
                                         return (
                                             <RadioCardGroup
-                                                title="Chế độ ăn hiện tại"
+                                                title={t("FORM.CURRENT_DIET.LABEL")}
                                                 name="current_diet"
                                                 data={formData.currentDiet}
                                                 {...rest}
@@ -187,10 +188,10 @@ const Additional = () => {
                                 <Field name="allergic_food">
                                     {({ field }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="Dị ứng với đồ ăn (nếu có)"
+                                            title={t("FORM.ALLERGIC_FOOD.LABEL")}
                                             type="text"
-                                            placeholder="Ví dụ: sữa động vật, trứng..."
-                                            note="Chia sẻ thêm về đồ ăn mà bạn bị dị ứng. Ví dụ: sữa động vật, trứng, hải sản (cá, tôm, cua...), thuỷ sản (cá, tôm, lươn...), các loại hạt (đậu nành, óc chố, hạnh nhân...)"
+                                            placeholder={t("FORM.ALLERGIC_FOOD.PLACEHOLDER")}
+                                            note={t("FORM.ALLERGIC_FOOD.NOTE")}
                                             {...field}
                                         />
                                     )}
@@ -198,16 +199,16 @@ const Additional = () => {
                                 <Field name="chronic_disease">
                                     {({ field }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="Bệnh mãn tính (nếu có)"
+                                            title={t("FORM.CHRONIC_DISEASE.LABEL")}
                                             type="text"
-                                            placeholder="Ví dụ: Cao huyết áp..."
-                                            note="Tim, Cao huyết áp, Huyết áp thấp, Gout, Tiểu đường, hen suyễn, ung thư...."
+                                            placeholder={t("FORM.CHRONIC_DISEASE.PLACEHOLDER")}
+                                            note={t("FORM.CHRONIC_DISEASE.NOTE")}
                                             {...field}
                                         />
                                     )}
                                 </Field>
                                 <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem" color="var(--gray-700)">
-                                    Chế độ ăn mong đợi
+                                    {t("FORM.EXPECTED_DIET.LABEL")}
                                 </Text>
                                 <Field name="expected_diet">
                                     {({ field }: { field: filedType; form: formType }) => {
@@ -245,7 +246,7 @@ const Additional = () => {
                                         {({ field }: { field: filedType; form: formType }) => (
                                             <InputForm
                                                 type="text"
-                                                placeholder="Vui lòng điền tên chế độ ăn mong muốn"
+                                                placeholder={t("FORM.EXPECTED_DIET_DIFF.PLACEHOLDER")}
                                                 {...field}
                                             />
                                         )}
@@ -258,7 +259,7 @@ const Additional = () => {
                                     isLoading={props.isSubmitting}
                                     type="submit"
                                 >
-                                    Hoàn tất
+                                    {t("BUTTON.COMPLETE")}
                                 </Button>
                             </Form>
                         )}

@@ -1,7 +1,9 @@
 import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
 import MobileMock from "./mobile_mock";
+import { useTranslations } from "next-intl";
 
 const Download = () => {
+    const t = useTranslations("HOME.DOWNLOAD_APP");
     return (
         <Flex id="download-section" scrollMarginTop="8rem">
             <Flex
@@ -30,11 +32,10 @@ const Download = () => {
                         letterSpacing="-0.02em"
                         color="var(--primary-button-text-color)"
                     >
-                        Tải ứng dụng dùng ngay
+                        {t("TITLE")}
                     </Text>
                     <Text zIndex={1} maxW="57.6rem" fontSize="2rem" lineHeight="3rem" color="white">
-                        Trải nghiệm tìm kiềm món ngon tại 2ALL tốt hơn trên ứng dụng điện thoại. Hiện đã có mặt tại 2
-                        nền tảng iOS và Android.
+                        {t("DESCRIPTION")}
                     </Text>
                     <HStack zIndex={1} spacing="1.2rem" mt="4.8rem">
                         <Img cursor="pointer" className="" alt="" src="/images/mobile-app-store-badge.svg" />

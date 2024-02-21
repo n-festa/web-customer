@@ -2,7 +2,9 @@
 import SearchLocation from "@/components/molecules/SearchLocation";
 import { useAppSelector } from "@/store/hooks";
 import { Flex, Img, Text } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 const Banner = () => {
+    const t = useTranslations("HOME.BANNER");
     const address = useAppSelector((state) => state.userInfo?.userInfo?.address ?? "");
     return (
         <Flex
@@ -25,17 +27,16 @@ const Banner = () => {
                 <Flex flexDir="column" flex={1}>
                     <Flex fontWeight="bold" flexDir="column">
                         <Text lineHeight="7.4rem" color="var(--sub-text-color)" className="mb-0">
-                            Đặt ngay bữa ăn
+                            {t("TITLE.0")}
                         </Text>
                         <Text lineHeight="7.4rem" color="var(--icterine-500)">
-                            ngon & lành
+                            {t("TITLE.1")}
                         </Text>
                         <Text lineHeight="7.4rem" color="var(--sub-text-color)">
-                            của riêng bạn
+                            {t("TITLE.2")}
                         </Text>
                         <Text my="3rem" fontSize="1.8rem" lineHeight="2.4rem">
-                            Một bữa ăn ngon lành, đầy đủ dưỡng chất, được chế biến theo khẩu vị của bạn. Không cần lo
-                            nghĩ, không cần nấu, hẹn giờ giao linh hoạt.
+                            {t("DESCRIPTION")}
                         </Text>
                     </Flex>
                     <SearchLocation initValue={address} />
