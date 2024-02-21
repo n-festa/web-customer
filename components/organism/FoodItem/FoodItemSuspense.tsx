@@ -66,9 +66,11 @@ const FoodItemSuspense = ({
             cursor={disableAction ? "" : "pointer"}
             onClick={() => {
                 if (disableAction) return;
+
                 const path = !isNullOrEmpty(restaurantId)
-                    ? `${routes.ProductDetail}/${id}?restaurantId=${restaurantId}`
+                    ? `${routes.RestaurantDetail}/${restaurantId}?des=${routes.ProductDetail}/${id}`
                     : `${routes.ProductDetail}/${id}`;
+
                 router.push(path);
             }}
         >

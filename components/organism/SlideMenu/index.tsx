@@ -11,10 +11,11 @@ import {
     Link,
     VStack,
 } from "@chakra-ui/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const SlideMenu = (props: Omit<DrawerProps, "children">) => {
     const t = useTranslations("MENU");
+    const locale = useLocale();
     return (
         <Drawer placement="left" {...props}>
             <DrawerOverlay />
@@ -43,7 +44,7 @@ const SlideMenu = (props: Omit<DrawerProps, "children">) => {
                     display="flex"
                     borderBottom="1px solid var(--gray-100)"
                 >
-                    <Link href="/">
+                    <Link href={`/${locale}`}>
                         <Img alt="fictional-company-logo" src="/images/logo1.svg" />
                     </Link>
                 </DrawerHeader>

@@ -9,7 +9,7 @@ import useRestaurantDetail from "@/hooks/useRestaurantDetail";
 import { isNullOrEmpty } from "@/utils/functions";
 import { Box, Flex, HStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { useParams as useNextParams, useRouter } from "next/navigation";
+import { useParams as useNextParams, usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const RestaurantDetailPage = () => {
@@ -21,12 +21,15 @@ const RestaurantDetailPage = () => {
     } = useParams<{ des?: string }>({ des: undefined });
     const { restaurantInfo, isLoading } = useRestaurantDetail();
 
+    const path = usePathname();
     useEffect(() => {
         if (!isNullOrEmpty(des)) {
+            router.replace(path);
             setTimeout(() => {
                 router.push(des);
             }, 800);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [des, router]);
 
     return (
