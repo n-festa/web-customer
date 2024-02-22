@@ -18,12 +18,13 @@ const Header = () => {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const pathname = usePathname();
     const locale = useLocale();
-    const { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart } = useMemo(() => {
+    const { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart, hideMenu } = useMemo(() => {
         let showDeliveryBox = false;
         let bg = "white";
         let showSignUpGroup = true;
         let showListNavi = false;
         let hideCart = false;
+        const hideMenu = false;
         const pathNameWithoutLocale = pathname.replace(locale + "/", "");
         const pathLocale = "/" + locale;
 
@@ -54,7 +55,7 @@ const Header = () => {
                 if (index != -1) showDeliveryBox = true;
                 break;
         }
-        return { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart };
+        return { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart, hideMenu };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
@@ -79,7 +80,7 @@ const Header = () => {
                     pl={"3.1rem"}
                     display={{ base: "flex", lg: !showListNavi ? "flex" : "none" }}
                 >
-                    <Image alt="menu" onClick={onOpen} color="red" src={"/images/menu-03.svg"} />
+                    {!hideMenu && <Image alt="menu" onClick={onOpen} color="red" src={"/images/menu-03.svg"} />}
                     <Link href={`/${locale}`}>
                         <Image
                             width={"14.3rem"}
