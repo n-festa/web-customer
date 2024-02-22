@@ -7,9 +7,9 @@ export const routes = {
     Otp: "/phone_verification", //done
     AdditionalSignUpInfo: "/additional", //done vi
     RegistrationSuccess: "/registration_success", //done
-    ProductDetail: "/detail", //done vi
+    ProductDetail: "/detail", //done
     ConfirmOrder: "/confirm", //done vi
-    review: "/review",
-    OrderDetail: "/order/detail",
+    review: "/review", //done
+    OrderDetail: "/order/detail", //done vi
     Profile: "/profile",
 };

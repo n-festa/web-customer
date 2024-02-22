@@ -241,6 +241,15 @@
             "OTHER_ADJUSTMENT": "Điều chỉnh khác",
             "NOTES": "Ghi chú",
             "NOTES_PLACEHOLDER": "Ví dụ: Dị ứng với đậu phộng"
+        },
+        "PRODUCT_INFO": {
+            "QUANTITY_AVAILABLE": "Còn {number} phần",
+            "SOLD_OUT": "Đã bán",
+            "COMMENT": "Nhận xét",
+            "DISCOUNT_UP_TO": "Ưu đãi đến {money}k",
+            "PLACE_ORDER_BEFORE": "Đặt trước {time} để điều chỉnh vị",
+            "AM": "giờ sáng",
+            "PM": "giờ chiều"
         }
     },
     "CONFIRM_ORDER": {
@@ -277,5 +286,32 @@
             "TOTAL_PAYMENT": "Tổng thanh toán",
             "PLACE_ORDER": "ĐẶT HÀNG"
         }
+    },
+    "REVIEW": {
+        "TITLE": "Đánh giá dịch vụ",
+        "ORDER_NUMBER": "Đơn hàng: {number}",
+        "ORDER_DATE": "Ngày: {time}",
+        "QUICK_REVIEW": "Đánh giá nhanh",
+        "DETAILED_REVIEW": "Đánh giá chi tiết",
+        "DRIVER_RATING": "Đánh giá tài xế",
+        "DISH_RATING": "Đánh giá món ăn",
+        "SATISFIED_WITH_DISH": "Bạn có hài lòng về món ăn của chúng tôi không? Hãy cho chúng tôi biết ý kiến của bạn",
+        "ADD_PHOTO": "Thêm ảnh",
+        "SUBMIT_REVIEW": "Gửi đánh giá",
+        "VERY_SATISFIED": "Rất hài lòng",
+        "PLACEHOLDER_COMMENT": "Nhận xét thêm về tài xế...",
+        "RATE_YAKITORI_FISH_NOODLES": "Đánh giá Mỳ Cá Cờ Sốt Yakitori",
+        "RATE_SUMMER_AVOCADO_SALAD": "Đánh giá Summer Avocado Salad",
+        "SHARE_FEEDBACK_PLACEHOLDER": "Hãy chia sẻ nhận xét cho dịch vụ này bạn nhé!"
+    },
+    "ORDER_DETAIL":{
+        "ORDER_DATE": "Ngày: {time}",
+        "FOR_DRIVER_NOTE": "Ghi chú dành cho tài xế:",
+        "SUGARCANE_BOX": "Đóng gói bằng hộp bã mía",
+        "NO_UTENSILS_NEEDED": "Không lấy dụng cụ ăn uống",
+        "PAYMENT_METHOD": "Phương thức thanh toán",
+        "PAID_WITH_MOMO": "Đã thanh toán bằng Momo",
+        "DELIVER_TO": "Giao đến",
+        "PACKAGING": "Đóng gói"
     }
 }

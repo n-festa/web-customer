@@ -234,6 +234,35 @@
             "OTHER_ADJUSTMENT": "Others",
             "NOTES": "Notes",
             "NOTES_PLACEHOLDER": "Example: Allergic to peanuts"
+        },
+        "PRODUCT_INFO": {
+            "QUANTITY_AVAILABLE": "{number} available",
+            "SOLD_OUT": "Sold",
+            "PLACE_ORDER_BEFORE": "Order before {time} to adjust the taste",
+            "AM": "AM",
+            "PM": "PM",
+            "COMMENT": "Reviews",
+            "DISCOUNT_UP_TO": "Discount up to {money}K"
         }
+    },
+    "REVIEW": {
+        "TITLE": "Feedback",
+        "ORDER_NUMBER": "Order: {number}",
+        "ORDER_DATE": "Date: {time}",
+        "QUICK_REVIEW": "Quick feedback",
+        "DETAILED_REVIEW": "Advanced feeback",
+        "DRIVER_RATING": "Driver",
+        "DISH_RATING": "Dishes",
+        "SATISFIED_WITH_DISH": "We value your opinion. Please let us know if you have any comments or suggestions about our food",
+        "ADD_PHOTO": "Insert images",
+        "SUBMIT_REVIEW": "Send",
+        "VERY_SATISFIED": "Excellent",
+        "PLACEHOLDER_COMMENT": "Additional feedback about the driver",
+        "RATE_YAKITORI_FISH_NOODLES": "Feedback Mỳ Cá Cờ Sốt Yakitori",
+        "RATE_SUMMER_AVOCADO_SALAD": "Feedback Summer Avocado Salad",
+        "SHARE_FEEDBACK_PLACEHOLDER": "Please take a moment to share your thoughts on this service"
+    },
+    "ORDER_DETAIL":{
+        
     }
 }
