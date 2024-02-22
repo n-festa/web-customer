@@ -8,7 +8,7 @@ const NotFound = () => {
             <VStack mt="3rem">
                 <ConstructionIcon width="5rem" height="5rem" />
                 <Text fontSize="2rem" fontWeight={"bold"}>
-                    Trang không tồn tại
+                    404 Not Found
                 </Text>
             </VStack>
         </Center>
