@@ -1,5 +1,5 @@
 import NumbericStepper from "@/components/molecules/NumbericStepper";
-import { Flex, Image, Text } from "@chakra-ui/react";
+import { Flex, Image, NumberInputProps, Text } from "@chakra-ui/react";
 
 const CartItem = ({
     price,
@@ -8,6 +8,7 @@ const CartItem = ({
     name,
     image,
     quantity,
+    numberInputProps,
     onChangeValue,
     onDeleteCartItem,
 }: {
@@ -17,6 +18,7 @@ const CartItem = ({
     name: string;
     image: string;
     quantity?: number;
+    numberInputProps?: NumberInputProps;
     onChangeValue?: (value: number) => void;
     onDeleteCartItem?: () => void;
 }) => {
@@ -53,6 +55,7 @@ const CartItem = ({
                         maxW: "3.5rem",
                         fontSize: "1.6rem",
                     }}
+                    numberInputProps={numberInputProps}
                     onReachZero={onDeleteCartItem}
                     buttonProps={{
                         w: "2rem",
