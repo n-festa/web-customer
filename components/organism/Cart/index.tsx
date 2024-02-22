@@ -14,26 +14,27 @@ import { cloneDeep } from "lodash";
 import isEqual from "lodash/isEqual";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { BeatLoader } from "react-spinners";
+import { useRecoilStateLoadable, useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
 let _cts: CancelTokenSource | null = null;
 
 const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number | string }) => {
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
-    const cart = useRecoilValue(cartSynced);
-    const [rawCart, setCart] = useRecoilState(cartState);
+    const cart = useRecoilValueLoadable(cartSynced).valueMaybe();
+    const [rawCart, setCart] = useRecoilStateLoadable(cartState);
     const [tempCart, setTempCart] = useState<Cart>();
     const { handleDeleteCartItem, handleDeleteWholeCart } = useDeleteCartItem();
 
     const profile = useAppSelector((app) => app.userInfo.userInfo);
-    const isCartEmpty = !cart.cart_info?.length || (restaurant_id != undefined && cart.restaurant_id != restaurant_id);
+    const isCartEmpty = !cart?.cart_info?.length || (restaurant_id != undefined && cart.restaurant_id != restaurant_id);
     const { GetAvailableTime } = useSWRAPI();
     const { data: timeDate, isLoading: isLoadingTime } = GetAvailableTime({
         lat: profile?.latAddress,
         long: profile?.longAddress,
         utc_offset: -(new Date().getTimezoneOffset() / 60),
-        menu_item_ids: cart.cart_info?.map((item) => item.item_id),
+        menu_item_ids: cart?.cart_info?.map((item) => item.item_id),
         now: new Date().getTime(),
     });
 
@@ -42,7 +43,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
         if (!id || !cart?.customer_id || !value) return;
         _cts?.cancel();
         _cts = Axios.CancelToken.source();
-        const tempCart = cloneDeep(rawCart);
+        const tempCart = cloneDeep(rawCart.valueMaybe());
         tempCart?.cart_info?.forEach((item) => {
             if (item.item_id === id) {
                 item.qty_ordered = value;
@@ -68,7 +69,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
 
     //Sync
     useEffect(() => {
-        if (!isEqual(rawCart?.cart_info, cart.cart_info)) {
+        if (!isEqual(rawCart.valueMaybe()?.cart_info, cart?.cart_info)) {
             setCart((prev) => ({ ...prev, ...cart, cartUpdate: undefined }));
         }
         return () => {
@@ -79,7 +80,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
     }, []);
 
     const totalPrice = useMemo(() => {
-        const _cart = tempCart ?? rawCart;
+        const _cart = tempCart ?? rawCart.valueMaybe();
         const totalPrice =
             _cart?.cart_info?.reduce?.((prev, cur) => prev + cur.qty_ordered * (cur.price_after_discount ?? 0), 0) ??
             -1;
@@ -109,6 +110,7 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
             h="68rem"
             border="var(--divider)"
             boxShadow="0px 8px 8px -4px rgba(16, 24, 40, 0.03), 0px 20px 24px -4px rgba(16, 24, 40, 0.08)"
+            bg="white"
             {...props}
         >
             <VStack borderBottom="1px solid var(--gray-300)" pb="1.6rem" spacing="0.8rem" color="black">
@@ -155,6 +157,9 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
                             )
                         )}
                     </>
+                )}
+                {isLoadingTime && !receiveTimePredict?.predictTime && !receiveTimePredict?.predictTimeBuffer && (
+                    <BeatLoader cssOverride={{ height: "2.4rem" }} size="5px" />
                 )}
             </VStack>
             {!isCartEmpty ? (

@@ -11,12 +11,21 @@ interface Props {
     quantity?: number;
     price?: number;
     restaurantId?: number;
+    availableQuantity?: number;
     loading?: boolean;
     formRef?: RefObject<HTMLFormElement>;
     activeSKU?: SKUsDto;
 }
 
-const OrderFooter = ({ loading, quantity = 1, price = 0, formRef, restaurantId, activeSKU }: Props) => {
+const OrderFooter = ({
+    loading,
+    quantity = 1,
+    availableQuantity = 99,
+    price = 0,
+    formRef,
+    restaurantId,
+    activeSKU,
+}: Props) => {
     const [state, setState] = useState(quantity);
     const useInfo = useAppSelector((state) => state.userInfo.userInfo?.customer_id ?? -1);
     const { handleUpdateCart } = useUpdateCart();
@@ -96,7 +105,14 @@ const OrderFooter = ({ loading, quantity = 1, price = 0, formRef, restaurantId, 
             zIndex={10}
         >
             <HStack spacing={"2.4rem"}>
-                <NumbericStepper defaultValue={quantity} onChangeValue={setState} />
+                <NumbericStepper
+                    defaultValue={quantity}
+                    onChangeValue={setState}
+                    numberInputProps={{
+                        min: 1,
+                        max: availableQuantity,
+                    }}
+                />
                 <Button
                     h="5.4rem"
                     isLoading={loading}
