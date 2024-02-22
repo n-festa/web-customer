@@ -152,6 +152,24 @@ const buttonStyle = {
             fontSize: "1.4rem",
             fontWeigth: 600,
         },
+        outlineWhite: {
+            p: "0.8rem 1.4rem",
+            bg: "white",
+            color: "var(--gray-700)",
+            border: "1px solid var(--gray-300)",
+            borderRadius: "2.4rem",
+            fontSize: "1.4rem",
+            lineHeight: "2rem",
+            fontWeight: 600,
+            minH: "3.6rem",
+            minW: "10rem",
+            boxSizing: "border-box",
+            _active: {
+                bg: null,
+
+                opacity: 0.5,
+            },
+        },
     },
 };
 

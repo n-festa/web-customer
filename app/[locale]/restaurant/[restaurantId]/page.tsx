@@ -14,12 +14,12 @@ import { useEffect } from "react";
 const RestautantDetailPage = () => {
     const { restaurantId } = useNextParams();
     const router = useRouter();
+    const path = usePathname();
     const {
         params: { des },
     } = useParams<{ des?: string }>({ des: undefined });
     const { restaurantInfo, isLoading } = useRestaurantDetail();
 
-    const path = usePathname();
     useEffect(() => {
         if (!isNullOrEmpty(des)) {
             router.replace(path);

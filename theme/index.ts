@@ -1,4 +1,5 @@
 import { modalStyle } from "@/theme/modal";
+import { popoverStyle } from "@/theme/popover";
 import { selectStyle } from "@/theme/select";
 import { switchStyle } from "@/theme/switch";
 import tabStyle from "@/theme/tab";
@@ -68,6 +69,7 @@ const theme: ThemeOverride = extendTheme({
         Modal: modalStyle,
         Stepper: stepperTheme,
         Alert: alertTheme,
+        Popover: popoverStyle,
     },
     textStyles,
 });
