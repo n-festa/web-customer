@@ -80,9 +80,9 @@ const DeliveryDestinationGroup = ({
         const defaultAddress = addressComponents
             ?.filter(
                 (item) =>
-                    item.trim() !== userInfo?.addressCompound?.commune &&
-                    item.trim() !== userInfo?.addressCompound?.district &&
-                    item.trim() !== userInfo?.addressCompound?.province,
+                    !item.trim().includes(userInfo?.addressCompound?.commune ?? "") &&
+                    !item.trim().includes(userInfo?.addressCompound?.district ?? "") &&
+                    !item.trim().includes(userInfo?.addressCompound?.province ?? ""),
             )
             .join(", ");
 

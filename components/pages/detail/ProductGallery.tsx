@@ -16,15 +16,15 @@ import {
     VStack,
     useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
     info?: FoodDetailDto;
-    listSKUs?: SKUsDto[];
     isLoading?: boolean;
+    activeSKU?: SKUsDto;
 }
 
-const ProductGallery = ({ info, listSKUs = [], isLoading }: Props) => {
+const ProductGallery = ({ info, isLoading, activeSKU }: Props) => {
     const ref = useRef<HTMLDivElement>(null);
     const { isOpen: isOpenModal, onOpen, onClose } = useDisclosure();
     const [img, setImg] = useState<{ img: string; index: number }>({ img: "", index: 0 });
@@ -44,14 +44,6 @@ const ProductGallery = ({ info, listSKUs = [], isLoading }: Props) => {
             });
         }
     }, [info?.images]);
-
-    const activeSKU = useMemo(() => {
-        const item = listSKUs.find((el) => el.is_standard);
-        if (item) {
-            return item;
-        }
-        return undefined;
-    }, [listSKUs]);
 
     return (
         <Flex w="100%" flexDirection={"column"} mt="1rem">

@@ -41,7 +41,7 @@ const LocaleSwitcher: React.FC = () => {
             {({ isOpen }) => (
                 <>
                     <MenuButton as={Button} variant="ghost" isActive={isOpen}>
-                        <HStack as="button" alignItems="center" display={{ base: "none", lg: "flex" }}>
+                        <HStack alignItems="center" display={{ base: "none", lg: "flex" }}>
                             <Text
                                 color="var(--text-gray)"
                                 display={{ base: "none", md: "block" }}

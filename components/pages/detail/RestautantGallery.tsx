@@ -201,7 +201,7 @@ const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
                                         objectFit="cover"
                                         src={el.url}
                                         alt=""
-                                        key={String(index)}
+                                        key={id}
                                         cursor={"pointer"}
                                         borderRadius={"1.6rem"}
                                         id={id}

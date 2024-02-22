@@ -36,7 +36,7 @@ const CartIconFallBack = ({ totalQuantity }: { totalQuantity?: number }) => {
                 },
             }}
         >
-            {totalQuantity && totalQuantity > 0 && (
+            {Number(totalQuantity) > 0 && (
                 <Flex
                     id="cart-number"
                     justifyContent="center"

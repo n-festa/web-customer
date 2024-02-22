@@ -12,21 +12,21 @@ import { forwardRef, useMemo } from "react";
 
 interface Props {
     info?: FoodDetailDto;
-    listSKUs?: SKUsDto[];
     isLoading?: boolean;
+    activeSKU?: SKUsDto;
+    onChangePortion?: (key: string, value: string | number) => void;
+    portions?: {
+        [key: string]: {
+            option_id: string;
+            value_id: string | number;
+        };
+    };
 }
 
 // eslint-disable-next-line react/display-name
 const ServingSize = forwardRef((props: Props, ref: any) => {
     const t = useTranslations("PRODUCT_DETAIL.SERVINGSIVE");
-    const { listSKUs = [], info, isLoading } = props;
-    const activeSKU = useMemo(() => {
-        const item = listSKUs.find((el) => el.is_standard);
-        if (item) {
-            return item;
-        }
-        return undefined;
-    }, [listSKUs]);
+    const { info, isLoading, activeSKU, onChangePortion, portions } = props;
 
     const initFormData = useMemo(() => {
         let initValues = activeSKU?.portion_customization.reduce(
@@ -116,6 +116,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                                         name: `${option.value_nubmer}${option.value_unit}`,
                                                         value: option.value_id,
                                                     }));
+
                                                     return (
                                                         <FormControl>
                                                             <Stack direction={{ base: "column", md: "row" }}>
@@ -131,8 +132,18 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                                                 <GroupRadioButton
                                                                     isRounded
                                                                     options={options}
-                                                                    isFormikControl={true}
-                                                                    {...field}
+                                                                    value={
+                                                                        String(portions?.[el.option_id].value_id) ??
+                                                                        field.value
+                                                                    }
+                                                                    onChange={(e) => {
+                                                                        if (
+                                                                            typeof e === "string" ||
+                                                                            typeof e === "number"
+                                                                        ) {
+                                                                            onChangePortion?.(el.option_id, e);
+                                                                        }
+                                                                    }}
                                                                 ></GroupRadioButton>
                                                             </Stack>
                                                         </FormControl>

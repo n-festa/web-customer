@@ -1,5 +1,9 @@
 {
     "COMMON": {
+        "TOAST": {
+            "PORTION_UNAVAILABLE": "Unavailable Portion",
+            "PORTION_UNAVAILABLE_DESC": "The portion you selected is unavailable,\r\nPlease choose another portion."
+        },
         "NOTIFICATION": "Notification",
         "CLOSE": "Đóng",
         "PROFILE": "Profile",
