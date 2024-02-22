@@ -1,5 +1,9 @@
 {
     "COMMON": {
+        "TOAST": {
+            "PORTION_UNAVAILABLE": "Khẩu phần không khả dụng",
+            "PORTION_UNAVAILABLE_DESC": "Khẩu phần bạn chọn không khả dụng,\r\nVui lòng chọn sang khẩu phần khác"
+        },
         "NOTIFICATION": "Thông báo",
         "CLOSE": "Đóng",
         "PROFILE": "Hồ sơ",

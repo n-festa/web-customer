@@ -1,6 +1,7 @@
 "use client";
 import { showCartState } from "@/recoil/recoilState";
 import { Flex, FlexProps, Modal, ModalContent, ModalOverlay, useBreakpointValue } from "@chakra-ui/react";
+import { Suspense } from "react";
 import { useRecoilState } from "recoil";
 import Cart from "../organism/Cart";
 import BottomSheet from "./BottomSheet";
@@ -11,7 +12,9 @@ const CartModal = ({ ...props }: FlexProps) => {
     return isMobile ? (
         <BottomSheet open={showCartModal} onClose={() => setShow(false)}>
             <Flex dir="column" w="100%" h="85dvh" {...props}>
-                <Cart w="100%" h="100%" />
+                <Suspense>
+                    <Cart w="100%" h="100%" />
+                </Suspense>
             </Flex>
         </BottomSheet>
     ) : (
@@ -26,7 +29,9 @@ const CartModal = ({ ...props }: FlexProps) => {
                 overflow="auto"
                 maxH="90dvh"
             >
-                <Cart />
+                <Suspense>
+                    <Cart />
+                </Suspense>
             </ModalContent>
         </Modal>
     );

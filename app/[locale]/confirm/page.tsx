@@ -14,7 +14,7 @@ const ConfirmOrderPage = () => {
         <Flex flexDirection={"column"} alignItems={"center"} bg="var(--gray-100)" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
                 <BackButton label="Quay lại trang trước" />
-                <Flex mt="1.6rem" w="100%" gap="1.6rem" flex={1}>
+                <Flex mt="1.6rem" w="100%" gap="1.6rem" flexDir={{ base: "column", lg: "row" }} flex={1}>
                     <VStack flex={1} spacing="1.6rem">
                         <DeliveryDestinationGroup />
                         <DeliveryTimeGroup />
@@ -22,7 +22,7 @@ const ConfirmOrderPage = () => {
                         <PaymentMethodGroup />
                         <PromotionGroup />
                     </VStack>
-                    <PaymentGroup />
+                    <PaymentGroup w={{ base: "100%", md: "unset" }} />
                 </Flex>
             </Flex>
         </Flex>

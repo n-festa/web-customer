@@ -4,6 +4,7 @@ import { switchStyle } from "@/theme/switch";
 import tabStyle from "@/theme/tab";
 import tableStyle from "@/theme/table";
 import { ThemeOverride, extendTheme } from "@chakra-ui/react";
+import { alertTheme } from "./alert";
 import buttonStyle from "./button";
 import { checkboxTheme } from "./checkbox";
 import colors from "./colors";
@@ -66,6 +67,7 @@ const theme: ThemeOverride = extendTheme({
         Menu: menuTheme,
         Modal: modalStyle,
         Stepper: stepperTheme,
+        Alert: alertTheme,
     },
     textStyles,
 });
