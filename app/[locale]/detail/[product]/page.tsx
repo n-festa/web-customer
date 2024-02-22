@@ -24,7 +24,6 @@ const ProductDetailPage = () => {
                 <ServingSize
                     info={foodInfo.info}
                     ref={formRef}
-                    activeSKU={activeSKU}
                     isLoading={isLoading}
                     portions={portions}
                     onChangePortion={handleChangePortions}
@@ -40,6 +39,7 @@ const ProductDetailPage = () => {
                         price={activeSKU?.price_after_discount}
                         restaurantId={foodInfo.info?.restaurant_id}
                         formRef={formRef}
+                        activeSKU={activeSKU}
                     />
                 </Suspense>
             </Flex>

@@ -158,16 +158,44 @@ const FoodItemSuspense = ({
                         {ingredientName && ` |  ${ingredientName}`}
                     </Text>
                 </Text>
-                <HStack h="3rem" color="black" fontSize="1.6rem" spacing="0.8rem">
+                <HStack
+                    mb="4rem"
+                    w="100%"
+                    h="3rem"
+                    color="black"
+                    fontSize="1.6rem"
+                    spacing="0.8rem"
+                    position="relative"
+                >
                     <Text textDecoration="line-through" textDecorationThickness="1px">
                         {price?.toLocaleString()}
                     </Text>
                     <Text fontSize="2.4rem" fontWeight="bold">
                         {currentPrice?.toLocaleString()}
                     </Text>
+                    {isShowAddButton && (
+                        <IconButton
+                            position="absolute"
+                            top="0.4rem"
+                            right="0.1rem"
+                            w="4rem"
+                            h="4rem"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleQuickAdd(Number(id), name);
+                            }}
+                            isLoading={loading}
+                            _hover={{ opacity: 0.7 }}
+                            _active={{ opacity: 0.5 }}
+                            borderRadius="50%"
+                            aria-label="add-btn"
+                            icon={<Img src="/images/plus.svg" />}
+                        />
+                    )}
                 </HStack>
                 {promotion && (
-                    <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
+                    <HStack mt="-4rem" color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
                         <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2729.svg" />
                         <Text>{promotion}</Text>
                     </HStack>
@@ -179,26 +207,6 @@ const FoodItemSuspense = ({
                     </HStack>
                 )}
             </VStack>
-            {isShowAddButton && (
-                <IconButton
-                    position="absolute"
-                    bottom="5rem"
-                    right="2.5rem"
-                    w="4rem"
-                    h="4rem"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleQuickAdd(Number(id), name);
-                    }}
-                    isLoading={loading}
-                    _hover={{ opacity: 0.7 }}
-                    _active={{ opacity: 0.5 }}
-                    borderRadius="50%"
-                    aria-label="add-btn"
-                    icon={<Img src="/images/plus.svg" />}
-                />
-            )}
         </Flex>
     );
 };
