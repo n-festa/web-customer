@@ -3,7 +3,7 @@ export const selectStyle = {
     variants: {
         filter: {
             field: {
-                bg: "transparent",
+                bg: "white",
                 border: "1px solid var(--gray-300)",
                 borderRadius: "0.8rem",
                 fontSize: "1.4rem",

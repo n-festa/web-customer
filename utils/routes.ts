@@ -11,5 +11,6 @@ export const routes = {
     ConfirmOrder: "/confirm",
     review: "/review",
     OrderDetail: "/order/detail",
+    OrderHistory: "/order/history",
     Profile: "/profile",
 };
