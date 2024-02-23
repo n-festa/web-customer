@@ -1,5 +1,9 @@
 {
     "COMMON": {
+        "ERROR": {
+            "ERROR_TITLE": "Có lỗi xảy ra",
+            "BACK_TO_HOME": "Trở lại trang chủ"
+        },
         "SEE_MORE": "...... xem thêm",
         "SEE_LESS": "...... ẩn bớt",
         "TOAST": {

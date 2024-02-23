@@ -1,5 +1,9 @@
 {
     "COMMON": {
+        "ERROR": {
+            "ERROR_TITLE": "Something went wrong!",
+            "BACK_TO_HOME": "Back to home"
+        },
         "SEE_MORE": "...... see more",
         "SEE_LESS": "...... see less",
         "TOAST": {
