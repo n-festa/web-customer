@@ -31,3 +31,8 @@ export enum MediaType {
     Video = "video",
     Image = "image",
 }
+
+export enum OrderStatus {
+    Success,
+    Cancel,
+}

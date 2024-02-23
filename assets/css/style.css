@@ -1847,3 +1847,21 @@ a:hover {
     align-items: center;
     height: auto;
 }
+
+.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+    color: var(--icterine-500) !important;
+    opacity: 1;
+    background-color: var(--primary-500) !important;
+}
+
+.rdp-weeknumber,
+.rdp-day {
+    font-size: 1.4rem !important;
+    font-weight: 500 !important;
+}
+
+.rdp-head_cell {
+    font-size: 1.4rem !important;
+}

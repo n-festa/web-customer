@@ -1,5 +1,7 @@
 {
     "COMMON": {
+        "SEE_MORE": "...... see more",
+        "SEE_LESS": "...... see less",
         "TOAST": {
             "PORTION_UNAVAILABLE": "Unavailable Portion",
             "PORTION_UNAVAILABLE_DESC": "The portion you selected is unavailable,\r\nPlease choose another portion."

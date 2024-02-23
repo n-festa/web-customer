@@ -1,6 +1,5 @@
 import WraperInfo from "@/components/molecules/WraperInfo";
 import FoodItem from "@/components/organism/FoodItem";
-import { ProductTypeList } from "@/types";
 import products from "@/utils/data/products";
 import { Wrap, WrapItem } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
@@ -17,7 +16,7 @@ const FoodInRestaurant = () => {
             isShowBottom
         >
             <Wrap align="center" justify={"center"} spacing="4rem" w="100%">
-                {products.map((item: ProductTypeList) => (
+                {products.map((item) => (
                     <WrapItem
                         key={item.id}
                         flex={1}
@@ -27,23 +26,25 @@ const FoodInRestaurant = () => {
                         <FoodItem
                             key={item.id}
                             id={item.id}
-                            name={item.name}
-                            images={item.images}
-                            merchart={item.merchart}
-                            cook_method={item.cook_method}
-                            currentPrice={item.currentPrice}
+                            name={item.name?.[0].text}
+                            images={item.image}
+                            merchart={item.restaurant_name?.[0].text}
+                            cook_method={item.main_cooking_method?.[0].text}
+                            currentPrice={item.price_after_discount}
                             price={item.price}
-                            ingredient={item.ingredient}
-                            kcal={item.kcal}
+                            ingredientName={item.ingredient_brief_vie}
+                            kcal={item.calorie_kcal}
                             cooking_time_s={item.cooking_time_s}
-                            distance={item.distance}
-                            ratings={item.ratings}
+                            distance={item.distance_km}
+                            ratings={item.rating}
                             units_sold={item.units_sold}
                             quantity_available={item.quantity_available}
                             isShowRating={false}
                             isShowDistance={false}
                             isShowTime={false}
                             isShowMerchart={false}
+                            cutoff_time={item.cutoff_time}
+                            promotion={item.promotion}
                             isShowUnitSold={true}
                             isShowQuantityAvailable={true}
                         />

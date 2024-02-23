@@ -24,6 +24,7 @@ export const YYYYMMDD = "yyyy-MM-dd";
 export const YYYYMMDDHHmm = "yyyy-MM-dd HH:mm";
 export const HHmm = "HH:mm";
 export const yyyMMdd = "yyyy/MM/dd";
+export const ddMMyyyy = "dd/MM/yyyy";
 export const EEE = "EEE";
 
 export const localeOption = [

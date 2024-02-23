@@ -11,5 +11,6 @@ export const routes = {
     ConfirmOrder: "/confirm", //done vi
     review: "/review", //done
     OrderDetail: "/order/detail", //done vi
+    OrderHistory: "/order/history",
     Profile: "/profile",
 };

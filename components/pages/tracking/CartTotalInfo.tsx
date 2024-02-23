@@ -24,6 +24,7 @@ const CartTotalInfo = () => {
                             note={genCartNote(item)}
                             price="90,000"
                             nowPrice="75,000"
+                            numberInputProps={{ isDisabled: true }}
                             quantity={item.qty_ordered}
                         />
                     ))}

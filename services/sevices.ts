@@ -309,13 +309,16 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 method: "GET",
             });
         },
-        getAvailableTime: (params: {
-            menu_item_ids?: (number | undefined)[];
-            now?: number;
-            long?: number;
-            lat?: number;
-            utc_offset?: number;
-        }) => {
+        getAvailableTime: (
+            params: {
+                menu_item_ids?: (number | undefined)[];
+                now?: number;
+                long?: number;
+                lat?: number;
+                utc_offset?: number;
+            },
+            ignoreErrorCode?: number[],
+        ) => {
             return this.request<{
                 data: DateStep[] | number;
                 statusCode: number;
@@ -329,7 +332,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                     long: 106.7723030321775,
                     lat: 10.820557580712087,
                 },
-                ignoreErrorCode: [401, 404],
+                ignoreErrorCode: [...(ignoreErrorCode ?? []), 404],
             });
         },
         sendContactForm: (params: { email: string; message: string }) => {

@@ -38,17 +38,16 @@ const Today = () => {
                 {t("TITLE")}
             </Text>
             <Wrap align="center" mt="4.8rem" justify={{ base: "center", md: "space-between" }} spacing="4rem">
-                {processedData?.map((item: ProductTypeList) => (
+                {processedData?.map((item: ProductTypeList, index) => (
                     <WrapItem
                         display="flex"
                         minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
                         justifyContent="center"
-                        key={item.id}
+                        key={"foodItem" + index}
                         flex={1}
                         minH="52.6rem"
                     >
                         <FoodItem
-                            key={item.id}
                             id={item.id}
                             top_label={item.top_label}
                             name={item.name}
@@ -70,8 +69,8 @@ const Today = () => {
                         />
                     </WrapItem>
                 )) ??
-                    Array.from([1, 2, 3], (index) => (
-                        <WrapItem key={`skeleton${index}`} display="flex" flexDir="column" flex={1}>
+                    Array.from([1, 2, 3], (value, index) => (
+                        <WrapItem key={`skeleton_${value}_${index}`} display="flex" flexDir="column" flex={1}>
                             <SkeletonBox isLoaded={false} />
                         </WrapItem>
                     ))}

@@ -4,21 +4,28 @@ import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 
-const footerAvailable = [
-    routes.Home,
-    routes.Otp,
-    routes.RegistrationSuccess,
-    routes.SignIn,
-    routes.AdditionalSignUpInfo,
-];
 const Footer = () => {
     const t = useTranslations("FOOTER");
     const pathname = usePathname();
+    const locale = useLocale();
 
     const showFooter = useMemo(() => {
-        return footerAvailable.some((item) => pathname.includes(item));
+        const pathNameWithoutLocale = pathname.replace(locale + "/", "");
+        const pathLocale = "/" + locale;
+
+        switch (pathNameWithoutLocale) {
+            case routes.Home:
+            case routes.Otp:
+            case routes.RegistrationSuccess:
+            case routes.SignIn:
+            case routes.AdditionalSignUpInfo:
+            case pathLocale:
+                return true;
+            default:
+                return false;
+        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);

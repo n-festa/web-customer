@@ -36,7 +36,7 @@ const UserGroup = ({ bg }: { bg?: string }) => {
                 <MenuItem bg={bg} as={Link} href={routes.Profile}>
                     {t("COMMON.PROFILE")}
                 </MenuItem>
-                <MenuItem bg={bg} as={Link} href={"/history"}>
+                <MenuItem bg={bg} as={Link} href={routes.OrderHistory}>
                     {t("COMMON.ORDERS")}
                 </MenuItem>
                 <MenuItem bg={bg} onClick={() => logout()}>

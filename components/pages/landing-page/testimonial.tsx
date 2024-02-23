@@ -5,9 +5,9 @@ import { Flex, HStack, Img, StackProps, Text, VStack, useMediaQuery } from "@cha
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
-const GroupStars = ({ star = 5 }: { star?: number }) => {
+export const GroupStars = ({ star = 5, ...rest }: { star?: number } & StackProps) => {
     return (
-        <HStack alignSelf="flex-start" spacing="0.4rem">
+        <HStack alignSelf="flex-start" spacing="0.4rem" {...rest}>
             {Array(star)
                 .fill(0)
                 .map((_, index) => (

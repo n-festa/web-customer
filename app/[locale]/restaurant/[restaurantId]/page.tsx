@@ -16,12 +16,12 @@ const RestaurantDetailPage = () => {
     const t = useTranslations();
     const { restaurantId } = useNextParams();
     const router = useRouter();
+    const path = usePathname();
     const {
         params: { des },
     } = useParams<{ des?: string }>({ des: undefined });
     const { restaurantInfo, isLoading } = useRestaurantDetail();
 
-    const path = usePathname();
     useEffect(() => {
         if (!isNullOrEmpty(des)) {
             router.replace(path);
@@ -66,6 +66,7 @@ const RestaurantDetailPage = () => {
                         border="1px solid var(--gray-300)"
                         w={{ xl: "42.6rem", base: "35rem" }}
                         restaurant_id={Number(restaurantId)}
+                        ignoreAuthError={true}
                     />
                 </Box>
             </HStack>

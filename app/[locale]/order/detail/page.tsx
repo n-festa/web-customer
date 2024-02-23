@@ -8,9 +8,19 @@ import { useTranslations } from "next-intl";
 const OrderDetail = () => {
     const t = useTranslations("ORDER_DETAIL");
     return (
-        <Flex position="relative" bg="var(--gray-100)" py="1rem" px="4rem" h="100%" w="100%" flex={1} flexDir="column">
+        <Flex
+            position="relative"
+            bg="var(--gray-100)"
+            py="1rem"
+            px="4rem"
+            h="100%"
+            w="100%"
+            flex={1}
+            flexDir="column"
+            overflow="hidden"
+        >
             <GroupStepperProgress />
-            <Flex gap="1.6rem" flex={1}>
+            <Flex gap="1.6rem" flex={1} flexDir={{ base: "column", lg: "row" }}>
                 <iframe
                     style={{ flex: 1 }}
                     id="tracking-map"

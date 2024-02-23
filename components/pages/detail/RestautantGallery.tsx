@@ -21,7 +21,7 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 
 interface Props {
@@ -30,7 +30,7 @@ interface Props {
 }
 
 const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
-    const t = useTranslations();
+    const t = useTranslations("COMMON");
     const tFoodItem = useTranslations("COMMON.FOOD_ITEM");
     const ref = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
@@ -313,26 +313,29 @@ const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
                                 )}
                             </VStack>
                         </Stack>
-                        <Collapse in={isOpen} animateOpacity startingHeight={"4.8rem"}>
-                            {restaurantInfo?.introduction?.map((el, index) => {
-                                return (
-                                    <>
-                                        <Text
-                                            key={String(index)}
-                                            fontSize={"1.6rem"}
-                                            fontWeight={400}
-                                            lineHeight={"2.4rem"}
-                                            color="var(--gray-600)"
-                                        >
-                                            {el?.text ?? "-"}
-                                        </Text>
-                                    </>
-                                );
-                            })}
-                        </Collapse>
-                        <Button variant={"btnViewAllSm"} onClick={onToggle} p="0">
-                            {t("COMMON.VIEW_ALL")}
-                        </Button>
+                        <VStack spacing="0" alignItems="flex-start">
+                            <Collapse in={isOpen} animateOpacity startingHeight={"4.8rem"}>
+                                <Flex flexDir="column" minH="4.8rem">
+                                    {restaurantInfo?.introduction?.map((el, index) => {
+                                        return (
+                                            <Fragment key={"introduction" + String(index)}>
+                                                <Text
+                                                    fontSize={"1.6rem"}
+                                                    fontWeight={400}
+                                                    lineHeight={"2.4rem"}
+                                                    color="var(--gray-600)"
+                                                >
+                                                    {el?.text ?? "-"}
+                                                </Text>
+                                            </Fragment>
+                                        );
+                                    })}
+                                </Flex>
+                            </Collapse>
+                            <Button h="2.4rem" variant={"btnViewAllSm"} onClick={onToggle} p="0">
+                                {!isOpen ? t("SEE_MORE") : t("SEE_LESS")}
+                            </Button>
+                        </VStack>
                     </VStack>
                 )}
             </VStack>

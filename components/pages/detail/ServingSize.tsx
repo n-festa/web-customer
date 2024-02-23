@@ -3,7 +3,6 @@ import GroupRadioButton from "@/components/atoms/radio/GroupRadioButton";
 import WraperInfo from "@/components/molecules/WraperInfo";
 import { filedType, formType } from "@/types/form";
 import { FoodDetailDto } from "@/types/response/FoodResponse";
-import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
 import { DefaultOtherOption, OtherCustomization, PortionCustomization, TasteCustomization } from "@/utils/constants";
 import { FormControl, Grid, GridItem, HStack, Skeleton, Stack, Switch, Text, Textarea, VStack } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
@@ -13,7 +12,6 @@ import { forwardRef, useMemo } from "react";
 interface Props {
     info?: FoodDetailDto;
     isLoading?: boolean;
-    activeSKU?: SKUsDto;
     onChangePortion?: (key: string, value: string | number) => void;
     portions?: {
         [key: string]: {
@@ -26,13 +24,10 @@ interface Props {
 // eslint-disable-next-line react/display-name
 const ServingSize = forwardRef((props: Props, ref: any) => {
     const t = useTranslations("PRODUCT_DETAIL.SERVINGSIVE");
-    const { info, isLoading, activeSKU, onChangePortion, portions } = props;
+    const { info, isLoading, onChangePortion, portions } = props;
 
     const initFormData = useMemo(() => {
-        let initValues = activeSKU?.portion_customization.reduce(
-            (prev, curr) => ({ ...prev, [`${PortionCustomization}-${curr.option_id}`]: curr.value_id }),
-            {},
-        );
+        let initValues = {};
         if (info?.taste_customization && info?.taste_customization.length > 0) {
             const tasteCustomizationObj = info?.taste_customization.reduce(
                 (prev, curr) => ({
@@ -60,14 +55,8 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
             };
         }
 
-        return { ...initValues, notes: "", sku_id: activeSKU?.sku_id ?? -1, item_id: info?.menu_item_id ?? -1 };
-    }, [
-        activeSKU?.portion_customization,
-        activeSKU?.sku_id,
-        info?.menu_item_id,
-        info?.other_customizaton,
-        info?.taste_customization,
-    ]);
+        return { ...initValues, notes: "", item_id: info?.menu_item_id ?? -1 };
+    }, [info?.menu_item_id, info?.other_customizaton, info?.taste_customization]);
 
     return (
         <VStack

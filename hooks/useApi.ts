@@ -34,8 +34,9 @@ const useSWRAPI = () => {
                 utc_offset?: number;
             },
             config?: SWRConfiguration,
+            ignoreErrorCode?: number[],
         ) =>
-            useSWR("getAvailableTime", async () => apiServices.getAvailableTime(params), {
+            useSWR("getAvailableTime", async () => apiServices.getAvailableTime(params, ignoreErrorCode), {
                 ...swrConfig,
                 ...config,
             }),

@@ -1,12 +1,12 @@
 "use client";
 import { totalQuantityState } from "@/recoil/recoilState";
-import { useRecoilValue } from "recoil";
+import { useRecoilValueLoadable } from "recoil";
 import CartIconFallBack from "./CartIconFallback";
 
 const CartIcon = () => {
-    const totalQuantity = useRecoilValue(totalQuantityState);
-
-    return <CartIconFallBack totalQuantity={totalQuantity} />;
+    const totalQuantityLoadable = useRecoilValueLoadable(totalQuantityState);
+    const isLoading = totalQuantityLoadable.state === "loading";
+    return <CartIconFallBack isLoading={isLoading} totalQuantity={totalQuantityLoadable.valueMaybe()} />;
 };
 
 export default CartIcon;

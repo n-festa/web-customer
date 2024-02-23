@@ -1,14 +1,22 @@
 "use client";
+import { loginSuccessUrl } from "@/app/[locale]/providers";
 import { showCartState } from "@/recoil/recoilState";
 import { isLoggedIn } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 
-const CartIconFallBack = ({ totalQuantity }: { totalQuantity?: number }) => {
+const CartIconFallBack = ({ totalQuantity, isLoading }: { totalQuantity?: number; isLoading?: boolean }) => {
+    const prevTotalQuantity = useRef<number>();
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
+    useEffect(() => {
+        if (!isLoading) {
+            prevTotalQuantity.current = totalQuantity;
+        }
+    }, [totalQuantity, isLoading]);
     return (
         <Box
             onClick={() => {
@@ -16,6 +24,7 @@ const CartIconFallBack = ({ totalQuantity }: { totalQuantity?: number }) => {
                     setShow(true);
                     return;
                 }
+                loginSuccessUrl.current = window.location.pathname;
                 router.push(routes.SignIn);
             }}
             cursor="pointer"
@@ -36,7 +45,7 @@ const CartIconFallBack = ({ totalQuantity }: { totalQuantity?: number }) => {
                 },
             }}
         >
-            {Number(totalQuantity) > 0 && (
+            {Number(totalQuantity ?? prevTotalQuantity.current) > 0 && (
                 <Flex
                     id="cart-number"
                     justifyContent="center"
@@ -49,7 +58,7 @@ const CartIconFallBack = ({ totalQuantity }: { totalQuantity?: number }) => {
                     w="1.5rem"
                     h="1.5rem"
                 >
-                    <Text color="white">{totalQuantity}</Text>
+                    <Text color="white">{totalQuantity ?? prevTotalQuantity.current}</Text>
                 </Flex>
             )}
             <Image

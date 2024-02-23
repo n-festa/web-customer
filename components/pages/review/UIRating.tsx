@@ -1,6 +1,6 @@
+import { Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
 import UIStar from "./UIStar";
-import { Flex } from "@chakra-ui/react";
 
 interface UIRatingProps {
     maxRating: number;
