@@ -4,6 +4,7 @@ import { GroupStars } from "@/components/pages/landing-page/testimonial";
 import { OrderStatus } from "@/types/enum";
 import { routes } from "@/utils/routes";
 import { Button, HStack, Img, Stack, Text, VStack, Wrap, WrapItem } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
@@ -12,13 +13,14 @@ interface Props {
 }
 
 const HistoryItem = ({ orderStatus = OrderStatus.Success }: Props) => {
+    const t = useTranslations("ORDER_HISTORY.HISTORY_ITEM");
     const router = useRouter();
     const status = useMemo(() => {
         switch (orderStatus) {
             case OrderStatus.Cancel:
-                return "Hủy đơn hàng";
+                return t("CANCEL_ORDER");
             default:
-                return "Giao hàng thành công";
+                return t("DELIVERY_SUCCESSFUL");
         }
     }, [orderStatus]);
 
@@ -38,11 +40,11 @@ const HistoryItem = ({ orderStatus = OrderStatus.Success }: Props) => {
                     py-="0.8rem"
                 >
                     <HStack>
-                        <Text>Đơn hàng</Text>
+                        <Text>{t("ORDER")}</Text>
                         <Text fontWeight={"bold"}>#1234567</Text>
                     </HStack>
                     <Text fontSize="1.4rem" color="black">
-                        Hôm nay
+                        {t("TODAY")}
                     </Text>
                 </HStack>
             }
@@ -114,10 +116,10 @@ const HistoryItem = ({ orderStatus = OrderStatus.Success }: Props) => {
                 )}
                 <HStack spacing={"1rem"} flex={1} justifyContent={"flex-end"}>
                     <Button variant={"outlineWhite"}>
-                        <Text>Mua lại</Text>
+                        <Text>{t("REORDER")}</Text>
                     </Button>
                     <Button variant={"outlineWhite"} onClick={handleViewDetail}>
-                        <Text>Xem chi tiết</Text>
+                        <Text>{t("VIEW_DETAILS")}</Text>
                     </Button>
                 </HStack>
             </Stack>

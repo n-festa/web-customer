@@ -8,12 +8,14 @@ import PaymentGroup from "@/components/pages/confirm/PaymentGroup";
 import PaymentMethodGroup from "@/components/pages/confirm/PaymentMethodGroup";
 import PromotionGroup from "@/components/pages/confirm/PromotionGroup";
 import { Flex, VStack } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 
 const ConfirmOrderPage = () => {
+    const t = useTranslations("COMMON");
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="var(--gray-100)" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
-                <BackButton label="Quay lại trang trước" />
+                <BackButton label={t("BACK_PAGE")} />
                 <Flex mt="1.6rem" w="100%" gap="1.6rem" flexDir={{ base: "column", lg: "row" }} flex={1}>
                     <VStack flex={1} spacing="1.6rem">
                         <DeliveryDestinationGroup />

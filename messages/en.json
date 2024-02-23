@@ -247,6 +247,47 @@
             "DISCOUNT_UP_TO": "Discount up to {money}K"
         }
     },
+    "CONFIRM_ORDER": {
+        "DELIVERY_TIME_GROUP": {
+            "DELIVERY_TIME": "Time"
+        },
+        "PACKAGE_GROUP": {
+            "TITLE": "Packaging",
+            "SUGARCANE_BOX": "Packaged in a sugarcane pulp box",
+            "EATING_UTENSILS": "Cutlery",
+            "REQUEST_ONLY_WHEN_NEEDED": "Only take if you really need"
+        },
+        "PAYMENT_METHOD_GROUP": {
+            "TITLE": "Payment",
+            "MOMO_PAYMENT": "Momo",
+            "CASH_PAYMENT": "Cash"
+        },
+        "PROMOTION_GROUP": {
+            "TITLE": "Promotion",
+            "APPLY": "Apply",
+            "ENTER_PROMO_CODE": "Enter the code"
+        },
+        "PAYMENT_GROUP": {
+            "PAYMENT": "Bill Detail",
+            "PAYMENT_INFO": "Detail",
+            "TOTAL_ITEMS": "Item total",
+            "PACKING_FEE": "Package fee",
+            "UTENSILS": "Cutlery fee",
+            "DELIVERY_FEE": "Delivery fee | 0.8 km",
+            "PLATFORM_FEE": "Application fee",
+            "PROMOTION": "Promotion",
+            "TOTAL_PAYMENT": "Total",
+            "PLACE_ORDER": "Order"
+        },
+        "DELIVERY_DESTINATION": {
+            "PROVINCE_CITY": "Province / City",
+            "DISTRICT": "District",
+            "WARD": "Ward",
+            "STREET_AND_NUMBER": "Address number & street",
+            "DRIVER_NOTE": "Note for drivers",
+            "DRIVER_NOTE_PLACEHOLDER": "Ex: meet at hall"
+        }
+    },
     "REVIEW": {
         "TITLE": "Feedback",
         "ORDER_NUMBER": "Order: {number}",
@@ -264,7 +305,54 @@
         "RATE_SUMMER_AVOCADO_SALAD": "Feedback Summer Avocado Salad",
         "SHARE_FEEDBACK_PLACEHOLDER": "Please take a moment to share your thoughts on this service"
     },
-    "ORDER_DETAIL":{
-        
+    "ORDER_DETAIL": {
+        "DRIVER": "Driver",
+        "ORDER": "Order",
+        "ORDER_DATE": "Date: {time}",
+        "FOR_DRIVER_NOTE": "Note for driver:",
+        "SUGARCANE_BOX": "Packaged in a sugarcane pulp box",
+        "NO_UTENSILS_NEEDED": "Do not take cutlery",
+        "PAYMENT_METHOD": "Payment",
+        "PAID_WITH_MOMO": "Paid via Momo",
+        "DELIVER_TO": "Deliver to",
+        "PACKAGING": "Packaging",
+        "ORDER_CONFIRMATION": {
+            "MD": {
+                "CONFIRM_ORDER": "Order confirmed",
+                "DRIVER_ARRIVED_RESTAURANT": "Driver arrives restaurant",
+                "DRIVER_LEFT_RESTAURANT": "Driver leaves restaurant",
+                "DRIVER_ARRIVED_DESTINATION": "Driver arrives customer’s place"
+            },
+            "BASE":{
+                "CONFIRM_ORDER": "Order\r\nconfirmed",
+                "DRIVER_ARRIVED_RESTAURANT": "Driver\r\narrives restaurant",
+                "DRIVER_LEFT_RESTAURANT": "Driver\r\nleaves restaurant",
+                "DRIVER_ARRIVED_DESTINATION": "Driver\r\narrives customer’s place"
+            }
+        }
+    },
+    "ORDER_HISTORY": {
+        "MY_ORDERS": "My orders",
+        "DELIVERING": "On going",
+        "HISTORY": "History",
+        "SEARCH_FOOD_RESTAURANT": "Search for dishes or restaurants",
+        "FILTER": {
+            "FOOD": "Dishes",
+            "RESTAURANT": "Restaurants",
+            "NEAREST_DATE": "Recent",
+            "ALL_STATUS": "All status",
+            "DELIVERED": "Success",
+            "CANCELLED": "Cancelled",
+            "ALL_LABELS": "All labels",
+            "FAVORITES": "Favorites"
+        },
+        "HISTORY_ITEM": {
+            "CANCEL_ORDER": "Cancel",
+            "DELIVERY_SUCCESSFUL": "Success",
+            "ORDER": "Order",
+            "TODAY": "Today",
+            "REORDER": "Re-order",
+            "VIEW_DETAILS": "Detail"
+        }
     }
 }

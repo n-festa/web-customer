@@ -287,6 +287,14 @@
             "PROMOTION": "Khuyến mãi",
             "TOTAL_PAYMENT": "Tổng thanh toán",
             "PLACE_ORDER": "ĐẶT HÀNG"
+        },
+        "DELIVERY_DESTINATION": {
+            "PROVINCE_CITY": "Tỉnh / Thành Phố",
+            "DISTRICT": "Quận / Huyện",
+            "WARD": "Phường / Xã",
+            "STREET_AND_NUMBER": "Số nhà & tên đường",
+            "DRIVER_NOTE": "Ghi chú cho tài xế",
+            "DRIVER_NOTE_PLACEHOLDER": "Ví dụ: gặp tôi tại sảnh"
         }
     },
     "REVIEW": {
@@ -306,7 +314,9 @@
         "RATE_SUMMER_AVOCADO_SALAD": "Đánh giá Summer Avocado Salad",
         "SHARE_FEEDBACK_PLACEHOLDER": "Hãy chia sẻ nhận xét cho dịch vụ này bạn nhé!"
     },
-    "ORDER_DETAIL":{
+    "ORDER_DETAIL": {
+        "DRIVER": "Tài xế",
+        "ORDER": "Đơn hàng",
         "ORDER_DATE": "Ngày: {time}",
         "FOR_DRIVER_NOTE": "Ghi chú dành cho tài xế:",
         "SUGARCANE_BOX": "Đóng gói bằng hộp bã mía",
@@ -314,6 +324,44 @@
         "PAYMENT_METHOD": "Phương thức thanh toán",
         "PAID_WITH_MOMO": "Đã thanh toán bằng Momo",
         "DELIVER_TO": "Giao đến",
-        "PACKAGING": "Đóng gói"
+        "PACKAGING": "Đóng gói",
+        "ORDER_CONFIRMATION": {
+            "MD": {
+                "CONFIRM_ORDER": "Xác Nhận Đơn Hàng",
+                "DRIVER_ARRIVED_RESTAURANT": "Tài Xế Đã Tới Nhà Hàng",
+                "DRIVER_LEFT_RESTAURANT": "Tài Xế Đã Rời Nhà Hàng",
+                "DRIVER_ARRIVED_DESTINATION": "Tài Xế Đã Đến Nơi"
+            },
+            "BASE": {
+                "CONFIRM_ORDER": "Xác Nhận\r\nĐơn Hàng",
+                "DRIVER_ARRIVED_RESTAURANT": "Tài Xế\r\nĐã Tới Nhà Hàng",
+                "DRIVER_LEFT_RESTAURANT": "Tài Xế\r\nĐã Rời Nhà Hàng",
+                "DRIVER_ARRIVED_DESTINATION": "Tài Xế\r\nĐã Đến Nơi"
+            }
+        }
+    },
+    "ORDER_HISTORY": {
+        "MY_ORDERS": "Đơn hàng của tôi",
+        "DELIVERING": "Đang giao",
+        "HISTORY": "Lịch sử",
+        "SEARCH_FOOD_RESTAURANT": "Gõ tên món ăn, nhà hàng mà bạn đang muốn tìm",
+        "FILTER": {
+            "FOOD": "Món ăn",
+            "RESTAURANT": "Nhà hàng",
+            "NEAREST_DATE": "Ngày gần nhất",
+            "ALL_STATUS": "Tất cả trạng thái",
+            "DELIVERED": "Giao hàng thành công",
+            "CANCELLED": "Đã hủy",
+            "ALL_LABELS": "Tất cả nhãn",
+            "FAVORITES": "Yêu thích"
+        },
+        "HISTORY_ITEM": {
+            "CANCEL_ORDER": "Hủy đơn hàng",
+            "DELIVERY_SUCCESSFUL": "Giao hàng thành công",
+            "ORDER": "Đơn hàng",
+            "TODAY": "Hôm nay",
+            "REORDER": "Mua lại",
+            "VIEW_DETAILS": "Xem chi tiết"
+        }
     }
 }

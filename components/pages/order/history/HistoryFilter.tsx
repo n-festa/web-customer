@@ -4,11 +4,13 @@ import { FilterType } from "@/types/enum";
 import { ddMMyyyy } from "@/utils/constants";
 import { formatDate, subDays } from "@/utils/date";
 import { HStack, Img, Popover, PopoverContent, PopoverTrigger, Select, Text, Wrap, WrapItem } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
 const HistoryFilter = () => {
+    const t = useTranslations("ORDER_HISTORY.FILTER");
     const [selectedDate, setSelectedDate] = useState<{
         from: Date | undefined;
         to: Date | undefined;
@@ -28,25 +30,25 @@ const HistoryFilter = () => {
                     options={[
                         {
                             value: FilterType.Food,
-                            name: "Món ăn",
+                            name: t("FOOD"),
                         },
                         {
                             value: FilterType.Restaurant,
-                            name: "Nhà hàng",
+                            name: t("RESTAURANT"),
                         },
                     ]}
                 />
             </WrapItem>
             <WrapItem>
                 <Select placeholder="" w="16rem" variant={"filter"} defaultValue={"1"}>
-                    <option value={"1"}>Ngày gần nhất</option>
+                    <option value={"1"}>{t("NEAREST_DATE")}</option>
                 </Select>
             </WrapItem>
             <WrapItem>
                 <Select placeholder="" w="18.5rem" variant={"filter"} defaultValue={"1"}>
-                    <option value={"1"}>Tất cả trạng thái</option>
-                    <option value={"1"}>Giao hàng thành công</option>
-                    <option value={"1"}>Đã hủy</option>
+                    <option value={"1"}>{t("ALL_STATUS")}</option>
+                    <option value={"1"}>{t("DELIVERED")}</option>
+                    <option value={"1"}>{t("CANCELLED")}</option>
                 </Select>
             </WrapItem>
             <WrapItem>
@@ -74,8 +76,8 @@ const HistoryFilter = () => {
 
             <WrapItem>
                 <Select placeholder="" w="14rem" variant={"filter"} defaultValue={"1"}>
-                    <option value={"1"}>Tất cả nhãn</option>
-                    <option value={"2"}>Yêu thích</option>
+                    <option value={"1"}>{t("ALL_LABELS")}</option>
+                    <option value={"2"}>{t("FAVORITES")}</option>
                 </Select>
             </WrapItem>
         </Wrap>

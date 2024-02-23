@@ -30,13 +30,13 @@ const OrderDetail = () => {
                     src="https://cloudstg.ahamove.com/share-order/23ERRXVR/84905005248"
                 />
                 <Flex flexDir="column" w="47.7rem" h="100%" gap="1rem">
-                    <GroupWrapper titleFontSize="2rem" title="Đơn hàng">
+                    <GroupWrapper titleFontSize="2rem" title={"ORDER"}>
                         <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">
                             <Text>ID: #1234567</Text>
                             <Text>{t("ORDER_DATE", { time: "26/07/2023" })}</Text>
                         </VStack>
                     </GroupWrapper>
-                    <GroupWrapper titleFontSize="2rem" title="Tài xế">
+                    <GroupWrapper titleFontSize="2rem" title={"DRIVER"}>
                         <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">
                             <Flex alignItems="center">
                                 <Avatar w="6.4rem" h="6.4rem" src={"/images/Avatar.svg"} mr="1.6rem" />

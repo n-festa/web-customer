@@ -8,9 +8,9 @@ export const routes = {
     AdditionalSignUpInfo: "/additional", //done vi
     RegistrationSuccess: "/registration_success", //done
     ProductDetail: "/detail", //done
-    ConfirmOrder: "/confirm", //done vi
+    ConfirmOrder: "/confirm", //done
     review: "/review", //done
-    OrderDetail: "/order/detail", //done vi
-    OrderHistory: "/order/history",
+    OrderDetail: "/order/detail", //done
+    OrderHistory: "/order/history", //done
     Profile: "/profile",
 };
