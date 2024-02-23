@@ -2,11 +2,13 @@ import WraperInfo from "@/components/molecules/WraperInfo";
 import FoodItem from "@/components/organism/FoodItem";
 import products from "@/utils/data/products";
 import { Wrap, WrapItem } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 
 const FoodInRestaurant = () => {
+    const t = useTranslations("PRODUCT_DETAIL");
     return (
         <WraperInfo
-            title="Món ăn cùng quán"
+            title={t("SAME_RESTAURANT")}
             titleProps={{ fontSize: "2.4rem" }}
             isViewAll={false}
             contentProps={{ mt: "1.6rem" }}

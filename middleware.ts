@@ -2,7 +2,7 @@ import createMiddleware from "next-intl/middleware";
 
 // Limit the middleware to paths starting with /api/
 export const config = {
-    matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+    matcher: ["/", "/(de|en)/:path*", "/((?!api|_next|_vercel|.*\\..*).*)"],
 };
 
 export default createMiddleware({

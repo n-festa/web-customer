@@ -6,6 +6,7 @@ import { FilterType, SortOrder } from "@/types/enum";
 import { FilterCondition } from "@/types/interfaces";
 import { isNullOrEmpty } from "@/utils/functions";
 import { HStack, Select, Wrap, WrapItem } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
+    const t = useTranslations("COMMON");
     const { other, orderOptions } = condition;
     const otherSelectedOptions = other[condition.type];
     const otherOptions = orderOptions[condition.type];
@@ -41,11 +43,11 @@ const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
                     options={[
                         {
                             value: FilterType.Food,
-                            name: "Món ăn",
+                            name: t("FOOD"),
                         },
                         {
                             value: FilterType.Restaurant,
-                            name: "Nhà hàng",
+                            name: t("RESTAURANT"),
                         },
                     ]}
                     value={condition.type}
@@ -57,7 +59,7 @@ const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
             </WrapItem>
             <WrapItem>
                 <Select
-                    placeholder="Săp xếp"
+                    placeholder={t("SORT")}
                     w="11.6rem"
                     variant={"filter"}
                     onChange={(e) => {
@@ -65,8 +67,8 @@ const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
                         onChangeFilterOptions<SortOrder | undefined>("sort", value);
                     }}
                 >
-                    <option value={SortOrder.ASC}>Giá tăng</option>
-                    <option value={SortOrder.DESC}>Giá giảm</option>
+                    <option value={SortOrder.ASC}>{t("PRICE_ASCENDING")}</option>
+                    <option value={SortOrder.DESC}>{t("PRICE_DESCENDING")}</option>
                 </Select>
             </WrapItem>
             <WrapItem>

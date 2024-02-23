@@ -12,6 +12,7 @@ import { Button, Center, Flex, FlexProps, HStack, Image, Text, VStack } from "@c
 import Axios, { CancelTokenSource } from "axios";
 import { cloneDeep } from "lodash";
 import isEqual from "lodash/isEqual";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { BeatLoader } from "react-spinners";
@@ -24,6 +25,7 @@ const Cart = ({
     ignoreAuthError,
     ...props
 }: FlexProps & { restaurant_id?: number | string; ignoreAuthError?: boolean }) => {
+    const t = useTranslations("CART");
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValueLoadable(cartSynced).valueMaybe();
@@ -123,7 +125,7 @@ const Cart = ({
         >
             <VStack borderBottom="1px solid var(--gray-300)" pb="1.6rem" spacing="0.8rem" color="black">
                 <Text fontSize="2.4rem" textAlign="center" fontWeight="600">
-                    Giỏ đồ ăn
+                    {t("FOOD_BASKET")}
                 </Text>
                 {!isCartEmpty && !isLoadingTime && (
                     <>
@@ -140,7 +142,9 @@ const Cart = ({
                                 <HStack spacing="1rem">
                                     <Image alt="warning" src="/images/icons/warning.svg" />
                                     <Text fontSize="1.6rem" textAlign="center">
-                                        {`Giỏ hàng không khả dụng đến hết ${formatDate(receiveTimePredict.backTime, YYYYMMDD)}`}
+                                        {t("CART_UNAVAILABLE", {
+                                            time: formatDate(receiveTimePredict.backTime, YYYYMMDD),
+                                        })}
                                     </Text>
                                 </HStack>
                                 <Button
@@ -153,14 +157,17 @@ const Cart = ({
                                     h="3.6rem"
                                     variant="error"
                                 >
-                                    Xoá giỏ hàng
+                                    {t("CLEAR_CART")}
                                 </Button>
                             </Flex>
                         ) : (
                             receiveTimePredict?.predictTime &&
                             receiveTimePredict?.predictTimeBuffer && (
                                 <Text fontSize="1.6rem" textAlign="center">
-                                    {`Thời gian nhận đồ ăn gần nhất: ${receiveTimePredict?.predictTime} - ${receiveTimePredict?.predictTimeBuffer}`}
+                                    {t("NEAREST_DELIVERY_TIME", {
+                                        timeAfter: receiveTimePredict?.predictTime,
+                                        timeBefore: receiveTimePredict?.predictTimeBuffer,
+                                    })}
                                 </Text>
                             )
                         )}
@@ -218,10 +225,10 @@ const Cart = ({
                         <Flex justifyContent="space-between">
                             <Flex flex={1} flexDir="column" justifyContent="space-between" pr="2rem">
                                 <Text fontSize="2rem" fontWeight={600}>
-                                    Tổng
+                                    {t("TOTAL")}
                                 </Text>
                                 <Text fontSize="1.6rem" lineHeight="2.4rem">
-                                    Phí giao hàng sẽ hiển thị khi bạn xem chi tiết đơn hàng
+                                    {t("DELIVERY_FEE_NOTICE")}
                                 </Text>
                             </Flex>
                             <Flex justifyContent="flex-end" alignItems="center">
@@ -239,7 +246,7 @@ const Cart = ({
                                 router.push(routes.ConfirmOrder);
                             }}
                         >
-                            Xem đơn hàng
+                            {t("VIEW_ORDER")}
                         </Button>
                     </Flex>
                 </>
@@ -254,7 +261,9 @@ const Cart = ({
                             fontWeight="500"
                             color="var(--gray-600)"
                         >
-                            {`Thêm ngay bữa ăn ngon lành\r\ncủa riêng bạn.`}
+                            {t.rich("ADD_NOW", {
+                                br: () => <br />,
+                            })}
                         </Text>
                     </VStack>
                 </Center>

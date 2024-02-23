@@ -14,7 +14,29 @@
         "CLOSE": "Đóng",
         "PROFILE": "Hồ sơ",
         "ORDERS": "Đơn hàng",
-        "LOGOUT": "Thoát"
+        "LOGOUT": "Thoát",
+        "BACK_PAGE": "Quay lại trang trước",
+        "VIEW_ALL": "Xem tất cả",
+        "FOOD": "Món ăn",
+        "RESTAURANT": "Nhà hàng",
+        "SORT": "Săp xếp",
+        "PRICE_ASCENDING": "Giá tăng",
+        "PRICE_DESCENDING": "Giá giảm",
+        "TODAY": "Hôm nay",
+        "TOMORROW": "Ngày mai",
+        "VEGETARIAN_DISH": "Món chay",
+        "MENU": "Thực đơn",
+        "BACK": "Trở lại",
+        "DELIVER_TO": "Giao đến",
+        "STARS": "> 4 Sao",
+        "VEG": "Chay",
+        "FOOD_ITEM": {
+            "QUANTITY_AVAILABLE": "Còn {number} phần",
+            "SOLD_OUT": "Đã bán",
+            "PLACE_ORDER_BEFORE": "Đặt trước {time} để điều chỉnh vị",
+            "AM": "giờ sáng",
+            "PM": "giờ chiều"
+        }
     },
     "BUTTON": {
         "LOGIN": "Đăng nhập",
@@ -141,7 +163,11 @@
             "MESSAGE_PLACEHOLDER": "Ví dụ: xin chào 2ALL, tôi có nhu cầu muốn hợp tác với bạn",
             "NOT_A_ROBOT": "Tôi không phải robot",
             "SEND_MESSAGE": "Gửi tin nhắn",
-            "IN_TRANSIT": "Đang giao hàng"
+            "IN_TRANSIT": "Đang giao hàng",
+            "TOMATOES": "Cà chua",
+            "KALE": "Cải Kale",
+            "CONTACT_PARTNERS": "Liên hệ đối tác",
+            "SENT_CONTACT": "Đã gửi liên hệ"
         },
         "DOWNLOAD_APP": {
             "TITLE": "Tải ứng dụng dùng ngay",
@@ -153,5 +179,193 @@
         "FOR_PARTNERS": "Dành cho Đối tác",
         "DOWNLOAD_APP": "Tải App",
         "CONTACT_US": "Liên hệ"
+    },
+    "SEARCH": {
+        "SEARCH_BOX_PLACEHOLDER": "Gõ tên món ăn mà bạn đang muốn tìm",
+        "SPECIAL_FOOD": {
+            "TITLE": "Hấp dẫn",
+            "DESCRIPTION": "Khám phá món hấp dẫn xung quanh bạn"
+        },
+        "SPECIAL_RESTAURANTS": {
+            "TITLE": "Bếp nổi bật tuần này",
+            "DESCRIPTION": "Khám phá những quán ăn, đầu bếp nổi bật xung quanh bạn"
+        },
+        "DETAIL": {}
+    },
+    "FOOTER": {
+        "DESCRIPTION": "Một bữa ăn ngon lành, đầy đủ dưỡng chất, được chế biến theo khẩu vị của bạn. Không cần lo nghĩ, không cần nấu, hẹn giờ giao linh hoạt.",
+        "CONTACT": {
+            "TITLE": "Liên hệ",
+            "ADDRESS1": "162 Hoàng Sa",
+            "ADDRESS2": "Q.1, Tp.HCM"
+        },
+        "ABOUT_US": {
+            "TITLE": "Về chúng tôi",
+            "TEAM": "Đội ngũ",
+            "CAREERS": "Việc làm",
+            "NEWS": "Tin tức"
+        },
+        "LOCATIONS": {
+            "TITLE": "Khu vực hoạt động",
+            "DISTRICT_1": "Quận 1, Tp. Hồ Chí Minh",
+            "DISTRICT_2": "Quận 2, Tp. Hồ Chí Minh",
+            "DISTRICT_3": "Quận 3, Tp. Hồ Chí Minh",
+            "DISTRICT_4": "Quận 4, Tp. Hồ Chí Minh",
+            "BINH_TAN": "Bình Tân, Tp. Hồ Chí Minh",
+            "PHU_NHUAN": "Phú Nhuận, Tp. Hồ Chí Minh"
+        },
+        "FOLLOW": {
+            "TITLE": "Theo dõi tại"
+        },
+        "COPYRIGHT": "© 2023 Bản quyền website, ứng dụng thuộc về 2ALL."
+    },
+    "RESTAURANT": {
+        "COMMENT_CUSTOMER": "Khách hàng nhận xét",
+        "COMMENT_FOOD": "Nhận xét món ăn",
+        "ADJUST_TASTE": "Đặt trước {time} để điều chỉnh vị"
+    },
+    "CART": {
+        "ADD_NOW": "Thêm ngay bữa ăn ngon lành<br></br>của riêng bạn.",
+        "FOOD_BASKET": "Giỏ đồ ăn",
+        "CLEAR_CART": "Xoá giỏ hàng",
+        "TOTAL": "Tổng",
+        "DELIVERY_FEE_NOTICE": "Phí giao hàng sẽ hiển thị khi bạn xem chi tiết đơn hàng",
+        "VIEW_ORDER": "Xem đơn hàng",
+        "CART_UNAVAILABLE": "Giỏ hàng không khả dụng đến hết {time}",
+        "NEAREST_DELIVERY_TIME": "Thời gian nhận đồ ăn gần nhất: {timeAfter} - {timeBefore}"
+    },
+    "PRODUCT_DETAIL": {
+        "SIDE_DISH": "Món ăn kèm",
+        "SAME_RESTAURANT": "Món ăn cùng quán",
+        "SIMILAR_DISHES": "Món ăn tương tự",
+        "ADD_TO_CART": "Thêm vào giỏ hàng - {money}VND",
+        "COMPONENTS": "Thành phần",
+        "DESCRIPTION": "Mô tả",
+        "SERVINGSIVE": {
+            "SELECT_PORTION": "Chọn khẩu phần",
+            "ADJUST_TASTE": "Điều chỉnh vị (Trước {time}h sáng)",
+            "OTHER_ADJUSTMENT": "Điều chỉnh khác",
+            "NOTES": "Ghi chú",
+            "NOTES_PLACEHOLDER": "Ví dụ: Dị ứng với đậu phộng"
+        },
+        "PRODUCT_INFO": {
+            "QUANTITY_AVAILABLE": "Còn {number} phần",
+            "SOLD_OUT": "Đã bán",
+            "COMMENT": "Nhận xét",
+            "DISCOUNT_UP_TO": "Ưu đãi đến {money}k",
+            "PLACE_ORDER_BEFORE": "Đặt trước {time} để điều chỉnh vị",
+            "AM": "giờ sáng",
+            "PM": "giờ chiều"
+        }
+    },
+    "CONFIRM_ORDER": {
+        "DELIVERY_TIME_GROUP": {
+            "CART_UNAVAILABLE_UTIL": "Giỏ hàng không khả dụng đến hết {time}",
+            "CART_UNAVAILABLE": "Giỏ hàng không khả dụng",
+            "DELIVERY_TIME": "Thời gian giao hàng"
+        },
+        "PACKAGE_GROUP": {
+            "TITLE": "Đóng gói",
+            "SUGARCANE_BOX": "Đóng gói bằng hộp bã mía",
+            "EATING_UTENSILS": "Dụng cụ ăn uống",
+            "REQUEST_ONLY_WHEN_NEEDED": "Chỉ yêu cầu dụng cụ ăn uống khi bạn thực sự cần"
+        },
+        "PAYMENT_METHOD_GROUP": {
+            "TITLE": "Phương thức thanh toán",
+            "MOMO_PAYMENT": "Thanh toán bằng Momo",
+            "CASH_PAYMENT": "Thanh toán bằng tiền mặt"
+        },
+        "PROMOTION_GROUP": {
+            "TITLE": "Khuyến mãi",
+            "APPLY": "Áp dụng",
+            "ENTER_PROMO_CODE": "Nhập mã khuyến mãi"
+        },
+        "PAYMENT_GROUP": {
+            "PAYMENT": "Thanh toán",
+            "PAYMENT_INFO": "Thông tin thanh toán",
+            "TOTAL_ITEMS": "Tổng món ăn",
+            "PACKING_FEE": "Phí đóng gói",
+            "UTENSILS": "Dụng cụ ăn",
+            "DELIVERY_FEE": "Phí giao hàng | 0.8 km",
+            "PLATFORM_FEE": "Phí nền tảng",
+            "PROMOTION": "Khuyến mãi",
+            "TOTAL_PAYMENT": "Tổng thanh toán",
+            "PLACE_ORDER": "ĐẶT HÀNG"
+        },
+        "DELIVERY_DESTINATION": {
+            "PROVINCE_CITY": "Tỉnh / Thành Phố",
+            "DISTRICT": "Quận / Huyện",
+            "WARD": "Phường / Xã",
+            "STREET_AND_NUMBER": "Số nhà & tên đường",
+            "DRIVER_NOTE": "Ghi chú cho tài xế",
+            "DRIVER_NOTE_PLACEHOLDER": "Ví dụ: gặp tôi tại sảnh"
+        }
+    },
+    "REVIEW": {
+        "TITLE": "Đánh giá dịch vụ",
+        "ORDER_NUMBER": "Đơn hàng: {number}",
+        "ORDER_DATE": "Ngày: {time}",
+        "QUICK_REVIEW": "Đánh giá nhanh",
+        "DETAILED_REVIEW": "Đánh giá chi tiết",
+        "DRIVER_RATING": "Đánh giá tài xế",
+        "DISH_RATING": "Đánh giá món ăn",
+        "SATISFIED_WITH_DISH": "Bạn có hài lòng về món ăn của chúng tôi không? Hãy cho chúng tôi biết ý kiến của bạn",
+        "ADD_PHOTO": "Thêm ảnh",
+        "SUBMIT_REVIEW": "Gửi đánh giá",
+        "VERY_SATISFIED": "Rất hài lòng",
+        "PLACEHOLDER_COMMENT": "Nhận xét thêm về tài xế...",
+        "RATE_YAKITORI_FISH_NOODLES": "Đánh giá Mỳ Cá Cờ Sốt Yakitori",
+        "RATE_SUMMER_AVOCADO_SALAD": "Đánh giá Summer Avocado Salad",
+        "SHARE_FEEDBACK_PLACEHOLDER": "Hãy chia sẻ nhận xét cho dịch vụ này bạn nhé!"
+    },
+    "ORDER_DETAIL": {
+        "DRIVER": "Tài xế",
+        "ORDER": "Đơn hàng",
+        "ORDER_DATE": "Ngày: {time}",
+        "FOR_DRIVER_NOTE": "Ghi chú dành cho tài xế:",
+        "SUGARCANE_BOX": "Đóng gói bằng hộp bã mía",
+        "NO_UTENSILS_NEEDED": "Không lấy dụng cụ ăn uống",
+        "PAYMENT_METHOD": "Phương thức thanh toán",
+        "PAID_WITH_MOMO": "Đã thanh toán bằng Momo",
+        "DELIVER_TO": "Giao đến",
+        "PACKAGING": "Đóng gói",
+        "ORDER_CONFIRMATION": {
+            "MD": {
+                "CONFIRM_ORDER": "Xác Nhận Đơn Hàng",
+                "DRIVER_ARRIVED_RESTAURANT": "Tài Xế Đã Tới Nhà Hàng",
+                "DRIVER_LEFT_RESTAURANT": "Tài Xế Đã Rời Nhà Hàng",
+                "DRIVER_ARRIVED_DESTINATION": "Tài Xế Đã Đến Nơi"
+            },
+            "BASE": {
+                "CONFIRM_ORDER": "Xác Nhận\r\nĐơn Hàng",
+                "DRIVER_ARRIVED_RESTAURANT": "Tài Xế\r\nĐã Tới Nhà Hàng",
+                "DRIVER_LEFT_RESTAURANT": "Tài Xế\r\nĐã Rời Nhà Hàng",
+                "DRIVER_ARRIVED_DESTINATION": "Tài Xế\r\nĐã Đến Nơi"
+            }
+        }
+    },
+    "ORDER_HISTORY": {
+        "MY_ORDERS": "Đơn hàng của tôi",
+        "DELIVERING": "Đang giao",
+        "HISTORY": "Lịch sử",
+        "SEARCH_FOOD_RESTAURANT": "Gõ tên món ăn, nhà hàng mà bạn đang muốn tìm",
+        "FILTER": {
+            "FOOD": "Món ăn",
+            "RESTAURANT": "Nhà hàng",
+            "NEAREST_DATE": "Ngày gần nhất",
+            "ALL_STATUS": "Tất cả trạng thái",
+            "DELIVERED": "Giao hàng thành công",
+            "CANCELLED": "Đã hủy",
+            "ALL_LABELS": "Tất cả nhãn",
+            "FAVORITES": "Yêu thích"
+        },
+        "HISTORY_ITEM": {
+            "CANCEL_ORDER": "Hủy đơn hàng",
+            "DELIVERY_SUCCESSFUL": "Giao hàng thành công",
+            "ORDER": "Đơn hàng",
+            "TODAY": "Hôm nay",
+            "REORDER": "Mua lại",
+            "VIEW_DETAILS": "Xem chi tiết"
+        }
     }
 }

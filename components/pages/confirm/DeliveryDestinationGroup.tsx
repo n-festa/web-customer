@@ -7,6 +7,7 @@ import { useAppSelector } from "@/store/hooks";
 import { filedType, formType } from "@/types/form";
 import { Flex, VStack } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
+import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import GroupWrapper from "./GroupWrapper";
 
@@ -18,6 +19,8 @@ const DeliveryDestinationGroup = ({
     district?: { key: string; value: string };
     commune?: { key: string; value: string };
 }) => {
+    const t = useTranslations("COMMON");
+    const tDelivery = useTranslations("CONFIRM_ORDER.DELIVERY_DESTINATION");
     const { GetProvincesCities } = useSWRAPI();
     const { data: provincesData, isLoading } = GetProvincesCities();
     const [districts, setDistrict] = useState<{ key: string; value: string }[]>([]);
@@ -94,7 +97,7 @@ const DeliveryDestinationGroup = ({
         userInfo?.addressCompound?.province,
     ]);
     return (
-        <GroupWrapper title="Giao đến">
+        <GroupWrapper title={t("DELIVER_TO")}>
             <Formik
                 initialValues={confirmOrder.initialValues}
                 validationSchema={confirmOrder.validationSchema.validation}
@@ -111,9 +114,9 @@ const DeliveryDestinationGroup = ({
                                 {({ field, form }: { field: filedType; form: formType }) => (
                                     <InputSelectForm
                                         isDisabled={isLoading}
-                                        title="Tỉnh / Thành Phố"
+                                        title={tDelivery("PROVINCE_CITY")}
                                         name="province"
-                                        placeholder="Tỉnh / Thành Phố"
+                                        placeholder={tDelivery("PROVINCE_CITY")}
                                         value={field.value ?? defaultProvince?.value}
                                         options={provinces}
                                         error={form.errors.province}
@@ -128,9 +131,9 @@ const DeliveryDestinationGroup = ({
                                             formControlProps={{
                                                 flex: 1,
                                             }}
-                                            title="Quận / Huyện"
+                                            title={tDelivery("DISTRICT")}
                                             name="district"
-                                            placeholder="Quận / Huyện"
+                                            placeholder={tDelivery("DISTRICT")}
                                             value={field.value ?? defaultDistrict?.value}
                                             options={districts}
                                             error={form.errors.district}
@@ -144,9 +147,9 @@ const DeliveryDestinationGroup = ({
                                             formControlProps={{
                                                 flex: 1,
                                             }}
-                                            title="Phường / Xã"
+                                            title={tDelivery("WARD")}
                                             name="ward"
-                                            placeholder="Phường / Xã"
+                                            placeholder={tDelivery("WARD")}
                                             value={field.value ?? defaultCommune?.value}
                                             options={communes}
                                             error={form.errors.ward}
@@ -161,7 +164,7 @@ const DeliveryDestinationGroup = ({
                                         formControlProps={{
                                             mb: "0",
                                         }}
-                                        title="Số nhà & tên đường"
+                                        title={tDelivery("STREET_AND_NUMBER")}
                                         type="text"
                                         placeholder=""
                                         error={form.errors.address}
@@ -181,9 +184,9 @@ const DeliveryDestinationGroup = ({
                                         formControlProps={{
                                             mb: "0",
                                         }}
-                                        title="Ghi chú cho tài xế"
+                                        title={tDelivery("DRIVER_NOTE")}
                                         type="text"
-                                        placeholder="Ví dụ: gặp tôi tại sảnh"
+                                        placeholder={tDelivery("DRIVER_NOTE_PLACEHOLDER")}
                                         labelProps={{
                                             fontWeight: 500,
                                             fontSize: "1.4rem",

@@ -2,6 +2,7 @@ import { RestaurantDto } from "@/types/response/base";
 import { getCutoffTime } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Box, Button, Center, Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player/lazy";
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const FoodChef = ({ data }: Props) => {
+    const t = useTranslations("COMMON.FOOD_ITEM");
     const {
         id,
         name,
@@ -37,7 +39,7 @@ const FoodChef = ({ data }: Props) => {
     }, [mounted]);
 
     const _time = useMemo(() => {
-        return getCutoffTime(cutoff_time);
+        return getCutoffTime(cutoff_time, t);
     }, [cutoff_time]);
 
     return (

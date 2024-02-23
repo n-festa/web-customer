@@ -60,12 +60,15 @@ export const formatMoney = (input?: string | number) => {
     return `${input.toLocaleString()} đ`;
 };
 
-export const getCutoffTime = (cutoffTime?: string | string[]) => {
+export const getCutoffTime = (cutoffTime?: string | string[], t?: any) => {
     if (!cutoffTime) return;
     if (typeof cutoffTime === "string") {
         const split = cutoffTime.split(":");
         if (split.length > 1) {
-            return `${split[0]}:${split[1]}`;
+            if (+split[0] >= 12) {
+                return `${split[0]}:${split[1]} ${t("PM")}`;
+            }
+            return `${split[0]}:${split[1]} ${t("AM")}`;
         }
         return;
     }

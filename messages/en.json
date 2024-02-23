@@ -14,7 +14,29 @@
         "CLOSE": "Đóng",
         "PROFILE": "Profile",
         "ORDERS": "Orders",
-        "LOGOUT": "Log out"
+        "LOGOUT": "Log out",
+        "BACK_PAGE": "Go back",
+        "VIEW_ALL": "See all",
+        "FOOD": "Food",
+        "RESTAURANT": "Restaurant",
+        "SORT": "Sort by",
+        "PRICE_ASCENDING": "Price ascending",
+        "PRICE_DESCENDING": "Price descending",
+        "DELIVER_TO": "Deliver to",
+        "STARS": "> 4 Stars",
+        "VEG": "Veg",
+        "MENU": "Menu",
+        "TODAY": "Today",
+        "TOMORROW": "Tomorrow",
+        "VEGETARIAN_DISH": "Veg",
+
+        "FOOD_ITEM": {
+            "QUANTITY_AVAILABLE": "{number} available",
+            "SOLD_OUT": "Sold",
+            "PLACE_ORDER_BEFORE": "Order before {time} to adjust the taste",
+            "AM": "AM",
+            "PM": "PM"
+        }
     },
     "BUTTON": {
         "LOGIN": "Log in",
@@ -141,7 +163,11 @@
             "MESSAGE_PLACEHOLDER": "Example: Hello 2ALL, I am interested in cooperating with you.",
             "NOT_A_ROBOT": "I’m not a robot",
             "SEND_MESSAGE": "Send",
-            "IN_TRANSIT": "On going"
+            "IN_TRANSIT": "On going",
+            "TOMATOES": "Tomatoes",
+            "KALE": "Cải Kale",
+            "CONTACT_PARTNERS": "Contact Partners",
+            "SENT_CONTACT": "Contact Sent"
         },
         "DOWNLOAD_APP": {
             "TITLE": "Download the 2ALL app",
@@ -153,5 +179,184 @@
         "FOR_PARTNERS": "Partner",
         "DOWNLOAD_APP": "Download",
         "CONTACT_US": "Contact"
+    },
+    "SEARCH": {
+        "SEARCH_BOX_PLACEHOLDER": "Search for your food",
+        "SPECIAL_FOOD": {
+            "TITLE": "Delicious",
+            "DESCRIPTION": "Explore the delicious food around you"
+        },
+        "SPECIAL_RESTAURANTS": {
+            "TITLE": "Must-try dish this week",
+            "DESCRIPTION": "Explore the local food scene and find your new favorite restaurant"
+        }
+    },
+    "FOOTER": {
+        "DESCRIPTION": "A delicious and nutritious meal, tailored to your taste. No need to worry, no need to cook, flexible delivery scheduling.",
+        "CONTACT": {
+            "TITLE": "Contact",
+            "EMAIL": "info@gmail.com",
+            "ADDRESS1": "162 Hoang Sa",
+            "ADDRESS2": "D.1, HCMC"
+        },
+        "ABOUT_US": {
+            "TITLE": "About us",
+            "TEAM": "Team",
+            "CAREERS": "Jobs",
+            "NEWS": "News"
+        },
+        "LOCATIONS": {
+            "TITLE": "Operating Areas",
+            "DISTRICT_1": "District 1, Ho Chi Minh City",
+            "DISTRICT_2": "District 2, Ho Chi Minh City",
+            "DISTRICT_3": "District 3, Ho Chi Minh City",
+            "DISTRICT_4": "District 4, Ho Chi Minh City",
+            "BINH_TAN": "Binh Tan District, Ho Chi Minh City",
+            "PHU_NHUAN": "Phu Nhuan District, Ho Chi Minh City"
+        },
+        "FOLLOW": {
+            "TITLE": "Follow us"
+        },
+        "COPYRIGHT": "© 2023 Copyright belongs to 2ALL "
+    },
+    "RESTAURANT": {
+        "COMMENT_CUSTOMER": "Reviews",
+        "COMMENT_FOOD": "Reviews"
+    },
+    "CART": {
+        "ADD_NOW": "Add your delicious and nutritious<br></br> meal right away.",
+        "FOOD_BASKET": "Your Cart"
+    },
+    "PRODUCT_DETAIL": {
+        "SIDE_DISH": "Eat together ",
+        "SAME_RESTAURANT": "Same restaurant",
+        "SIMILAR_DISHES": "Similar",
+        "ADD_TO_CART": "Add to cart- {money}VND",
+        "COMPONENTS": "Main ingredients",
+        "DESCRIPTION": "Description",
+        "SERVINGSIVE": {
+            "SELECT_PORTION": "Portion",
+            "ADJUST_TASTE": "Taste (Before {time} AM)",
+            "OTHER_ADJUSTMENT": "Others",
+            "NOTES": "Notes",
+            "NOTES_PLACEHOLDER": "Example: Allergic to peanuts"
+        },
+        "PRODUCT_INFO": {
+            "QUANTITY_AVAILABLE": "{number} available",
+            "SOLD_OUT": "Sold",
+            "PLACE_ORDER_BEFORE": "Order before {time} to adjust the taste",
+            "AM": "AM",
+            "PM": "PM",
+            "COMMENT": "Reviews",
+            "DISCOUNT_UP_TO": "Discount up to {money}K"
+        }
+    },
+    "CONFIRM_ORDER": {
+        "DELIVERY_TIME_GROUP": {
+            "DELIVERY_TIME": "Time"
+        },
+        "PACKAGE_GROUP": {
+            "TITLE": "Packaging",
+            "SUGARCANE_BOX": "Packaged in a sugarcane pulp box",
+            "EATING_UTENSILS": "Cutlery",
+            "REQUEST_ONLY_WHEN_NEEDED": "Only take if you really need"
+        },
+        "PAYMENT_METHOD_GROUP": {
+            "TITLE": "Payment",
+            "MOMO_PAYMENT": "Momo",
+            "CASH_PAYMENT": "Cash"
+        },
+        "PROMOTION_GROUP": {
+            "TITLE": "Promotion",
+            "APPLY": "Apply",
+            "ENTER_PROMO_CODE": "Enter the code"
+        },
+        "PAYMENT_GROUP": {
+            "PAYMENT": "Bill Detail",
+            "PAYMENT_INFO": "Detail",
+            "TOTAL_ITEMS": "Item total",
+            "PACKING_FEE": "Package fee",
+            "UTENSILS": "Cutlery fee",
+            "DELIVERY_FEE": "Delivery fee | 0.8 km",
+            "PLATFORM_FEE": "Application fee",
+            "PROMOTION": "Promotion",
+            "TOTAL_PAYMENT": "Total",
+            "PLACE_ORDER": "Order"
+        },
+        "DELIVERY_DESTINATION": {
+            "PROVINCE_CITY": "Province / City",
+            "DISTRICT": "District",
+            "WARD": "Ward",
+            "STREET_AND_NUMBER": "Address number & street",
+            "DRIVER_NOTE": "Note for drivers",
+            "DRIVER_NOTE_PLACEHOLDER": "Ex: meet at hall"
+        }
+    },
+    "REVIEW": {
+        "TITLE": "Feedback",
+        "ORDER_NUMBER": "Order: {number}",
+        "ORDER_DATE": "Date: {time}",
+        "QUICK_REVIEW": "Quick feedback",
+        "DETAILED_REVIEW": "Advanced feeback",
+        "DRIVER_RATING": "Driver",
+        "DISH_RATING": "Dishes",
+        "SATISFIED_WITH_DISH": "We value your opinion. Please let us know if you have any comments or suggestions about our food",
+        "ADD_PHOTO": "Insert images",
+        "SUBMIT_REVIEW": "Send",
+        "VERY_SATISFIED": "Excellent",
+        "PLACEHOLDER_COMMENT": "Additional feedback about the driver",
+        "RATE_YAKITORI_FISH_NOODLES": "Feedback Mỳ Cá Cờ Sốt Yakitori",
+        "RATE_SUMMER_AVOCADO_SALAD": "Feedback Summer Avocado Salad",
+        "SHARE_FEEDBACK_PLACEHOLDER": "Please take a moment to share your thoughts on this service"
+    },
+    "ORDER_DETAIL": {
+        "DRIVER": "Driver",
+        "ORDER": "Order",
+        "ORDER_DATE": "Date: {time}",
+        "FOR_DRIVER_NOTE": "Note for driver:",
+        "SUGARCANE_BOX": "Packaged in a sugarcane pulp box",
+        "NO_UTENSILS_NEEDED": "Do not take cutlery",
+        "PAYMENT_METHOD": "Payment",
+        "PAID_WITH_MOMO": "Paid via Momo",
+        "DELIVER_TO": "Deliver to",
+        "PACKAGING": "Packaging",
+        "ORDER_CONFIRMATION": {
+            "MD": {
+                "CONFIRM_ORDER": "Order confirmed",
+                "DRIVER_ARRIVED_RESTAURANT": "Driver arrives restaurant",
+                "DRIVER_LEFT_RESTAURANT": "Driver leaves restaurant",
+                "DRIVER_ARRIVED_DESTINATION": "Driver arrives customer’s place"
+            },
+            "BASE":{
+                "CONFIRM_ORDER": "Order\r\nconfirmed",
+                "DRIVER_ARRIVED_RESTAURANT": "Driver\r\narrives restaurant",
+                "DRIVER_LEFT_RESTAURANT": "Driver\r\nleaves restaurant",
+                "DRIVER_ARRIVED_DESTINATION": "Driver\r\narrives customer’s place"
+            }
+        }
+    },
+    "ORDER_HISTORY": {
+        "MY_ORDERS": "My orders",
+        "DELIVERING": "On going",
+        "HISTORY": "History",
+        "SEARCH_FOOD_RESTAURANT": "Search for dishes or restaurants",
+        "FILTER": {
+            "FOOD": "Dishes",
+            "RESTAURANT": "Restaurants",
+            "NEAREST_DATE": "Recent",
+            "ALL_STATUS": "All status",
+            "DELIVERED": "Success",
+            "CANCELLED": "Cancelled",
+            "ALL_LABELS": "All labels",
+            "FAVORITES": "Favorites"
+        },
+        "HISTORY_ITEM": {
+            "CANCEL_ORDER": "Cancel",
+            "DELIVERY_SUCCESSFUL": "Success",
+            "ORDER": "Order",
+            "TODAY": "Today",
+            "REORDER": "Re-order",
+            "VIEW_DETAILS": "Detail"
+        }
     }
 }

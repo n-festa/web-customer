@@ -4,6 +4,7 @@ import { RootState } from "@/store";
 import { FetchMode, FilterType } from "@/types/enum";
 import { FilterCondition, SearchResult } from "@/types/interfaces";
 import { FoodOtherFilterOptions, RestaurantOtherFilterOptions } from "@/utils/constants";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -17,6 +18,7 @@ type DiscoveryKeyState = "keySearch" | "isShowFilterBox" | "filterCondition" | "
 export type FilterOptionKey = "type" | "sort" | "other";
 
 const useSearchResult = () => {
+    const t = useTranslations();
     const { params } = useParams<{
         searchKey?: string;
         categoryId?: number;
@@ -34,7 +36,7 @@ const useSearchResult = () => {
             viewAllFood: false,
             viewAllRestaurant: false,
             orderOptions: {
-                [FilterType.Food]: FoodOtherFilterOptions,
+                [FilterType.Food]: FoodOtherFilterOptions(t),
                 [FilterType.Restaurant]: RestaurantOtherFilterOptions,
             },
             other: {

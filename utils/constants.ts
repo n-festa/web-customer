@@ -1,8 +1,8 @@
 import { FoodOtherFilterOptionsKeys } from "@/types/enum";
 
-export const FoodOtherFilterOptions = [
-    { key: FoodOtherFilterOptionsKeys.GT4Star, name: "> 4 Sao" },
-    { key: FoodOtherFilterOptionsKeys.Vegetarian, name: "Chay" },
+export const FoodOtherFilterOptions = (t: any) => [
+    { key: FoodOtherFilterOptionsKeys.GT4Star, name: t("COMMON.STARS") },
+    { key: FoodOtherFilterOptionsKeys.Vegetarian, name: t("COMMON.VEG") },
     { key: FoodOtherFilterOptionsKeys.LT500Kcal, name: "< 500 Kcal" },
 ];
 

@@ -8,6 +8,7 @@ import { Box, Flex, HStack, Select, Switch, Text, Wrap, WrapItem } from "@chakra
 import { addDays } from "date-fns";
 import { getDay } from "date-fns/getDay";
 import { rest } from "lodash";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const MenuToday = ({ restaurantInfo, isLoading }: Props) => {
+    const t = useTranslations("COMMON");
     const defaultValue = formatDate(new Date());
     const listOptions = useMemo(() => {
         const currentDate = new Date();
@@ -25,7 +27,7 @@ const MenuToday = ({ restaurantInfo, isLoading }: Props) => {
             return [
                 {
                     value: defaultValue,
-                    name: "Hôm nay",
+                    name: t("TODAY"),
                 },
             ];
 
@@ -36,14 +38,14 @@ const MenuToday = ({ restaurantInfo, isLoading }: Props) => {
             if (i === 0) {
                 options.push({
                     value: formatDate(item),
-                    name: "Hôm nay",
+                    name: t("TODAY"),
                 });
                 continue;
             }
             if (i === 1) {
                 options.push({
                     value: formatDate(item),
-                    name: "Ngày mai",
+                    name: t("TOMORROW"),
                 });
                 continue;
             }
@@ -98,7 +100,7 @@ const MenuToday = ({ restaurantInfo, isLoading }: Props) => {
         <Flex flexDirection={"column"} alignItems={"flex-start"} w="100%" mt="3.2rem" {...rest}>
             <HStack spacing={"0.8rem"}>
                 <Text variant={"header"} fontSize={"2rem"} fontWeight={600} lineHeight={"2rem"}>
-                    Thực đơn
+                    {t("MENU")}
                 </Text>
                 <Select
                     placeholder=""
@@ -132,7 +134,7 @@ const MenuToday = ({ restaurantInfo, isLoading }: Props) => {
                     }}
                 >
                     <Text variant={"toggle"} px="0.8rem" textTransform={"capitalize"}>
-                        Món chay
+                        {t("VEGETARIAN_DISH")}
                     </Text>
                 </Switch>
             </HStack>

@@ -3,8 +3,10 @@ import { BackButton } from "@/components/atoms/bottom/BackButton";
 import ReviewDetail from "@/components/pages/review/ReviewDetail";
 import ReviewQuick from "@/components/pages/review/ReviewQuick";
 import { Box, Flex, Heading, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 
 const Review = () => {
+    const t = useTranslations("REVIEW");
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
@@ -18,7 +20,7 @@ const Review = () => {
                         mb="1rem"
                         textAlign="center"
                     >
-                        Đánh giá dịch vụ
+                        {t("TITLE")}
                     </Heading>
                     <Flex
                         fontSize="1.6rem"
@@ -28,9 +30,9 @@ const Review = () => {
                         justifyContent="center"
                         mb="2rem"
                     >
-                        <Text>Đơn hàng: #1234567</Text>
+                        <Text>{t("ORDER_NUMBER", { number: "#1234567" })}</Text>
                         <Text>-</Text>
-                        <Text>Ngày: 26/07/2023</Text>
+                        <Text>{t("ORDER_DATE", { time: "26/07/2023" })}</Text>
                     </Flex>
                     <Tabs>
                         <TabList>
@@ -40,7 +42,7 @@ const Review = () => {
                                 fontWeight="600"
                                 _selected={{ borderColor: "#00322A", color: "var(--gray-700)" }}
                             >
-                                Đánh giá nhanh
+                                {t("QUICK_REVIEW")}
                             </Tab>
                             <Tab
                                 color="var(--gray-500)"
@@ -48,7 +50,7 @@ const Review = () => {
                                 fontWeight="600"
                                 _selected={{ borderColor: "#00322A", color: "var(--gray-700)" }}
                             >
-                                Đánh giá chi tiết
+                                {t("DETAILED_REVIEW")}
                             </Tab>
                         </TabList>
                         <TabPanels mt="2rem">

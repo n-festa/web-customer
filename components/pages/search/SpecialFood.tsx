@@ -7,10 +7,11 @@ import useSWRAPI from "@/hooks/useApi";
 import { routes } from "@/utils/routes";
 import { Wrap, WrapItem } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "use-intl";
 
 const SpecialFood = () => {
+    const t = useTranslations("SEARCH.SPECIAL_FOOD");
     const { GetGeneralFoodRecommendation } = useSWRAPI();
-    // const profile = useSelector((state: RootState) => state.auth.profile);
     const { data, isLoading } = GetGeneralFoodRecommendation();
     const router = useRouter();
 
@@ -19,8 +20,8 @@ const SpecialFood = () => {
     };
     return (
         <WraperInfo
-            title="Hấp dẫn"
-            description="Khám phá món hấp dẫn xung quanh bạn"
+            title={t("TITLE")}
+            description={t("DESCRIPTION")}
             onClickViewAll={onViewAll}
             contentProps={{
                 display: "flex",

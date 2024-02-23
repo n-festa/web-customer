@@ -2,9 +2,11 @@ import SearchLocation from "@/components/molecules/SearchLocation";
 import { RootState } from "@/store";
 import textStyles from "@/theme/textStyle";
 import { Img, InputLeftElement, Text } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 
 const DeliveryLocation = () => {
+    const t = useTranslations("COMMON");
     const address = useSelector((state: RootState) => state.userInfo?.userInfo?.address ?? "");
     return (
         <SearchLocation
@@ -20,7 +22,7 @@ const DeliveryLocation = () => {
             leftElement={
                 <InputLeftElement pointerEvents="none" w="12rem" h="100%" p="1rem 1rem">
                     <Text fontWeight={"400"} color="var(--gray-500)" whiteSpace={"nowrap"} {...textStyles.small}>
-                        Giao đến
+                        {t("DELIVER_TO")}
                     </Text>
                     <Img
                         src="/images/icons/marker-pin-01.svg"

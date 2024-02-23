@@ -76,8 +76,8 @@ const Contact = () => {
                 }
                 await apiServices.sendContactForm({ email, message });
                 toast({
-                    title: "Liên hệ đối tác",
-                    description: `Đã gửi liên hệ`,
+                    title: t("CONTACT_PARTNERS"),
+                    description: t("SENT_CONTACT"),
                     status: "success",
                     duration: 4000,
                     position: "top",
@@ -199,7 +199,7 @@ const Contact = () => {
                     />
                     <GroupBox
                         img={"/images/image-36x36@2x.png"}
-                        name="Cải Kale"
+                        name={t("KALE")}
                         bottom="0"
                         left="0"
                         width="18.4rem"
@@ -208,7 +208,7 @@ const Contact = () => {
                     <GroupBox
                         w="15.5rem"
                         img={"/images/image-36x361@2x.png"}
-                        name="Cà Chua"
+                        name={t("TOMATOES")}
                         bottom="6.5rem"
                         right="5rem"
                         h="6.522rem"

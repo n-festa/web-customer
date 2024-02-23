@@ -3,6 +3,7 @@ import { ProductTypeList } from "@/types";
 import { getCutoffTime, isNullOrEmpty } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Box, Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
@@ -43,6 +44,7 @@ const FoodItemSuspense = ({
     isShowAddButton?: boolean;
     disableAction?: boolean;
 }) => {
+    const t = useTranslations("COMMON.FOOD_ITEM");
     const router = useRouter();
     const { handleQuickAdd, loading } = useUpdateCart();
 
@@ -136,7 +138,7 @@ const FoodItemSuspense = ({
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/icons/package-check.svg" />
                                 <Text wordBreak="keep-all" className="text">
-                                    Đã bán {units_sold > 50 ? "50+" : units_sold}
+                                    {t("SOLD_OUT")} {units_sold > 50 ? "50+" : units_sold}
                                 </Text>
                             </HStack>
                         )}
@@ -144,7 +146,7 @@ const FoodItemSuspense = ({
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/icons/meal.svg" />
                                 <Text wordBreak="keep-all" className="text">
-                                    Còn {quantity_available} phần
+                                    {t("QUANTITY_AVAILABLE", { number: quantity_available })}
                                 </Text>
                             </HStack>
                         )}
@@ -203,7 +205,7 @@ const FoodItemSuspense = ({
                 {cutoff_time && (
                     <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
                         <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2725.svg" />
-                        <Text>Đặt trước {getCutoffTime(cutoff_time)} giờ sáng để điều chỉnh vị</Text>
+                        <Text>{t("PLACE_ORDER_BEFORE", { time: getCutoffTime(cutoff_time, t) })}</Text>
                     </HStack>
                 )}
             </VStack>

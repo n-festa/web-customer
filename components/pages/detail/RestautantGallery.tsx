@@ -31,6 +31,7 @@ interface Props {
 
 const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
     const t = useTranslations("COMMON");
+    const tFoodItem = useTranslations("COMMON.FOOD_ITEM");
     const ref = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
     const [playing, setPlaying] = useState(false);
@@ -80,8 +81,8 @@ const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
     const _time = useMemo(() => {
         const cutoffTime = restaurantInfo?.cutoff_time ?? [];
 
-        return getCutoffTime(cutoffTime);
-    }, [restaurantInfo?.cutoff_time]);
+        return getCutoffTime(cutoffTime, tFoodItem);
+    }, [restaurantInfo?.cutoff_time, tFoodItem]);
 
     return (
         <Flex w="100%" flexDirection={"column"} mt="1rem">
@@ -306,7 +307,7 @@ const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
                                     <HStack spacing="0">
                                         <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2725.svg" />
                                         <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
-                                            Đặt trước {_time} để điều chỉnh vị
+                                            {t("RESTAURANT.ADJUST_TASTE", { time: _time })}
                                         </Text>
                                     </HStack>
                                 )}

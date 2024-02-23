@@ -6,6 +6,7 @@ import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
 import { OtherCustomization, TasteCustomization } from "@/utils/constants";
 import { Button, Flex, HStack } from "@chakra-ui/react";
 import { RefObject, useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface Props {
     quantity?: number;
@@ -26,6 +27,7 @@ const OrderFooter = ({
     restaurantId,
     activeSKU,
 }: Props) => {
+    const t = useTranslations("PRODUCT_DETAIL");
     const [state, setState] = useState(quantity);
     const useInfo = useAppSelector((state) => state.userInfo.userInfo?.customer_id ?? -1);
     const { handleUpdateCart } = useUpdateCart();
@@ -125,7 +127,7 @@ const OrderFooter = ({
                     }}
                     onClick={onUpdateCart}
                 >
-                    Thêm vào giỏ hàng - {totalPrice.toLocaleString()}VND
+                    {t("ADD_TO_CART", { money: totalPrice.toLocaleString() })}
                 </Button>
             </HStack>
         </Flex>
