@@ -49,6 +49,7 @@ export default async function RootLayout({ children, params: { locale } }: Layou
                             h="calc(100% - 8rem)"
                             w="100%"
                             top="8rem"
+                            bg="var(--main-bg-color)"
                             overflow="overlay"
                             flexDir="column"
                         >

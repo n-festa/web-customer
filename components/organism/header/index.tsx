@@ -1,6 +1,7 @@
 "use client";
 import CartIcon from "@/components/atoms/CartIcon";
 import DeliveryLocation from "@/components/molecules/SearchLocation/DeliveryLocation";
+import { useAppSelector } from "@/store/hooks";
 import { routes } from "@/utils/routes";
 import { Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
 import { useLocale, useTranslations } from "next-intl";
@@ -18,13 +19,14 @@ const Header = () => {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const pathname = usePathname();
     const locale = useLocale();
+    const error = useAppSelector((state) => state.app.error);
     const { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart, hideMenu } = useMemo(() => {
         let showDeliveryBox = false;
         let bg = "white";
         let showSignUpGroup = true;
         let showListNavi = false;
         let hideCart = false;
-        const hideMenu = false;
+        let hideMenu = false;
         const pathNameWithoutLocale = pathname.replace(locale + "/", "");
         const pathLocale = "/" + locale;
 
@@ -45,6 +47,9 @@ const Header = () => {
                 bg = "var(--main-bg-color)";
 
                 break;
+            case routes.OrderHistory:
+                hideCart = true;
+                break;
             default:
                 const index = [
                     routes.RestaurantDetail,
@@ -53,11 +58,19 @@ const Header = () => {
                     routes.OrderDetail,
                 ].findIndex((el) => pathname.includes(el));
                 if (index != -1) showDeliveryBox = true;
+                if (error?.message) {
+                    showListNavi = false;
+                    showSignUpGroup = false;
+                    showDeliveryBox = false;
+                    hideCart = true;
+                    hideMenu = true;
+                    bg = "var(--main-bg-color)";
+                }
                 break;
         }
         return { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart, hideMenu };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pathname]);
+    }, [pathname, error]);
 
     return (
         <>

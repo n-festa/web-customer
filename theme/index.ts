@@ -36,7 +36,7 @@ const theme: ThemeOverride = extendTheme({
     styles: {
         global: {
             body: {
-                background: "var(--main-bg-color)",
+                background: "white",
                 overflow: "hidden",
                 width: "100vw",
                 minHeight: "-webkit-fill-available",
