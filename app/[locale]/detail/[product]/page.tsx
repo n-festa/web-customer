@@ -20,7 +20,7 @@ const ProductDetailPage = () => {
 
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
-            <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
+            <Flex flexDirection={"column"} alignItems={"flex-start"} pt="2rem" mb="10rem" px="6.7rem" w="100%">
                 <BackButton label={t("COMMON.BACK_PAGE")} />
                 <ProductGallery info={foodInfo.info} activeSKU={activeSKU} isLoading={isLoading} />
                 <ServingSize

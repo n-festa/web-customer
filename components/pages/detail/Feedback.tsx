@@ -23,7 +23,9 @@ const Feedback = ({ reviews, title, reviewItemProps, defaultPerpage = 3, isLoadi
     const perPage = useMemo(() => {
         return isSmaller ? 1 : defaultPerpage;
     }, [isSmaller, defaultPerpage]);
-    return (
+    return reviews.length < 1 ? (
+        <></>
+    ) : (
         <Flex flexDirection={"column"} w="100%" {...rest}>
             <WraperInfo
                 title={title ?? t("COMMENT_FOOD")}
