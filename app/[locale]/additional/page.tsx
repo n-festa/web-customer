@@ -2,7 +2,7 @@
 import RadioCardGroup from "@/components/atoms/RadioCardGroup";
 import InputForm from "@/components/molecules/InputForm";
 import UISignWrap from "@/components/molecules/UISignWrap";
-import config from "@/config";
+import signUp from "@/config/signup.config";
 import apiServices from "@/services/sevices";
 import { setUserInfo } from "@/store/reducers/userInfo";
 import { UserType } from "@/types";
@@ -15,12 +15,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-const {
-    signUp: { formData, initialValues, validationSchema },
-} = config;
-
 const Additional = () => {
     const t = useTranslations();
+    const tFormData = useTranslations("FORM.DATA_PROFILE");
+    const { initialValues, validationSchema, formData } = signUp(tFormData);
     const router = useRouter();
     const dispatch = useDispatch();
     const [showExpect, setShowExpect] = useState(false);

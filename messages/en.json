@@ -116,6 +116,31 @@
         },
         "EXPECTED_DIET_DIFF": {
             "PLACEHOLDER": "Please share your desired diet "
+        },
+        "DATA_PROFILE": {
+            "FORM_DATA": {
+                "MEN": "Male",
+                "WOMEN": "Femail",
+                "OTHER": "Other",
+                "LIGHT": "Light",
+                "MODERATE": "Moderate",
+                "VIGOROUS": "Vigorous",
+                "MIXED": "Mixed",
+                "VEGAN1": "Veg",
+                "CARNIVORE": "Only meat",
+                "FISH": "Fish",
+                "VEGETARIAN": "Vegetable",
+                "NO_DIET": "No diet",
+                "VEGAN2": "Vegetarianism",
+                "EAT_CLEAN": "Eat clean",
+                "MUSCLE_GAIN": "Body-building diet",
+                "FIBER_SUPPLEMENT": "Fiber-boosting diet",
+                "MIXED_DIET": "Mixed"
+            },
+            "MESSAGE_FORM": {
+                "REQUIRED": "Please enter this field.",
+                "EMAIL": "Invalid email."
+            }
         }
     },
     "HOME": {
@@ -165,7 +190,7 @@
             "SEND_MESSAGE": "Send",
             "IN_TRANSIT": "On going",
             "TOMATOES": "Tomatoes",
-            "KALE": "Cải Kale",
+            "KALE": "Kale",
             "CONTACT_PARTNERS": "Contact Partners",
             "SENT_CONTACT": "Contact Sent"
         },
@@ -327,7 +352,7 @@
                 "DRIVER_LEFT_RESTAURANT": "Driver leaves restaurant",
                 "DRIVER_ARRIVED_DESTINATION": "Driver arrives customer’s place"
             },
-            "BASE":{
+            "BASE": {
                 "CONFIRM_ORDER": "Order\r\nconfirmed",
                 "DRIVER_ARRIVED_RESTAURANT": "Driver\r\narrives restaurant",
                 "DRIVER_LEFT_RESTAURANT": "Driver\r\nleaves restaurant",

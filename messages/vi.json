@@ -116,6 +116,31 @@
         },
         "EXPECTED_DIET_DIFF": {
             "PLACEHOLDER": "Vui lòng điền tên chế độ ăn mong muốn"
+        },
+        "DATA_PROFILE": {
+            "FORM_DATA": {
+                "MEN": "Nam",
+                "WOMEN": "Nữ",
+                "OTHER": "Khác",
+                "LIGHT": "Nhẹ nhàng",
+                "MODERATE": "Trung bình",
+                "VIGOROUS": "Nặng",
+                "MIXED": "Hỗn hợp",
+                "VEGAN1": "Thuần chay",
+                "CARNIVORE": "Chỉ ăn thịt",
+                "FISH": "Cá",
+                "VEGETARIAN": "Chay",
+                "NO_DIET": "Không ăn kiêng",
+                "VEGAN2": "Thuần chay",
+                "EAT_CLEAN": "Eat clean",
+                "MUSCLE_GAIN": "Tăng cơ",
+                "FIBER_SUPPLEMENT": "Bổ sung chất sơ",
+                "MIXED_DIET": "Chế độ ăn hỗn hợp"
+            },
+            "MESSAGE_FORM":{
+                "REQUIRED": "Vui lòng nhập trường này.",
+                "EMAIL":"Email không hợp lệ."
+            }
         }
     },
     "HOME": {
