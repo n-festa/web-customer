@@ -19,7 +19,11 @@ import { useRecoilStateLoadable, useRecoilValueLoadable, useSetRecoilState } fro
 import CartItem from "../CartItem";
 let _cts: CancelTokenSource | null = null;
 
-const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number | string }) => {
+const Cart = ({
+    restaurant_id,
+    ignoreAuthError,
+    ...props
+}: FlexProps & { restaurant_id?: number | string; ignoreAuthError?: boolean }) => {
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValueLoadable(cartSynced).valueMaybe();
@@ -30,13 +34,17 @@ const Cart = ({ restaurant_id, ...props }: FlexProps & { restaurant_id?: number 
     const profile = useAppSelector((app) => app.userInfo.userInfo);
     const isCartEmpty = !cart?.cart_info?.length || (restaurant_id != undefined && cart.restaurant_id != restaurant_id);
     const { GetAvailableTime } = useSWRAPI();
-    const { data: timeDate, isLoading: isLoadingTime } = GetAvailableTime({
-        lat: profile?.latAddress,
-        long: profile?.longAddress,
-        utc_offset: -(new Date().getTimezoneOffset() / 60),
-        menu_item_ids: cart?.cart_info?.map((item) => item.item_id),
-        now: new Date().getTime(),
-    });
+    const { data: timeDate, isLoading: isLoadingTime } = GetAvailableTime(
+        {
+            lat: profile?.latAddress,
+            long: profile?.longAddress,
+            utc_offset: -(new Date().getTimezoneOffset() / 60),
+            menu_item_ids: cart?.cart_info?.map((item) => item.item_id),
+            now: new Date().getTime(),
+        },
+        undefined,
+        ignoreAuthError ? [401] : undefined,
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleChangeCartQuantity = async (id?: number, value?: number) => {
