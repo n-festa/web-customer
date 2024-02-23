@@ -47,6 +47,9 @@ const Header = () => {
                 bg = "var(--main-bg-color)";
 
                 break;
+            case routes.OrderHistory:
+                hideCart = true;
+                break;
             default:
                 const index = [
                     routes.RestaurantDetail,
