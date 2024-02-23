@@ -1,9 +1,10 @@
 import useParams from "@/hooks/useParams";
 import apiServices from "@/services/sevices";
 import { RootState } from "@/store";
-import { FetchMode, FilterType } from "@/types/enum";
+import { FetchMode, FilterType, SearchFoodType } from "@/types/enum";
 import { FilterCondition, SearchResult } from "@/types/interfaces";
 import { FoodOtherFilterOptions, RestaurantOtherFilterOptions } from "@/utils/constants";
+import { isNullOrEmpty } from "@/utils/functions";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -22,9 +23,9 @@ const useSearchResult = () => {
     const { params } = useParams<{
         searchKey?: string;
         categoryId?: number;
-        viewAllFood?: boolean;
-        viewAllRestaurant?: boolean;
         name?: string;
+        foodId?: string;
+        detailType?: SearchFoodType;
     }>({});
     useParams();
     const profile = useSelector((state: RootState) => state.userInfo.userInfo);
@@ -32,9 +33,7 @@ const useSearchResult = () => {
     const [state, setState] = useState<DiscoveryState>({
         keySearch: params.searchKey ?? "",
         filterCondition: {
-            type: params.viewAllRestaurant ? FilterType.Restaurant : FilterType.Food,
-            viewAllFood: false,
-            viewAllRestaurant: false,
+            type: FilterType.Food,
             orderOptions: {
                 [FilterType.Food]: FoodOtherFilterOptions(t),
                 [FilterType.Restaurant]: RestaurantOtherFilterOptions,
@@ -195,6 +194,109 @@ const useSearchResult = () => {
             });
     };
 
+    const getSideDishByMenuItemId = async (id: number) => {
+        setLoading(true);
+        apiServices
+            .getSideDishByMenuItemId(id, {
+                fetch_mode: FetchMode.Full,
+            })
+            .then(({ data }) => {
+                if (data) {
+                    setState((prevState) => ({
+                        ...prevState,
+                        searchResult: {
+                            [FilterType.Food]: data ?? [],
+                            [FilterType.Restaurant]: [],
+                        },
+                    }));
+                }
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    const getCurrentAvailableFoodByRestaurant = async (id: number) => {
+        setLoading(true);
+        apiServices
+            .getCurrentAvailableFoodByRestaurant(id, {
+                fetch_mode: FetchMode.Full,
+            })
+            .then(({ data }) => {
+                if (data) {
+                    setState((prevState) => ({
+                        ...prevState,
+                        searchResult: {
+                            [FilterType.Food]: data ?? [],
+                            [FilterType.Restaurant]: [],
+                        },
+                    }));
+                }
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    const getPersonalFoodRecommendation = async (id: number) => {
+        setLoading(true);
+        apiServices
+            .getPersonalFoodRecommendation(id, {
+                fetch_mode: FetchMode.Full,
+            })
+            .then(({ data }) => {
+                if (data) {
+                    setState((prevState) => ({
+                        ...prevState,
+                        searchResult: {
+                            [FilterType.Food]: data ?? [],
+                            [FilterType.Restaurant]: [],
+                        },
+                    }));
+                }
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    const searchByFood = (id: number, type: SearchFoodType) => {
+        switch (type) {
+            case SearchFoodType.SideDish:
+                getSideDishByMenuItemId(id);
+                return;
+            case SearchFoodType.SameRestaurant:
+                getCurrentAvailableFoodByRestaurant(id);
+                return;
+            case SearchFoodType.SimilarDish:
+                getPersonalFoodRecommendation(id);
+                return;
+            case SearchFoodType.AllFood:
+                setState((prevState) => ({
+                    ...prevState,
+                    keySearch: params.name ?? "Tất cả",
+
+                    filterCondition: {
+                        ...prevState.filterCondition,
+                        type: FilterType.Food,
+                    },
+                }));
+                getAllFood();
+                return;
+            case SearchFoodType.AllRestaurant:
+                setState((prevState) => ({
+                    ...prevState,
+                    keySearch: params.name ?? "Tất cả",
+                    filterCondition: {
+                        ...prevState.filterCondition,
+                        type: FilterType.Restaurant,
+                    },
+                }));
+                getAllRestaurant();
+                return;
+        }
+    };
+
     useEffect(() => {
         // search by food name
         if (params.searchKey) {
@@ -218,35 +320,21 @@ const useSearchResult = () => {
             searchFoodAndRestaurantByCategory();
             return;
         }
-        // get-general-food-recomendation,  fetch_mode = true
-        if (params.viewAllFood) {
-            setState((prevState) => ({
-                ...prevState,
-                keySearch: params.name ?? "Tất cả",
 
-                filterCondition: {
-                    ...prevState.filterCondition,
-                    viewAllFood: true,
-                    type: FilterType.Food,
-                },
-            }));
-            getAllFood();
-            return;
-        }
-        ///get-general-recomendation fetch_mode = true
-        if (params.viewAllRestaurant) {
-            setState((prevState) => ({
-                ...prevState,
-                keySearch: params.name ?? "Tất cả",
-                filterCondition: {
-                    ...prevState.filterCondition,
-                    viewAllRestaurant: true,
-                    type: FilterType.Restaurant,
-                },
-            }));
-            getAllRestaurant();
-            return;
-        }
+        if (isNullOrEmpty(params.detailType)) return;
+
+        const foodId = Number(params.foodId);
+        const type = params.detailType as SearchFoodType;
+        setState((prevState) => ({
+            ...prevState,
+            keySearch: params.name ?? "Tất cả",
+            filterCondition: {
+                ...prevState.filterCondition,
+                detailType: type,
+            },
+        }));
+        searchByFood(foodId, type);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [params, profile]);
 

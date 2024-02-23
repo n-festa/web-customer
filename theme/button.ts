@@ -68,6 +68,9 @@ const buttonStyle = {
             fontSize: "1.8rem",
             fontWeight: "bold",
             color: "var(--color-mediumslateblue)",
+            _active: {
+                opacity: 0.7,
+            },
         },
         btnViewAllSm: {
             minW: "0.8rem",
@@ -76,6 +79,9 @@ const buttonStyle = {
             fontWeight: "600",
             lineHeight: "2.4rem",
             color: "var(--color-mediumslateblue)",
+            _active: {
+                opacity: 0.7,
+            },
         },
         btnSubmit: {
             w: "100%",

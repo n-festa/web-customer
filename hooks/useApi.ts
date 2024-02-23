@@ -1,4 +1,5 @@
 import apiServices from "@/services/sevices";
+import { FetchMode } from "@/types/enum";
 import { SearchFoodAndRestaurantByCategoryIdRequest } from "@/types/request/SearchFoodAndRestaurantByCategoryIdRequest";
 import { useMemo } from "react";
 import useSWR, { SWRConfiguration } from "swr";
@@ -75,6 +76,24 @@ const useSWRAPI = () => {
                 ...swrConfig,
                 ...config,
             }),
+        GetCurrentAvailableFoodByRestaurant: (id: number, fetch_mode?: FetchMode, config?: SWRConfiguration) =>
+            useSWR(
+                "getCurrentAvailableFoodByRestaurant",
+                async () => apiServices.getCurrentAvailableFoodByRestaurant(id, { fetch_mode }),
+                {
+                    ...swrConfig,
+                    ...config,
+                },
+            ),
+        GetPersonalFoodRecommendation: (id: number, fetch_mode?: FetchMode, config?: SWRConfiguration) =>
+            useSWR(
+                "getPersonalFoodRecommendation",
+                async () => apiServices.getPersonalFoodRecommendation(id, { fetch_mode }),
+                {
+                    ...swrConfig,
+                    ...config,
+                },
+            ),
     };
 };
 
