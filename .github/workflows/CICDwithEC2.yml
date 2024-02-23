@@ -37,4 +37,3 @@ jobs:
                   remote_host: 13.214.73.95
                   remote_user: ubuntu
                   remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
-            - run: pm2 restart customer-app
