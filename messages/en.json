@@ -198,7 +198,10 @@
             "TOMATOES": "Tomatoes",
             "KALE": "Kale",
             "CONTACT_PARTNERS": "Contact Partners",
-            "SENT_CONTACT": "Contact Sent"
+            "SENT_CONTACT": "Contact Sent",
+            "INVALID_EMAIL": "Invalid Email",
+            "INVALID_MESSAGE": "Message must not be empty",
+            "VERIFY_ROBOT": "Please verify that you are not a robot"
         },
         "DOWNLOAD_APP": {
             "TITLE": "Download the 2ALL app",

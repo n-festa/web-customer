@@ -33,7 +33,7 @@ const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
     };
 
     const isShowFilterBox = useMemo(() => {
-        return !(condition.viewAllFood || condition.viewAllRestaurant || !isNullOrEmpty(condition.categoryId));
+        return !(!isNullOrEmpty(condition.categoryId) || !isNullOrEmpty(condition.detailType));
     }, [condition]);
 
     return isShowFilterBox ? (
@@ -54,7 +54,7 @@ const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
                     onChange={(value) => {
                         onChangeFilterOptions<FilterType>("type", value as FilterType);
                     }}
-                    isDisabled={condition.viewAllFood || condition.viewAllRestaurant}
+                    isDisabled={!isNullOrEmpty(condition.detailType)}
                 />
             </WrapItem>
             <WrapItem>

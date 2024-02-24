@@ -26,6 +26,7 @@ jobs:
             - run: yarn install --immutable
             - env:
                   GEO_GOONG_API_KEY: ${{ secrets.GEO_GOONG_API_KEY }}
+                  CAPTCHA_KEY: ${{ secrets.CAPTCHA_KEY }}
               run: yarn build
 
             - name: rsync deployments

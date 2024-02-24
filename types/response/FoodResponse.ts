@@ -65,3 +65,7 @@ export type GetSideDishesResponse = { data: FoodDto[] };
 export type GetFoodDetailResponse = {
     data: FoodDetailDto;
 };
+
+export type GetCurrentAvailableFoodByRestaurantResponse = { data: FoodDto[] };
+
+export type GetPersonalFoodRecommendationResponse = { data: FoodDto[] };

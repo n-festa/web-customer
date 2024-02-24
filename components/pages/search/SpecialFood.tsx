@@ -4,9 +4,11 @@ import SkeletonBox from "@/components/molecules/SkeletonBox";
 import WraperInfo from "@/components/molecules/WraperInfo";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
+import { SearchFoodType } from "@/types/enum";
 import { routes } from "@/utils/routes";
 import { Wrap, WrapItem } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { useTranslations } from "use-intl";
 
 const SpecialFood = () => {
@@ -16,9 +18,16 @@ const SpecialFood = () => {
     const router = useRouter();
 
     const onViewAll = () => {
-        router.push(`${routes.SearchDetail}?viewAllFood=true&name=Hấp dẫn`);
+        router.push(`${routes.SearchDetail}?&detailType=${SearchFoodType.AllFood}&name=${t("TITLE")}`);
     };
-    return (
+
+    const lstRecommendFood = useMemo(() => {
+        return data?.data ?? [];
+    }, [data]);
+
+    return lstRecommendFood.length < 1 ? (
+        <></>
+    ) : (
         <WraperInfo
             title={t("TITLE")}
             description={t("DESCRIPTION")}
@@ -38,7 +47,7 @@ const SpecialFood = () => {
                 ) : data && data?.data.length < 1 ? (
                     <Empty />
                 ) : (
-                    data?.data?.map((item) => {
+                    lstRecommendFood.map((item) => {
                         return (
                             <WrapItem
                                 key={item.id}

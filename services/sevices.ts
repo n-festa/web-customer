@@ -4,7 +4,12 @@ import { Cart, CartItem } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
 import { DateStep, DistrictsResponse, ProvinceResponse } from "@/types/interfaces";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
-import { GetFoodDetailResponse, GetSideDishesResponse } from "@/types/response/FoodResponse";
+import {
+    GetCurrentAvailableFoodByRestaurantResponse,
+    GetFoodDetailResponse,
+    GetPersonalFoodRecommendationResponse,
+    GetSideDishesResponse,
+} from "@/types/response/FoodResponse";
 import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesResponse";
 import { GetGeneralFoodRecommendResponse } from "@/types/response/GetGeneralFoodRecommendResponse";
 import { GetGeneralRestaurantRecommendationResponse } from "@/types/response/GetGeneralRestaurantRecommendationResponse";
@@ -248,10 +253,11 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             });
         },
 
-        getSideDishByMenuItemId: (id: number) => {
+        getSideDishByMenuItemId: (id: number, query?: { fetch_mode?: FetchMode }) => {
             return this.request<GetSideDishesResponse>({
                 path: `food/get-side-dish/${id}`,
                 method: "GET",
+                query: query,
             });
         },
 
@@ -378,6 +384,20 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             return this.request<{ data: DistrictsResponse[] }>({
                 path: `https://pos.pages.fm/api/v1/geo/communes?district_id=${districtId}`,
                 method: "GET",
+            });
+        },
+        getCurrentAvailableFoodByRestaurant: (id: number | string, query?: { fetch_mode?: FetchMode }) => {
+            return this.request<GetCurrentAvailableFoodByRestaurantResponse>({
+                path: `/todo/${id}`, // TODO
+                method: "GET",
+                query: query,
+            });
+        },
+        getPersonalFoodRecommendation: (id: number | string, query?: { fetch_mode?: FetchMode }) => {
+            return this.request<GetPersonalFoodRecommendationResponse>({
+                path: `/todo/${id}`, // TODO
+                method: "GET",
+                query: query,
             });
         },
     };

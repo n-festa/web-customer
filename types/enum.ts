@@ -36,3 +36,11 @@ export enum OrderStatus {
     Success,
     Cancel,
 }
+
+export enum SearchFoodType {
+    SideDish = "SideDish",
+    SimilarDish = "SimilarDish",
+    SameRestaurant = "SameRestaurant",
+    AllRestaurant = "AllRestaurant",
+    AllFood = "AllFood",
+}

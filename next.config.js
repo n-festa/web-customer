@@ -16,6 +16,7 @@ const nextConfig = {
     env: {
         API_URL: process.env.NEXT_PUBLIC_URL_SERVICE,
         GEO_GOONG_API_KEY: process.env.GEO_GOONG_API_KEY,
+        CAPTCHA_KEY: process.env.CAPTCHA_KEY,
     },
 };
 
