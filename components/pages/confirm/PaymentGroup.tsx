@@ -1,16 +1,13 @@
 import CartItem from "@/components/organism/CartItem";
 import { cartSynced } from "@/recoil/recoilState";
 import { formatMoney, genCartNote } from "@/utils/functions";
-import { routes } from "@/utils/routes";
 import { Button, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { useRecoilValue } from "recoil";
 
-const PaymentGroup = (props: FlexProps) => {
+const PaymentGroup = (props: FlexProps & { onConfirm: () => void }) => {
     const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
     const cart = useRecoilValue(cartSynced);
-    const router = useRouter();
     return (
         <Flex
             color="black"
@@ -18,7 +15,7 @@ const PaymentGroup = (props: FlexProps) => {
             flexDir="column"
             borderRadius="0"
             p="2.4rem .8rem 2.4rem .8rem"
-            w="42.6rem"
+            w="44.5rem"
             bg="white"
             h="fit-content"
             {...props}
@@ -95,13 +92,7 @@ const PaymentGroup = (props: FlexProps) => {
                         {formatMoney(160000)}
                     </Text>
                 </Flex>
-                <Button
-                    h="4.8rem"
-                    onClick={() => {
-                        router.push(routes.OrderDetail);
-                    }}
-                    borderRadius="2.4rem"
-                >
+                <Button h="4.8rem" onClick={props.onConfirm} borderRadius="2.4rem">
                     {t("PLACE_ORDER")}
                 </Button>
             </Flex>

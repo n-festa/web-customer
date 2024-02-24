@@ -5,19 +5,25 @@ import useSWRAPI from "@/hooks/useApi";
 import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";
 import { filedType, formType } from "@/types/form";
+import { parseArrayToObject } from "@/utils/functions";
 import { Flex, VStack } from "@chakra-ui/react";
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, FormikProps } from "formik";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
+import { RefObject, useEffect, useMemo, useState } from "react";
 import GroupWrapper from "./GroupWrapper";
 
 const DeliveryDestinationGroup = ({
-    province,
-    district,
+    formRef,
 }: {
-    province?: { key: string; value: string };
-    district?: { key: string; value: string };
-    commune?: { key: string; value: string };
+    formRef: RefObject<
+        FormikProps<{
+            province: string | undefined;
+            district: string | undefined;
+            ward: string | undefined;
+            address: string | undefined;
+            note: string;
+        }>
+    >;
 }) => {
     const t = useTranslations("COMMON");
     const tDelivery = useTranslations("CONFIRM_ORDER.DELIVERY_DESTINATION");
@@ -26,8 +32,14 @@ const DeliveryDestinationGroup = ({
     const [districts, setDistrict] = useState<{ key: string; value: string }[]>([]);
     const [communes, setCommunes] = useState<{ key: string; value: string }[]>([]);
 
+    const [{ province, district }, setInfo] = useState<{
+        province?: { key: string; value: string };
+        district?: { key: string; value: string };
+        commune?: { key: string; value: string };
+    }>({});
+
     const userInfo = useAppSelector((state) => state.userInfo.userInfo);
-    const { provinces, defaultProvince } = useMemo(() => {
+    const { provinces, defaultProvince, provinceMap } = useMemo(() => {
         const provinces =
             provincesData?.data.map((item) => ({
                 key: item.id,
@@ -35,8 +47,9 @@ const DeliveryDestinationGroup = ({
                 value: item.name,
             })) ?? [];
         const defaultProvince = provinces.find((item) => item.value === userInfo?.addressCompound?.province);
+        const provinceMap = parseArrayToObject(provinces, "value");
 
-        return { provinces, defaultProvince };
+        return { provinces, defaultProvince, provinceMap };
     }, [provincesData?.data, userInfo?.addressCompound?.province]);
     useEffect(() => {
         const _province = province?.key ?? defaultProvince?.key;
@@ -48,14 +61,20 @@ const DeliveryDestinationGroup = ({
                     value: item.name,
                 }));
                 setDistrict(districts);
+                if (province) {
+                    setInfo((prev) => ({ ...prev, district: districts[0] }));
+                    formRef.current?.setFieldValue("district", districts[0].value);
+                }
             });
         }
-    }, [province?.key, defaultProvince?.key]);
-    const { defaultDistrict } = useMemo(() => {
+    }, [province?.key, defaultProvince?.key, province]);
+    const { defaultDistrict, districtMap } = useMemo(() => {
         const defaultDistrict = districts.find(
             (item) => userInfo?.addressCompound?.district && item.value.includes(userInfo?.addressCompound?.district),
         );
-        return { defaultDistrict };
+        const districtMap = parseArrayToObject(districts, "value");
+
+        return { defaultDistrict, districtMap };
     }, [districts, userInfo?.addressCompound?.district]);
 
     useEffect(() => {
@@ -68,9 +87,13 @@ const DeliveryDestinationGroup = ({
                     value: item.name,
                 }));
                 setCommunes(communes);
+                if (district) {
+                    setInfo((prev) => ({ ...prev, ward: communes[0] }));
+                    formRef.current?.setFieldValue("ward", communes[0].value);
+                }
             });
         }
-    }, [district?.key, defaultDistrict?.key]);
+    }, [district?.key, defaultDistrict?.key, district]);
     const { defaultCommune } = useMemo(() => {
         const defaultCommune = communes.find(
             (item) => userInfo?.addressCompound?.commune && item.value.includes(userInfo?.addressCompound?.commune),
@@ -96,16 +119,35 @@ const DeliveryDestinationGroup = ({
         userInfo?.addressCompound?.district,
         userInfo?.addressCompound?.province,
     ]);
+    useEffect(() => {
+        const values = formRef.current?.values;
+        if (!values?.province && defaultProvince) {
+            formRef.current?.setFieldValue("province", defaultProvince.value);
+        }
+        if (!values?.district && defaultDistrict) {
+            formRef.current?.setFieldValue("district", defaultDistrict.value);
+        }
+        if (!values?.ward && defaultCommune) {
+            formRef.current?.setFieldValue("ward", defaultCommune.value);
+        }
+    }, [defaultDistrict, defaultProvince, defaultCommune, formRef]);
     return (
         <GroupWrapper title={t("DELIVER_TO")}>
             <Formik
-                initialValues={confirmOrder.initialValues}
+                initialValues={{
+                    ...confirmOrder.initialValues,
+                    province: defaultProvince?.value,
+                    district: defaultDistrict?.value,
+                    ward: defaultCommune?.value,
+                    address: defaultAddress,
+                }}
                 validationSchema={confirmOrder.validationSchema.validation}
                 validateOnBlur={false}
                 validateOnChange={false}
                 onSubmit={(values) => {
                     alert(JSON.stringify(values, null, 2));
                 }}
+                innerRef={formRef}
             >
                 {(props) => (
                     <Form style={{ width: "100%" }} onSubmit={props.handleSubmit}>
@@ -120,7 +162,13 @@ const DeliveryDestinationGroup = ({
                                         value={field.value ?? defaultProvince?.value}
                                         options={provinces}
                                         error={form.errors.province}
-                                        onChange={field.onChange}
+                                        onChange={(e) => {
+                                            field.onChange(e);
+                                            setInfo((prev) => ({
+                                                ...prev,
+                                                province: provinceMap[e.target.value],
+                                            }));
+                                        }}
                                     />
                                 )}
                             </Field>
@@ -137,7 +185,13 @@ const DeliveryDestinationGroup = ({
                                             value={field.value ?? defaultDistrict?.value}
                                             options={districts}
                                             error={form.errors.district}
-                                            onChange={field.onChange}
+                                            onChange={(e) => {
+                                                field.onChange(e);
+                                                setInfo((prev) => ({
+                                                    ...prev,
+                                                    district: districtMap[e.target.value],
+                                                }));
+                                            }}
                                         />
                                     )}
                                 </Field>

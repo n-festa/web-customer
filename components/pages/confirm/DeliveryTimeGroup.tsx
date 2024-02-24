@@ -58,7 +58,7 @@ const DeliveryTimeGroup = () => {
                 },
             });
         }
-    }, [cart.customer_id, data, handleDeleteWholeCart, router]);
+    }, [cart.customer_id, data, handleDeleteWholeCart, router, t]);
     const { dateOptions, timeOptionsByDate, dateOptionsList } = useMemo(() => {
         const dateOptions: { [key: string]: { value: string; name: string } } = {};
         const timeOptionsByDate: {
@@ -88,7 +88,7 @@ const DeliveryTimeGroup = () => {
         const dateOptionsList = Object.values(dateOptions);
 
         return { dateOptions, timeOptionsByDate, dateOptionsList };
-    }, [data?.data]);
+    }, [data?.data, t]);
     const timeList = useMemo(() => {
         const currentDate = date ? dateOptions[date]?.value : dateOptionsList[0]?.value;
         const timeByDateList = timeOptionsByDate[currentDate] ?? [];
