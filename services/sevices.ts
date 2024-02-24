@@ -341,7 +341,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 ignoreErrorCode: [...(ignoreErrorCode ?? []), 404],
             });
         },
-        sendContactForm: (params: { email: string; message: string }) => {
+        sendContactForm: (params: { email: string; message: string; recaptcha_token?: string | null }) => {
             return this.request({
                 path: `/restaurant/send-contact-form`,
                 method: "POST",

@@ -75,7 +75,10 @@ const Contact = () => {
                     setError(error);
                     return;
                 }
-                await apiServices.sendContactForm({ email, message });
+                await apiServices.sendContactForm({ email, message, recaptcha_token: recaptcha });
+                setEmail("");
+                setMessage("");
+                captchaRef.current?.reset();
                 toast({
                     title: t("CONTACT_PARTNERS"),
                     description: t("SENT_CONTACT"),
