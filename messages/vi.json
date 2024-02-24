@@ -8,7 +8,12 @@
         "SEE_LESS": "...... ẩn bớt",
         "TOAST": {
             "PORTION_UNAVAILABLE": "Khẩu phần không khả dụng",
-            "PORTION_UNAVAILABLE_DESC": "Khẩu phần bạn chọn không khả dụng,\r\nVui lòng chọn sang khẩu phần khác"
+            "PORTION_UNAVAILABLE_DESC": "Khẩu phần bạn chọn không khả dụng,\r\nVui lòng chọn sang khẩu phần khác",
+            "PROFILE": {
+                "TITLE": "Cập nhật hồ sơ",
+                "SUCCESS_CONTENT": " Bạn đã cập nhật thành công.",
+                "f": "Lỗi cập nhật, vui lòng thử lại."
+            }
         },
         "NOTIFICATION": "Thông báo",
         "CLOSE": "Đóng",
@@ -137,9 +142,9 @@
                 "FIBER_SUPPLEMENT": "Bổ sung chất sơ",
                 "MIXED_DIET": "Chế độ ăn hỗn hợp"
             },
-            "MESSAGE_FORM":{
+            "MESSAGE_FORM": {
                 "REQUIRED": "Vui lòng nhập trường này.",
-                "EMAIL":"Email không hợp lệ."
+                "EMAIL": "Email không hợp lệ."
             }
         }
     },

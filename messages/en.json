@@ -8,7 +8,13 @@
         "SEE_LESS": "...... see less",
         "TOAST": {
             "PORTION_UNAVAILABLE": "Unavailable Portion",
-            "PORTION_UNAVAILABLE_DESC": "The portion you selected is unavailable,\r\nPlease choose another portion."
+            "PORTION_UNAVAILABLE_DESC": "The portion you selected is unavailable,\r\nPlease choose another portion.",
+            "SUCCESS_UPDATE": "",
+            "PROFILE": {
+                "TITLE": "Update profile",
+                "SUCCESS_CONTENT": " You have successfully updated.",
+                "ERROR_CONTENT": "Update failed, please try again."
+            }
         },
         "NOTIFICATION": "Notification",
         "CLOSE": "Đóng",

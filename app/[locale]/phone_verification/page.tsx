@@ -11,10 +11,10 @@ import { isTimeDiffMoreThan30Min, redirectAfterLogin } from "@/utils/functions";
 import { loadState, removeState, saveState } from "@/utils/localstorage";
 import { routes } from "@/utils/routes";
 import { Box, Button, Flex, PinInput, PinInputField, Text } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useTranslations } from "next-intl";
 
 const numberOfDigits = 6;
 
@@ -104,6 +104,7 @@ const PhoneVerification = () => {
         setTokenRefresh(refresh_token);
 
         const { data: customerData } = await apiServices.customerProfile({ userId });
+        saveState("infoSign", { userId });
         dispatch(setUserInfo(customerData));
         if (customerData.name) {
             redirectAfterLogin(router);

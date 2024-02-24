@@ -3,59 +3,103 @@ import RadioCardGroup from "@/components/atoms/RadioCardGroup";
 import InputForm from "@/components/molecules/InputForm";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import signUp from "@/config/signup.config";
-import { RootState } from "@/store";
+import apiServices from "@/services/sevices";
+import { setUserInfo } from "@/store/reducers/userInfo";
 import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
-import { Box, Button, Flex, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
+import { loadState } from "@/utils/localstorage";
+import { routes } from "@/utils/routes";
+import { Box, Button, Flex, Radio, RadioGroup, Stack, Text, useToast } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Profile = () => {
-    // const router = useRouter();
-    // const dispatch = useDispatch();
     const t = useTranslations();
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const toast = useToast();
     const tFormData = useTranslations("FORM.DATA_PROFILE");
-    const { validationSchema, formData } = signUp(tFormData);
+    const { userId } = loadState("infoSign");
+    const { initialValues, validationSchema, formData } = signUp(tFormData);
     const [showExpect, setShowExpect] = useState(false);
-    const userInfo = useSelector((state: RootState) => state.userInfo.userInfo);
+    const [initialForm, setInitialForm] = useState<UserType>(initialValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const initialValues = {
-        name: userInfo?.name || "",
-        email: userInfo?.email || "",
-        birthday: userInfo?.birthday,
-        sex: userInfo?.sex || "",
-        height_m: userInfo?.health_info?.height_m || "",
-        weight_kg: userInfo?.health_info?.weight_kg || "",
-        physical_activity_level: userInfo?.health_info?.physical_activity_level || "light",
-        current_diet: userInfo?.health_info?.current_diet || "Hỗn hợp",
-        allergic_food: userInfo?.health_info?.allergic_food || "",
-        expected_diet: userInfo?.health_info?.expected_diet || "Thuần chay",
-        expected_diet_diff: "",
-    };
 
-    const handleSubmit = async ({ expected_diet_diff, expected_diet, ...rest }: UserType) => {
+    const handleSubmit = async ({ expected_diet_diff, expected_diet, ...rest }: UserType, setSubmitting: any) => {
         try {
             const expectedDietValue = expected_diet === "Khác" ? expected_diet_diff : expected_diet;
-            console.log({ ...rest, expected_diet: expectedDietValue });
-            // Edit profile
-            // const { data } = await apiServices.createProfile({ ...rest, expected_diet: expectedDietValue });
-            // dispatch(setUserInfo(data));
-            // router.push(routes.RegistrationSuccess);
+            apiServices
+                .updateCustomer({
+                    ...rest,
+                    expected_diet: expectedDietValue,
+                    customer_id: userId,
+                })
+                .then(({ data }) => {
+                    dispatch(setUserInfo(data));
+                    toast({
+                        title: t("COMMON.TOAST.PROFILE.TITLE"),
+                        description: t("COMMON.TOAST.PROFILE.SUCCESS_CONTENT"),
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                        position: "top-right",
+                    });
+                    router.push(routes.Home);
+                    setSubmitting(false);
+                })
+                .catch((error) => {
+                    // Xử lý khi Promise bị từ chối (thất bại)
+                    console.log("Error while updating customer profile:", error);
+                    toast({
+                        title: t("COMMON.TOAST.PROFILE.TITLE"),
+                        description: t("COMMON.TOAST.PROFILE.ERROR_CONTENT"),
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                        position: "top-right",
+                    });
+                    setSubmitting(false);
+
+                    // Đặt các hành động xử lý lỗi ở đây
+                });
         } catch (error) {
             console.error("Error while resending OTP:", error);
         }
     };
 
     useEffect(() => {
-        const hasExpect = formData.expectedDiet.some((item) => item.value === userInfo?.health_info?.expected_diet);
-        if (hasExpect) {
-            initialValues.expected_diet_diff = userInfo?.health_info?.expected_diet || "";
-            initialValues.expected_diet = "Khác";
-        }
-        setShowExpect(!hasExpect);
-    }, []);
+        apiServices
+            .customerProfile({ userId })
+            .then((response) => {
+                const { data: profile } = response;
+                if (profile) {
+                    const notExpect = formData.expectedDiet.some(
+                        (item) => item.value === profile?.health_info?.expected_diet,
+                    );
+                    setShowExpect(!notExpect);
+                    setInitialForm({
+                        name: profile?.name || "",
+                        email: profile?.email || "",
+                        birthday: profile?.birthday,
+                        sex: profile?.sex || "",
+                        height_m: profile?.health_info?.height_m || "",
+                        weight_kg: profile?.health_info?.weight_kg || "",
+                        physical_activity_level: profile?.health_info?.physical_activity_level || "light",
+                        current_diet: profile?.health_info?.current_diet || "Hỗn hợp",
+                        allergic_food: profile?.health_info?.allergic_food || "",
+                        expected_diet: notExpect ? profile?.health_info?.expected_diet || "Thuần chay" : "Khác",
+                        expected_diet_diff: notExpect ? "" : profile?.health_info?.expected_diet,
+                        chronic_disease: profile?.health_info?.chronic_disease || "",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching customer profile:", error);
+            });
+    }, [userId]);
 
     return (
         <UISignWrap maxW="63rem" bg="var(--gray-100)">
@@ -68,12 +112,13 @@ const Profile = () => {
                 </Text>
                 <Box w="100%" maxW="36rem" m="0 auto">
                     <Formik
-                        initialValues={initialValues}
+                        initialValues={initialForm}
+                        enableReinitialize
                         validationSchema={validationSchema.validation}
                         validateOnBlur={true}
                         validateOnChange={false}
-                        onSubmit={(values) => {
-                            handleSubmit(values as UserType);
+                        onSubmit={(values, { setSubmitting }) => {
+                            handleSubmit(values as UserType, setSubmitting);
                         }}
                     >
                         {(props) => (
@@ -275,7 +320,7 @@ const Profile = () => {
                                     </Field>
                                 )}
                                 <Button
-                                    isDisabled={!props.isValid || !props.dirty}
+                                    isDisabled={!props.isValid}
                                     variant="btnSubmit"
                                     mt="3.2rem"
                                     isLoading={props.isSubmitting}

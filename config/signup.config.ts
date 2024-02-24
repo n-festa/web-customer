@@ -11,6 +11,7 @@ const signUp = (t: any) => ({
         current_diet: "Hỗn hợp",
         allergic_food: "",
         expected_diet: "Thuần chay",
+        chronic_disease: "",
     },
     validationSchema: {
         validation: Yup.object({
@@ -28,14 +29,14 @@ const signUp = (t: any) => ({
     },
     formData: {
         gender: [
-            { value: "m", content: t("FORM_DATA.MEN") },
-            { value: "f", content: t("FORM_DATA.WOMEN") },
-            { value: "o", content: t("FORM_DATA.OTHER") },
+            { value: "M", content: t("FORM_DATA.MEN") },
+            { value: "F", content: t("FORM_DATA.WOMEN") },
+            { value: "O", content: t("FORM_DATA.OTHER") },
         ],
         physicalActivityLevel: [
-            { value: "light", content: t("FORM_DATA.LIGHT") },
-            { value: "moderate", content: t("FORM_DATA.MODERATE") },
-            { value: "vigorous", content: t("FORM_DATA.VIGOROUS") },
+            { value: "Light", content: t("FORM_DATA.LIGHT") },
+            { value: "Moderate", content: t("FORM_DATA.MODERATE") },
+            { value: "Vigorous", content: t("FORM_DATA.VIGOROUS") },
         ],
         currentDiet: [
             { value: "Hỗn hợp", content: t("FORM_DATA.MIXED") },
