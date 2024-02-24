@@ -167,7 +167,10 @@
             "TOMATOES": "Cà chua",
             "KALE": "Cải Kale",
             "CONTACT_PARTNERS": "Liên hệ đối tác",
-            "SENT_CONTACT": "Đã gửi liên hệ"
+            "SENT_CONTACT": "Đã gửi liên hệ",
+            "INVALID_EMAIL": "Email không hợp lệ",
+            "INVALID_MESSAGE": "Message không được để trống",
+            "VERIFY_ROBOT": "Hãy xác minh bạn không phải người máy"
         },
         "DOWNLOAD_APP": {
             "TITLE": "Tải ứng dụng dùng ngay",

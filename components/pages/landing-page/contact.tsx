@@ -3,7 +3,6 @@ import apiServices from "@/services/sevices";
 import { validateEmail } from "@/utils/functions";
 import {
     Button,
-    Checkbox,
     Flex,
     FlexProps,
     HStack,
@@ -17,8 +16,9 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import debounce from "lodash/debounce";
-import { useTranslations } from "next-intl";
-import { useCallback, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { useCallback, useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const GroupBox = ({
     img,
@@ -49,17 +49,18 @@ const GroupBox = ({
 };
 const Contact = () => {
     const t = useTranslations("HOME.CONTACT");
+
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
-    const [check, setCheck] = useState(false);
-
     const [error, setError] = useState<string[]>([]);
     const toast = useToast();
-
+    const locale = useLocale();
+    const [recaptcha, setRecaptcha] = useState<string | null>(null);
+    const captchaRef = useRef<ReCAPTCHA>(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleSubmitDebounce = useCallback(
         debounce(
-            async (email: string, message: string, check: boolean) => {
+            async (email: string, message: string, recaptcha: string | null) => {
                 const error = [];
                 if (!validateEmail(email)) {
                     error.push("email");
@@ -67,7 +68,7 @@ const Contact = () => {
                 if (!message || message.length === 0) {
                     error.push("message");
                 }
-                if (!check) {
+                if (!recaptcha) {
                     error.push("check");
                 }
                 if (error.length) {
@@ -95,6 +96,7 @@ const Contact = () => {
             id="contact-section"
             p="9.6rem 4.3rem"
             w="100%"
+            as="form"
             bg="var(--light-bg-color)"
             alignItems="center"
             justifyContent={{ base: "center", lg: "space-between" }}
@@ -118,7 +120,12 @@ const Contact = () => {
                     </Text>
                 </Flex>
                 <Flex flexDir="column" mt="4.8rem">
-                    <VStack alignItems="flex-start" color="var(--gray-700)" spacing="0.6rem">
+                    <VStack
+                        mb={error.includes("email") ? "0.4rem" : "2.4rem"}
+                        alignItems="flex-start"
+                        color="var(--gray-700)"
+                        spacing="0.6rem"
+                    >
                         <Text fontSize="1.6rem" fontWeight={500} lineHeight="2rem">
                             Email
                         </Text>
@@ -129,12 +136,23 @@ const Contact = () => {
                                 setEmail(e.target.value);
                             }}
                             h="4.4rem"
+                            required
                             type="email"
                             variant={error.includes("email") ? "emailError" : "email"}
                             placeholder={t("EMAIL_PLACEHOLDER")}
                         />
+                        {error.includes("email") && (
+                            <Text fontSize="1.2rem" color="red" lineHeight="2rem">
+                                {t("INVALID_EMAIL")}
+                            </Text>
+                        )}
                     </VStack>
-                    <VStack mt="2.4rem" alignItems="flex-start" color="var(--gray-700)" spacing="0.6rem">
+                    <VStack
+                        alignItems="flex-start"
+                        mb={error.includes("message") ? "0.4rem" : "2.4rem"}
+                        color="var(--gray-700)"
+                        spacing="0.6rem"
+                    >
                         <Text fontSize="1.6rem" fontWeight={500} lineHeight="2rem">
                             Message
                         </Text>
@@ -154,26 +172,33 @@ const Contact = () => {
                             border={`1px solid ${error.includes("message") ? "red" : "rgba(208, 213, 221, 1)"}`}
                             boxShadow="0px 1px 2px 0px rgba(16, 24, 40, 0.05)"
                         />
+                        {error.includes("message") && (
+                            <Text fontSize="1.2rem" color="red" lineHeight="2rem">
+                                {t("INVALID_MESSAGE")}
+                            </Text>
+                        )}
                     </VStack>
 
-                    <Flex justifyContent="space-between" mt="2.4rem" alignItems="center">
-                        <Checkbox
-                            isChecked={check}
-                            onChange={(e) => {
+                    <Flex mb={error.includes("check") ? "1.2rem" : "3.2rem"} flexDir="column" justifyContent="center">
+                        <ReCAPTCHA
+                            onChange={(value) => {
                                 setError((prev) => prev.filter((err) => err !== "check"));
-                                setCheck(e.target.checked);
+                                setRecaptcha(value);
                             }}
-                            borderColor={error.includes("check") ? "red" : ""}
-                        >
-                            {t("NOT_A_ROBOT")}
-                        </Checkbox>
-                        <Img h="5rem" w="5rem" alt="" src="/images/image-10@2x.png" />
+                            ref={captchaRef}
+                            hl={locale}
+                            sitekey={process.env.CAPTCHA_KEY ?? ""}
+                        />
+                        {error.includes("check") && (
+                            <Text fontSize="1.2rem" color="red" lineHeight="2rem">
+                                {t("VERIFY_ROBOT")}
+                            </Text>
+                        )}
                     </Flex>
                     <Button
                         onClick={() => {
-                            handleSubmitDebounce(email, message, check);
+                            handleSubmitDebounce(email, message, recaptcha);
                         }}
-                        mt="3.2rem"
                         h="6.2rem"
                         borderRadius="3.2rem"
                     >
