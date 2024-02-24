@@ -121,7 +121,7 @@ const Contact = () => {
                 </Flex>
                 <Flex flexDir="column" mt="4.8rem">
                     <VStack
-                        mb={error.includes("email") ? "0.4rem" : "2.4rem"}
+                        mb={error.includes("email") ? "0" : "2.6rem"}
                         alignItems="flex-start"
                         color="var(--gray-700)"
                         spacing="0.6rem"
@@ -149,7 +149,7 @@ const Contact = () => {
                     </VStack>
                     <VStack
                         alignItems="flex-start"
-                        mb={error.includes("message") ? "0.4rem" : "2.4rem"}
+                        mb={error.includes("message") ? "0" : "2.6rem"}
                         color="var(--gray-700)"
                         spacing="0.6rem"
                     >
