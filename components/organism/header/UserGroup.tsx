@@ -6,6 +6,7 @@ import { Avatar, Button, Image, Menu, MenuButton, MenuItem, MenuList, useBreakpo
 import { LogInIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -17,6 +18,7 @@ const UserGroup = ({ bg }: { bg?: string }) => {
         base: true,
         md: false,
     });
+    const pathname = usePathname();
     return showSignIn ? (
         <Link href={routes.SignIn}>
             {isMobile ? (
@@ -39,7 +41,7 @@ const UserGroup = ({ bg }: { bg?: string }) => {
                 <MenuItem bg={bg} as={Link} href={routes.OrderHistory}>
                     {t("COMMON.ORDERS")}
                 </MenuItem>
-                <MenuItem bg={bg} onClick={() => logout()}>
+                <MenuItem bg={bg} onClick={() => logout(pathname)}>
                     {t("COMMON.LOGOUT")}
                 </MenuItem>
             </MenuList>
