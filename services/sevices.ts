@@ -2,7 +2,7 @@ import { store } from "@/store";
 import { setLoading } from "@/store/reducers/appSlice";
 import { Cart, CartItem } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
-import { DateStep, DistrictsResponse, ProvinceResponse } from "@/types/interfaces";
+import { DateStep, DistrictsResponse, ProvinceResponse, ReviewResponse } from "@/types/interfaces";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import {
     GetCurrentAvailableFoodByRestaurantResponse,
@@ -378,6 +378,12 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: `/todo/${id}`, // TODO
                 method: "GET",
                 query: query,
+            });
+        },
+        getTopReview: () => {
+            return this.request<{ data: ReviewResponse[] }>({
+                path: `/rating-review/get-top-review`,
+                method: "GET",
             });
         },
     };

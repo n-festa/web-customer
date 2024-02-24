@@ -94,6 +94,11 @@ const useSWRAPI = () => {
                     ...config,
                 },
             ),
+        GetTopReview: (config?: SWRConfiguration) =>
+            useSWR("getTopReview", async () => apiServices.getTopReview(), {
+                ...swrConfig,
+                ...config,
+            }),
     };
 };
 

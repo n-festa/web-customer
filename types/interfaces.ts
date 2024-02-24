@@ -107,3 +107,12 @@ export interface WardsResponse {
     district_id: string;
     province_id: string;
 }
+
+export interface ReviewResponse {
+    food_rating_id?: number;
+    score?: number;
+    remarks?: string;
+    reviewer_name?: string;
+    reviewer_title?: string;
+    reviewer_img?: string;
+}
