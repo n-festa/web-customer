@@ -8,7 +8,13 @@
         "SEE_LESS": "...... see less",
         "TOAST": {
             "PORTION_UNAVAILABLE": "Unavailable Portion",
-            "PORTION_UNAVAILABLE_DESC": "The portion you selected is unavailable,\r\nPlease choose another portion."
+            "PORTION_UNAVAILABLE_DESC": "The portion you selected is unavailable,\r\nPlease choose another portion.",
+            "SUCCESS_UPDATE": "",
+            "PROFILE": {
+                "TITLE": "Update profile",
+                "SUCCESS_CONTENT": " You have successfully updated.",
+                "ERROR_CONTENT": "Update failed, please try again."
+            }
         },
         "NOTIFICATION": "Notification",
         "CLOSE": "Đóng",
@@ -116,6 +122,31 @@
         },
         "EXPECTED_DIET_DIFF": {
             "PLACEHOLDER": "Please share your desired diet "
+        },
+        "DATA_PROFILE": {
+            "FORM_DATA": {
+                "MEN": "Male",
+                "WOMEN": "Femail",
+                "OTHER": "Other",
+                "LIGHT": "Light",
+                "MODERATE": "Moderate",
+                "VIGOROUS": "Vigorous",
+                "MIXED": "Mixed",
+                "VEGAN1": "Veg",
+                "CARNIVORE": "Only meat",
+                "FISH": "Fish",
+                "VEGETARIAN": "Vegetable",
+                "NO_DIET": "No diet",
+                "VEGAN2": "Vegetarianism",
+                "EAT_CLEAN": "Eat clean",
+                "MUSCLE_GAIN": "Body-building diet",
+                "FIBER_SUPPLEMENT": "Fiber-boosting diet",
+                "MIXED_DIET": "Mixed"
+            },
+            "MESSAGE_FORM": {
+                "REQUIRED": "Please enter this field.",
+                "EMAIL": "Invalid email."
+            }
         }
     },
     "HOME": {
@@ -165,7 +196,7 @@
             "SEND_MESSAGE": "Send",
             "IN_TRANSIT": "On going",
             "TOMATOES": "Tomatoes",
-            "KALE": "Cải Kale",
+            "KALE": "Kale",
             "CONTACT_PARTNERS": "Contact Partners",
             "SENT_CONTACT": "Contact Sent",
             "INVALID_EMAIL": "Invalid Email",

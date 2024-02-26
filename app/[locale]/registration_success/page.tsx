@@ -29,7 +29,7 @@ const RegistrationSuccess = () => {
                 <Flex justifyContent="space-between" flexWrap="wrap" mb="3.2rem">
                     <Box>
                         <Text fontSize="2.4rem" fontWeight="600" color="var(--gray-modern-950)" mb="1.6rem">
-                            {t("REGISTRATION_SUCCESS.BMI")}
+                            {t("REGISTRATION_SUCCESS.BMI_INDEX")}
                         </Text>
                         <Center
                             textAlign="center"
@@ -47,7 +47,7 @@ const RegistrationSuccess = () => {
                         </Center>
                         <Text fontSize="1.8rem" textAlign="center" fontWeight="500" color="var(--gray-modern-950)">
                             Cân đối
-                            {t("REGISTRATION_SUCCESS.BALANCED")}
+                            {t("REGISTRATION_SUCCESS.BALANCE")}
                         </Text>
                     </Box>
                     <Box>

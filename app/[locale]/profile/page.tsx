@@ -2,79 +2,123 @@
 import RadioCardGroup from "@/components/atoms/RadioCardGroup";
 import InputForm from "@/components/molecules/InputForm";
 import UISignWrap from "@/components/molecules/UISignWrap";
-import config from "@/config";
-import { RootState } from "@/store";
+import signUp from "@/config/signup.config";
+import apiServices from "@/services/sevices";
+import { setUserInfo } from "@/store/reducers/userInfo";
 import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
-import { Box, Button, Flex, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
+import { loadState } from "@/utils/localstorage";
+import { routes } from "@/utils/routes";
+import { Box, Button, Flex, Radio, RadioGroup, Stack, Text, useToast } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-
-const {
-    signUp: { formData, validationSchema },
-} = config;
+import { useDispatch } from "react-redux";
 
 const Profile = () => {
-    // const router = useRouter();
-    // const dispatch = useDispatch();
+    const t = useTranslations();
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const toast = useToast();
+    const tFormData = useTranslations("FORM.DATA_PROFILE");
+    const { userId } = loadState("infoSign");
+    const { initialValues, validationSchema, formData } = signUp(tFormData);
     const [showExpect, setShowExpect] = useState(false);
-    const userInfo = useSelector((state: RootState) => state.userInfo.userInfo);
+    const [initialForm, setInitialForm] = useState<UserType>(initialValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const initialValues = {
-        name: userInfo?.name || "",
-        email: userInfo?.email || "",
-        birthday: userInfo?.birthday,
-        sex: userInfo?.sex || "",
-        height_m: userInfo?.health_info?.height_m || "",
-        weight_kg: userInfo?.health_info?.weight_kg || "",
-        physical_activity_level: userInfo?.health_info?.physical_activity_level || "light",
-        current_diet: userInfo?.health_info?.current_diet || "Hỗn hợp",
-        allergic_food: userInfo?.health_info?.allergic_food || "",
-        expected_diet: userInfo?.health_info?.expected_diet || "Thuần chay",
-        expected_diet_diff: "",
-    };
 
-    const handleSubmit = async ({ expected_diet_diff, expected_diet, ...rest }: UserType) => {
+    const handleSubmit = async ({ expected_diet_diff, expected_diet, ...rest }: UserType, setSubmitting: any) => {
         try {
             const expectedDietValue = expected_diet === "Khác" ? expected_diet_diff : expected_diet;
-            console.log({ ...rest, expected_diet: expectedDietValue });
-            // Edit profile
-            // const { data } = await apiServices.createProfile({ ...rest, expected_diet: expectedDietValue });
-            // dispatch(setUserInfo(data));
-            // router.push(routes.RegistrationSuccess);
+            apiServices
+                .updateCustomer({
+                    ...rest,
+                    expected_diet: expectedDietValue,
+                    customer_id: userId,
+                })
+                .then(({ data }) => {
+                    dispatch(setUserInfo(data));
+                    toast({
+                        title: t("COMMON.TOAST.PROFILE.TITLE"),
+                        description: t("COMMON.TOAST.PROFILE.SUCCESS_CONTENT"),
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                        position: "top-right",
+                    });
+                    router.push(routes.Home);
+                    setSubmitting(false);
+                })
+                .catch((error) => {
+                    // Xử lý khi Promise bị từ chối (thất bại)
+                    console.log("Error while updating customer profile:", error);
+                    toast({
+                        title: t("COMMON.TOAST.PROFILE.TITLE"),
+                        description: t("COMMON.TOAST.PROFILE.ERROR_CONTENT"),
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                        position: "top-right",
+                    });
+                    setSubmitting(false);
+
+                    // Đặt các hành động xử lý lỗi ở đây
+                });
         } catch (error) {
             console.error("Error while resending OTP:", error);
         }
     };
 
     useEffect(() => {
-        const hasExpect = formData.expectedDiet.some((item) => item.value === userInfo?.health_info?.expected_diet);
-        if (hasExpect) {
-            initialValues.expected_diet_diff = userInfo?.health_info?.expected_diet || "";
-            initialValues.expected_diet = "Khác";
-        }
-        setShowExpect(!hasExpect);
-    }, []);
+        apiServices
+            .customerProfile({ userId })
+            .then((response) => {
+                const { data: profile } = response;
+                if (profile) {
+                    const notExpect = formData.expectedDiet.some(
+                        (item) => item.value === profile?.health_info?.expected_diet,
+                    );
+                    setShowExpect(!notExpect);
+                    setInitialForm({
+                        name: profile?.name || "",
+                        email: profile?.email || "",
+                        birthday: profile?.birthday,
+                        sex: profile?.sex || "",
+                        height_m: profile?.health_info?.height_m || "",
+                        weight_kg: profile?.health_info?.weight_kg || "",
+                        physical_activity_level: profile?.health_info?.physical_activity_level || "light",
+                        current_diet: profile?.health_info?.current_diet || "Hỗn hợp",
+                        allergic_food: profile?.health_info?.allergic_food || "",
+                        expected_diet: notExpect ? profile?.health_info?.expected_diet || "Thuần chay" : "Khác",
+                        expected_diet_diff: notExpect ? "" : profile?.health_info?.expected_diet,
+                        chronic_disease: profile?.health_info?.chronic_disease || "",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching customer profile:", error);
+            });
+    }, [userId]);
 
     return (
         <UISignWrap maxW="63rem" bg="var(--gray-100)">
             <Box p="4rem" w="100%" bg="white">
                 <Text fontSize="2.4rem" fontWeight="700" mb="0.8rem" color="var(--gray-950)">
-                    CHIA SẺ THÊM VỚI CHÚNG TÔI VỀ BẠN
+                    {t("ADDITIONAL.TITLE")}
                 </Text>
                 <Text fontSize="1.4rem" fontWeight="400" mb="3.2rem" color="var(--gray-600)">
-                    Những thông tin bạn cung cấp sẽ giúp chúng tôi đưa ra những gợi ý về đồ ăn phù hợp hơn với thể trạng
-                    và nhu cầu của bạn.
+                    {t("ADDITIONAL.DESCRIPTION")}
                 </Text>
                 <Box w="100%" maxW="36rem" m="0 auto">
                     <Formik
-                        initialValues={initialValues}
+                        initialValues={initialForm}
+                        enableReinitialize
                         validationSchema={validationSchema.validation}
                         validateOnBlur={true}
                         validateOnChange={false}
-                        onSubmit={(values) => {
-                            handleSubmit(values as UserType);
+                        onSubmit={(values, { setSubmitting }) => {
+                            handleSubmit(values as UserType, setSubmitting);
                         }}
                     >
                         {(props) => (
@@ -82,9 +126,9 @@ const Profile = () => {
                                 <Field name="name">
                                     {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="*Tên"
+                                            title={t("FORM.NAME.LABEL")}
                                             type="text"
-                                            placeholder="Ví dụ: Nguyễn Văn A"
+                                            placeholder={t("FORM.NAME.PLACEHOLDER")}
                                             error={form.errors.name && form.touched?.name ? form.errors.name : ""}
                                             {...field}
                                         ></InputForm>
@@ -93,9 +137,9 @@ const Profile = () => {
                                 <Field name="email">
                                     {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="*Email"
+                                            title={t("FORM.EMAIL.LABEL")}
                                             type="email"
-                                            placeholder="Ví dụ: nguyen.vana@gmail.com"
+                                            placeholder={t("FORM.EMAIL.PLACEHOLDER")}
                                             error={form.errors.email && form.touched?.email ? form.errors.email : ""}
                                             {...field}
                                         />
@@ -104,9 +148,9 @@ const Profile = () => {
                                 <Field name="birthday">
                                     {({ field, form }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="*Ngày sinh"
+                                            title={t("FORM.BIRTH_DAY.LABEL")}
                                             type="date"
-                                            placeholder="Ví dụ: 27/07/1995"
+                                            placeholder={t("FORM.BIRTH_DAY.PLACEHOLDER")}
                                             error={
                                                 form.errors.birthday && form.touched?.birthday
                                                     ? form.errors.birthday
@@ -117,7 +161,7 @@ const Profile = () => {
                                     )}
                                 </Field>
                                 <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem">
-                                    *Giới tính
+                                    {t("FORM.SEX.LABEL")}
                                 </Text>
                                 <Field name="sex">
                                     {({ field }: { field: filedType; form: formType }) => {
@@ -152,9 +196,9 @@ const Profile = () => {
                                     <Field name="height_m">
                                         {({ field, form }: { field: filedType; form: formType }) => (
                                             <InputForm
-                                                title="*Chiều cao ( cm )"
+                                                title={t("FORM.HEIGHT.LABEL")}
                                                 type="number"
-                                                placeholder="Ví dụ: 163"
+                                                placeholder={t("FORM.HEIGHT.PLACEHOLDER")}
                                                 error={
                                                     form.errors.height_m && form.touched?.height_m
                                                         ? form.errors.height_m
@@ -167,9 +211,9 @@ const Profile = () => {
                                     <Field name="weight_kg">
                                         {({ field, form }: { field: filedType; form: formType }) => (
                                             <InputForm
-                                                title="*Cân nặng ( kg )"
+                                                title={t("FORM.WEIGHT.LABEL")}
                                                 type="number"
-                                                placeholder="Ví dụ: 58"
+                                                placeholder={t("FORM.WEIGHT.PLACEHOLDER")}
                                                 error={
                                                     form.errors.weight_kg && form.touched?.weight_kg
                                                         ? form.errors.weight_kg
@@ -185,7 +229,7 @@ const Profile = () => {
                                         const { onChange, ...rest } = field;
                                         return (
                                             <RadioCardGroup
-                                                title="*Mức độ vận động hàng ngày"
+                                                title={t("FORM.ACTIVITY_LEVEL.LABEL")}
                                                 name="physical_activity_level"
                                                 data={formData.physicalActivityLevel}
                                                 {...rest}
@@ -199,7 +243,7 @@ const Profile = () => {
                                         const { onChange, ...rest } = field;
                                         return (
                                             <RadioCardGroup
-                                                title="Chế độ ăn hiện tại"
+                                                title={t("FORM.CURRENT_DIET.LABEL")}
                                                 name="current_diet"
                                                 data={formData.currentDiet}
                                                 {...rest}
@@ -211,10 +255,10 @@ const Profile = () => {
                                 <Field name="allergic_food">
                                     {({ field }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="Dị ứng với đồ ăn (nếu có)"
+                                            title={t("FORM.ALLERGIC_FOOD.LABEL")}
                                             type="text"
-                                            placeholder="Ví dụ: sữa động vật, trứng..."
-                                            note="Chia sẻ thêm về đồ ăn mà bạn bị dị ứng. Ví dụ: sữa động vật, trứng, hải sản (cá, tôm, cua...), thuỷ sản (cá, tôm, lươn...), các loại hạt (đậu nành, óc chố, hạnh nhân...)"
+                                            placeholder={t("FORM.ALLERGIC_FOOD.PLACEHOLDER")}
+                                            note={t("FORM.ALLERGIC_FOOD.NOTE")}
                                             {...field}
                                         />
                                     )}
@@ -222,16 +266,16 @@ const Profile = () => {
                                 <Field name="chronic_disease">
                                     {({ field }: { field: filedType; form: formType }) => (
                                         <InputForm
-                                            title="Bệnh mãn tính (nếu có)"
+                                            title={t("FORM.CHRONIC_DISEASE.LABEL")}
                                             type="text"
-                                            placeholder="Ví dụ: Cao huyết áp..."
-                                            note="Tim, Cao huyết áp, Huyết áp thấp, Gout, Tiểu đường, hen suyễn, ung thư...."
+                                            placeholder={t("FORM.CHRONIC_DISEASE.PLACEHOLDER")}
+                                            note={t("FORM.CHRONIC_DISEASE.NOTE")}
                                             {...field}
                                         />
                                     )}
                                 </Field>
                                 <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem" color="var(--gray-700)">
-                                    Chế độ ăn mong đợi
+                                    {t("FORM.EXPECTED_DIET.LABEL")}
                                 </Text>
                                 <Field name="expected_diet">
                                     {({ field }: { field: filedType; form: formType }) => {
@@ -269,7 +313,7 @@ const Profile = () => {
                                         {({ field }: { field: filedType; form: formType }) => (
                                             <InputForm
                                                 type="text"
-                                                placeholder="Vui lòng điền tên chế độ ăn mong muốn"
+                                                placeholder={t("FORM.EXPECTED_DIET_DIFF.PLACEHOLDER")}
                                                 {...field}
                                             />
                                         )}
@@ -282,7 +326,7 @@ const Profile = () => {
                                     isLoading={props.isSubmitting}
                                     type="submit"
                                 >
-                                    Hoàn tất
+                                    {t("BUTTON.COMPLETE")}
                                 </Button>
                             </Form>
                         )}
