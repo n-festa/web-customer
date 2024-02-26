@@ -26,6 +26,7 @@ const RadioButton = (props: { isRounded?: boolean } & RadioProps) => {
                     base: "9rem",
                 },
                 textAlign: "center",
+                bg: "white",
             };
         return {
             p: "1rem 1.6rem",
@@ -36,6 +37,7 @@ const RadioButton = (props: { isRounded?: boolean } & RadioProps) => {
             maxH: "4rem",
             fontSize: "1.4rem",
             whiteSpace: "nowrap",
+            bg: "white",
         };
     }, [isRounded]);
 

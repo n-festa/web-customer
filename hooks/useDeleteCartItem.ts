@@ -16,14 +16,22 @@ const useDeleteCartItem = () => {
                     text: "Xác nhận",
                     onClick: async () => {
                         const res = await apiServices.deleteCartItem({ customer_id: customer_id, cart_items: [id] });
-                        setCart(res.data);
+                        if (res.data) setCart(res.data);
                     },
                 },
             });
         },
         [setCart],
     );
-    return { handleDeleteCartItem };
+    const handleDeleteWholeCart = useCallback(
+        async (customer_id?: string | number) => {
+            if (!customer_id) return;
+            await apiServices.deleteWholdCart({ customerId: customer_id });
+            setCart(undefined);
+        },
+        [setCart],
+    );
+    return { handleDeleteCartItem, handleDeleteWholeCart };
 };
 
 export default useDeleteCartItem;

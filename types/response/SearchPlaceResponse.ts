@@ -11,27 +11,27 @@ export interface PlusCode {
 }
 
 export interface Compound {
-    district: string;
-    commune: string;
-    province: string;
+    district?: string;
+    commune?: string;
+    province?: string;
 }
 export interface SearchPlaceResponse {
     address_components?: AddressComponent[];
     formatted_address?: string;
     geometry: {
         location: {
-            lat: 10.814227;
-            lng: 106.671563;
+            lat: number;
+            lng: number;
         };
-        boundary: null;
+        boundary?: null;
     };
-    place_id: string;
-    reference: string;
-    plus_code: PlusCode;
-    compound: Compound;
-    types: string[];
-    name: string;
-    address: string;
+    place_id?: string;
+    reference?: string;
+    plus_code?: PlusCode;
+    compound?: Compound;
+    types?: string[];
+    name?: string;
+    address?: string;
 }
 
 export interface SearchError {

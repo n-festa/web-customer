@@ -1,3 +1,5 @@
+import { Compound } from "./response/SearchPlaceResponse";
+
 export type IngredientType = {
     name?: number | string;
     quantity?: string | number;
@@ -63,7 +65,7 @@ export type GtagEventType = {
 export type UserType = {
     name: string;
     email: string;
-    birthday: string;
+    birthday: string | Date;
     sex: string;
     height_m: number | string;
     weight_kg: number | string;
@@ -124,4 +126,5 @@ export interface Customer {
     latAddress?: number;
     longAddress?: number;
     address?: string;
+    addressCompound?: Compound;
 }

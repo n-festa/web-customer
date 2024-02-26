@@ -2,9 +2,11 @@ import CartItem from "@/components/organism/CartItem";
 import { cartSynced } from "@/recoil/recoilState";
 import { formatMoney, genCartNote } from "@/utils/functions";
 import { Flex, Image, Text, VStack } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useRecoilValue } from "recoil";
 
 const CartTotalInfo = () => {
+    const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
     const cart = useRecoilValue(cartSynced);
     return (
         <Flex color="black" position="relative" flexDir="column" borderRadius="0" p="0.8rem" bg="white" h="fit-content">
@@ -24,6 +26,7 @@ const CartTotalInfo = () => {
                             note={genCartNote(item)}
                             price="90,000"
                             nowPrice="75,000"
+                            numberInputProps={{ isDisabled: true }}
                             quantity={item.qty_ordered}
                         />
                     ))}
@@ -39,37 +42,37 @@ const CartTotalInfo = () => {
                 borderBottom="1px solid var(--gray-300)"
             >
                 <Text fontSize="1.6rem" fontWeight={700}>
-                    Thông tin thanh toán
+                    {t("PAYMENT_INFO")}
                 </Text>
                 <Flex w="100%" justifyContent="space-between">
-                    <Text fontSize="1.4rem">Tổng món ăn</Text>
+                    <Text fontSize="1.4rem">{t("TOTAL_ITEMS")}</Text>
                     <Text fontSize="1.4rem"> {formatMoney(150000)}</Text>
                 </Flex>
                 <Flex w="100%" justifyContent="space-between">
-                    <Text fontSize="1.4rem">Phí đóng gói</Text>
+                    <Text fontSize="1.4rem">{t("PACKING_FEE")}</Text>
                     <Text fontSize="1.4rem"> {formatMoney(9000)}</Text>
                 </Flex>
                 <Flex pb="0.4rem" w="100%" justifyContent="space-between" borderBottom="var(--divider)">
-                    <Text fontSize="1.4rem">Dụng cụ ăn</Text>
+                    <Text fontSize="1.4rem">{t("UTENSILS")}</Text>
                     <Text fontSize="1.4rem"> {formatMoney(0)}</Text>
                 </Flex>
                 <Flex w="100%" justifyContent="space-between">
-                    <Text fontSize="1.4rem">Phí giao hàng | 0.8 km</Text>
+                    <Text fontSize="1.4rem">{t("DELIVERY_FEE")}</Text>
                     <Text fontSize="1.4rem"> {formatMoney(10000)}</Text>
                 </Flex>
                 <Flex w="100%" pb="0.4rem" justifyContent="space-between" borderBottom="var(--divider)">
-                    <Text fontSize="1.4rem">Phí nền tảng</Text>
+                    <Text fontSize="1.4rem">{t("PLATFORM_FEE")}</Text>
                     <Text fontSize="1.4rem"> {formatMoney(2000)}</Text>
                 </Flex>
                 <Flex w="100%" justifyContent="space-between">
-                    <Text fontSize="1.4rem">Khuyến mãi</Text>
+                    <Text fontSize="1.4rem">{t("PROMOTION")}</Text>
                     <Text fontSize="1.4rem"> {formatMoney(-2000)}</Text>
                 </Flex>
             </VStack>
             <Flex p="1.6rem" flexDir="column" gap="2.4rem">
                 <Flex justifyContent="space-between">
                     <Text fontSize="2rem" fontWeight={600}>
-                        Tổng thanh toán
+                        {t("TOTAL_PAYMENT")}
                     </Text>
                     <Text color="var(--gray-900)" fontSize="2.4rem" fontWeight="600">
                         {formatMoney(160000)}

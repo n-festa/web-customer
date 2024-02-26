@@ -12,21 +12,23 @@ import {
     useBreakpointValue,
     useSteps,
 } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 
 const GroupStepperProgress = (props: FlexProps) => {
+    const t = useTranslations("ORDER_DETAIL.ORDER_CONFIRMATION");
     const steps =
         useBreakpointValue({
             base: [
-                { title: "1", description: "Xác Nhận\r\nĐơn Hàng", time: "11:05 AM" },
-                { title: "2", description: "Tài Xế\r\nĐã Tới Nhà Hàng", time: "11:15 AM" },
-                { title: "3", description: "Tài Xế\r\nĐã Rời Nhà Hàng", time: "11:25 AM" },
-                { title: "4", description: "Tài Xế\r\nĐã Đến Nơi", time: "11:40 AM" },
+                { title: "1", description: t("BASE.CONFIRM_ORDER"), time: "11:05 AM" },
+                { title: "2", description: t("BASE.DRIVER_ARRIVED_RESTAURANT"), time: "11:15 AM" },
+                { title: "3", description: t("BASE.DRIVER_LEFT_RESTAURANT"), time: "11:25 AM" },
+                { title: "4", description: t("BASE.DRIVER_ARRIVED_DESTINATION"), time: "11:40 AM" },
             ],
             md: [
-                { title: "1", description: "Xác Nhận Đơn Hàng", time: "11:05 AM" },
-                { title: "2", description: "Tài Xế Đã Tới Nhà Hàng", time: "11:15 AM" },
-                { title: "3", description: "Tài Xế Đã Rời Nhà Hàng", time: "11:25 AM" },
-                { title: "4", description: "Tài Xế Đã Đến Nơi", time: "11:40 AM" },
+                { title: "1", description: t("MD.CONFIRM_ORDER"), time: "11:05 AM" },
+                { title: "2", description: t("MD.DRIVER_ARRIVED_RESTAURANT"), time: "11:15 AM" },
+                { title: "3", description: t("MD.DRIVER_LEFT_RESTAURANT"), time: "11:25 AM" },
+                { title: "4", description: t("MD.DRIVER_ARRIVED_DESTINATION"), time: "11:40 AM" },
             ],
         }) ?? [];
 

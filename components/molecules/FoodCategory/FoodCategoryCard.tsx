@@ -25,7 +25,7 @@ const FoodCategoryCard = ({ categoryId, name, imageUrl, ...rest }: Props & CardP
                 backgroundSize={"cover"}
                 cursor={"pointer"}
                 onClick={() => {
-                    router.push(`${routes.SearchDetail}?categoryId=${categoryId}`);
+                    router.push(`${routes.SearchDetail}?categoryId=${categoryId}&name=${name}`);
                 }}
                 {...rest}
             >
@@ -34,7 +34,7 @@ const FoodCategoryCard = ({ categoryId, name, imageUrl, ...rest }: Props & CardP
                         color="white"
                         fontSize={"2rem"}
                         textAlign={"center"}
-                        fontWeight={"bold"}
+                        fontWeight={"600"}
                         textTransform={"uppercase"}
                         margin="0"
                     >

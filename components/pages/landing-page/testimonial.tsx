@@ -1,12 +1,14 @@
 "use client";
 import SlideSwiper from "@/components/molecules/SlideSwiper";
+import useSWRAPI from "@/hooks/useApi";
 import { poppins } from "@/theme/fonts";
 import { Flex, HStack, Img, StackProps, Text, VStack, useMediaQuery } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
-const GroupStars = ({ star = 5 }: { star?: number }) => {
+export const GroupStars = ({ star = 5, ...rest }: { star?: number } & StackProps) => {
     return (
-        <HStack alignSelf="flex-start" spacing="0.4rem">
+        <HStack alignSelf="flex-start" spacing="0.4rem" {...rest}>
             {Array(star)
                 .fill(0)
                 .map((_, index) => (
@@ -21,6 +23,8 @@ export const ReviewCard = ({
     star,
     comment,
     isShowAuthor,
+    reviewer_img,
+    reviewer_title,
     ...rest
 }: {
     isShowAuthor?: boolean;
@@ -28,6 +32,8 @@ export const ReviewCard = ({
     name?: string;
     loyalCustomers?: boolean;
     star?: number;
+    reviewer_img?: string;
+    reviewer_title?: string;
 } & StackProps) => {
     return (
         <VStack
@@ -44,13 +50,13 @@ export const ReviewCard = ({
             {isShowAuthor && (
                 <Flex w="100%" display={{ base: "none", md: "flex" }} justifyContent="space-between">
                     <Flex gap="1.5rem">
-                        <Img className="customer-avatar" alt="" src="/images/pic@2x.png" />
+                        <Img className="customer-avatar" alt="reviewer_img" src={reviewer_img} />
                         <VStack alignItems="flex-start" spacing="0">
                             <Text fontFamily={poppins.style.fontFamily} fontWeight="500" fontSize="1.5rem">
-                                {name ?? "Alexander R."}
+                                {name}
                             </Text>
                             <Text color="var(--primary-500, #00473c)" fontSize="1.2rem" fontWeight="500">
-                                Khách hàng thân thiết
+                                {reviewer_title}
                             </Text>
                         </VStack>
                     </Flex>
@@ -73,56 +79,30 @@ export const ReviewCard = ({
 };
 
 const Testimonial = () => {
-    const reviews = [
-        {
-            food_rating_id: 1,
-            score: 5,
-            remarks:
-                "“1. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
-            isShowAuthor: true,
-        },
-        {
-            food_rating_id: 2,
-            score: 5,
-            remarks:
-                "“2. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
-        },
-        {
-            food_rating_id: 3,
-            score: 5,
-            remarks:
-                "“3. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
-        },
-        {
-            food_rating_id: 4,
-            score: 5,
-            remarks:
-                "“4. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
-        },
-        {
-            food_rating_id: 5,
-            score: 5,
-            remarks:
-                "“5. Tôi đã sử dụng 2all để đặt món ăn và rất hài lòng với trải nghiệm của mình. Dịch vụ giao hàng nhanh chóng và đáng tin cậy, và thực phẩm luôn được giao hàng trong tình trạng tốt nhất.”",
-        },
-    ];
+    const t = useTranslations("HOME.TESTIMONIAL");
+    const { GetTopReview } = useSWRAPI();
+    const { data = { data: [] } } = GetTopReview();
+
     const [isSmaller] = useMediaQuery("(max-width: 700px)");
 
     const perPage = useMemo(() => {
         return isSmaller ? 1 : 3;
     }, [isSmaller]);
-    return (
-        <Flex scrollMarginTop="8rem" px="4.3rem" flexDir="column" pb="17.2rem" alignItems="center">
+    return data ? (
+        <Flex px="4.3rem" flexDir="column" pb="17.2rem" alignItems="center">
             <Text mt="15.6rem" mb="5.6rem" fontWeight="bold" fontSize="4.8rem" className="heading">
-                Mọi người yêu thích 2All
+                {t("TITLE")}
             </Text>
             <SlideSwiper
-                items={reviews.map((el, index) => (
+                items={data?.data?.map((el, index) => (
                     <ReviewCard
                         key={String(index)}
                         star={el.score}
-                        isShowAuthor={el.isShowAuthor}
-                        comment={el.remarks}
+                        isShowAuthor={index == 0}
+                        comment={el.remarks ?? ""}
+                        name={el.reviewer_name}
+                        reviewer_title={el.reviewer_title}
+                        reviewer_img={el.reviewer_img}
                     />
                 ))}
                 paginationGroupProps={{
@@ -133,6 +113,8 @@ const Testimonial = () => {
                 perPage={perPage}
             />
         </Flex>
+    ) : (
+        <></>
     );
 };
 

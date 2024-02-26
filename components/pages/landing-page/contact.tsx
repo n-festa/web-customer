@@ -1,6 +1,8 @@
+"use client";
+import apiServices from "@/services/sevices";
+import { validateEmail } from "@/utils/functions";
 import {
     Button,
-    Checkbox,
     Flex,
     FlexProps,
     HStack,
@@ -11,7 +13,12 @@ import {
     TextProps,
     Textarea,
     VStack,
+    useToast,
 } from "@chakra-ui/react";
+import debounce from "lodash/debounce";
+import { useLocale, useTranslations } from "next-intl";
+import { useCallback, useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const GroupBox = ({
     img,
@@ -41,12 +48,58 @@ const GroupBox = ({
     );
 };
 const Contact = () => {
+    const t = useTranslations("HOME.CONTACT");
+
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState<string[]>([]);
+    const toast = useToast();
+    const locale = useLocale();
+    const [recaptcha, setRecaptcha] = useState<string | null>(null);
+    const captchaRef = useRef<ReCAPTCHA>(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const handleSubmitDebounce = useCallback(
+        debounce(
+            async (email: string, message: string, recaptcha: string | null) => {
+                const error = [];
+                if (!validateEmail(email)) {
+                    error.push("email");
+                }
+                if (!message || message.length === 0) {
+                    error.push("message");
+                }
+                if (!recaptcha) {
+                    error.push("check");
+                }
+                if (error.length) {
+                    setError(error);
+                    return;
+                }
+                await apiServices.sendContactForm({ email, message, recaptcha_token: recaptcha });
+                setEmail("");
+                setMessage("");
+                captchaRef.current?.reset();
+                toast({
+                    title: t("CONTACT_PARTNERS"),
+                    description: t("SENT_CONTACT"),
+                    status: "success",
+                    duration: 4000,
+                    position: "top",
+                    isClosable: true,
+                });
+            },
+            2000,
+            { leading: true, trailing: false },
+        ),
+        [],
+    );
+
     return (
         <Flex
-            scrollMarginTop="8rem"
             id="contact-section"
             p="9.6rem 4.3rem"
             w="100%"
+            as="form"
             bg="var(--light-bg-color)"
             alignItems="center"
             justifyContent={{ base: "center", lg: "space-between" }}
@@ -63,21 +116,46 @@ const Contact = () => {
             >
                 <Flex flexDir="column">
                     <Text fontWeight="bold" fontSize="3.6rem" color="var(--gray-900)" lineHeight="4.4rem" mb="2rem">
-                        Liên hệ để trở thành đối tác của 2ALL hôm nay
+                        {t("TITLE")}
                     </Text>
                     <Text fontSize="2rem" fontWeight="500" lineHeight="3rem" color="var(--gray-600)">
-                        Chúng tôi chào đón đối tác trên toàn quốc để cùng cung cấp hàng triệu bữa ăn ngon và lành cho
-                        khách hàng Việt Nam.
+                        {t("DESCRIPTION")}
                     </Text>
                 </Flex>
                 <Flex flexDir="column" mt="4.8rem">
-                    <VStack alignItems="flex-start" color="var(--gray-700)" spacing="0.6rem">
+                    <VStack
+                        mb={error.includes("email") ? "0" : "2.6rem"}
+                        alignItems="flex-start"
+                        color="var(--gray-700)"
+                        spacing="0.6rem"
+                    >
                         <Text fontSize="1.6rem" fontWeight={500} lineHeight="2rem">
                             Email
                         </Text>
-                        <Input h="4.4rem" type="email" variant="email" placeholder="Vui lòng nhập email của bạn" />
+                        <Input
+                            value={email}
+                            onChange={(e) => {
+                                setError((prev) => prev.filter((err) => err !== "email"));
+                                setEmail(e.target.value);
+                            }}
+                            h="4.4rem"
+                            required
+                            type="email"
+                            variant={error.includes("email") ? "emailError" : "email"}
+                            placeholder={t("EMAIL_PLACEHOLDER")}
+                        />
+                        {error.includes("email") && (
+                            <Text fontSize="1.2rem" color="red" lineHeight="2rem">
+                                {t("INVALID_EMAIL")}
+                            </Text>
+                        )}
                     </VStack>
-                    <VStack mt="2.4rem" alignItems="flex-start" color="var(--gray-700)" spacing="0.6rem">
+                    <VStack
+                        alignItems="flex-start"
+                        mb={error.includes("message") ? "0" : "2.6rem"}
+                        color="var(--gray-700)"
+                        spacing="0.6rem"
+                    >
                         <Text fontSize="1.6rem" fontWeight={500} lineHeight="2rem">
                             Message
                         </Text>
@@ -85,21 +163,49 @@ const Contact = () => {
                             outline={3}
                             h="13.4rem"
                             resize="none"
+                            value={message}
                             _active={{}}
                             _visited={{}}
                             _focusVisible={{}}
-                            placeholder="Ví dụ: xin chào 2ALL, tôi có nhu cầu muốn hợp tác với bạn"
-                            border="1px solid rgba(208, 213, 221, 1)"
+                            onChange={(e) => {
+                                setError((prev) => prev.filter((err) => err !== "message"));
+                                setMessage(e.target.value);
+                            }}
+                            placeholder={t("MESSAGE_PLACEHOLDER")}
+                            border={`1px solid ${error.includes("message") ? "red" : "rgba(208, 213, 221, 1)"}`}
                             boxShadow="0px 1px 2px 0px rgba(16, 24, 40, 0.05)"
                         />
+                        {error.includes("message") && (
+                            <Text fontSize="1.2rem" color="red" lineHeight="2rem">
+                                {t("INVALID_MESSAGE")}
+                            </Text>
+                        )}
                     </VStack>
 
-                    <Flex justifyContent="space-between" mt="2.4rem" alignItems="center">
-                        <Checkbox>Tôi không phải robot</Checkbox>
-                        <Img h="5rem" w="5rem" alt="" src="/images/image-10@2x.png" />
+                    <Flex mb={error.includes("check") ? "1.2rem" : "3.2rem"} flexDir="column" justifyContent="center">
+                        <ReCAPTCHA
+                            onChange={(value) => {
+                                setError((prev) => prev.filter((err) => err !== "check"));
+                                setRecaptcha(value);
+                            }}
+                            ref={captchaRef}
+                            hl={locale}
+                            sitekey={process.env.CAPTCHA_KEY ?? ""}
+                        />
+                        {error.includes("check") && (
+                            <Text fontSize="1.2rem" color="red" lineHeight="2rem">
+                                {t("VERIFY_ROBOT")}
+                            </Text>
+                        )}
                     </Flex>
-                    <Button mt="3.2rem" h="6.2rem" borderRadius="3.2rem">
-                        Gửi tin nhắn
+                    <Button
+                        onClick={() => {
+                            handleSubmitDebounce(email, message, recaptcha);
+                        }}
+                        h="6.2rem"
+                        borderRadius="3.2rem"
+                    >
+                        {t("SEND_MESSAGE")}
                     </Button>
                 </Flex>
             </Flex>
@@ -121,7 +227,7 @@ const Contact = () => {
                     />
                     <GroupBox
                         img={"/images/image-36x36@2x.png"}
-                        name="Cải Kale"
+                        name={t("KALE")}
                         bottom="0"
                         left="0"
                         width="18.4rem"
@@ -130,7 +236,7 @@ const Contact = () => {
                     <GroupBox
                         w="15.5rem"
                         img={"/images/image-36x361@2x.png"}
-                        name="Cà Chua"
+                        name={t("TOMATOES")}
                         bottom="6.5rem"
                         right="5rem"
                         h="6.522rem"
@@ -166,7 +272,7 @@ const Contact = () => {
                                     Summer Avo Salad
                                 </Text>
                                 <Text fontSize="1.1rem" fontWeight={600}>
-                                    Đang giao hàng
+                                    {t("IN_TRANSIT")}
                                 </Text>
                             </VStack>
                             <Text

@@ -41,7 +41,7 @@ export interface FoodDto {
     preparing_time_s?: number;
     cooking_time_s?: number;
     quantity_available?: number;
-    is_vegetarian?: false;
+    is_vegetarian?: boolean;
     cooking_schedule?: string; // CookingSchedule[];
     units_sold?: number;
 }

@@ -4,23 +4,33 @@ import SkeletonBox from "@/components/molecules/SkeletonBox";
 import WraperInfo from "@/components/molecules/WraperInfo";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
+import { SearchFoodType } from "@/types/enum";
 import { routes } from "@/utils/routes";
 import { Wrap, WrapItem } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
+import { useTranslations } from "use-intl";
 
 const SpecialFood = () => {
+    const t = useTranslations("SEARCH.SPECIAL_FOOD");
     const { GetGeneralFoodRecommendation } = useSWRAPI();
-    // const profile = useSelector((state: RootState) => state.auth.profile);
     const { data, isLoading } = GetGeneralFoodRecommendation();
     const router = useRouter();
 
     const onViewAll = () => {
-        router.push(`${routes.SearchDetail}?viewAllFood=true`);
+        router.push(`${routes.SearchDetail}?&detailType=${SearchFoodType.AllFood}&name=${t("TITLE")}`);
     };
-    return (
+
+    const lstRecommendFood = useMemo(() => {
+        return data?.data ?? [];
+    }, [data]);
+
+    return lstRecommendFood.length < 1 ? (
+        <></>
+    ) : (
         <WraperInfo
-            title="Hấp dẫn"
-            description="Khám phá món hấp dẫn xung quanh bạn"
+            title={t("TITLE")}
+            description={t("DESCRIPTION")}
             onClickViewAll={onViewAll}
             contentProps={{
                 display: "flex",
@@ -37,7 +47,7 @@ const SpecialFood = () => {
                 ) : data && data?.data.length < 1 ? (
                     <Empty />
                 ) : (
-                    data?.data?.map((item) => {
+                    lstRecommendFood.map((item) => {
                         return (
                             <WrapItem
                                 key={item.id}

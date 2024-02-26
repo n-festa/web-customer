@@ -23,6 +23,8 @@ export interface TasteCustomization {
     option_values: {
         value_id: string;
         value_txt: BaseNameInterface[];
+        is_default: boolean;
+        order: number;
     }[];
 }
 
@@ -63,3 +65,7 @@ export type GetSideDishesResponse = { data: FoodDto[] };
 export type GetFoodDetailResponse = {
     data: FoodDetailDto;
 };
+
+export type GetCurrentAvailableFoodByRestaurantResponse = { data: FoodDto[] };
+
+export type GetPersonalFoodRecommendationResponse = { data: FoodDto[] };

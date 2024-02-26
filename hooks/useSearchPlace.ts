@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { locationRef } from "@/app/providers";
+import { locationRef } from "@/app/[locale]/providers";
 import apiServices from "@/services/sevices";
 import { RootState } from "@/store";
 import { setUserInfo } from "@/store/reducers/userInfo";
+import { Customer } from "@/types";
 import { SearchError, SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
 import { storageKeys } from "@/utils/constants";
@@ -24,7 +25,7 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
     const dispatch = useDispatch();
     const profile = useSelector((state: RootState) => state.userInfo);
     const [selectedPlace, setSelectedPlace] = useState<SearchPlaceResponse>();
-    const [input, setInput] = useState("");
+    const [input, setInput] = useState(initValue ?? "");
     const [isLoading, setIsLoading] = useState(false);
     const debouncedFunction = useCallback(
         debounce(
@@ -51,7 +52,20 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
     );
 
     useEffect(() => {
-        if (initValue) setInput(initValue);
+        if (initValue) {
+            setInput(initValue);
+            if (profile.userInfo?.latAddress && profile.userInfo?.longAddress)
+                setSelectedPlace({
+                    formatted_address: initValue,
+                    geometry: {
+                        location: {
+                            lat: profile.userInfo?.latAddress,
+                            lng: profile.userInfo?.longAddress,
+                        },
+                    },
+                    compound: profile.userInfo?.addressCompound,
+                });
+        }
     }, [initValue]);
 
     const onClickDetect = useCallback(async () => {
@@ -85,11 +99,12 @@ const useSearchPlace = ({ initValue }: { initValue?: string }) => {
     }, []);
 
     const setLocation = (data: SearchPlaceResponse) => {
-        const newProfile = {
+        const newProfile: Customer = {
             ...profile,
             longAddress: data.geometry.location.lng,
             latAddress: data.geometry.location.lat,
             address: data.formatted_address ?? "",
+            addressCompound: data.compound,
         };
         dispatch(setUserInfo(newProfile));
         saveState(storageKeys.userProfile, newProfile);

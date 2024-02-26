@@ -4,24 +4,28 @@ import { isLoggedIn } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Avatar, Button, Image, Menu, MenuButton, MenuItem, MenuList, useBreakpointValue } from "@chakra-ui/react";
 import { LogInIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { useSelector } from "react-redux";
 
 const UserGroup = ({ bg }: { bg?: string }) => {
+    const t = useTranslations();
     const showSignIn = !isLoggedIn();
     const image = useSelector((state: RootState) => state.userInfo.userInfo?.profile_image);
     const isMobile = useBreakpointValue({
         base: true,
         md: false,
     });
+    const pathname = usePathname();
     return showSignIn ? (
         <Link href={routes.SignIn}>
             {isMobile ? (
                 <LogInIcon />
             ) : (
                 <Button display="" borderRadius="0.8rem" variant="solid" width="13.1rem" height="4.4rem">
-                    Đăng nhập
+                    {t("BUTTON.LOGIN")}
                 </Button>
             )}
         </Link>
@@ -32,13 +36,13 @@ const UserGroup = ({ bg }: { bg?: string }) => {
             </MenuButton>
             <MenuList bg={bg}>
                 <MenuItem bg={bg} as={Link} href={routes.Profile}>
-                    Hồ sơ
+                    {t("COMMON.PROFILE")}
                 </MenuItem>
-                <MenuItem bg={bg} as={Link} href={"/history"}>
-                    Đơn hàng
+                <MenuItem bg={bg} as={Link} href={routes.OrderHistory}>
+                    {t("COMMON.ORDERS")}
                 </MenuItem>
-                <MenuItem bg={bg} onClick={() => logout()}>
-                    Thoát
+                <MenuItem bg={bg} onClick={() => logout(pathname)}>
+                    {t("COMMON.LOGOUT")}
                 </MenuItem>
             </MenuList>
         </Menu>

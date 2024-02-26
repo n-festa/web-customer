@@ -1,7 +1,6 @@
 import * as Yup from "yup";
 const confirmOrder = {
     initialValues: {
-        address: "",
         note: "",
     },
     validationSchema: {

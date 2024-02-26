@@ -1,30 +1,14 @@
-import { routes } from "@/utils/routes";
-import { NextRequest, NextResponse } from "next/server";
+import createMiddleware from "next-intl/middleware";
 
-// Limit the middleware to paths starting with `/api/`
+// Limit the middleware to paths starting with /api/
 export const config = {
-    matcher: [
-        /*
-         * Match all request paths except for the ones starting with:
-         * - api (API routes)
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico (favicon file)
-         */
-        "/((?!api|_next/static|_next/image|favicon.ico).*)",
-    ],
+    matcher: ["/", "/(de|en)/:path*", "/((?!api|_next|_vercel|.*\\..*).*)"],
 };
 
-export async function middleware(request: NextRequest) {
-    if (request.nextUrl.pathname.startsWith(routes.ProductDetail)) {
-        const restaurantId = request.nextUrl.searchParams.get("restaurantId");
+export default createMiddleware({
+    // A list of all locales that are supported
+    locales: ["vi", "en"],
 
-        if (!restaurantId) return NextResponse.next();
-
-        return NextResponse.redirect(
-            new URL(`${routes.RestaurantDetail}/${restaurantId}?des=${request.nextUrl.pathname}`, request.url),
-        );
-    }
-
-    return NextResponse.next();
-}
+    // Used when no locale matches
+    defaultLocale: "vi",
+});

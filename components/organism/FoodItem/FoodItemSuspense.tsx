@@ -1,12 +1,11 @@
-import { cartState } from "@/recoil/recoilState";
+import useUpdateCart from "@/hooks/useUpdateCart";
 import { ProductTypeList } from "@/types";
 import { getCutoffTime, isNullOrEmpty } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Box, Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
-import { cloneDeep } from "lodash";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
-import { useRecoilState } from "recoil";
+import { useMemo } from "react";
 
 const FoodItemSuspense = ({
     id,
@@ -33,6 +32,8 @@ const FoodItemSuspense = ({
     isShowQuantityAvailable = false,
     cooking_time_s,
     restaurantId,
+    isShowAddButton = true,
+    disableAction = false,
 }: ProductTypeList & {
     isShowMerchart?: boolean;
     isShowRating?: boolean;
@@ -40,35 +41,18 @@ const FoodItemSuspense = ({
     isShowTime?: boolean;
     isShowUnitSold?: boolean;
     isShowQuantityAvailable?: boolean;
+    isShowAddButton?: boolean;
+    disableAction?: boolean;
 }) => {
+    const t = useTranslations("COMMON.FOOD_ITEM");
     const router = useRouter();
-    const [cart, setCart] = useRecoilState(cartState);
+    const { handleQuickAdd, loading } = useUpdateCart();
 
     const cookingTime = useMemo(() => {
         return cooking_time_s
             ? Number((cooking_time_s / 60).toLocaleString(undefined, { maximumFractionDigits: 2 }))
             : undefined;
     }, [cooking_time_s]);
-
-    const handleAddCart = useCallback(() => {
-        const newCartInfo = cloneDeep(cart?.cart_info ?? []);
-        //TODO:
-        newCartInfo?.push({
-            item_id: 22,
-            customer_id: 3,
-            sku_id: 2,
-            qty_ordered: 3,
-            advanced_taste_customization: "không cay",
-            basic_taste_customization: "Không hành",
-            portion_customization: "Ức Gà 150g",
-            advanced_taste_customization_obj: [{ option_id: "3", value_id: "10" }],
-            basic_taste_customization_obj: [{ no_adding_id: "no_onion" }],
-            notes: "",
-            restaurant_id: 1,
-            created_at: "2024-01-12T11:25:37.000Z",
-        });
-        setCart({ customer_id: "", cart_info: newCartInfo });
-    }, [setCart, cart]);
 
     return (
         <Flex
@@ -81,11 +65,14 @@ const FoodItemSuspense = ({
             minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
             maxW={{ base: "unset", md: "38.4rem" }}
             flexDir="column"
-            cursor={"pointer"}
+            cursor={disableAction ? "" : "pointer"}
             onClick={() => {
+                if (disableAction) return;
+
                 const path = !isNullOrEmpty(restaurantId)
-                    ? `${routes.ProductDetail}/${id}?restaurantId=${restaurantId}`
+                    ? `${routes.RestaurantDetail}/${restaurantId}?des=${routes.ProductDetail}/${id}`
                     : `${routes.ProductDetail}/${id}`;
+
                 router.push(path);
             }}
         >
@@ -113,13 +100,15 @@ const FoodItemSuspense = ({
                 )}
                 <Flex w="100%" fontSize="1.6rem" color="var(--gray-500)" justifyContent="space-between">
                     <HStack spacing="0.8rem">
-                        <HStack spacing="0.4rem">
-                            <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin02.svg" />
-                            <Text wordBreak="keep-all" className="kcal font-weight-600">
-                                {kcal} Kcal
-                            </Text>
-                        </HStack>
-                        {isShowRating && (
+                        {kcal && (
+                            <HStack spacing="0.4rem">
+                                <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin02.svg" />
+                                <Text wordBreak="keep-all" className="kcal font-weight-600">
+                                    {kcal} Kcal
+                                </Text>
+                            </HStack>
+                        )}
+                        {isShowRating && ratings && (
                             <HStack spacing="0.4rem" className="d-flex align-items-center gap-1">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/star-icon1.svg" />
                                 <Text wordBreak="keep-all" className="text">
@@ -129,7 +118,7 @@ const FoodItemSuspense = ({
                         )}
                     </HStack>
                     <HStack ml="0.5rem" spacing="0.8rem">
-                        {isShowDistance && (
+                        {isShowDistance && distance && (
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin021.svg" />
                                 <Text wordBreak="keep-all" className="text">
@@ -137,7 +126,7 @@ const FoodItemSuspense = ({
                                 </Text>
                             </HStack>
                         )}
-                        {isShowTime && (
+                        {isShowTime && cookingTime && (
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/timer.svg" />
                                 <Text wordBreak="keep-all" className="text">
@@ -145,42 +134,70 @@ const FoodItemSuspense = ({
                                 </Text>
                             </HStack>
                         )}
-                        {isShowUnitSold && (
+                        {isShowUnitSold && units_sold && (
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/icons/package-check.svg" />
                                 <Text wordBreak="keep-all" className="text">
-                                    Đã bán {units_sold > 50 ? "50+" : units_sold}
+                                    {t("SOLD_OUT")} {units_sold > 50 ? "50+" : units_sold}
                                 </Text>
                             </HStack>
                         )}
-                        {isShowQuantityAvailable && (
+                        {isShowQuantityAvailable && quantity_available !== undefined && (
                             <HStack spacing="0.4rem">
                                 <Img w="2.4rem" h="2.4rem" alt="" src="/images/icons/meal.svg" />
                                 <Text wordBreak="keep-all" className="text">
-                                    Còn {quantity_available} phần
+                                    {t("QUANTITY_AVAILABLE", { number: quantity_available })}
                                 </Text>
                             </HStack>
                         )}
                     </HStack>
                 </Flex>
                 <Text minH="4rem" color="var(--gray-600)" as="span" fontSize="1.4rem" className="text-ellipsis">
-                    <Text as="span" wordBreak="keep-all" color="var(--color-mediumslateblue)" fontWeight="bold">
+                    <Text as="span" wordBreak="keep-all" color="var(--color-mediumslateblue)" fontWeight="600">
                         {cook_method}
                     </Text>
-                    <Text wordBreak="break-word" fontWeight="medium" as="span">
+                    <Text wordBreak="break-word" fontWeight="600" as="span">
                         {ingredientName && ` |  ${ingredientName}`}
                     </Text>
                 </Text>
-                <HStack h="3rem" color="black" fontSize="1.6rem" spacing="0.8rem">
+                <HStack
+                    mb="4rem"
+                    w="100%"
+                    h="3rem"
+                    color="black"
+                    fontSize="1.6rem"
+                    spacing="0.8rem"
+                    position="relative"
+                >
                     <Text textDecoration="line-through" textDecorationThickness="1px">
                         {price?.toLocaleString()}
                     </Text>
                     <Text fontSize="2.4rem" fontWeight="bold">
                         {currentPrice?.toLocaleString()}
                     </Text>
+                    {isShowAddButton && (
+                        <IconButton
+                            position="absolute"
+                            top="0.4rem"
+                            right="0.1rem"
+                            w="4rem"
+                            h="4rem"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleQuickAdd(Number(id), name);
+                            }}
+                            isLoading={loading}
+                            _hover={{ opacity: 0.7 }}
+                            _active={{ opacity: 0.5 }}
+                            borderRadius="50%"
+                            aria-label="add-btn"
+                            icon={<Img src="/images/plus.svg" />}
+                        />
+                    )}
                 </HStack>
                 {promotion && (
-                    <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
+                    <HStack mt="-4rem" color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
                         <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2729.svg" />
                         <Text>{promotion}</Text>
                     </HStack>
@@ -188,27 +205,10 @@ const FoodItemSuspense = ({
                 {cutoff_time && (
                     <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
                         <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2725.svg" />
-                        <Text>Đặt trước {getCutoffTime(cutoff_time)} giờ sáng để điều chỉnh vị</Text>
+                        <Text>{t("PLACE_ORDER_BEFORE", { time: getCutoffTime(cutoff_time, t) })}</Text>
                     </HStack>
                 )}
             </VStack>
-            <IconButton
-                position="absolute"
-                bottom="5rem"
-                right="2.5rem"
-                w="4rem"
-                h="4rem"
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleAddCart();
-                }}
-                _hover={{ opacity: 0.7 }}
-                _active={{ opacity: 0.5 }}
-                borderRadius="50%"
-                aria-label="add-btn"
-                icon={<Img src="/images/plus.svg" />}
-            />
         </Flex>
     );
 };

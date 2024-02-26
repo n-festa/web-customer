@@ -1,8 +1,8 @@
 import { FoodOtherFilterOptionsKeys } from "@/types/enum";
 
-export const FoodOtherFilterOptions = [
-    { key: FoodOtherFilterOptionsKeys.GT4Star, name: "> 4 Sao" },
-    { key: FoodOtherFilterOptionsKeys.Vegetarian, name: "Chay" },
+export const FoodOtherFilterOptions = (t: any) => [
+    { key: FoodOtherFilterOptionsKeys.GT4Star, name: t("COMMON.STARS") },
+    { key: FoodOtherFilterOptionsKeys.Vegetarian, name: t("COMMON.VEG") },
     { key: FoodOtherFilterOptionsKeys.LT500Kcal, name: "< 500 Kcal" },
 ];
 
@@ -24,4 +24,10 @@ export const YYYYMMDD = "yyyy-MM-dd";
 export const YYYYMMDDHHmm = "yyyy-MM-dd HH:mm";
 export const HHmm = "HH:mm";
 export const yyyMMdd = "yyyy/MM/dd";
+export const ddMMyyyy = "dd/MM/yyyy";
 export const EEE = "EEE";
+
+export const localeOption = [
+    { val: "en", content: "ENG" },
+    { val: "vi", content: "VIE" },
+];

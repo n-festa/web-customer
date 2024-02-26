@@ -20,7 +20,8 @@ import {
     VStack,
     useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 
 interface Props {
@@ -29,6 +30,8 @@ interface Props {
 }
 
 const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
+    const t = useTranslations("COMMON");
+    const tFoodItem = useTranslations("COMMON.FOOD_ITEM");
     const ref = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
     const [playing, setPlaying] = useState(false);
@@ -78,8 +81,8 @@ const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
     const _time = useMemo(() => {
         const cutoffTime = restaurantInfo?.cutoff_time ?? [];
 
-        return getCutoffTime(cutoffTime);
-    }, [restaurantInfo?.cutoff_time]);
+        return getCutoffTime(cutoffTime, tFoodItem);
+    }, [restaurantInfo?.cutoff_time, tFoodItem]);
 
     return (
         <Flex w="100%" flexDirection={"column"} mt="1rem">
@@ -198,7 +201,7 @@ const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
                                         objectFit="cover"
                                         src={el.url}
                                         alt=""
-                                        key={String(index)}
+                                        key={id}
                                         cursor={"pointer"}
                                         borderRadius={"1.6rem"}
                                         id={id}
@@ -304,32 +307,35 @@ const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
                                     <HStack spacing="0">
                                         <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2725.svg" />
                                         <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
-                                            Đặt trước {_time} để điều chỉnh vị
+                                            {t("RESTAURANT.ADJUST_TASTE", { time: _time })}
                                         </Text>
                                     </HStack>
                                 )}
                             </VStack>
                         </Stack>
-                        <Collapse in={isOpen} animateOpacity startingHeight={"4.8rem"}>
-                            {restaurantInfo?.introduction?.map((el, index) => {
-                                return (
-                                    <>
-                                        <Text
-                                            key={String(index)}
-                                            fontSize={"1.6rem"}
-                                            fontWeight={400}
-                                            lineHeight={"2.4rem"}
-                                            color="var(--gray-600)"
-                                        >
-                                            {el?.text ?? "-"}
-                                        </Text>
-                                    </>
-                                );
-                            })}
-                        </Collapse>
-                        <Button variant={"btnViewAllSm"} onClick={onToggle} p="0">
-                            Xem tất cả
-                        </Button>
+                        <VStack spacing="0" alignItems="flex-start">
+                            <Collapse in={isOpen} animateOpacity startingHeight={"4.8rem"}>
+                                <Flex flexDir="column" minH="4.8rem">
+                                    {restaurantInfo?.introduction?.map((el, index) => {
+                                        return (
+                                            <Fragment key={"introduction" + String(index)}>
+                                                <Text
+                                                    fontSize={"1.6rem"}
+                                                    fontWeight={400}
+                                                    lineHeight={"2.4rem"}
+                                                    color="var(--gray-600)"
+                                                >
+                                                    {el?.text ?? "-"}
+                                                </Text>
+                                            </Fragment>
+                                        );
+                                    })}
+                                </Flex>
+                            </Collapse>
+                            <Button h="2.4rem" variant={"btnViewAllSm"} onClick={onToggle} p="0">
+                                {!isOpen ? t("SEE_MORE") : t("SEE_LESS")}
+                            </Button>
+                        </VStack>
                     </VStack>
                 )}
             </VStack>

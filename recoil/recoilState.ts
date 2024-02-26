@@ -52,16 +52,30 @@ export const cartSynced = selector({
     get: async ({ get }) => {
         const { cartUpdate: cartItem, ...currentCart } = get(cartState) ?? {};
         if (cartItem) {
-            const res = await apiServices.addCart({ ...cartItem, item_id: undefined });
-            toast({
-                title: "Cập nhật giỏ hàng",
-                description: `Đã thêm vào giỏ hàng`,
-                status: "success",
-                duration: 4000,
-                position: "top",
-                isClosable: true,
-            });
-            return res.data;
+            try {
+                const res = await apiServices.addCart({ ...cartItem, item_id: undefined });
+                toast({
+                    title: "Cập nhật giỏ hàng",
+                    description: `Đã thêm vào giỏ hàng`,
+                    status: "success",
+                    duration: 4000,
+                    position: "top",
+                    isClosable: true,
+                });
+                if (res?.data) {
+                    return res.data;
+                }
+            } catch {
+                toast({
+                    title: "Cập nhật giỏ hàng",
+                    description: `Cập nhật giỏ hàng thất bại`,
+                    status: "error",
+                    duration: 4000,
+                    position: "top",
+                    isClosable: true,
+                });
+                return currentCart;
+            }
         }
         return currentCart;
     },

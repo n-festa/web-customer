@@ -4,21 +4,29 @@ import { Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import { useLocale, useTranslations } from "use-intl";
 
 const Footer = () => {
+    const t = useTranslations("FOOTER");
     const pathname = usePathname();
+    const locale = useLocale();
 
     const showFooter = useMemo(() => {
-        switch (pathname) {
+        const pathNameWithoutLocale = pathname.replace(locale + "/", "");
+        const pathLocale = "/" + locale;
+
+        switch (pathNameWithoutLocale) {
             case routes.Home:
             case routes.Otp:
             case routes.RegistrationSuccess:
             case routes.SignIn:
             case routes.AdditionalSignUpInfo:
+            case pathLocale:
                 return true;
             default:
                 return false;
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
     if (!showFooter) return <></>;
@@ -27,11 +35,11 @@ const Footer = () => {
         <Flex
             flexDir="column"
             alignItems="center"
-            px={{ base: "3rem", md: "3rem" }}
+            px={{ base: "1rem", md: "3rem" }}
             justifyContent="center"
             id="footer-section"
         >
-            <Flex w="100%" flexDir={{ base: "column", lg: "row" }} mb="4.8rem" mt="6.4rem" justify="space-evenly">
+            <Flex w="100%" flexDir={{ base: "column", lg: "row" }} mb="4.8rem" mt="6.4rem" justify={"space-evenly"}>
                 <VStack alignItems="flex-start" spacing="3.2rem">
                     <Img className="" alt="" src="/images/fictional-company-logo1.svg" />
                     <Text
@@ -43,15 +51,14 @@ const Footer = () => {
                         mb={{ base: "2rem", lg: "unset" }}
                         mr="1rem"
                     >
-                        Một bữa ăn ngon lành, đầy đủ dưỡng chất, được chế biến theo khẩu vị của bạn. Không cần lo nghĩ,
-                        không cần nấu, hẹn giờ giao linh hoạt.
+                        {t("DESCRIPTION")}
                     </Text>
                 </VStack>
                 <Flex justifyContent="space-evenly" flex={1}>
                     <VStack
-                        px="1.6rem"
+                        px={{ base: "1rem", md: "1.6rem" }}
                         alignItems="flex-start"
-                        borderLeft="1px solid var(--primary-100)"
+                        borderLeft={{ base: "none", lg: "1px solid var(--primary-100)" }}
                         spacing="1.6rem"
                     >
                         <Text
@@ -61,25 +68,29 @@ const Footer = () => {
                             lineHeight="2rem"
                             color="var(--primary-100)"
                         >
-                            Liên hệ
+                            {t("CONTACT.TITLE")}
                         </Text>
-                        <VStack alignItems="flex-start" className="footer-links">
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                        <VStack
+                            alignItems="flex-start"
+                            className="footer-links"
+                            fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                        >
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 info@gmail.com
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                 0988 989 989
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
-                                162 Hoàng Sa
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
+                                {t("CONTACT.ADDRESS1")}
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
-                                Q.1, Tp.HCM
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
+                                {t("CONTACT.ADDRESS2")}
                             </Text>
                         </VStack>
                     </VStack>
                     <VStack
-                        px="1.6rem"
+                        px={{ base: "1rem", md: "1.6rem" }}
                         alignItems="flex-start"
                         borderLeft="1px solid var(--primary-100)"
                         spacing="1.6rem"
@@ -92,43 +103,26 @@ const Footer = () => {
                             whiteSpace="nowrap"
                             color="var(--primary-100)"
                         >
-                            Về chúng tôi
+                            {t("ABOUT_US.TITLE")}
                         </Text>
-                        <VStack alignItems="flex-start" className="footer-links">
-                            <Text
-                                as={Link}
-                                href="#"
-                                variant="hoverWhite"
-                                fontSize="1.6rem"
-                                fontWeight="600"
-                                wordBreak="keep-all"
-                            >
-                                Đội ngũ
+                        <VStack
+                            alignItems="flex-start"
+                            className="footer-links"
+                            fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                        >
+                            <Text as={Link} href="#" variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
+                                {t("ABOUT_US.TEAM")}
                             </Text>
-                            <Text
-                                as={Link}
-                                href="#"
-                                variant="hoverWhite"
-                                fontSize="1.6rem"
-                                fontWeight="600"
-                                wordBreak="keep-all"
-                            >
-                                Việc làm
+                            <Text as={Link} href="#" variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
+                                {t("ABOUT_US.CAREERS")}
                             </Text>
-                            <Text
-                                as={Link}
-                                href="#"
-                                variant="hoverWhite"
-                                fontSize="1.6rem"
-                                fontWeight="600"
-                                wordBreak="keep-all"
-                            >
-                                Tin tức
+                            <Text as={Link} href="#" variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
+                                {t("ABOUT_US.NEWS")}
                             </Text>
                         </VStack>
                     </VStack>
                     <VStack
-                        px="1.6rem"
+                        px={{ base: "1rem", md: "1.6rem" }}
                         alignItems="flex-start"
                         borderLeft="1px solid var(--primary-100)"
                         spacing="1.6rem"
@@ -140,31 +134,35 @@ const Footer = () => {
                             lineHeight="2rem"
                             color="var(--primary-100)"
                         >
-                            Khu vực hoạt động
+                            {t("LOCATIONS.TITLE")}
                         </Text>
-                        <VStack alignItems="flex-start" className="footer-links">
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
-                                Quận 1, Tp. Hồ Chí Minh
+                        <VStack
+                            alignItems="flex-start"
+                            className="footer-links"
+                            fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                        >
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
+                                {t("LOCATIONS.DISTRICT_1")}
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
-                                Quận 2, Tp. Hồ Chí Minh
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
+                                {t("LOCATIONS.DISTRICT_2")}
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
-                                Quận 3, Tp. Hồ Chí Minh
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
+                                {t("LOCATIONS.DISTRICT_3")}
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
-                                Quận 4, Tp. Hồ Chí Minh
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
+                                {t("LOCATIONS.DISTRICT_4")}
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
-                                Bình Tân, Tp. Hồ Chí Minh
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
+                                {t("LOCATIONS.BINH_TAN")}
                             </Text>
-                            <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
-                                Phú Nhuận, Tp. Hồ Chí Minh
+                            <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
+                                {t("LOCATIONS.PHU_NHUAN")}
                             </Text>
                         </VStack>
                     </VStack>
                     <VStack
-                        px="1.6rem"
+                        px={{ base: "1rem", md: "1.6rem" }}
                         alignItems="flex-start"
                         borderLeft="1px solid var(--primary-100)"
                         spacing="1.6rem"
@@ -177,30 +175,34 @@ const Footer = () => {
                             whiteSpace="nowrap"
                             color="var(--primary-100)"
                         >
-                            Theo dõi tại
+                            {t("FOLLOW.TITLE")}
                         </Text>
-                        <VStack alignItems="flex-start" className="footer-links">
+                        <VStack
+                            alignItems="flex-start"
+                            className="footer-links"
+                            fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                        >
                             <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/instagram.svg" />
-                                <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                     Instagram
                                 </Text>
                             </HStack>
                             <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/facebook.svg" />
-                                <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                     Facebook
                                 </Text>
                             </HStack>
                             <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/linkedin.svg" />
-                                <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                     Linkedin
                                 </Text>
                             </HStack>
                             <HStack as={Link} href="#">
                                 <Img className="social-image" alt="" src="/images/246x0w-1@2x.png" />
-                                <Text variant="hoverWhite" fontSize="1.6rem" fontWeight="600" wordBreak="keep-all">
+                                <Text variant="hoverWhite" fontWeight="600" wordBreak="keep-all">
                                     Zalo
                                 </Text>
                             </HStack>
@@ -209,7 +211,7 @@ const Footer = () => {
                 </Flex>
             </Flex>
             <Text fontSize="1.6rem" alignSelf={{ base: "unset", lg: "flex-start" }} color="var(--gray-500)" my="1.6rem">
-                © 2023 Bản quyền website, ứng dụng thuộc về 2ALL.
+                {t("COPYRIGHT")}
             </Text>
         </Flex>
     );

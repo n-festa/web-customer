@@ -1,14 +1,12 @@
 "use client";
-import { RootState } from "@/store";
 import { Center, Spinner } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 export default function Loading({ isLoading }: { isLoading?: boolean }) {
-    const _isLoading = useSelector((state: RootState) => state.app.loading);
-    const loading = typeof isLoading === "undefined" ? _isLoading : isLoading;
+    // const _isLoading = useSelector((state: RootState) => state.app.loading);
+    const loading = isLoading;
     useEffect(() => {
         if (loading) {
             document.body?.classList.add("disable-mouse-event");

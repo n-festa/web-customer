@@ -4,6 +4,7 @@ export interface AppState {
     modalOpened?: boolean;
     loading: boolean;
     errorScreenDes?: string | null;
+    error?: Error;
 }
 
 const initialState: AppState = {
@@ -25,9 +26,12 @@ export const appSlice = createSlice({
         setErrorScreenDes: (state, action: PayloadAction<string | null>) => {
             state.errorScreenDes = action.payload;
         },
+        setError: (state, action: PayloadAction<Error | undefined>) => {
+            state.error = action.payload;
+        },
     },
 });
 
-export const { setOpenModal, setLoading, setErrorScreenDes } = appSlice.actions;
+export const { setOpenModal, setLoading, setErrorScreenDes, setError } = appSlice.actions;
 
 export default appSlice.reducer;

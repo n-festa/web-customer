@@ -2,9 +2,11 @@ import { FoodDetailDto } from "@/types/response/FoodResponse";
 import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
 import { getCutoffTime } from "@/utils/functions";
 import { HStack, Img, Text, VStack } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
 const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SKUsDto }) => {
+    const t = useTranslations("PRODUCT_DETAIL.PRODUCT_INFO");
     const unitSold = useMemo(() => {
         const unitSoldValue = info?.units_sold;
         if (unitSoldValue) {
@@ -40,20 +42,22 @@ const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SK
                 <HStack spacing="0.4rem">
                     <Img w="2.4rem" h="2.4rem" alt="" src="/images/timer.svg" />
                     <Text wordBreak="keep-all" className="text">
-                        Còn {info?.available_quantity?.toLocaleString()} phần
+                        {t("QUANTITY_AVAILABLE", {
+                            number: info?.available_quantity?.toLocaleString(),
+                        })}
                     </Text>
                 </HStack>
                 <HStack spacing="0.4rem">
                     <Img w="1.8rem" h="1.8rem" alt="" src="/images/icons/receipt-check.svg" />
                     <Text wordBreak="keep-all" className="text">
-                        Đã bán {unitSold}
+                        {t("SOLD_OUT")} {unitSold}
                     </Text>
                 </HStack>
 
                 <HStack spacing="0.4rem" className="d-flex align-items-center gap-1">
                     <Img w="2.4rem" h="2.4rem" alt="" src="/images/star-icon1.svg" />
                     <Text wordBreak="keep-all" className="text">
-                        Nhận xét {reviews}
+                        {t("COMMENT")} {reviews}
                     </Text>
                 </HStack>
             </HStack>
@@ -69,7 +73,7 @@ const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SK
             {info?.promotion && (
                 <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
                     <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2729.svg" />
-                    <Text>Ưu đãi đến 50k</Text>
+                    <Text>{t("DISCOUNT_UP_TO", { money: 50 })}</Text>
                 </HStack>
             )}
             {info?.packaging_info && info?.packaging_info?.length > 0 && (
@@ -81,7 +85,7 @@ const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SK
             {info?.cutoff_time && (
                 <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
                     <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2725.svg" />
-                    <Text>Đặt trước {getCutoffTime(info?.cutoff_time)} giờ sáng để điều chỉnh vị</Text>
+                    <Text>{t("PLACE_ORDER_BEFORE", { time: getCutoffTime(info?.cutoff_time, t) })}</Text>
                 </HStack>
             )}
         </VStack>

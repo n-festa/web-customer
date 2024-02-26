@@ -25,6 +25,11 @@ export interface CartItem {
     notes: string;
     lang?: string | number;
     created_at?: string;
+    item_img?: string;
+    price?: number;
+    price_after_discount?: number;
+    unit?: string;
+    item_name?: BaseNameInterface[];
 }
 
 export type Cart = {

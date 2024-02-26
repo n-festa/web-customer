@@ -1,4 +1,4 @@
-import { locationRef, loginSuccessUrl } from "@/app/providers";
+import { locationRef, loginSuccessUrl } from "@/app/[locale]/providers";
 import { CartItem } from "@/types/cart";
 import { formatDate } from "@/utils/date";
 import { isBefore } from "date-fns/isBefore";
@@ -60,12 +60,15 @@ export const formatMoney = (input?: string | number) => {
     return `${input.toLocaleString()} đ`;
 };
 
-export const getCutoffTime = (cutoffTime?: string | string[]) => {
+export const getCutoffTime = (cutoffTime?: string | string[], t?: any) => {
     if (!cutoffTime) return;
     if (typeof cutoffTime === "string") {
         const split = cutoffTime.split(":");
         if (split.length > 1) {
-            return `${split[0]}:${split[1]}`;
+            if (+split[0] >= 12) {
+                return `${split[0]}:${split[1]} ${t("PM")}`;
+            }
+            return `${split[0]}:${split[1]} ${t("AM")}`;
         }
         return;
     }
@@ -114,3 +117,19 @@ export const isNullOrEmpty = (value?: number | string | Date | null): value is n
 export function sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export const validateEmail = (email: string) => {
+    return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    );
+};
+
+export const parseArrayToObject = <T>(arr: T[], key: keyof T): { [key: string]: T } => {
+    const result = arr.reduce(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (obj: { [key: string]: T }, cur: T) => ({ ...obj, [cur?.[key] as any]: cur }),
+        {},
+    );
+
+    return result;
+};

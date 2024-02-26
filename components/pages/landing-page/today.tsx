@@ -3,12 +3,14 @@ import SkeletonBox from "@/components/molecules/SkeletonBox";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
 import { Flex, Text, Wrap, WrapItem } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import React, { useMemo } from "react";
 import { ProductTypeList } from "types";
 
 const Today = () => {
-    const { GetGeneralFoodRecommendation } = useSWRAPI();
-    const { data } = GetGeneralFoodRecommendation();
+    const t = useTranslations("HOME.TODAY");
+    const { GetHotFood } = useSWRAPI();
+    const { data } = GetHotFood();
 
     const processedData = useMemo(() => {
         return data?.data?.map((item) => ({
@@ -21,7 +23,6 @@ const Today = () => {
             price: item.price,
             ingredientName: item.ingredient_brief_vie,
             kcal: item.calorie_kcal?.toLocaleString(),
-            time: 122,
             distance: item.distance_km,
             ratings: item.rating,
             promotion: item.promotion,
@@ -34,20 +35,19 @@ const Today = () => {
     return (
         <Flex py="5rem" px="6.7rem" flexDir="column">
             <Text textAlign={{ base: "center", md: "unset" }} fontSize="4.8rem" fontWeight="bold">
-                Món ngon hôm nay
+                {t("TITLE")}
             </Text>
             <Wrap align="center" mt="4.8rem" justify={{ base: "center", md: "space-between" }} spacing="4rem">
-                {processedData?.map((item: ProductTypeList) => (
+                {processedData?.map((item: ProductTypeList, index) => (
                     <WrapItem
                         display="flex"
                         minW={{ base: "calc(100% - 5rem)", md: "38.4rem" }}
                         justifyContent="center"
-                        key={item.id}
+                        key={"foodItem" + index}
                         flex={1}
                         minH="52.6rem"
                     >
                         <FoodItem
-                            key={item.id}
                             id={item.id}
                             top_label={item.top_label}
                             name={item.name}
@@ -64,11 +64,13 @@ const Today = () => {
                             promotion={item.promotion}
                             cutoff_time={item.cutoff_time}
                             restaurantId={item.restaurantId}
+                            isShowAddButton={false}
+                            disableAction
                         />
                     </WrapItem>
                 )) ??
-                    Array.from([1, 2, 3], (index) => (
-                        <WrapItem key={`skeleton${index}`} display="flex" flexDir="column" flex={1}>
+                    Array.from([1, 2, 3], (value, index) => (
+                        <WrapItem key={`skeleton_${value}_${index}`} display="flex" flexDir="column" flex={1}>
                             <SkeletonBox isLoaded={false} />
                         </WrapItem>
                     ))}

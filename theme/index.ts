@@ -1,9 +1,11 @@
 import { modalStyle } from "@/theme/modal";
+import { popoverStyle } from "@/theme/popover";
 import { selectStyle } from "@/theme/select";
 import { switchStyle } from "@/theme/switch";
 import tabStyle from "@/theme/tab";
 import tableStyle from "@/theme/table";
 import { ThemeOverride, extendTheme } from "@chakra-ui/react";
+import { alertTheme } from "./alert";
 import buttonStyle from "./button";
 import { checkboxTheme } from "./checkbox";
 import colors from "./colors";
@@ -34,7 +36,7 @@ const theme: ThemeOverride = extendTheme({
     styles: {
         global: {
             body: {
-                background: "var(--main-bg-color)",
+                background: "white",
                 overflow: "hidden",
                 width: "100vw",
                 minHeight: "-webkit-fill-available",
@@ -66,6 +68,8 @@ const theme: ThemeOverride = extendTheme({
         Menu: menuTheme,
         Modal: modalStyle,
         Stepper: stepperTheme,
+        Alert: alertTheme,
+        Popover: popoverStyle,
     },
     textStyles,
 });

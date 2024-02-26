@@ -1,6 +1,6 @@
 import { YYYYMMDD } from "@/utils/constants";
 import { isNullOrEmpty } from "@/utils/functions";
-import { format as formatFns, parse, parseISO } from "date-fns";
+import { format as formatFns, parse, parseISO, subDays as subDaysFunc } from "date-fns";
 
 export const formatDate = (
     value?: string | number | Date | null,
@@ -24,4 +24,8 @@ export const formatDate = (
         console.log(error);
         return "";
     }
+};
+
+export const subDays = (startDate: Date, dateNumber: number) => {
+    return subDaysFunc(startDate, dateNumber);
 };
