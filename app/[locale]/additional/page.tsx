@@ -14,6 +14,9 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import useExpiredPage from "@/hooks/useExpiredPage";
+
+const IDLE_TIME_IN_MINUTES = 20;
 
 const Additional = () => {
     const t = useTranslations();
@@ -32,6 +35,7 @@ const Additional = () => {
             console.error("Error while resending OTP:", error);
         }
     };
+    useExpiredPage(IDLE_TIME_IN_MINUTES);
 
     return (
         <UISignWrap maxW="63rem" bg="var(--gray-100)">

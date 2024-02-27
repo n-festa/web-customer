@@ -4,8 +4,8 @@ import { showCartState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { setInfoSign } from "@/store/reducers/auth";
 import { filedType, formType } from "@/types/form";
-import { convertToInternationalFormat } from "@/utils/functions";
-import { saveState } from "@/utils/localstorage";
+import { convertToInternationalFormat, isTimeDiffMoreThan30Min } from "@/utils/functions";
+import { loadState, saveState } from "@/utils/localstorage";
 import { routes } from "@/utils/routes";
 import {
     Box,
@@ -16,6 +16,10 @@ import {
     Input,
     InputGroup,
     InputLeftAddon,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
     Text,
 } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
@@ -31,15 +35,20 @@ const Login = () => {
     const setShow = useSetRecoilState(showCartState);
     const router = useRouter();
     const dispatch = useDispatch();
+    const restrictStorage = loadState("restrict");
     const phoneRegExp =
         /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+    const examplePhone = /^(?!5550000000)/;
     const handleSubmit = async (_values: { phoneNumber: string }, _actions: FormikHelpers<{ phoneNumber: string }>) => {
         const valuePhone = convertToInternationalFormat(_values.phoneNumber);
-        const { data } = await apiServices.requestOTP({
-            phoneNumber: valuePhone,
-        });
-        dispatch(setInfoSign({ otp: data.otpCode, phoneNumber: data.phoneNumber }));
-        saveState("infoSign", { otp: data.otpCode, phoneNumber: data.phoneNumber });
+        const { beingLocked } = isTimeDiffMoreThan30Min(restrictStorage.time);
+        if (!beingLocked) {
+            const { data } = await apiServices.requestOTP({
+                phoneNumber: valuePhone,
+            });
+            dispatch(setInfoSign({ otp: data.otpCode, phoneNumber: data.phoneNumber }));
+            saveState("infoSign", { otp: data.otpCode, phoneNumber: data.phoneNumber });
+        }
         router.push(routes.Otp);
     };
 
@@ -74,8 +83,9 @@ const Login = () => {
                             phoneNumber: Yup.string()
                                 .required(t("SIGN_IN.PHONE_NUMBER_PROMPT"))
                                 .min(9, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
-                                .max(10, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
-                                .matches(phoneRegExp, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE")),
+                                .max(11, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
+                                .matches(phoneRegExp, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
+                                .matches(examplePhone, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE")),
                         })}
                         onSubmit={(values, actions) => {
                             handleSubmit(values, actions);
@@ -92,54 +102,69 @@ const Login = () => {
                                     {({ field, form }: { field: filedType; form: formType }) => (
                                         <FormControl isInvalid={!!form.errors.phoneNumber}>
                                             <InputGroup
-                                                position="relative"
                                                 border=".1rem solid #D0D5DD"
                                                 borderRadius=".8rem"
                                                 h="4.0rem"
                                                 mb="0.6rem"
-                                                overflow="hidden"
                                                 borderColor={form.errors.phoneNumber && "#E53E3E"}
                                             >
-                                                <InputLeftAddon
-                                                    position="absolute"
-                                                    top="0"
-                                                    left="0"
-                                                    bottom="0"
-                                                    w="5.6rem"
-                                                    h="4.0rem"
-                                                    pr="1.0rem"
-                                                    zIndex={2}
-                                                >
-                                                    <Image
-                                                        src="/images/vi.svg"
-                                                        alt="Dan Abramov"
-                                                        w="1.6rem"
-                                                        h="1.6rem"
-                                                        mr=".2rem"
-                                                    />
-                                                    <Image
-                                                        src="/images/chevrondown1.svg"
-                                                        alt="Dan Abramov"
-                                                        w="1.6rem"
-                                                        h="1.6rem"
-                                                        mr=".2rem"
-                                                    />
+                                                <InputLeftAddon h="4.0rem" pr="1.0rem">
+                                                    <Menu>
+                                                        {({ isOpen }) => (
+                                                            <>
+                                                                <MenuButton
+                                                                    as={Button}
+                                                                    variant="ghost"
+                                                                    isActive={isOpen}
+                                                                    rightIcon={
+                                                                        <Image
+                                                                            w="1rem"
+                                                                            src="/images/chevrondown1.svg"
+                                                                            alt="Dan Abramov"
+                                                                        />
+                                                                    }
+                                                                    padding={0}
+                                                                >
+                                                                    <Image w="1.6rem" alt="" src={`/images/vi.svg `} />
+                                                                </MenuButton>
+                                                                <MenuList zIndex={1} padding="0.5rem 0.2rem">
+                                                                    <MenuItem w="max-content">
+                                                                        <Image
+                                                                            width="1.9rem"
+                                                                            height="1.9rem"
+                                                                            alt=""
+                                                                            src={`/images/vi.svg `}
+                                                                        />
+                                                                    </MenuItem>
+                                                                    <MenuItem w="max-content">
+                                                                        <Image
+                                                                            width="1.9rem"
+                                                                            height="1.9rem"
+                                                                            alt=""
+                                                                            src={`/images/en.svg `}
+                                                                        />
+                                                                    </MenuItem>
+                                                                </MenuList>
+                                                            </>
+                                                        )}
+                                                    </Menu>
                                                 </InputLeftAddon>
                                                 <Input
-                                                    border="none"
-                                                    h="4.0rem"
+                                                    border="none !important"
+                                                    boxShadow="none !important"
+                                                    h="3.8rem"
                                                     type="tel"
                                                     placeholder="(555) 000-0000"
                                                     fontSize="1.6rem"
                                                     fontWeight="400"
                                                     color="#667085"
-                                                    pl="9rem"
+                                                    pl="3.5rem"
                                                     pb="0.2rem"
                                                     {...field}
                                                 />
                                                 <Text
                                                     position="absolute"
-                                                    left="5.7rem"
+                                                    left="5rem"
                                                     top="50%"
                                                     transform="translateY(-50%)"
                                                     fontSize="1.6rem"
@@ -153,7 +178,7 @@ const Login = () => {
                                             <FormErrorMessage fontSize="1.4rem">
                                                 {form.errors.phoneNumber}
                                             </FormErrorMessage>
-                                            <Text fontSize="1.4rem" fontWeight="400" m="1rem 0 1.6rem" color="#475467">
+                                            <Text fontSize="1.4rem" fontWeight="400" m="1rem 0 1.8rem" color="#475467">
                                                 {t("SIGN_IN.OTP_MESSAGE")}
                                             </Text>
 
