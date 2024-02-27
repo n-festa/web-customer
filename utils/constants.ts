@@ -31,3 +31,8 @@ export const localeOption = [
     { val: "en", content: "ENG" },
     { val: "vi", content: "VIE" },
 ];
+export const timeIdle = {
+    millisecondIdle: 1000,
+    secondIdle: 60,
+    idleInMinute: 1,
+};

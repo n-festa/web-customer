@@ -15,8 +15,10 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import useExpiredPage from "@/hooks/useExpiredPage";
 
 const numberOfDigits = 6;
+const IDLE_TIME_IN_MINUTES = 20;
 
 const PhoneVerification = () => {
     const t = useTranslations();
@@ -143,6 +145,8 @@ const PhoneVerification = () => {
             }
         }
     }, []);
+
+    useExpiredPage(IDLE_TIME_IN_MINUTES);
 
     useEffect(() => {
         console.log({ otp });
