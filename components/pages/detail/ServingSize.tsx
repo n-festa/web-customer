@@ -1,6 +1,7 @@
 "use client";
 import GroupRadioButton from "@/components/atoms/radio/GroupRadioButton";
 import WraperInfo from "@/components/molecules/WraperInfo";
+import useRenderText from "@/hooks/useRenderText";
 import { filedType, formType } from "@/types/form";
 import { FoodDetailDto } from "@/types/response/FoodResponse";
 import { DefaultOtherOption, OtherCustomization, PortionCustomization, TasteCustomization } from "@/utils/constants";
@@ -24,6 +25,7 @@ interface Props {
 // eslint-disable-next-line react/display-name
 const ServingSize = forwardRef((props: Props, ref: any) => {
     const t = useTranslations("PRODUCT_DETAIL.SERVINGSIVE");
+    const { renderTxt } = useRenderText();
     const { info, isLoading, onChangePortion, portions } = props;
 
     const initFormData = useMemo(() => {
@@ -116,7 +118,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                                                     minW="12rem"
                                                                     textTransform={"capitalize"}
                                                                 >
-                                                                    {el.option_name?.[0]?.text}
+                                                                    {renderTxt(el.option_name)}
                                                                 </Text>
                                                                 <GroupRadioButton
                                                                     isRounded
@@ -168,7 +170,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                                                 return a.order - b.order;
                                                             })
                                                             .map((option) => ({
-                                                                name: option.value_txt?.[0]?.text,
+                                                                name: renderTxt(option.value_txt),
                                                                 value: option.value_id,
                                                             }));
                                                         return (
@@ -181,7 +183,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                                                         minW="12rem"
                                                                         textTransform={"capitalize"}
                                                                     >
-                                                                        {el.option_name?.[0]?.text}
+                                                                        {renderTxt(el.option_name)}
                                                                     </Text>
                                                                     <GroupRadioButton
                                                                         isRounded
@@ -235,7 +237,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                                                             minW="12rem"
                                                                             textTransform={"capitalize"}
                                                                         >
-                                                                            {el.description?.[0]?.text}
+                                                                            {renderTxt(el.description)}
                                                                         </Text>
                                                                     </Switch>
                                                                 </HStack>

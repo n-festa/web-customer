@@ -1,4 +1,5 @@
 import CartItem from "@/components/organism/CartItem";
+import useRenderText from "@/hooks/useRenderText";
 import { cartSynced } from "@/recoil/recoilState";
 import { formatMoney, genCartNote } from "@/utils/functions";
 import { Button, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
@@ -7,6 +8,7 @@ import { useRecoilValue } from "recoil";
 
 const PaymentGroup = (props: FlexProps & { onConfirm: () => void }) => {
     const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
+    const { renderTxt } = useRenderText();
     const cart = useRecoilValue(cartSynced);
     return (
         <Flex
@@ -37,7 +39,7 @@ const PaymentGroup = (props: FlexProps & { onConfirm: () => void }) => {
                         <CartItem
                             key={item.item_id}
                             image={item.item_img ?? ""}
-                            name={item.item_name?.[0].text ?? ""}
+                            name={renderTxt(item.item_name) ?? ""}
                             note={genCartNote(item)}
                             price={item.price?.toLocaleString()}
                             nowPrice={item.price_after_discount?.toLocaleString()}

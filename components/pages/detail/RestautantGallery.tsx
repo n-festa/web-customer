@@ -1,4 +1,5 @@
 import SkeletonBox from "@/components/molecules/SkeletonBox";
+import useRenderText from "@/hooks/useRenderText";
 import { MediaType } from "@/types/enum";
 import { Media, RestaurantDetailDto } from "@/types/response/base";
 import { getCutoffTime } from "@/utils/functions";
@@ -31,6 +32,7 @@ interface Props {
 
 const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
     const t = useTranslations("COMMON");
+    const { renderTxt } = useRenderText();
     const tFoodItem = useTranslations("COMMON.FOOD_ITEM");
     const ref = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
@@ -266,10 +268,10 @@ const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
                         <Stack w="100%" direction={{ md: "row", base: "column" }}>
                             <VStack flex={1} alignItems={"flex-start"}>
                                 <Text fontSize={"2.4rem"} color="var(--gray-900)" fontWeight={"bold"} m="0">
-                                    {restaurantInfo?.name?.[0].text}
+                                    {renderTxt(restaurantInfo?.name)}
                                 </Text>
                                 <Text fontSize={"1.8rem"} color="black" fontWeight={"600"} m="0">
-                                    {restaurantInfo?.specialty?.[0]?.text} | {restaurantInfo?.top_food}
+                                    {renderTxt(restaurantInfo?.specialty)} | {restaurantInfo?.top_food}
                                 </Text>
                             </VStack>
                             <VStack w="33.6rem" alignItems={"flex-start"}>
