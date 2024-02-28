@@ -3,10 +3,12 @@ import FoodCategoryCard from "@/components/molecules/FoodCategory/FoodCategoryCa
 import SkeletonBox from "@/components/molecules/SkeletonBox";
 import SlideSwiper from "@/components/molecules/SlideSwiper";
 import useSWRAPI from "@/hooks/useApi";
+import useRenderText from "@/hooks/useRenderText";
 import { Flex, Wrap, WrapItem, useMediaQuery } from "@chakra-ui/react";
 import { useMemo, useRef } from "react";
 
 const Categories = () => {
+    const { renderTxt } = useRenderText();
     const { GetAllCategories } = useSWRAPI();
     const { data, isLoading } = GetAllCategories();
     const [isMedium] = useMediaQuery("(max-width: 700px)");
@@ -33,7 +35,7 @@ const Categories = () => {
                         data?.data?.map((el, index) => (
                             <FoodCategoryCard
                                 key={String(index)}
-                                name={el.name?.[0].text ?? ""}
+                                name={renderTxt(el.name) ?? ""}
                                 categoryId={el.sys_category_id}
                                 imageUrl={el.image_url}
                             />

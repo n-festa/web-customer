@@ -1,3 +1,4 @@
+import useRenderText from "@/hooks/useRenderText";
 import { FoodDetailDto } from "@/types/response/FoodResponse";
 import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
 import { Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text, VStack, Wrap, WrapItem } from "@chakra-ui/react";
@@ -5,6 +6,8 @@ import { useTranslations } from "next-intl";
 
 const IngredientInfo = ({ info, activeSKU: _activeSKU }: { info?: FoodDetailDto; activeSKU?: SKUsDto }) => {
     const t = useTranslations("PRODUCT_DETAIL");
+    const { renderTxt } = useRenderText();
+
     return (
         <Tabs position="relative" variant="ingredient" mt="0.8rem" isFitted>
             <TabList>
@@ -27,7 +30,7 @@ const IngredientInfo = ({ info, activeSKU: _activeSKU }: { info?: FoodDetailDto;
                 </TabPanel>
                 <TabPanel minH={"10rem"}>
                     <Text fontSize={"1.4rem"} color="var(--gray-900)">
-                        {info?.description?.[0].text ?? "-"}
+                        {renderTxt(info?.description) ?? "-"}
                     </Text>
                 </TabPanel>
             </TabPanels>

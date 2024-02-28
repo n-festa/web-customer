@@ -1,3 +1,4 @@
+import useRenderText from "@/hooks/useRenderText";
 import { RestaurantDto } from "@/types/response/base";
 import { getCutoffTime } from "@/utils/functions";
 import { routes } from "@/utils/routes";
@@ -13,6 +14,7 @@ interface Props {
 
 const FoodChef = ({ data }: Props) => {
     const t = useTranslations("COMMON.FOOD_ITEM");
+    const { renderTxt } = useRenderText();
     const {
         id,
         name,
@@ -110,7 +112,7 @@ const FoodChef = ({ data }: Props) => {
             </VStack>
             <VStack w="100%" alignItems={"flex-start"} spacing={"0"} padding="0.8rem 2.4rem" position="relative">
                 <Text fontSize={"2.4rem"} color="var(--gray-900)" fontWeight={"bold"} m="0">
-                    {name?.[0].text ?? "-"}
+                    {renderTxt(name) ?? "-"}
                 </Text>
 
                 <HStack spacing="0.8rem" w="100%">
@@ -137,7 +139,7 @@ const FoodChef = ({ data }: Props) => {
                     </HStack>
                 </HStack>
                 <Text as="span" color="var(--gray-600)" fontSize={"1.6rem"} fontWeight={"700"}>
-                    {specialty?.[0]?.text} | {top_food}
+                    {renderTxt(specialty)} | {top_food}
                 </Text>
 
                 {promotion && (

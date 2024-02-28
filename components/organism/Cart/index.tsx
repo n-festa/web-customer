@@ -18,6 +18,8 @@ import { useEffect, useMemo, useState } from "react";
 import { BeatLoader } from "react-spinners";
 import { useRecoilStateLoadable, useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
+import useRenderText from "@/hooks/useRenderText";
+
 let _cts: CancelTokenSource | null = null;
 
 const Cart = ({
@@ -25,6 +27,7 @@ const Cart = ({
     ignoreAuthError,
     ...props
 }: FlexProps & { restaurant_id?: number | string; ignoreAuthError?: boolean }) => {
+    const { renderTxt } = useRenderText();
     const t = useTranslations("CART");
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
@@ -196,7 +199,7 @@ const Cart = ({
                                     alt="restaurant-icon"
                                 ></Image>
                                 <Text fontWeight="bold" fontSize="1.6rem" color="var(--color-mediumslateblue)">
-                                    {cart?.restaurant_name?.[0].text}
+                                    {renderTxt(cart?.restaurant_name)}
                                 </Text>
                             </Flex>
                         )}
@@ -212,7 +215,7 @@ const Cart = ({
                                     }}
                                     key={item.item_id}
                                     image={item.item_img ?? ""}
-                                    name={item.item_name?.[0].text ?? "-"}
+                                    name={renderTxt(item.item_name) ?? "-"}
                                     note={genCartNote(item)}
                                     price={item.price?.toLocaleString()}
                                     nowPrice={item.price_after_discount?.toLocaleString()}

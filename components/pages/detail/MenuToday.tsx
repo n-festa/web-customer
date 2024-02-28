@@ -1,5 +1,6 @@
 import SkeletonBox from "@/components/molecules/SkeletonBox";
 import FoodItem from "@/components/organism/FoodItem";
+import useRenderText from "@/hooks/useRenderText";
 import { CookingSchedule, RestaurantDetailDto } from "@/types/response/base";
 import { EEE } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
@@ -18,6 +19,7 @@ interface Props {
 
 const MenuToday = ({ restaurantInfo, isLoading }: Props) => {
     const t = useTranslations("COMMON");
+    const { renderTxt } = useRenderText();
     const defaultValue = formatDate(new Date());
     const listOptions = useMemo(() => {
         const currentDate = new Date();
@@ -157,11 +159,11 @@ const MenuToday = ({ restaurantInfo, isLoading }: Props) => {
                                   <FoodItem
                                       key={item.id}
                                       id={item.id}
-                                      name={item.name?.[0].text}
+                                      name={renderTxt(item.name)}
                                       images={item.image}
                                       top_label={item.top_label}
-                                      merchart={item.restaurant_name?.[0].text}
-                                      cook_method={item.main_cooking_method?.[0].text}
+                                      merchart={renderTxt(item.restaurant_name)}
+                                      cook_method={renderTxt(item.main_cooking_method)}
                                       currentPrice={item.price_after_discount}
                                       price={item.price}
                                       ingredientName={item.ingredient_brief_vie}

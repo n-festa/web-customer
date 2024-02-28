@@ -2,6 +2,7 @@ import SkeletonBox from "@/components/molecules/SkeletonBox";
 import WraperInfo from "@/components/molecules/WraperInfo";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
+import useRenderText from "@/hooks/useRenderText";
 import { SearchFoodType } from "@/types/enum";
 import products from "@/utils/data/products";
 import { routes } from "@/utils/routes";
@@ -12,6 +13,7 @@ import { useMemo } from "react";
 
 const SimilarDishes = () => {
     const t = useTranslations("PRODUCT_DETAIL");
+    const { renderTxt } = useRenderText();
     const { product } = useParams();
     const router = useRouter();
     const { GetPersonalFoodRecommendation } = useSWRAPI();
@@ -54,10 +56,10 @@ const SimilarDishes = () => {
                               <FoodItem
                                   key={item.id}
                                   id={item.id}
-                                  name={item.name?.[0].text}
+                                  name={renderTxt(item.name)}
                                   images={item.image}
-                                  merchart={item.restaurant_name?.[0].text}
-                                  cook_method={item.main_cooking_method?.[0].text}
+                                  merchart={renderTxt(item.restaurant_name)}
+                                  cook_method={renderTxt(item.main_cooking_method)}
                                   currentPrice={item.price_after_discount}
                                   price={item.price}
                                   ingredientName={item.ingredient_brief_vie}

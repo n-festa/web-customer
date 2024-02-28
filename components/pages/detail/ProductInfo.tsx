@@ -1,3 +1,4 @@
+import useRenderText from "@/hooks/useRenderText";
 import { FoodDetailDto } from "@/types/response/FoodResponse";
 import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
 import { getCutoffTime } from "@/utils/functions";
@@ -7,6 +8,7 @@ import { useMemo } from "react";
 
 const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SKUsDto }) => {
     const t = useTranslations("PRODUCT_DETAIL.PRODUCT_INFO");
+    const { renderTxt } = useRenderText();
     const unitSold = useMemo(() => {
         const unitSoldValue = info?.units_sold;
         if (unitSoldValue) {
@@ -30,12 +32,12 @@ const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SK
     return (
         <VStack w="100%" align="flex-start" spacing="1rem">
             <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="2.4rem">
-                {info?.name?.[0]?.text}
+                {renderTxt(info?.name)}
             </Text>
             <Text as="span" className="chef-name" fontSize="1.4rem" lineHeight="2rem" color="var(--gray-600)">
                 <Text as="span">by </Text>
                 <Text as="span" fontWeight="bold" color="var(--color-mediumslateblue)">
-                    {info?.restaurant_name?.[0]?.text}
+                    {renderTxt(info?.restaurant_name)}
                 </Text>
             </Text>
             <HStack w="100%" fontSize="1.6rem" color="var(--gray-500)" justifyContent="flex-start">
@@ -79,7 +81,7 @@ const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SK
             {info?.packaging_info && info?.packaging_info?.length > 0 && (
                 <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
                     <Img w="2rem" h="2rem" alt="" src="/images/icons/archive.svg" />
-                    <Text>{info?.packaging_info[0].text}</Text>
+                    <Text>{renderTxt(info?.packaging_info)}</Text>
                 </HStack>
             )}
             {info?.cutoff_time && (

@@ -2,6 +2,7 @@
 import SkeletonBox from "@/components/molecules/SkeletonBox";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
+import useRenderText from "@/hooks/useRenderText";
 import { Flex, Text, Wrap, WrapItem } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import React, { useMemo } from "react";
@@ -11,14 +12,15 @@ const Today = () => {
     const t = useTranslations("HOME.TODAY");
     const { GetHotFood } = useSWRAPI();
     const { data } = GetHotFood();
+    const { renderTxt } = useRenderText();
 
     const processedData = useMemo(() => {
         return data?.data?.map((item) => ({
             id: item.id,
-            name: item.name?.[0].text ?? "-",
+            name: renderTxt(item.name) ?? "-",
             images: item.image,
-            merchart: item.restaurant_name?.[0].text,
-            cook_method: item.main_cooking_method?.[0]?.text,
+            merchart: renderTxt(item.restaurant_name),
+            cook_method: renderTxt(item.main_cooking_method),
             currentPrice: item.price_after_discount,
             price: item.price,
             ingredientName: item.ingredient_brief_vie,
