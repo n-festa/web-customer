@@ -23,12 +23,12 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSetRecoilState } from "recoil";
 import * as Yup from "yup";
-import { useTranslations } from "next-intl";
 
 const Login = () => {
     const t = useTranslations();
@@ -41,7 +41,7 @@ const Login = () => {
     const examplePhone = /^(?!5550000000)/;
     const handleSubmit = async (_values: { phoneNumber: string }, _actions: FormikHelpers<{ phoneNumber: string }>) => {
         const valuePhone = convertToInternationalFormat(_values.phoneNumber);
-        const { beingLocked } = isTimeDiffMoreThan30Min(restrictStorage.time);
+        const { beingLocked } = isTimeDiffMoreThan30Min(restrictStorage?.time);
         if (!beingLocked) {
             const { data } = await apiServices.requestOTP({
                 phoneNumber: valuePhone,
