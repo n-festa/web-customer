@@ -1,31 +1,54 @@
 import CartItem from "@/components/organism/CartItem";
-import { cartSynced } from "@/recoil/recoilState";
+import useRenderText from "@/hooks/useRenderText";
+import { OrderItem, Restaurant } from "@/types/order";
 import { formatMoney, genCartNote } from "@/utils/functions";
 import { Flex, Image, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { useRecoilValue } from "recoil";
+import { useMemo } from "react";
 
-const CartTotalInfo = () => {
+const CartTotalInfo = ({
+    restaurantInfo,
+    orderItems,
+    orderTotal,
+    deliveryFee,
+    appFee,
+    cutleryFee,
+    promotion,
+    packagingFee,
+}: {
+    restaurantInfo?: Restaurant;
+    orderItems?: OrderItem[];
+    orderTotal?: number | string;
+    deliveryFee?: number | string;
+    appFee?: number | string;
+    cutleryFee?: number | string;
+    promotion?: number | string;
+    packagingFee?: number | string;
+}) => {
     const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
-    const cart = useRecoilValue(cartSynced);
+    const { renderTxt } = useRenderText();
+
+    const totalSumByItems = useMemo(() => {
+        return orderItems?.reduce((prev, item) => (prev += item.price * item.qty_ordered), 0);
+    }, [orderItems]);
     return (
         <Flex color="black" position="relative" flexDir="column" borderRadius="0" p="0.8rem" bg="white" h="fit-content">
             <Flex flexDir="column" flex={1}>
                 <Flex alignItems="center" px="0.8rem" bg="var(--gray-100)" h="5.6rem" gap="1.2rem">
-                    <Image w="4rem" h="4rem" src="/images/chef_avatar.svg" alt="restaurant-icon"></Image>
+                    <Image w="4rem" h="4rem" src={restaurantInfo?.restaurant_logo_img} alt="restaurant-icon"></Image>
                     <Text fontWeight="bold" fontSize="1.6rem" color="var(--color-mediumslateblue)">
-                        {"The Chef Town"}
+                        {renderTxt(restaurantInfo?.restaurant_name)}
                     </Text>
                 </Flex>
                 <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
-                    {cart.cart_info?.map((item) => (
+                    {orderItems?.map((item) => (
                         <CartItem
-                            key={item.item_id}
-                            image={"/images/6387ec276a4eb-62aa10dfb2adca268416cf2fd03d82f5transformed-3@2x.png"} //TODO
-                            name="Mỳ Cá Cờ Sốt Yakitori" //TODO
+                            key={item.sku_id}
+                            image={item.item_img}
+                            name={renderTxt(item.item_name)}
                             note={genCartNote(item)}
-                            price="90,000"
-                            nowPrice="75,000"
+                            price={item.price.toLocaleString()}
+                            nowPrice={item.price.toLocaleString()}
                             numberInputProps={{ isDisabled: true }}
                             quantity={item.qty_ordered}
                         />
@@ -46,28 +69,38 @@ const CartTotalInfo = () => {
                 </Text>
                 <Flex w="100%" justifyContent="space-between">
                     <Text fontSize="1.4rem">{t("TOTAL_ITEMS")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(150000)}</Text>
+                    <Text fontSize="1.4rem"> {formatMoney(totalSumByItems)}</Text>
                 </Flex>
-                <Flex w="100%" justifyContent="space-between">
-                    <Text fontSize="1.4rem">{t("PACKING_FEE")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(9000)}</Text>
-                </Flex>
-                <Flex pb="0.4rem" w="100%" justifyContent="space-between" borderBottom="var(--divider)">
-                    <Text fontSize="1.4rem">{t("UTENSILS")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(0)}</Text>
-                </Flex>
-                <Flex w="100%" justifyContent="space-between">
-                    <Text fontSize="1.4rem">{t("DELIVERY_FEE")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(10000)}</Text>
-                </Flex>
-                <Flex w="100%" pb="0.4rem" justifyContent="space-between" borderBottom="var(--divider)">
-                    <Text fontSize="1.4rem">{t("PLATFORM_FEE")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(2000)}</Text>
-                </Flex>
-                <Flex w="100%" justifyContent="space-between">
-                    <Text fontSize="1.4rem">{t("PROMOTION")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(-2000)}</Text>
-                </Flex>
+                {packagingFee && (
+                    <Flex w="100%" justifyContent="space-between">
+                        <Text fontSize="1.4rem">{t("PACKING_FEE")}</Text>
+                        <Text fontSize="1.4rem"> {formatMoney(packagingFee)}</Text>
+                    </Flex>
+                )}
+                {cutleryFee && (
+                    <Flex pb="0.4rem" w="100%" justifyContent="space-between" borderBottom="var(--divider)">
+                        <Text fontSize="1.4rem">{t("UTENSILS")}</Text>
+                        <Text fontSize="1.4rem"> {formatMoney(cutleryFee)}</Text>
+                    </Flex>
+                )}
+                {deliveryFee && (
+                    <Flex w="100%" justifyContent="space-between">
+                        <Text fontSize="1.4rem">{t("DELIVERY_FEE")}</Text>
+                        <Text fontSize="1.4rem"> {formatMoney(deliveryFee)}</Text>
+                    </Flex>
+                )}
+                {appFee && (
+                    <Flex w="100%" pb="0.4rem" justifyContent="space-between" borderBottom="var(--divider)">
+                        <Text fontSize="1.4rem">{t("PLATFORM_FEE")}</Text>
+                        <Text fontSize="1.4rem"> {formatMoney(appFee)}</Text>
+                    </Flex>
+                )}
+                {promotion && (
+                    <Flex w="100%" justifyContent="space-between">
+                        <Text fontSize="1.4rem">{t("PROMOTION")}</Text>
+                        <Text fontSize="1.4rem"> {formatMoney(-Number(promotion))}</Text>
+                    </Flex>
+                )}
             </VStack>
             <Flex p="1.6rem" flexDir="column" gap="2.4rem">
                 <Flex justifyContent="space-between">
@@ -75,7 +108,7 @@ const CartTotalInfo = () => {
                         {t("TOTAL_PAYMENT")}
                     </Text>
                     <Text color="var(--gray-900)" fontSize="2.4rem" fontWeight="600">
-                        {formatMoney(160000)}
+                        {formatMoney(orderTotal)}
                     </Text>
                 </Flex>
             </Flex>

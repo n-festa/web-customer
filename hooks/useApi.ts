@@ -1,6 +1,7 @@
 import apiServices from "@/services/sevices";
 import { FetchMode } from "@/types/enum";
 import { SearchFoodAndRestaurantByCategoryIdRequest } from "@/types/request/SearchFoodAndRestaurantByCategoryIdRequest";
+import { orderDetailMock } from "@/utils/data/order";
 import { useMemo } from "react";
 import useSWR, { SWRConfiguration } from "swr";
 const MAX_RETRY_NUMBER = 5;
@@ -96,6 +97,11 @@ const useSWRAPI = () => {
             ),
         GetTopReview: (config?: SWRConfiguration) =>
             useSWR("getTopReview", async () => apiServices.getTopReview(), {
+                ...swrConfig,
+                ...config,
+            }),
+        GetOrderDetail: (orderId: string, config?: SWRConfiguration) =>
+            useSWR("getOrderDetail", async () => Promise.resolve(orderDetailMock), {
                 ...swrConfig,
                 ...config,
             }),
