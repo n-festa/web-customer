@@ -41,7 +41,9 @@
             "PLACE_ORDER_BEFORE": "Đặt trước {time} để điều chỉnh vị",
             "AM": "giờ sáng",
             "PM": "giờ chiều"
-        }
+        },
+        "EMPTY": "Không tìm thấy kết quả ...",
+        "SPECIAL_OFFER": "GIẢM GIÁ"
     },
     "BUTTON": {
         "LOGIN": "Đăng nhập",

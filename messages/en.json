@@ -35,14 +35,15 @@
         "TODAY": "Today",
         "TOMORROW": "Tomorrow",
         "VEGETARIAN_DISH": "Veg",
-
         "FOOD_ITEM": {
             "QUANTITY_AVAILABLE": "{number} available",
             "SOLD_OUT": "Sold",
             "PLACE_ORDER_BEFORE": "Order before {time} to adjust the taste",
             "AM": "AM",
             "PM": "PM"
-        }
+        },
+        "EMPTY": "No results found...",
+        "SPECIAL_OFFER": "SPECIAL OFFER"
     },
     "BUTTON": {
         "LOGIN": "Log in",

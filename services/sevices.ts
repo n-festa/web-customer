@@ -79,7 +79,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             }
         }
         endLoading(hasLoading);
-        return Promise.reject();
+        return Promise.resolve({ error: _err });
     }
     constructor() {
         // Add BaseConfig Into Super Constructor

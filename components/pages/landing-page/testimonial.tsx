@@ -88,7 +88,7 @@ const Testimonial = () => {
     const perPage = useMemo(() => {
         return isSmaller ? 1 : 3;
     }, [isSmaller]);
-    return data ? (
+    return data?.data ? (
         <Flex px="4.3rem" flexDir="column" pb="17.2rem" alignItems="center">
             <Text mt="15.6rem" mb="5.6rem" fontWeight="bold" fontSize="4.8rem" className="heading">
                 {t("TITLE")}
