@@ -32,7 +32,17 @@ const UserGroup = ({ bg }: { bg?: string }) => {
     ) : (
         <Menu variant="user">
             <MenuButton cursor="pointer" borderRadius="unset" overflow="hidden" w="4.8rem" h="4.8rem" order="1">
-                {image?.url ? <Image src={image.url} alt="avt" /> : <Avatar w="4.8rem" h="4.8rem" />}
+                {image?.url ? (
+                    <Image
+                        border="var(--divider)"
+                        borderRadius={"50%"}
+                        src={image.url}
+                        fallback={<Avatar src={image.url} w="4.8rem" h="4.8rem" />}
+                        alt="avt"
+                    />
+                ) : (
+                    <Avatar w="4.8rem" h="4.8rem" />
+                )}
             </MenuButton>
             <MenuList bg={bg}>
                 <MenuItem bg={bg} as={Link} href={routes.Profile}>

@@ -3,7 +3,7 @@ import CartIcon from "@/components/atoms/CartIcon";
 import DeliveryLocation from "@/components/molecules/SearchLocation/DeliveryLocation";
 import { useAppSelector } from "@/store/hooks";
 import { routes } from "@/utils/routes";
-import { Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -94,14 +94,17 @@ const Header = () => {
                     display={{ base: "flex", lg: !showListNavi ? "flex" : "none" }}
                 >
                     {!hideMenu && <Image alt="menu" onClick={onOpen} color="red" src={"/images/menu-03.svg"} />}
-                    <Link href={`/${locale}`}>
-                        <Image
-                            width={"14.3rem"}
-                            height={"3.3rem"}
-                            alt="fictional-company-logo"
-                            src="/images/logo1.svg"
-                        />
-                    </Link>
+                    <Box minW="fit-content">
+                        <Link href={`/${locale}`}>
+                            <Image
+                                minW="fit-content"
+                                width={"14.3rem"}
+                                height={"3.3rem"}
+                                alt="fictional-company-logo"
+                                src="/images/logo1.svg"
+                            />
+                        </Link>
+                    </Box>
                     {showDeliveryBox && <DeliveryLocation />}
                 </HStack>
                 {showListNavi && (
@@ -133,7 +136,7 @@ const Header = () => {
                 )}
 
                 <HStack spacing="1.6rem">
-                    <HStack spacing="1.6rem">
+                    <HStack spacing="1.6rem" minW="fit-content">
                         {!showListNavi && (
                             <Text
                                 whiteSpace="nowrap"
