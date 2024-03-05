@@ -2,7 +2,8 @@
     "COMMON": {
         "ERROR": {
             "ERROR_TITLE": "Có lỗi xảy ra",
-            "BACK_TO_HOME": "Trở lại trang chủ"
+            "BACK_TO_HOME": "Trở lại trang chủ",
+            "API_REQUEST_FAIL": "Không thể kết nối tới máy chủ"
         },
         "SEE_MORE": "...... xem thêm",
         "SEE_LESS": "...... ẩn bớt",

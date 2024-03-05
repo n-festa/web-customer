@@ -2,7 +2,8 @@
     "COMMON": {
         "ERROR": {
             "ERROR_TITLE": "Something went wrong!",
-            "BACK_TO_HOME": "Back to home"
+            "BACK_TO_HOME": "Back to home",
+            "API_REQUEST_FAIL": "Cannot connect to server"
         },
         "SEE_MORE": "...... see more",
         "SEE_LESS": "...... see less",
