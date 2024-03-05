@@ -29,7 +29,6 @@ const CartIconFallBack = ({ totalQuantity, isLoading }: { totalQuantity?: number
             }}
             cursor="pointer"
             minW="fit-content"
-            mr="1rem"
             position="relative"
             _hover={{
                 "#cart-image": {

@@ -93,12 +93,20 @@ const Header = () => {
                     pl={"3.1rem"}
                     display={{ base: "flex", lg: !showListNavi ? "flex" : "none" }}
                 >
-                    {!hideMenu && <Image alt="menu" onClick={onOpen} color="red" src={"/images/menu-03.svg"} />}
+                    {!hideMenu && (
+                        <Image
+                            width={{ base: "2rem", md: "inherit" }}
+                            alt="menu"
+                            onClick={onOpen}
+                            color="red"
+                            src={"/images/menu-03.svg"}
+                        />
+                    )}
                     <Box minW="fit-content">
                         <Link href={`/${locale}`}>
                             <Image
                                 minW="fit-content"
-                                width={"14.3rem"}
+                                width={{ base: "12rem", md: "14.3rem" }}
                                 height={"3.3rem"}
                                 alt="fictional-company-logo"
                                 src="/images/logo1.svg"
@@ -111,7 +119,7 @@ const Header = () => {
                     <Flex pl="8.3rem" display={{ base: "none", lg: "flex" }} h="100%" alignItems="center">
                         <Link href={`/${locale}`}>
                             <Image
-                                width={"14.3rem"}
+                                width={{ base: "10rem", md: "14.3rem" }}
                                 height={"3.3rem"}
                                 alt="fictional-company-logo"
                                 src="/images/logo1.svg"
@@ -135,7 +143,7 @@ const Header = () => {
                     </Flex>
                 )}
 
-                <HStack spacing="1.6rem">
+                <HStack spacing={{ base: "0rem", lg: "1.6rem" }}>
                     <HStack spacing="1.6rem" minW="fit-content">
                         {!showListNavi && (
                             <Text

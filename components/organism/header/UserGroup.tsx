@@ -37,7 +37,13 @@ const UserGroup = ({ bg }: { bg?: string }) => {
                         border="var(--divider)"
                         borderRadius={"50%"}
                         src={image.url}
-                        fallback={<Avatar src={image.url} w="4.8rem" h="4.8rem" />}
+                        fallback={
+                            <Avatar
+                                src={image.url}
+                                w={{ base: "3.5rem", lg: "4.8rem" }}
+                                h={{ base: "3.5rem", lg: "4.8rem" }}
+                            />
+                        }
                         alt="avt"
                     />
                 ) : (
