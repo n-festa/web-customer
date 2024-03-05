@@ -73,6 +73,7 @@ const PhoneVerification = () => {
             if (numberResend <= 5) {
                 const { data } = await apiServices.requestOTP({ phoneNumber });
                 dispatch(setInfoSign({ otp: data.otpCode, phoneNumber }));
+                saveState("infoSign", { otp: data.otpCode, phoneNumber: data.phoneNumber });
                 setNumberResend((prev) => prev + 1);
                 setNumberError(1);
                 resetCountdown();
