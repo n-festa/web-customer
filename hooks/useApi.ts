@@ -109,7 +109,7 @@ const useSWRAPI = () => {
                 ...swrConfig,
                 ...config,
             }),
-        GetOrderDetail: (orderId: string, config?: SWRConfiguration) =>
+        GetOrderDetail: (_orderId: string, config?: SWRConfiguration) =>
             useSWR("getOrderDetail", async () => Promise.resolve(orderDetailMock), {
                 ...swrConfig,
                 ...config,

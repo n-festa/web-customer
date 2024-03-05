@@ -3,7 +3,9 @@ import { HighlightedText } from "@/components/atoms/Label/HighlightedLabel";
 import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import useCountdown from "@/hooks/useCountDown";
+import useExpiredPage from "@/hooks/useExpiredPage";
 import apiServices from "@/services/sevices";
+import { useAppSelector } from "@/store/hooks";
 import { setInfoSign } from "@/store/reducers/auth";
 import { setUserInfo } from "@/store/reducers/userInfo";
 import { setToken, setTokenRefresh } from "@/utils/auth";
@@ -15,7 +17,6 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import useExpiredPage from "@/hooks/useExpiredPage";
 
 const numberOfDigits = 6;
 const IDLE_TIME_IN_MINUTES = 20;
@@ -24,8 +25,9 @@ const PhoneVerification = () => {
     const t = useTranslations();
     const router = useRouter();
     const dispatch = useDispatch();
-    const { phoneNumber, otp } = loadState("infoSign");
-    const [otpState, setOtpState] = useState<Array<string>>(new Array(numberOfDigits).fill(""));
+    const otp = useAppSelector((state) => state.auth.otp);
+    const { phoneNumber } = loadState("infoSign");
+    const [otpState, setOtpState] = useState<string>("");
     const [_otpError, setOtpError] = useState<string>("");
     const [numberError, setNumberError] = useState<number>(1);
     const [numberResend, setNumberResend] = useState<number>(1);
@@ -35,16 +37,8 @@ const PhoneVerification = () => {
     const restrictStorage = loadState("restrict");
     const { formattedTime: lockFormattedTime, changeInitialValue } = useCountdown(0);
 
-    const handleChange = (value: string, index: number) => {
-        const newArr = [...otpState];
-        if (value.length === numberOfDigits) {
-            value.split("").forEach((char, i) => {
-                newArr[index + i] = char;
-            });
-        } else {
-            newArr[index] = value;
-        }
-        setOtpState(newArr);
+    const handleChange = (value: string) => {
+        setOtpState(value);
     };
 
     const handleNumberError = async () => {
@@ -74,9 +68,10 @@ const PhoneVerification = () => {
                 const { data } = await apiServices.requestOTP({ phoneNumber });
                 dispatch(setInfoSign({ otp: data.otpCode, phoneNumber }));
                 setNumberResend((prev) => prev + 1);
+                saveState("infoSign", { otp: data.otpCode, phoneNumber });
                 setNumberError(1);
                 resetCountdown();
-                setOtpState(new Array(numberOfDigits).fill(""));
+                setOtpState("");
             } else {
                 router.push(routes.SignIn);
             }
@@ -88,17 +83,18 @@ const PhoneVerification = () => {
     const handleOtpMismatch = () => {
         if (numberError >= 3) {
             setOtpError(t("PHONE_VERIFICATION.INCORRECT_ATTEMPTS", { number: numberError }));
-            setNumberError(numberError + 1);
+            setNumberError((prev) => prev + 1);
+
             if (numberError > 5) {
                 handleNumberError();
             }
         } else {
-            setNumberError(numberError + 1);
+            setNumberError((prev) => prev + 1);
         }
     };
 
-    const handleSuccessfulOtpVerification = async () => {
-        const { data } = await apiServices.authOTP({ phoneNumber, inputOTP: otp });
+    const handleSuccessfulOtpVerification = async (otpValue: string) => {
+        const { data } = await apiServices.authOTP({ phoneNumber, inputOTP: otpValue });
         const { access_token, refresh_token, userId } = data;
 
         setOtpError("");
@@ -115,24 +111,17 @@ const PhoneVerification = () => {
         }
     };
 
-    const fetchData = useCallback(async () => {
+    const fetchData = async (value: string) => {
         try {
-            const isFillOtp = otpState.every((el) => el !== "");
+            const isFillOtp = value.length === numberOfDigits;
             if (isFillOtp) {
-                if (otpState.join("") !== otp) {
-                    handleOtpMismatch();
-                } else {
-                    await handleSuccessfulOtpVerification();
-                }
+                await handleSuccessfulOtpVerification(value);
             }
         } catch (error) {
+            handleOtpMismatch();
             console.error("Error while fetching data:", error);
         }
-    }, [otpState, otp]);
-
-    useEffect(() => {
-        fetchData();
-    }, [otpState, otp, numberError, phoneNumber, fetchData]);
+    };
 
     useEffect(() => {
         if (restrictStorage) {
@@ -144,12 +133,18 @@ const PhoneVerification = () => {
                 removeState("restrict");
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useExpiredPage(IDLE_TIME_IN_MINUTES);
 
     useEffect(() => {
+        if (!otp?.length) {
+            handleResend();
+            return;
+        }
         console.log({ otp });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [otp]);
 
     return (
@@ -169,7 +164,14 @@ const PhoneVerification = () => {
                 ></HighlightedText>
                 <Box mb="3.2rem">
                     <Flex gap="0.8rem">
-                        <PinInput placeholder="0" otp>
+                        <PinInput
+                            type="number"
+                            value={otpState}
+                            onComplete={fetchData}
+                            placeholder="0"
+                            otp
+                            onChange={handleChange}
+                        >
                             {Array.from({ length: 6 }, (_, index) => (
                                 <PinInputField
                                     key={index}
@@ -183,7 +185,6 @@ const PhoneVerification = () => {
                                     textAlign="center"
                                     borderRadius="0.8rem"
                                     pointerEvents={isLock ? "none" : "unset"}
-                                    onChange={(e) => handleChange(e.target.value, index)}
                                     ref={(reference) => (otpBoxReference.current[index] = reference)}
                                 />
                             ))}
