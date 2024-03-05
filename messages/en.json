@@ -259,7 +259,13 @@
     },
     "CART": {
         "ADD_NOW": "Add your delicious and nutritious<br></br> meal right away.",
-        "FOOD_BASKET": "Your Cart"
+        "FOOD_BASKET": "Your Cart",
+        "CLEAR_CART": "Clear cart",
+        "TOTAL": "Total",
+        "DELIVERY_FEE_NOTICE": "The shipping fee will be displayed when you check out",
+        "VIEW_ORDER": "Check out",
+        "CART_UNAVAILABLE": "The cart is unavailable until {time}",
+        "NEAREST_DELIVERY_TIME": "Delivery at: {timeAfter} - {timeBefore}"
     },
     "PRODUCT_DETAIL": {
         "SIDE_DISH": "Eat together ",

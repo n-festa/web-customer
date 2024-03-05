@@ -10,9 +10,10 @@ interface LocaleSwitcherProps {
     nextLocale: string;
     pathname: string;
     locales: Record<string, string>;
+    bg?: string;
 }
 
-const LocaleSwitcher: React.FC = () => {
+const LocaleSwitcher = ({ bg }: { bg?: string }) => {
     const router = useRouter();
     const [, startTransition] = useTransition();
     const pathname = usePathname();
@@ -37,7 +38,7 @@ const LocaleSwitcher: React.FC = () => {
     };
 
     return (
-        <Menu>
+        <Menu matchWidth variant="user">
             {({ isOpen }) => (
                 <>
                     <MenuButton minW="fit-content" as={Button} variant="ghost" isActive={isOpen}>
@@ -54,9 +55,9 @@ const LocaleSwitcher: React.FC = () => {
                             <Image width={19} height={19} alt="" src={`/images/${locale}.svg `} />
                         </HStack>
                     </MenuButton>
-                    <MenuList>
+                    <MenuList bg={bg} minW="fit-content" autoFocus={false}>
                         {localeOption.map((cur, index) => (
-                            <MenuItem key={index} onClick={() => switchLanguage(cur.val)}>
+                            <MenuItem autoFocus={false} bg={bg} key={index} onClick={() => switchLanguage(cur.val)}>
                                 {cur.content}
                             </MenuItem>
                         ))}

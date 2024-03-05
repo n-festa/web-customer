@@ -159,7 +159,7 @@ const Header = () => {
                         {showSignUpGroup && <UserGroup bg={bg} />}
                         {!hideCart && <CartIcon />}
                     </HStack>
-                    <LocaleSwitcher />
+                    <LocaleSwitcher bg={bg} />
                 </HStack>
             </HStack>
         </>
