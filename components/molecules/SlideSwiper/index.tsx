@@ -29,9 +29,7 @@ const SlideSwiper = ({ items, perPage = 3, spaceBetween = "16", paginationGroupP
             autoplay={false}
             loop={false}
         >
-            {items.map((el, index) => (
-                <SwiperSlide key={index}>{el}</SwiperSlide>
-            ))}
+            {items?.map((el, index) => <SwiperSlide key={index}>{el}</SwiperSlide>)}
 
             <Flex w="100%" justifyContent={"flex-end"} mt="1.6rem" bg="transparent" {...paginationGroupProps}>
                 <Pagination
@@ -39,7 +37,7 @@ const SlideSwiper = ({ items, perPage = 3, spaceBetween = "16", paginationGroupP
                     onChangePage={(_index: number) => {
                         setPage(_index);
                     }}
-                    totalPage={items.length - perPage + 1}
+                    totalPage={items?.length - perPage + 1}
                     alignSelf={"flex-end"}
                     my="1rem"
                 />

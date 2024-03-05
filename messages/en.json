@@ -2,7 +2,8 @@
     "COMMON": {
         "ERROR": {
             "ERROR_TITLE": "Something went wrong!",
-            "BACK_TO_HOME": "Back to home"
+            "BACK_TO_HOME": "Back to home",
+            "API_REQUEST_FAIL": "Cannot connect to server"
         },
         "SEE_MORE": "...... see more",
         "SEE_LESS": "...... see less",
@@ -35,14 +36,15 @@
         "TODAY": "Today",
         "TOMORROW": "Tomorrow",
         "VEGETARIAN_DISH": "Veg",
-
         "FOOD_ITEM": {
             "QUANTITY_AVAILABLE": "{number} available",
             "SOLD_OUT": "Sold",
             "PLACE_ORDER_BEFORE": "Order before {time} to adjust the taste",
             "AM": "AM",
             "PM": "PM"
-        }
+        },
+        "EMPTY": "No results found...",
+        "SPECIAL_OFFER": "SPECIAL OFFER"
     },
     "BUTTON": {
         "LOGIN": "Log in",

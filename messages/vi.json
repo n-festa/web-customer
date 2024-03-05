@@ -2,7 +2,8 @@
     "COMMON": {
         "ERROR": {
             "ERROR_TITLE": "Có lỗi xảy ra",
-            "BACK_TO_HOME": "Trở lại trang chủ"
+            "BACK_TO_HOME": "Trở lại trang chủ",
+            "API_REQUEST_FAIL": "Không thể kết nối tới máy chủ"
         },
         "SEE_MORE": "...... xem thêm",
         "SEE_LESS": "...... ẩn bớt",
@@ -41,7 +42,9 @@
             "PLACE_ORDER_BEFORE": "Đặt trước {time} để điều chỉnh vị",
             "AM": "giờ sáng",
             "PM": "giờ chiều"
-        }
+        },
+        "EMPTY": "Không tìm thấy kết quả ...",
+        "SPECIAL_OFFER": "GIẢM GIÁ"
     },
     "BUTTON": {
         "LOGIN": "Đăng nhập",

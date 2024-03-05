@@ -23,14 +23,15 @@ export const cartApiState = selector({
             const { customer_id: userId } = store.getState().userInfo.userInfo ?? {};
             if (userId) {
                 const errDest = window.location.pathname;
-
-                const res = await apiServices.getCartDetail(`${userId}`, errDest);
-                if (res?.data) {
-                    return {
-                        ...res.data,
-                        restaurant_id: res.data.restaurant_id ?? res.data.cart_info?.[0]?.restaurant_id,
-                    };
-                }
+                try {
+                    const res = await apiServices.getCartDetail(`${userId}`, errDest);
+                    if (res?.data) {
+                        return {
+                            ...res.data,
+                            restaurant_id: res.data.restaurant_id ?? res.data.cart_info?.[0]?.restaurant_id,
+                        };
+                    }
+                } catch {}
             }
         }
 

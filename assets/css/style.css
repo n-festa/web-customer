@@ -293,7 +293,7 @@ a:hover {
 .discount {
     position: relative;
     line-height: 20px;
-    font-size: var(--text-md-regular-size);
+    font-size: 1.05rem;
     color: var(--color-gold);
 }
 
