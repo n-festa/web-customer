@@ -43,11 +43,16 @@ const Login = () => {
         const valuePhone = convertToInternationalFormat(_values.phoneNumber);
         const { beingLocked } = isTimeDiffMoreThan30Min(restrictStorage?.time);
         if (!beingLocked) {
-            const { data } = await apiServices.requestOTP({
-                phoneNumber: valuePhone,
-            });
-            dispatch(setInfoSign({ otp: data.otpCode, phoneNumber: data.phoneNumber }));
-            saveState("infoSign", { otp: data.otpCode, phoneNumber: data.phoneNumber });
+            apiServices
+                .requestOTP({ phoneNumber: valuePhone })
+                .then(({ data }) => {
+                    dispatch(setInfoSign({ otp: data.otpCode, phoneNumber: data.phoneNumber }));
+                    saveState("infoSign", { otp: data.otpCode, phoneNumber: data.phoneNumber });
+                })
+                .catch((_error) => {
+                    _actions.setSubmitting(false);
+                    _actions.setErrors({ phoneNumber: t("SIGN_IN.PHONE_NUMBER_NOT_FOUND") });
+                });
         }
         router.push(routes.Otp);
     };
@@ -82,8 +87,15 @@ const Login = () => {
                         validationSchema={Yup.object({
                             phoneNumber: Yup.string()
                                 .required(t("SIGN_IN.PHONE_NUMBER_PROMPT"))
-                                .min(9, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
-                                .max(11, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
+                                .test("len", t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"), (val) => {
+                                    if (val.startsWith("0")) {
+                                        return val.length != 10;
+                                    } else if (val.startsWith("84")) {
+                                        return val.length != 11;
+                                    } else {
+                                        return val.length != 9;
+                                    }
+                                })
                                 .matches(phoneRegExp, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
                                 .matches(examplePhone, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE")),
                         })}
