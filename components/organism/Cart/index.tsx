@@ -1,5 +1,6 @@
 import useSWRAPI from "@/hooks/useApi";
 import useDeleteCartItem from "@/hooks/useDeleteCartItem";
+import useRenderText from "@/hooks/useRenderText";
 import { cartState, cartSynced, showCartState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";
@@ -18,7 +19,6 @@ import { useEffect, useMemo, useState } from "react";
 import { BeatLoader } from "react-spinners";
 import { useRecoilStateLoadable, useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
-import useRenderText from "@/hooks/useRenderText";
 
 let _cts: CancelTokenSource | null = null;
 
@@ -31,7 +31,7 @@ const Cart = ({
     const t = useTranslations("CART");
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
-    const cart = useRecoilValueLoadable(cartSynced).valueMaybe();
+    const cart = useRecoilValueLoadable(cartSynced).getValue();
     const [rawCart, setCart] = useRecoilStateLoadable(cartState);
     const [tempCart, setTempCart] = useState<Cart>();
     const { handleDeleteCartItem, handleDeleteWholeCart } = useDeleteCartItem();

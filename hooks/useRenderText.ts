@@ -1,5 +1,5 @@
-import { useLocale } from "next-intl";
 import { localeOption } from "@/utils/constants";
+import { useLocale } from "next-intl";
 
 interface TypeTextData {
     ISO_language_code: string;
@@ -11,8 +11,8 @@ const useRenderText = () => {
     const localVal = localeOption.find((local) => local.val === locale)?.content.toLowerCase();
 
     const renderTxt = (txtData: TypeTextData[] | any) => {
-        const txtExpect = txtData.find((txt: any) => txt.ISO_language_code === localVal);
-        return txtExpect ? txtExpect.text : txtData[0]?.text || "";
+        const txtExpect = txtData?.find((txt: any) => txt.ISO_language_code === localVal);
+        return txtExpect ? txtExpect.text : txtData?.[0]?.text || "";
     };
 
     return { renderTxt };

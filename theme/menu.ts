@@ -48,10 +48,10 @@ const variants = {
             bg: "var(--main-bg-color)",
             color: "var(--primary-text-color)",
             _hover: {
-                bg: "var(--main-bg-color-light-alpha)",
+                bg: "var(--chakra-colors-gray-200)",
             },
             _focus: {
-                bg: "var(--main-bg-color-light-alpha)",
+                bg: "transparent",
             },
         },
     },

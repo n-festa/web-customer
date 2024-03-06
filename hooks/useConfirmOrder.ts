@@ -17,8 +17,8 @@ const useConfirmOrder = () => {
     >(null);
     const handleConfirm = () => {
         // formRef.current?.submitForm();
-
-        router.push(routes.OrderDetail);
+        //TODO: orderId
+        router.push(routes.OrderDetail + `/${123}`);
     };
     return { formRef, handleConfirm };
 };

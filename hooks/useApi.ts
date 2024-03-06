@@ -1,12 +1,16 @@
+import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import apiServices from "@/services/sevices";
 import { FetchMode } from "@/types/enum";
 import { SearchFoodAndRestaurantByCategoryIdRequest } from "@/types/request/SearchFoodAndRestaurantByCategoryIdRequest";
+import { orderDetailMock } from "@/utils/data/order";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import useSWR, { SWRConfiguration } from "swr";
 const MAX_RETRY_NUMBER = 5;
 const RETRY_INVERVAL = 3000;
 
 const useSWRAPI = () => {
+    const t = useTranslations("COMMON");
     const swrConfig: SWRConfiguration = useMemo(() => {
         return {
             revalidateOnFocus: false,
@@ -21,6 +25,12 @@ const useSWRAPI = () => {
                         revalidate(revalidateOpts);
                     }, RETRY_INVERVAL);
                     return;
+                }
+                if (!dialogRef.current?.state.show) {
+                    dialogRef.current?.show({
+                        message: t("ERROR.API_REQUEST_FAIL"),
+                        title: t("ERROR.ERROR_TITLE"),
+                    });
                 }
             },
         };
@@ -96,6 +106,11 @@ const useSWRAPI = () => {
             ),
         GetTopReview: (config?: SWRConfiguration) =>
             useSWR("getTopReview", async () => apiServices.getTopReview(), {
+                ...swrConfig,
+                ...config,
+            }),
+        GetOrderDetail: (_orderId: string, config?: SWRConfiguration) =>
+            useSWR("getOrderDetail", async () => Promise.resolve(orderDetailMock), {
                 ...swrConfig,
                 ...config,
             }),

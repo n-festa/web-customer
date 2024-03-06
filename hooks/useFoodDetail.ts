@@ -60,7 +60,7 @@ const useFoodDetail = () => {
 
     const handleChangePortions = useCallback(
         (key: string, value: string | number) => {
-            const newSKU = foodInfo.listSKUs.find((item) => {
+            const newSKU = foodInfo.listSKUs?.find((item) => {
                 const result = item.portion_customization.every((_portion) => {
                     return value === _portion.value_id;
                 });
@@ -86,7 +86,7 @@ const useFoodDetail = () => {
 
     useEffect(() => {
         if (!activeSKU) {
-            const item = foodInfo.listSKUs.find((el) => el.is_standard);
+            const item = foodInfo.listSKUs?.find((el) => el.is_standard);
 
             if (item) {
                 setActiveSKU(item);

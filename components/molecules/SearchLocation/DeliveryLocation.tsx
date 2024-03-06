@@ -14,8 +14,9 @@ const DeliveryLocation = () => {
             bg="white"
             borderRadius="1rem"
             minW={{
-                lg: "44rem",
                 base: "70%",
+                xl: "30rem",
+                "2xl": "44rem",
             }}
             h="4.4rem"
             rightElement={<></>}

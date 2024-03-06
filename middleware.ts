@@ -11,4 +11,5 @@ export default createMiddleware({
 
     // Used when no locale matches
     defaultLocale: "vi",
+    localePrefix: "always",
 });

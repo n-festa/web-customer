@@ -28,6 +28,7 @@ const CartIconFallBack = ({ totalQuantity, isLoading }: { totalQuantity?: number
                 router.push(routes.SignIn);
             }}
             cursor="pointer"
+            minW="fit-content"
             position="relative"
             _hover={{
                 "#cart-image": {
@@ -65,8 +66,10 @@ const CartIconFallBack = ({ totalQuantity, isLoading }: { totalQuantity?: number
                 id="cart-image"
                 cursor="pointer"
                 p="0.2rem"
+                resize="none"
                 width="3.5rem"
                 height="3.5rem"
+                objectFit="contain"
                 alt="small-icon"
                 src="/images/shoppingbag03.svg"
             />

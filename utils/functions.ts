@@ -1,5 +1,6 @@
 import { locationRef, loginSuccessUrl } from "@/app/[locale]/providers";
 import { CartItem } from "@/types/cart";
+import { OrderItem } from "@/types/order";
 import { formatDate } from "@/utils/date";
 import { isBefore } from "date-fns/isBefore";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -100,7 +101,7 @@ export const redirectAfterLogin = (router: AppRouterInstance) => {
     router.push(destination);
 };
 
-export const genCartNote = (cartItem: CartItem) => {
+export const genCartNote = (cartItem: CartItem | OrderItem) => {
     const mapString = [];
     cartItem.portion_customization && mapString.push(cartItem.portion_customization);
     cartItem.advanced_taste_customization && mapString.push(cartItem.advanced_taste_customization);
@@ -132,4 +133,8 @@ export const parseArrayToObject = <T>(arr: T[], key: keyof T): { [key: string]: 
     );
 
     return result;
+};
+
+export const formatPhoneNumber = (phone: string) => {
+    return phone.replace(/(\d{2})(\d{3})(\d{3})(\d{3})/, "+$1 $2 $3 $4"); //+84 012 345 678
 };

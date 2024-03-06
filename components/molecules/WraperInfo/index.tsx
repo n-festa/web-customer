@@ -33,7 +33,7 @@ const WraperInfo = ({
             <HStack justifyContent={"space-between"} w="100%">
                 {description && <Text variant={"description"}>{description}</Text>}
                 {isViewAll && (
-                    <Button variant={"btnViewAll"} onClick={onClickViewAll} p="0">
+                    <Button variant={"btnViewAll"} h="3rem" alignSelf="flex-end" onClick={onClickViewAll} p="0">
                         {t("VIEW_ALL")}
                     </Button>
                 )}
