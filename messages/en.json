@@ -71,6 +71,14 @@
         "TITLE": "TELL US MORE ABOUT YOURSELF",
         "DESCRIPTION": "The information you provide will help us recommend food that is better suited to your body type and needs."
     },
+    "PROFILE": {
+        "TITLE": "PROFILE PAGE",
+        "SUB_TITLE": "Manage your login information and personal nutrition settings",
+        "SEC_TITLE_1": "Account Information",
+        "SEC_SUB_DESC_1": "Manage account information used for login and ordering",
+        "SEC_TITLE_2": "Nutritional Information",
+        "SEC_SUB_DESC_2": "Manage your physical condition and needs. The system will use this information to suggest suitable meals for you."
+    },
     "REGISTRATION_SUCCESS": {
         "TITLE": "CONGRATULATION <br></br> YOU COMPLETE THE APPLICATION",
         "BMI_INDEX": "BMI score",
