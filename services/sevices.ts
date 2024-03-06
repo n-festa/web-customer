@@ -391,6 +391,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: `/todo/${id}`, // TODO
                 method: "GET",
                 query: query,
+                ignoreAll: true,
             });
         },
         getPersonalFoodRecommendation: (id: number | string, query?: { fetch_mode?: FetchMode }) => {
@@ -398,6 +399,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: `/todo/${id}`, // TODO
                 method: "GET",
                 query: query,
+                ignoreAll: true,
             });
         },
         getTopReview: () => {
