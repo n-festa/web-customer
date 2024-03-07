@@ -50,7 +50,8 @@
         "LOGIN": "Log in",
         "CONTINUE": "Continue",
         "COMPLETE": "Complete",
-        "UPDATE": "Update"
+        "UPDATE": "Update",
+        "UPLOAD_AVATAR": "Change Photo"
     },
     "SIGN_IN": {
         "TITLE": "Order your own delicious and healthy meal today!",
@@ -142,7 +143,7 @@
             "PLACEHOLDER": "Ex: Nguyễn Văn A"
         },
         "BODY_CONDITION": {
-            "LABEL": "Body Condition"
+            "LABEL": "Body Index"
         },
         "DATA_PROFILE": {
             "FORM_DATA": {

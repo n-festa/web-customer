@@ -75,6 +75,7 @@ export type UserType = {
     chronic_disease: string;
     expected_diet?: string;
     expected_diet_diff?: string;
+    phone_number?: string;
 };
 
 export type UserAuth = {

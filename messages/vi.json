@@ -50,7 +50,8 @@
         "LOGIN": "Đăng nhập",
         "CONTINUE": "Tiếp tục",
         "COMPLETE": "Hoàn tất",
-        "UPDATE": "Update"
+        "UPDATE": "Cập nhật",
+        "UPLOAD_AVATAR": "Đổi ảnh đại diện"
     },
     "SIGN_IN": {
         "TITLE": "Đặt ngay bữa ăn ngon & lành của riêng bạn!",
@@ -136,6 +137,16 @@
         },
         "PHONE_NUMBER": {
             "LABEL": "*Số điện thoại"
+        },
+        "FULL_NAME": {
+            "LABEL": "*Họ và tên",
+            "PLACEHOLDER": "Ex: Nguyễn Văn A"
+        },
+        "BODY_CONDITION": {
+            "LABEL": "Thể trạng"
+        },
+        "AVATAR": {
+            "LABEL": "Ảnh đại diện"
         },
         "DATA_PROFILE": {
             "FORM_DATA": {
