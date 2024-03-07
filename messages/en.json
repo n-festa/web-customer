@@ -13,7 +13,7 @@
             "SUCCESS_UPDATE": "",
             "PROFILE": {
                 "TITLE": "Update profile",
-                "SUCCESS_CONTENT": " You have successfully updated.",
+                "SUCCESS_CONTENT": "Your information has been updated.",
                 "ERROR_CONTENT": "Update failed, please try again."
             }
         },

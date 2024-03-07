@@ -36,3 +36,56 @@ export const timeIdle = {
     secondIdle: 60,
     idleInMinute: 1,
 };
+
+export const listCountry = [
+    {
+        img: "/images/vi.svg",
+        code: "84",
+        name: "Viet Nam",
+    },
+    {
+        img: "/images/en.svg",
+        code: "1",
+        name: "United States",
+    },
+    {
+        img: "/images/countries/au.png",
+        code: "61",
+        name: "Australia",
+    },
+    {
+        img: "/images/countries/ph.png",
+        code: "63",
+        name: "Philippines",
+    },
+    {
+        img: "/images/countries/br.png",
+        code: "55",
+        name: "Brazil",
+    },
+    {
+        img: "/images/countries/es.png",
+        code: "34",
+        name: "Spain",
+    },
+    {
+        img: "/images/countries/jp.png",
+        code: "81",
+        name: "Japan",
+    },
+    {
+        img: "/images/countries/de.png",
+        code: "49",
+        name: "Germany",
+    },
+    {
+        img: "/images/countries/fr.png",
+        code: "33",
+        name: "France",
+    },
+    {
+        img: "/images/countries/uk.png",
+        code: "44",
+        name: "United Kingdom",
+    },
+];

@@ -12,8 +12,8 @@
             "PORTION_UNAVAILABLE_DESC": "Khẩu phần bạn chọn không khả dụng,\r\nVui lòng chọn sang khẩu phần khác",
             "PROFILE": {
                 "TITLE": "Cập nhật hồ sơ",
-                "SUCCESS_CONTENT": " Bạn đã cập nhật thành công.",
-                "f": "Lỗi cập nhật, vui lòng thử lại."
+                "SUCCESS_CONTENT": "Thông tin của bạn đã được cập nhật.",
+                "ERROR_CONTENT": "Lỗi cập nhật, vui lòng thử lại."
             }
         },
         "NOTIFICATION": "Thông báo",

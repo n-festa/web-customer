@@ -11,7 +11,6 @@ import { setUserInfo } from "@/store/reducers/userInfo";
 import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
 import { loadState } from "@/utils/localstorage";
-import { routes } from "@/utils/routes";
 import {
     Box,
     Button,
@@ -30,20 +29,17 @@ import {
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import AvatarModal from "@/components/modal/AvatarModal";
 
 const Profile = () => {
     const t = useTranslations();
-    const router = useRouter();
     const dispatch = useDispatch();
     const toast = useToast();
     const tFormData = useTranslations("FORM.DATA_PROFILE");
     const { userId } = loadState("infoSign");
     const { initialValues, validationSchema, formData } = signUp(tFormData);
-    const [showExpect, setShowExpect] = useState(false);
     const [initialForm, setInitialForm] = useState<UserType>(initialValues);
     const [bodyInfo, setBodyInfo] = useState({ bmi: 0, recommended_dietary_allowance_kcal: 0 });
     const [avatar, setAvatar] = useState<string>("");
@@ -52,7 +48,6 @@ const Profile = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    console.log("showExpect", showExpect);
     const handleSubmit = async ({ expected_diet_diff, expected_diet, ...rest }: UserType, setSubmitting: any) => {
         try {
             const expectedDietValue = expected_diet === "Khác" ? expected_diet_diff : expected_diet;
@@ -72,7 +67,6 @@ const Profile = () => {
                         isClosable: true,
                         position: "top-right",
                     });
-                    router.push(routes.Home);
                     setSubmitting(false);
                 })
                 .catch((error) => {
@@ -119,7 +113,6 @@ const Profile = () => {
                     const notExpect = formData.expectedDiet.some(
                         (item) => item.value === profile?.health_info?.expected_diet,
                     );
-                    setShowExpect(!notExpect);
                     setInitialForm({
                         phone_number: profile?.phone_number || "",
                         name: profile?.name || "",

@@ -21,6 +21,7 @@ import {
     MenuButton,
     MenuItem,
     MenuList,
+    Flex,
 } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useTranslations } from "next-intl";
@@ -29,6 +30,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSetRecoilState } from "recoil";
 import * as Yup from "yup";
+import { listCountry } from "@/utils/constants";
 
 const Login = () => {
     const t = useTranslations();
@@ -142,23 +144,39 @@ const Login = () => {
                                                                 >
                                                                     <Image w="1.6rem" alt="" src={`/images/vi.svg `} />
                                                                 </MenuButton>
-                                                                <MenuList zIndex={1} padding="0.5rem 0.2rem">
-                                                                    <MenuItem w="max-content">
-                                                                        <Image
-                                                                            width="1.9rem"
-                                                                            height="1.9rem"
-                                                                            alt=""
-                                                                            src={`/images/vi.svg `}
-                                                                        />
-                                                                    </MenuItem>
-                                                                    <MenuItem w="max-content">
-                                                                        <Image
-                                                                            width="1.9rem"
-                                                                            height="1.9rem"
-                                                                            alt=""
-                                                                            src={`/images/en.svg `}
-                                                                        />
-                                                                    </MenuItem>
+                                                                <MenuList
+                                                                    maxH="15rem"
+                                                                    zIndex={1}
+                                                                    padding="0.5rem 0.2rem"
+                                                                    overflowY={"auto"}
+                                                                >
+                                                                    {listCountry.map((country, index) => (
+                                                                        <MenuItem
+                                                                            key={index}
+                                                                            w="100%"
+                                                                            mb="0.5rem"
+                                                                            pointerEvents={
+                                                                                country.code === "84" ? "unset" : "none"
+                                                                            }
+                                                                            opacity={country.code === "84" ? 1 : 0.5}
+                                                                        >
+                                                                            <Image
+                                                                                width="1.9rem"
+                                                                                height="1.9rem"
+                                                                                alt=""
+                                                                                src={country.img}
+                                                                            />
+                                                                            <Flex
+                                                                                marginLeft="0.5rem"
+                                                                                fontSize="1.2rem"
+                                                                                color="var(--gray-700)"
+                                                                                gap="0.5rem"
+                                                                            >
+                                                                                <Text w="1.8rem">+{country.code}</Text>
+                                                                                {country.name}
+                                                                            </Flex>
+                                                                        </MenuItem>
+                                                                    ))}
                                                                 </MenuList>
                                                             </>
                                                         )}
