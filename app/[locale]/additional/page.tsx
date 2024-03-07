@@ -3,6 +3,7 @@ import RadioCardGroup from "@/components/atoms/RadioCardGroup";
 import InputForm from "@/components/molecules/InputForm";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import signUp from "@/config/signup.config";
+import useExpiredPage from "@/hooks/useExpiredPage";
 import apiServices from "@/services/sevices";
 import { setUserInfo } from "@/store/reducers/userInfo";
 import { UserType } from "@/types";
@@ -14,7 +15,6 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import useExpiredPage from "@/hooks/useExpiredPage";
 
 const IDLE_TIME_IN_MINUTES = 20;
 
