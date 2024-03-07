@@ -18,7 +18,7 @@
             }
         },
         "NOTIFICATION": "Notification",
-        "CLOSE": "Đóng",
+        "CLOSE": "Close",
         "PROFILE": "Profile",
         "ORDERS": "Orders",
         "LOGOUT": "Log out",
@@ -49,7 +49,8 @@
     "BUTTON": {
         "LOGIN": "Log in",
         "CONTINUE": "Continue",
-        "COMPLETE": "Complete"
+        "COMPLETE": "Complete",
+        "UPDATE": "Update"
     },
     "SIGN_IN": {
         "TITLE": "Order your own delicious and healthy meal today!",
@@ -132,6 +133,16 @@
         },
         "EXPECTED_DIET_DIFF": {
             "PLACEHOLDER": "Please share your desired diet "
+        },
+        "PHONE_NUMBER": {
+            "LABEL": "*Phone number"
+        },
+        "FULL_NAME": {
+            "LABEL": "*First and last name",
+            "PLACEHOLDER": "Ex: Nguyễn Văn A"
+        },
+        "BODY_CONDITION": {
+            "LABEL": "Body Condition"
         },
         "DATA_PROFILE": {
             "FORM_DATA": {
