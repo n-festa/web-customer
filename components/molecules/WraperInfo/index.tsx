@@ -44,7 +44,7 @@ const WraperInfo = ({
             {isShowBottom ? (
                 bottom ?? (
                     <Button variant={"btnViewAllSm"} onClick={onClickViewAll} p="0">
-                        {t("VIEW_ALL")}
+                        {t("VIEW_MORE")}
                     </Button>
                 )
             ) : (

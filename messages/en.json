@@ -24,6 +24,7 @@
         "LOGOUT": "Log out",
         "BACK_PAGE": "Go back",
         "VIEW_ALL": "See all",
+        "VIEW_MORE": "See more",
         "FOOD": "Food",
         "RESTAURANT": "Restaurant",
         "SORT": "Sort by",
@@ -298,10 +299,11 @@
         "DESCRIPTION": "Description",
         "SERVINGSIVE": {
             "SELECT_PORTION": "Portion",
-            "ADJUST_TASTE": "Taste (Before {time} AM)",
+            "ADJUST_TASTE": "Taste",
             "OTHER_ADJUSTMENT": "Others",
             "NOTES": "Notes",
-            "NOTES_PLACEHOLDER": "Example: Allergic to peanuts"
+            "NOTES_PLACEHOLDER": "Example: Allergic to peanuts",
+            "PACKAGING": "Packaging"
         },
         "PRODUCT_INFO": {
             "QUANTITY_AVAILABLE": "{number} available",

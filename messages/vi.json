@@ -23,6 +23,7 @@
         "LOGOUT": "Thoát",
         "BACK_PAGE": "Quay lại trang trước",
         "VIEW_ALL": "Xem tất cả",
+        "VIEW_MORE": "Xem thêm",
         "FOOD": "Món ăn",
         "RESTAURANT": "Nhà hàng",
         "SORT": "Săp xếp",
@@ -302,10 +303,11 @@
         "DESCRIPTION": "Mô tả",
         "SERVINGSIVE": {
             "SELECT_PORTION": "Chọn khẩu phần",
-            "ADJUST_TASTE": "Điều chỉnh vị (Trước {time}h sáng)",
+            "ADJUST_TASTE": "Điều chỉnh vị",
             "OTHER_ADJUSTMENT": "Điều chỉnh khác",
             "NOTES": "Ghi chú",
-            "NOTES_PLACEHOLDER": "Ví dụ: Dị ứng với đậu phộng"
+            "NOTES_PLACEHOLDER": "Ví dụ: Dị ứng với đậu phộng",
+            "PACKAGING": "Đóng gói"
         },
         "PRODUCT_INFO": {
             "QUANTITY_AVAILABLE": "Còn {number} phần",

@@ -20,20 +20,22 @@ const ProductDetailPage = () => {
 
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
-            <Flex flexDirection={"column"} alignItems={"flex-start"} pt="2rem" mb="10rem" px="6.7rem" w="100%">
-                <BackButton label={t("COMMON.BACK_PAGE")} />
-                <ProductGallery info={foodInfo.info} activeSKU={activeSKU} isLoading={isLoading} />
-                <ServingSize
-                    info={foodInfo.info}
-                    ref={formRef}
-                    isLoading={isLoading}
-                    portions={portions}
-                    onChangePortion={handleChangePortions}
-                />
-                <SideDishes />
-                <FoodInRestaurant />
-                <SimilarDishes />
-                <Feedback reviews={foodInfo.info?.reviews ?? []} isLoading={isLoading} />
+            <Flex flexDirection={"column"} alignItems={"flex-start"} pt="2rem" w="100%">
+                <Flex flexDir="column" alignItems={"flex-start"} w="100%" p="1.6rem 4rem">
+                    <BackButton label={t("COMMON.BACK_PAGE")} />
+                    <ProductGallery info={foodInfo.info} activeSKU={activeSKU} isLoading={isLoading} />
+                    <ServingSize
+                        info={foodInfo.info}
+                        ref={formRef}
+                        isLoading={isLoading}
+                        portions={portions}
+                        onChangePortion={handleChangePortions}
+                    />
+                    <SideDishes />
+                    <FoodInRestaurant />
+                    <SimilarDishes />
+                </Flex>
+                <Feedback reviews={foodInfo.info?.reviews ?? []} isLoading={isLoading} pb="12.6rem" pt="4rem" />
                 <Suspense>
                     <OrderFooter
                         loading={loading}

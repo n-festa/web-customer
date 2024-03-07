@@ -9,6 +9,7 @@ import { FormControl, Grid, GridItem, HStack, Skeleton, Stack, Switch, Text, Tex
 import { Field, Form, Formik } from "formik";
 import { useTranslations } from "next-intl";
 import { forwardRef, useMemo } from "react";
+import PackageSelect from "./PackageSelect";
 
 interface Props {
     info?: FoodDetailDto;
@@ -27,6 +28,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
     const t = useTranslations("PRODUCT_DETAIL.SERVINGSIVE");
     const { renderTxt } = useRenderText();
     const { info, isLoading, onChangePortion, portions } = props;
+    // const [disableTasteCustomize, setDisableTasteCustomize] = useState(false);
 
     const initFormData = useMemo(() => {
         let initValues = {};
@@ -148,7 +150,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
 
                             {info?.taste_customization && info?.taste_customization.length > 0 && (
                                 <WraperInfo
-                                    title={t("ADJUST_TASTE", { time: 9 })}
+                                    title={t("ADJUST_TASTE")}
                                     titleProps={{ fontSize: "2.4rem" }}
                                     isViewAll={false}
                                     contentProps={{ mt: "1.6rem" }}
@@ -250,13 +252,32 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                     })}
                                 </Grid>
                             </WraperInfo>
-
+                            <WraperInfo
+                                title={t("PACKAGING")}
+                                titleProps={{ fontSize: "2.4rem" }}
+                                isViewAll={false}
+                                contentProps={{ mt: "1.6rem" }}
+                                mt="3.2rem"
+                            >
+                                <Field name={"package"}>
+                                    {({ field }: { field: filedType }) => (
+                                        <PackageSelect
+                                            onChange={(value) => {
+                                                //TODO: replace by id
+                                                ref.current?.setFieldValue("package", value);
+                                            }}
+                                            selectedItem={field.value}
+                                            items={info?.packaging_info ?? []}
+                                        />
+                                    )}
+                                </Field>
+                            </WraperInfo>
                             <WraperInfo
                                 title={t("NOTES")}
                                 titleProps={{ fontSize: "2.4rem" }}
                                 isViewAll={false}
                                 contentProps={{ mt: "1.6rem" }}
-                                mt="2.1rem"
+                                mt="2.2rem"
                             >
                                 <Field name={"notes"}>
                                     {({ field }: { field: formType }) => {
