@@ -26,13 +26,12 @@ const Feedback = ({ reviews, title, reviewItemProps, defaultPerpage = 3, isLoadi
     return reviews.length < 1 ? (
         <></>
     ) : (
-        <Flex flexDirection={"column"} w="100%" {...rest}>
+        <Flex bg="var(--food-detail-review-bg)" px="4rem" flexDirection={"column"} w="100%" {...rest}>
             <WraperInfo
                 title={title ?? t("COMMENT_FOOD")}
                 titleProps={{ fontSize: "2.4rem" }}
                 isViewAll={false}
                 contentProps={{ mt: "1.6rem" }}
-                mt="5.6rem"
             >
                 {isLoading ? (
                     <SkeletonBox isLoaded={false} />

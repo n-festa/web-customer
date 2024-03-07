@@ -67,7 +67,7 @@ const DeliveryDestinationGroup = ({
                 }
             });
         }
-    }, [province?.key, defaultProvince?.key, province]);
+    }, [province?.key, defaultProvince?.key, province, formRef]);
     const { defaultDistrict, districtMap } = useMemo(() => {
         const defaultDistrict = districts.find(
             (item) => userInfo?.addressCompound?.district && item.value.includes(userInfo?.addressCompound?.district),

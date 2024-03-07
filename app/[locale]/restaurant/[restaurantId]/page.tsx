@@ -51,10 +51,8 @@ const RestaurantDetailPage = () => {
                         bg="#F4F9EC"
                         p="1.6rem 3.2rem"
                         borderRadius={"1.6rem"}
-                        defaultPerpage={2}
                         isLoading={isLoading}
                     />
-
                     <MenuToday restaurantInfo={restaurantInfo} isLoading={isLoading} />
                 </Flex>
                 <Box display={{ base: "none", lg: "block" }}>

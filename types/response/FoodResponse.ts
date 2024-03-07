@@ -40,6 +40,13 @@ export interface OtherCustomization {
     description: BaseNameInterface[];
 }
 
+export interface PackageInfo {
+    currency?: string;
+    description?: BaseNameInterface[];
+    image_url?: string;
+    name?: BaseNameInterface[];
+    price?: number;
+}
 export interface FoodDetailDto {
     menu_item_id: number;
     images: string[];
@@ -50,7 +57,7 @@ export interface FoodDetailDto {
     units_sold: number;
     review_number: number;
     promotion?: string;
-    packaging_info: BaseNameInterface[];
+    packaging_info: PackageInfo[];
     cutoff_time?: string;
     ingredients: Ingredient[];
     description: BaseNameInterface[];
