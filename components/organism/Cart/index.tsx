@@ -9,7 +9,7 @@ import { YYYYMMDD } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import { genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
-import { Button, Center, Flex, FlexProps, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { Button, Center, Flex, FlexProps, HStack, Image, Text, VStack, useToast } from "@chakra-ui/react";
 import Axios, { CancelTokenSource } from "axios";
 import { cloneDeep } from "lodash";
 import isEqual from "lodash/isEqual";
@@ -35,7 +35,7 @@ const Cart = ({
     const [rawCart, setCart] = useRecoilStateLoadable(cartState);
     const [tempCart, setTempCart] = useState<Cart>();
     const { handleDeleteCartItem, handleDeleteWholeCart } = useDeleteCartItem();
-
+    const toast = useToast();
     const profile = useAppSelector((app) => app.userInfo.userInfo);
     const isCartEmpty = !cart?.cart_info?.length || (restaurant_id != undefined && cart.restaurant_id != restaurant_id);
     const { GetAvailableTime } = useSWRAPI();
@@ -63,20 +63,35 @@ const Cart = ({
             }
         });
         setTempCart(tempCart);
-        const res = await apiServices.basicUpdateCart(
-            {
-                customer_id: Number(cart?.customer_id),
-                updated_items: [
-                    {
-                        item_id: id,
-                        qty_ordered: value,
-                    },
-                ],
-            },
-            _cts.token,
-        );
-        if (res?.data) {
-            setCart((prev) => ({ ...prev, ...res.data, cartUpdate: undefined }));
+        try {
+            const res = await apiServices.basicUpdateCart(
+                {
+                    customer_id: Number(cart?.customer_id),
+                    updated_items: [
+                        {
+                            item_id: id,
+                            qty_ordered: value,
+                        },
+                    ],
+                },
+                _cts.token,
+            );
+
+            if (res?.data) {
+                setCart((prev) => ({ ...prev, ...res.data, cartUpdate: undefined }));
+            }
+        } catch (err) {
+            const message: string | undefined = (err as any)?.error.response?.data?.message;
+            if (message?.includes("more than available quantity")) {
+                toast({
+                    title: "Cập nhật giỏ hàng",
+                    description: `Cập nhật giỏ hàng thất bại\r\n${message ? message : ""}`,
+                    status: "error",
+                    duration: 4000,
+                    position: "top",
+                    isClosable: true,
+                });
+            }
         }
     };
 

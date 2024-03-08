@@ -1,7 +1,10 @@
-const path = require("path");
-const createNextIntlPlugin = require("next-intl/plugin");
+import createNextIntlPlugin from "next-intl/plugin";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const withNextIntl = createNextIntlPlugin("./i18n.ts");
+const withNextIntl = createNextIntlPlugin();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,4 +23,4 @@ const nextConfig = {
     },
 };
 
-module.exports = withNextIntl(nextConfig);
+export default withNextIntl(nextConfig);

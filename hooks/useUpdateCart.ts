@@ -2,7 +2,7 @@
 
 import { loginSuccessUrl } from "@/app/[locale]/providers";
 import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
-import { cartState } from "@/recoil/recoilState";
+import { cartState, cartSynced } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { store } from "@/store";
 import { useAppSelector } from "@/store/hooks";
@@ -13,12 +13,14 @@ import { routes } from "@/utils/routes";
 import { createStandaloneToast } from "@chakra-ui/react";
 import { cloneDeep, debounce } from "lodash";
 import { useCallback, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 const { toast } = createStandaloneToast();
 
 const useUpdateCart = () => {
     const [loading, setLoading] = useState(false);
     const [currentCart, setCart] = useRecoilState(cartState);
+    const cartSync = useRecoilValue(cartSynced);
+
     const customerId = useAppSelector((state) => state.userInfo.userInfo?.customer_id);
     const handleUpdateCart = useCallback(
         async (cartItem: CartItem) => {
@@ -88,7 +90,7 @@ const useUpdateCart = () => {
         ),
         [],
     );
-    return { cart: currentCart, handleUpdateCart, handleQuickAdd, loading };
+    return { cart: currentCart, cartSync, handleUpdateCart, handleQuickAdd, loading };
 };
 
 export default useUpdateCart;

@@ -42,7 +42,7 @@ const FoodChef = ({ data }: Props) => {
 
     const _time = useMemo(() => {
         return getCutoffTime(cutoff_time, t);
-    }, [cutoff_time]);
+    }, [cutoff_time, t]);
 
     return (
         <Flex

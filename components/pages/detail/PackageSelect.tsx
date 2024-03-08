@@ -19,6 +19,7 @@ const PackageItem = ({
             borderRadius="1.6rem"
             w="40.2rem"
             h="15.2rem"
+            border={isSelected ? "1px solid transparent" : "var(--divider)"}
             bg={isSelected ? "var(--primary-color)" : "white"}
             onClick={onClick}
         >
@@ -56,7 +57,7 @@ const PackageSelect = ({
 }: {
     items: PackageInfo[];
     selectedItem?: string;
-    onChange?: (value: string | number) => void;
+    onChange?: (value?: string | number) => void;
 }) => {
     return (
         <Wrap align="center" spacing="4rem" w="100%">
@@ -64,9 +65,9 @@ const PackageSelect = ({
                 <WrapItem key={`package_${index}`}>
                     <PackageItem
                         item={item}
-                        isSelected={String(index) === String(selectedItem)}
+                        isSelected={String(item.packaging_id) === String(selectedItem)}
                         onClick={() => {
-                            onChange?.(index);
+                            onChange?.(item.packaging_id);
                         }}
                     />
                 </WrapItem>

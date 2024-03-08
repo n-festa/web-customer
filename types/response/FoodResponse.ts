@@ -46,6 +46,8 @@ export interface PackageInfo {
     image_url?: string;
     name?: BaseNameInterface[];
     price?: number;
+    is_default?: boolean;
+    packaging_id?: number;
 }
 export interface FoodDetailDto {
     menu_item_id: number;
