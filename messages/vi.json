@@ -52,7 +52,8 @@
         "CONTINUE": "Tiếp tục",
         "COMPLETE": "Hoàn tất",
         "UPDATE": "Cập nhật",
-        "UPLOAD_AVATAR": "Đổi ảnh đại diện"
+        "UPLOAD_AVATAR": "Đổi ảnh đại diện",
+        "CANCEL": "Hủy bỏ"
     },
     "SIGN_IN": {
         "TITLE": "Đặt ngay bữa ăn ngon & lành của riêng bạn!",
@@ -80,7 +81,8 @@
         "SEC_TITLE_1": "Thông tin tài khoản",
         "SEC_SUB_DESC_1": "Quản lý thông tin tài khoản dùng để đăng nhập, đặt hàng",
         "SEC_TITLE_2": "Thông tin dinh dưỡng",
-        "SEC_SUB_DESC_2": "Quản lý thông tin thể trạng và nhu cầu của bạn. Hệ thống sẽ dựa vào thông tin này để gợi ý món ăn phù hợp cho bạn."
+        "SEC_SUB_DESC_2": "Quản lý thông tin thể trạng và nhu cầu của bạn. Hệ thống sẽ dựa vào thông tin này để gợi ý món ăn phù hợp cho bạn.",
+        "CHANGE_AVATAR": "Đổi ảnh đại diện"
     },
     "REGISTRATION_SUCCESS": {
         "TITLE": "CHÚC MỪNG <br></br> BẠN ĐÃ HOÀN THÀNH ĐĂNG KÍ",

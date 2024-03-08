@@ -48,14 +48,13 @@ const Profile = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleSubmit = async ({ expected_diet_diff, expected_diet, ...rest }: UserType, setSubmitting: any) => {
+    const handleSubmit = async ({ first_name, last_name, ...rest }: UserType, setSubmitting: any) => {
         try {
-            const expectedDietValue = expected_diet === "Khác" ? expected_diet_diff : expected_diet;
             apiServices
                 .updateCustomer({
                     ...rest,
-                    expected_diet: expectedDietValue,
                     customer_id: userId,
+                    name: first_name + " " + last_name,
                 })
                 .then(({ data }) => {
                     dispatch(setUserInfo(data));
@@ -113,6 +112,7 @@ const Profile = () => {
                     const notExpect = formData.expectedDiet.some(
                         (item) => item.value === profile?.health_info?.expected_diet,
                     );
+                    const [firstName, ...lastName] = profile?.name.split(" ");
                     setInitialForm({
                         phone_number: profile?.phone_number || "",
                         name: profile?.name || "",
@@ -124,9 +124,11 @@ const Profile = () => {
                         physical_activity_level: profile?.health_info?.physical_activity_level || "light",
                         current_diet: profile?.health_info?.current_diet || "Hỗn hợp",
                         allergic_food: profile?.health_info?.allergic_food || "",
-                        expected_diet: notExpect ? profile?.health_info?.expected_diet || "Thuần chay" : "Khác",
+                        expected_diet: profile?.health_info?.expected_diet || "",
                         expected_diet_diff: notExpect ? "" : profile?.health_info?.expected_diet,
                         chronic_disease: profile?.health_info?.chronic_disease || "",
+                        first_name: firstName || "",
+                        last_name: lastName.join(" ") || "",
                     });
                     setBodyInfo({
                         bmi: profile?.health_info?.bmi || 0,
@@ -162,6 +164,8 @@ const Profile = () => {
                                 paddingBottom="2.1rem"
                                 alignItems="flex-end"
                                 borderBottom="1px solid #EAECF0"
+                                flexDirection={{ base: "column", md: "row" }}
+                                rowGap="2rem"
                             >
                                 <Box>
                                     <Text fontSize="2.4rem" fontWeight="700" mb="0.8rem" color="var(--gray-950)">
@@ -171,7 +175,13 @@ const Profile = () => {
                                         {t("PROFILE.SUB_TITLE")}
                                     </Text>
                                 </Box>
-                                <Button variant="btnSubmit" w="10,6rem">
+                                <Button
+                                    variant="btnSubmit"
+                                    w="10,6rem"
+                                    isDisabled={!props.isValid}
+                                    isLoading={props.isSubmitting}
+                                    type="submit"
+                                >
                                     {t("BUTTON.UPDATE")}
                                 </Button>
                             </Flex>
@@ -221,8 +231,32 @@ const Profile = () => {
                                     </UIField>
                                     <UIField title={t("FORM.FULL_NAME.LABEL")}>
                                         <Flex gap="2.4rem">
-                                            <InputForm type="text" error={""}></InputForm>
-                                            <InputForm type="text" error={""}></InputForm>
+                                            <Field name="first_name">
+                                                {({ field, form }: { field: filedType; form: formType }) => (
+                                                    <InputForm
+                                                        type="text"
+                                                        error={
+                                                            form.errors.email && form.touched?.email
+                                                                ? form.errors.email
+                                                                : ""
+                                                        }
+                                                        {...field}
+                                                    ></InputForm>
+                                                )}
+                                            </Field>
+                                            <Field name="last_name">
+                                                {({ field, form }: { field: filedType; form: formType }) => (
+                                                    <InputForm
+                                                        type="text"
+                                                        error={
+                                                            form.errors.email && form.touched?.email
+                                                                ? form.errors.email
+                                                                : ""
+                                                        }
+                                                        {...field}
+                                                    ></InputForm>
+                                                )}
+                                            </Field>
                                         </Flex>
                                     </UIField>
                                     <Field name="phone_number">
@@ -421,10 +455,12 @@ const Profile = () => {
                                             )}
                                         </Field>
                                     </UIField>
-                                    <UIField title="Chế độ ăn mong đợi">
-                                        <Flex gap="2.4rem">
-                                            <InputForm type="text" error={""}></InputForm>
-                                        </Flex>
+                                    <UIField title={t("FORM.EXPECTED_DIET.LABEL")}>
+                                        <Field name="expected_diet">
+                                            {({ field }: { field: filedType; form: formType }) => (
+                                                <InputForm type="text" {...field} />
+                                            )}
+                                        </Field>
                                     </UIField>
                                 </Box>
                                 <BodyInformation
