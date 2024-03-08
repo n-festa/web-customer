@@ -16,11 +16,12 @@ import {
     Input,
     InputGroup,
     InputLeftAddon,
+    Text,
     Menu,
     MenuButton,
     MenuItem,
     MenuList,
-    Text,
+    Flex,
 } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useTranslations } from "next-intl";
@@ -29,6 +30,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSetRecoilState } from "recoil";
 import * as Yup from "yup";
+import { listCountry } from "@/utils/constants";
 
 const Login = () => {
     const t = useTranslations();
@@ -42,14 +44,19 @@ const Login = () => {
     const handleSubmit = async (_values: { phoneNumber: string }, _actions: FormikHelpers<{ phoneNumber: string }>) => {
         const valuePhone = convertToInternationalFormat(_values.phoneNumber);
         const { beingLocked } = isTimeDiffMoreThan30Min(restrictStorage?.time);
-        if (!beingLocked) {
-            const { data } = await apiServices.requestOTP({
-                phoneNumber: valuePhone,
+        apiServices
+            .requestOTP({ phoneNumber: valuePhone })
+            .then(({ data }) => {
+                if (!beingLocked) {
+                    dispatch(setInfoSign({ otp: data.otpCode, phoneNumber: data.phoneNumber }));
+                    saveState("infoSign", { otp: data.otpCode, phoneNumber: data.phoneNumber });
+                }
+                router.push(routes.Otp);
+            })
+            .catch((_error) => {
+                _actions.setSubmitting(false);
+                _actions.setErrors({ phoneNumber: t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE") });
             });
-            dispatch(setInfoSign({ otp: data.otpCode, phoneNumber: data.phoneNumber }));
-            saveState("infoSign", { otp: data.otpCode, phoneNumber: data.phoneNumber });
-        }
-        router.push(routes.Otp);
     };
 
     useEffect(() => {
@@ -73,6 +80,7 @@ const Login = () => {
                 <Text mb="1.6rem" fontSize="3rem" fontWeight="700" color="#8DC63F" textAlign="center">
                     {t("SIGN_IN.TITLE")}
                 </Text>
+
                 <Box m="0 3.5rem">
                     <Text fontSize="1.6rem" fontWeight="600" mb="0.6rem" color="#344054">
                         {t("SIGN_IN.PROVIDE_PHONE")}
@@ -82,8 +90,15 @@ const Login = () => {
                         validationSchema={Yup.object({
                             phoneNumber: Yup.string()
                                 .required(t("SIGN_IN.PHONE_NUMBER_PROMPT"))
-                                .min(9, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
-                                .max(11, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
+                                .test("len", t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"), (val) => {
+                                    if (val.startsWith("0")) {
+                                        return val.length === 10;
+                                    } else if (val.startsWith("84")) {
+                                        return val.length === 11;
+                                    } else {
+                                        return val.length === 9;
+                                    }
+                                })
                                 .matches(phoneRegExp, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE"))
                                 .matches(examplePhone, t("SIGN_IN.INVALID_PHONE_NUMBER_MESSAGE")),
                         })}
@@ -102,11 +117,13 @@ const Login = () => {
                                     {({ field, form }: { field: filedType; form: formType }) => (
                                         <FormControl isInvalid={!!form.errors.phoneNumber}>
                                             <InputGroup
+                                                position={"relative"}
                                                 border=".1rem solid #D0D5DD"
                                                 borderRadius=".8rem"
                                                 h="4.0rem"
                                                 mb="0.6rem"
                                                 borderColor={form.errors.phoneNumber && "#E53E3E"}
+                                                zIndex={9999}
                                             >
                                                 <InputLeftAddon h="4.0rem" pr="1.0rem">
                                                     <Menu>
@@ -127,23 +144,39 @@ const Login = () => {
                                                                 >
                                                                     <Image w="1.6rem" alt="" src={`/images/vi.svg `} />
                                                                 </MenuButton>
-                                                                <MenuList zIndex={1} padding="0.5rem 0.2rem">
-                                                                    <MenuItem w="max-content">
-                                                                        <Image
-                                                                            width="1.9rem"
-                                                                            height="1.9rem"
-                                                                            alt=""
-                                                                            src={`/images/vi.svg `}
-                                                                        />
-                                                                    </MenuItem>
-                                                                    <MenuItem w="max-content">
-                                                                        <Image
-                                                                            width="1.9rem"
-                                                                            height="1.9rem"
-                                                                            alt=""
-                                                                            src={`/images/en.svg `}
-                                                                        />
-                                                                    </MenuItem>
+                                                                <MenuList
+                                                                    maxH="15rem"
+                                                                    zIndex={1}
+                                                                    padding="0.5rem 0.2rem"
+                                                                    overflowY={"auto"}
+                                                                >
+                                                                    {listCountry.map((country, index) => (
+                                                                        <MenuItem
+                                                                            key={index}
+                                                                            w="100%"
+                                                                            mb="0.5rem"
+                                                                            pointerEvents={
+                                                                                country.code === "84" ? "unset" : "none"
+                                                                            }
+                                                                            opacity={country.code === "84" ? 1 : 0.5}
+                                                                        >
+                                                                            <Image
+                                                                                width="1.9rem"
+                                                                                height="1.9rem"
+                                                                                alt=""
+                                                                                src={country.img}
+                                                                            />
+                                                                            <Flex
+                                                                                marginLeft="0.5rem"
+                                                                                fontSize="1.2rem"
+                                                                                color="var(--gray-700)"
+                                                                                gap="0.5rem"
+                                                                            >
+                                                                                <Text w="1.8rem">+{country.code}</Text>
+                                                                                {country.name}
+                                                                            </Flex>
+                                                                        </MenuItem>
+                                                                    ))}
                                                                 </MenuList>
                                                             </>
                                                         )}
@@ -182,14 +215,16 @@ const Login = () => {
                                                 {t("SIGN_IN.OTP_MESSAGE")}
                                             </Text>
 
-                                            <Button
-                                                isDisabled={!!form.errors.phoneNumber}
-                                                variant={form.errors.phoneNumber ? "btnDisable" : "btnSubmit"}
-                                                isLoading={props.isSubmitting}
-                                                type="submit"
-                                            >
-                                                {t("BUTTON.CONTINUE")}
-                                            </Button>
+                                            <Box zIndex={0}>
+                                                <Button
+                                                    isDisabled={!!form.errors.phoneNumber}
+                                                    variant={form.errors.phoneNumber ? "btnDisable" : "btnSubmit"}
+                                                    isLoading={props.isSubmitting}
+                                                    type="submit"
+                                                >
+                                                    {t("BUTTON.CONTINUE")}
+                                                </Button>
+                                            </Box>
                                         </FormControl>
                                     )}
                                 </Field>

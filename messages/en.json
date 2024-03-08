@@ -13,12 +13,12 @@
             "SUCCESS_UPDATE": "",
             "PROFILE": {
                 "TITLE": "Update profile",
-                "SUCCESS_CONTENT": " You have successfully updated.",
+                "SUCCESS_CONTENT": "Your information has been updated.",
                 "ERROR_CONTENT": "Update failed, please try again."
             }
         },
         "NOTIFICATION": "Notification",
-        "CLOSE": "Đóng",
+        "CLOSE": "Close",
         "PROFILE": "Profile",
         "ORDERS": "Orders",
         "LOGOUT": "Log out",
@@ -50,7 +50,9 @@
     "BUTTON": {
         "LOGIN": "Log in",
         "CONTINUE": "Continue",
-        "COMPLETE": "Complete"
+        "COMPLETE": "Complete",
+        "UPDATE": "Update",
+        "UPLOAD_AVATAR": "Change Photo"
     },
     "SIGN_IN": {
         "TITLE": "Order your own delicious and healthy meal today!",
@@ -71,6 +73,14 @@
     "ADDITIONAL": {
         "TITLE": "TELL US MORE ABOUT YOURSELF",
         "DESCRIPTION": "The information you provide will help us recommend food that is better suited to your body type and needs."
+    },
+    "PROFILE": {
+        "TITLE": "PROFILE PAGE",
+        "SUB_TITLE": "Manage your login information and personal nutrition settings",
+        "SEC_TITLE_1": "Account Information",
+        "SEC_SUB_DESC_1": "Manage account information used for login and ordering",
+        "SEC_TITLE_2": "Nutritional Information",
+        "SEC_SUB_DESC_2": "Manage your physical condition and needs. The system will use this information to suggest suitable meals for you."
     },
     "REGISTRATION_SUCCESS": {
         "TITLE": "CONGRATULATION <br></br> YOU COMPLETE THE APPLICATION",
@@ -125,6 +135,16 @@
         },
         "EXPECTED_DIET_DIFF": {
             "PLACEHOLDER": "Please share your desired diet "
+        },
+        "PHONE_NUMBER": {
+            "LABEL": "*Phone number"
+        },
+        "FULL_NAME": {
+            "LABEL": "*First and last name",
+            "PLACEHOLDER": "Ex: Nguyễn Văn A"
+        },
+        "BODY_CONDITION": {
+            "LABEL": "Body Index"
         },
         "DATA_PROFILE": {
             "FORM_DATA": {

@@ -7,6 +7,7 @@ import {
     FormLabelProps,
     Input,
     Text,
+    Textarea,
 } from "@chakra-ui/react";
 
 type InputFormProps = {
@@ -18,6 +19,7 @@ type InputFormProps = {
     labelProps?: FormLabelProps;
     formControlProps?: FormControlProps;
     value?: string;
+    textarea?: boolean;
 };
 
 const InputForm: React.FC<InputFormProps> = ({
@@ -28,6 +30,7 @@ const InputForm: React.FC<InputFormProps> = ({
     note,
     error,
     formControlProps,
+    textarea,
     ...props
 }) => {
     const onChangeNumberKey = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,19 +50,36 @@ const InputForm: React.FC<InputFormProps> = ({
             <FormLabel fontSize="1.6rem" fontWeight="600" mb="0.6rem" {...labelProps}>
                 {title}
             </FormLabel>
-            <Input
-                h="4.4rem"
-                border="1px solid var(--gray-300)"
-                borderRadius="0.8rem"
-                p="1rem 1.4rem"
-                fontSize="1.6rem"
-                fontWeight="400"
-                type={type}
-                placeholder={placeholder}
-                _focus={{ border: "1px solid var(--gray-300)" }}
-                {...props}
-                onInput={onChangeNumberKey}
-            />
+            {textarea ? (
+                <Textarea
+                    h="4.4rem"
+                    border="1px solid var(--gray-300)"
+                    borderRadius="0.8rem"
+                    p="1rem 1.4rem"
+                    fontSize="1.6rem"
+                    fontWeight="400"
+                    placeholder={placeholder}
+                    _focus={{ border: "1px solid var(--gray-300)" }}
+                    minH="12.6rem"
+                    resize="none"
+                    {...props}
+                ></Textarea>
+            ) : (
+                <Input
+                    h="4.4rem"
+                    border="1px solid var(--gray-300)"
+                    borderRadius="0.8rem"
+                    p="1rem 1.4rem"
+                    fontSize="1.6rem"
+                    fontWeight="400"
+                    type={type}
+                    placeholder={placeholder}
+                    _focus={{ border: "1px solid var(--gray-300)" }}
+                    {...props}
+                    onInput={onChangeNumberKey}
+                />
+            )}
+
             <FormErrorMessage fontSize="1.4rem">{error}</FormErrorMessage>
             {note && (
                 <Text fontSize="1.4rem" fontWeight="400" mt="0.8rem" color="var(--gray-600)">
