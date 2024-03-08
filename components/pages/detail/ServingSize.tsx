@@ -5,10 +5,13 @@ import useRenderText from "@/hooks/useRenderText";
 import { filedType, formType } from "@/types/form";
 import { FoodDetailDto } from "@/types/response/FoodResponse";
 import { DefaultOtherOption, OtherCustomization, PortionCustomization, TasteCustomization } from "@/utils/constants";
+import { formatDate } from "@/utils/date";
+import { calcCutoffTime } from "@/utils/functions";
 import { FormControl, Grid, GridItem, HStack, Skeleton, Stack, Switch, Text, Textarea, VStack } from "@chakra-ui/react";
+import { isToday, isTomorrow } from "date-fns";
 import { Field, Form, Formik } from "formik";
 import { useTranslations } from "next-intl";
-import { forwardRef, useMemo } from "react";
+import { forwardRef, useMemo, useState } from "react";
 import PackageSelect from "./PackageSelect";
 
 interface Props {
@@ -28,7 +31,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
     const t = useTranslations("PRODUCT_DETAIL.SERVINGSIVE");
     const { renderTxt } = useRenderText();
     const { info, isLoading, onChangePortion, portions } = props;
-    // const [disableTasteCustomize, setDisableTasteCustomize] = useState(false);
+    const [disableTasteCustomize, setDisableTasteCustomize] = useState(true);
 
     const initFormData = useMemo(() => {
         let initValues = {};
@@ -68,7 +71,18 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
 
         return { ...initValues, notes: "", item_id: info?.menu_item_id ?? -1 };
     }, [info?.menu_item_id, info?.other_customizaton, info?.packaging_info, info?.taste_customization]);
+    const { time, isInday } = useMemo(() => {
+        //
+        // const time = calcCutoffTime(info?.cutoff_time);
 
+        const time = calcCutoffTime(-1980);
+        if (!time) return {};
+        return isToday(time)
+            ? { time: formatDate(time, "HH:mm"), isInday: true }
+            : isTomorrow(time)
+              ? { time: "Ngày mai", isInday: false }
+              : { time: formatDate(time, "dd-MM-yyyy"), isInday: false };
+    }, [info?.cutoff_time]);
     return (
         <VStack
             alignItems={"flex-start"}
@@ -160,10 +174,32 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                     title={t("ADJUST_TASTE")}
                                     titleProps={{ fontSize: "2.4rem" }}
                                     isViewAll={false}
-                                    contentProps={{ mt: "1.6rem" }}
+                                    contentProps={{ mt: "0" }}
                                     mt="2.1rem"
                                 >
-                                    <VStack alignItems={"flex-start"} w="100%" spacing={"1.6rem"}>
+                                    {time && (
+                                        <HStack fontSize="1.4rem" spacing="0.4rem">
+                                            <Text color="var(--gray-600)">
+                                                {isInday
+                                                    ? t("PLACE_ORDER_BEFORE", { time: time })
+                                                    : t("RECEIVE_FOOD_NOTE", { date: time })}
+                                            </Text>
+                                            {disableTasteCustomize && (
+                                                <Text
+                                                    cursor="pointer"
+                                                    fontWeight={600}
+                                                    color="var(--text-blue)"
+                                                    onClick={() => {
+                                                        setDisableTasteCustomize(false);
+                                                    }}
+                                                >
+                                                    {t(isInday ? "I_WANT_TO_PRE_ORDER" : "I_WANT_TO_GET_IT_NOW")}
+                                                </Text>
+                                            )}
+                                            <HStack fontSize="1.4rem"></HStack>
+                                        </HStack>
+                                    )}
+                                    <VStack mt="1.6rem" alignItems={"flex-start"} w="100%" spacing={"1.6rem"}>
                                         {info?.taste_customization?.map((el, index) => {
                                             return (
                                                 <Field
@@ -196,8 +232,12 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                                                     </Text>
                                                                     <GroupRadioButton
                                                                         isRounded
+                                                                        isDisabled={disableTasteCustomize}
                                                                         options={options}
                                                                         isFormikControl={true}
+                                                                        buttonStyle={{
+                                                                            opacity: 0.3,
+                                                                        }}
                                                                         {...field}
                                                                     ></GroupRadioButton>
                                                                 </Stack>
@@ -293,6 +333,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                                 rows={5}
                                                 p="1.2rem 1.4rem"
                                                 bg="white"
+                                                resize="none"
                                                 {...field}
                                             />
                                         );

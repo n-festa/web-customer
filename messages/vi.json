@@ -307,14 +307,19 @@
             "OTHER_ADJUSTMENT": "Điều chỉnh khác",
             "NOTES": "Ghi chú",
             "NOTES_PLACEHOLDER": "Ví dụ: Dị ứng với đậu phộng",
-            "PACKAGING": "Đóng gói"
+            "PACKAGING": "Đóng gói",
+            "TODAY": "hôm nay",
+            "TOMORROW": "ngày mai",
+            "I_WANT_TO_PRE_ORDER": "Tôi muốn đặt trước.",
+            "I_WANT_TO_GET_IT_NOW": "Tôi muốn nhận ngay hôm nay.",
+            "PLACE_ORDER_BEFORE": "Bạn cần đặt trước {time} giờ để điều chỉnh vị. ",
+            "RECEIVE_FOOD_NOTE": "Món ăn sẽ được nhận sau ngày {date} để được điều chỉnh vị."
         },
         "PRODUCT_INFO": {
             "QUANTITY_AVAILABLE": "Còn {number} phần",
             "SOLD_OUT": "Đã bán",
             "COMMENT": "Nhận xét",
             "DISCOUNT_UP_TO": "Ưu đãi đến {money}k",
-            "PLACE_ORDER_BEFORE": "Đặt trước {time} để điều chỉnh vị",
             "AM": "giờ sáng",
             "PM": "giờ chiều",
             "AVAILABLE_TO_EDIT_TASTE": "Có khả năng điều chỉnh vị"

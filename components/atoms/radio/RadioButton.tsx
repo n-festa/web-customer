@@ -1,7 +1,7 @@
 import { Box, BoxProps, RadioProps, useRadio } from "@chakra-ui/react";
 import { useMemo } from "react";
 
-const RadioButton = (props: { isRounded?: boolean } & RadioProps) => {
+const RadioButton = (props: { isRounded?: boolean; buttonStyle?: BoxProps } & RadioProps) => {
     const { getInputProps, getRadioProps } = useRadio(props);
     const { isRounded = false } = props;
 
@@ -56,7 +56,12 @@ const RadioButton = (props: { isRounded?: boolean } & RadioProps) => {
                 _focus={{}}
                 _disabled={{
                     cursor: "not-allowed",
+                    opacity: 0.5,
+                    _checked: {
+                        color: "white",
+                    },
                 }}
+                boxShadow="0px 1px 2px 0px rgba(16, 24, 40, 0.05)"
                 {...style}
             >
                 {props.children}

@@ -303,14 +303,19 @@
             "OTHER_ADJUSTMENT": "Others",
             "NOTES": "Notes",
             "NOTES_PLACEHOLDER": "Example: Allergic to peanuts",
-            "PACKAGING": "Packaging"
+            "PACKAGING": "Packaging",
+            "TODAY": "today",
+            "TOMORROW": "tomorrow",
+            "I_WANT_TO_PRE_ORDER": "I want to pre-oder.",
+            "I_WANT_TO_GET_IT_NOW": "I want to get it now.",
+            "PLACE_ORDER_BEFORE": "You need to order before {time} giờ to custom the original tastes",
+            "RECEIVE_FOOD_NOTE": "Your food will be received after {date} to customize the original tastes."
         },
         "PRODUCT_INFO": {
             "QUANTITY_AVAILABLE": "{number} available",
             "SOLD_OUT": "Sold",
             "COMMENT": "Reviews",
             "DISCOUNT_UP_TO": "Discount up to {money}K",
-            "PLACE_ORDER_BEFORE": "Order before {time} to adjust the taste",
             "AM": "AM",
             "PM": "PM",
             "AVAILABLE_TO_EDIT_TASTE": "Able to customize the original tastes"

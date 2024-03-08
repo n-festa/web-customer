@@ -2,6 +2,7 @@ import { locationRef, loginSuccessUrl } from "@/app/[locale]/providers";
 import { CartItem } from "@/types/cart";
 import { OrderItem } from "@/types/order";
 import { formatDate } from "@/utils/date";
+import { addDays, addHours, compareAsc, startOfDay } from "date-fns";
 import { isBefore } from "date-fns/isBefore";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { getToken } from "./auth";
@@ -59,6 +60,33 @@ export const isLoggedIn = () => {
 export const formatMoney = (input?: string | number) => {
     if (input === undefined) return "-";
     return `${input.toLocaleString()} đ`;
+};
+export const calcCutoffTime = (cutoffTime?: number) => {
+    if (!cutoffTime) return;
+    const hours = Math.abs(cutoffTime / 60);
+    let anchorTime = hours % 24;
+    const days = Math.abs((hours - anchorTime) / 24);
+    const currentTime = new Date();
+    const anchor = startOfDay(currentTime);
+    if (cutoffTime > 0) {
+        const target = addHours(anchor, anchorTime);
+        if (compareAsc(currentTime, target) < 0) {
+            return;
+        }
+        return target;
+    }
+    if (cutoffTime < 0) {
+        anchorTime = 24 - anchorTime;
+
+        const target = addHours(anchor, anchorTime);
+
+        if (compareAsc(currentTime, target) < 0) {
+            return addDays(target, days);
+        }
+
+        return addDays(target, days + 1);
+    }
+    return anchorTime;
 };
 
 export const getCutoffTime = (cutoffTime?: string | string[], t?: any) => {

@@ -19,6 +19,7 @@ const PackageItem = ({
             borderRadius="1.6rem"
             w="40.2rem"
             h="15.2rem"
+            cursor="pointer"
             border={isSelected ? "1px solid transparent" : "var(--divider)"}
             bg={isSelected ? "var(--primary-color)" : "white"}
             onClick={onClick}
