@@ -2,7 +2,7 @@
 
 import { loginSuccessUrl } from "@/app/[locale]/providers";
 import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
-import { cartState } from "@/recoil/recoilState";
+import { cartState, cartSynced } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { store } from "@/store";
 import { useAppSelector } from "@/store/hooks";
@@ -13,12 +13,14 @@ import { routes } from "@/utils/routes";
 import { createStandaloneToast } from "@chakra-ui/react";
 import { cloneDeep, debounce } from "lodash";
 import { useCallback, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 const { toast } = createStandaloneToast();
 
 const useUpdateCart = () => {
     const [loading, setLoading] = useState(false);
     const [currentCart, setCart] = useRecoilState(cartState);
+    const cartSync = useRecoilValue(cartSynced);
+
     const customerId = useAppSelector((state) => state.userInfo.userInfo?.customer_id);
     const handleUpdateCart = useCallback(
         async (cartItem: CartItem) => {
@@ -66,29 +68,34 @@ const useUpdateCart = () => {
                 const _customerId = currentCart?.customer_id || customerId;
                 if (!id || !_customerId) return;
                 setLoading(true);
-                const res = await apiServices.quickAddCart({
-                    customer_id: Number(_customerId),
-                    menu_item_id: id,
-                });
-                if (res.data) {
-                    setCart((prev) => ({ ...prev, ...res.data, cartUpdate: undefined }));
-                    toast({
-                        title: "Cập nhật giỏ hàng",
-                        description: `Đã thêm ${name} vào giỏ hàng`,
-                        status: "success",
-                        duration: 4000,
-                        position: "top",
-                        isClosable: true,
+                await apiServices
+                    .quickAddCart({
+                        customer_id: Number(_customerId),
+                        menu_item_id: id,
+                    })
+                    .then((res) => {
+                        if (res.data) {
+                            setCart((prev) => ({ ...prev, ...res.data, cartUpdate: undefined }));
+                            toast({
+                                title: "Cập nhật giỏ hàng",
+                                description: `Đã thêm ${name} vào giỏ hàng`,
+                                status: "success",
+                                duration: 4000,
+                                position: "top",
+                                isClosable: true,
+                            });
+                        }
+                    })
+                    .finally(() => {
+                        setLoading(false);
                     });
-                }
-                setLoading(false);
             },
             1000,
             { leading: true },
         ),
         [],
     );
-    return { cart: currentCart, handleUpdateCart, handleQuickAdd, loading };
+    return { cart: currentCart, cartSync, handleUpdateCart, handleQuickAdd, loading };
 };
 
 export default useUpdateCart;

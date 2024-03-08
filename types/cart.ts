@@ -30,6 +30,12 @@ export interface CartItem {
     price_after_discount?: number;
     unit?: string;
     item_name?: BaseNameInterface[];
+    packaging_id?: number;
+    packaging_info?: {
+        packaging_id?: number;
+        name?: BaseNameInterface[];
+        price?: number;
+    };
 }
 
 export type Cart = {

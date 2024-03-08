@@ -6,7 +6,7 @@ const tabStyle = {
             tab: {
                 _hover: {},
                 _selected: {
-                    color: "#00322A",
+                    color: "var(--primary-text-color)",
                     fontWeight: "700",
                     bg: "#E6EDEC",
                 },
@@ -16,7 +16,7 @@ const tabStyle = {
                 fontWeight: "400",
             },
             tabpanel: {
-                borderTop: "0.2rem solid var(--gray-200)",
+                p: "0",
             },
         },
         history: {

@@ -114,7 +114,7 @@ const ProductGallery = ({ info, isLoading, activeSKU }: Props) => {
                     <SkeletonBox isLoaded={false} mt="0.8rem" />
                 ) : (
                     <Flex w={{ lg: "40%", base: "100%" }}>
-                        <VStack w="100%" align="flex-start" p="0.8rem 0rem 0.8rem 2.4rem" spacing="1rem">
+                        <VStack w="100%" align="flex-start" p="0.8rem 0rem 0.8rem 2.4rem" spacing="2rem">
                             <ProductInfo info={info} activeSKU={activeSKU} />
                             <NutritionInfo activeSKU={activeSKU} />
                         </VStack>

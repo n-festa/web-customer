@@ -5,8 +5,8 @@ import { CartItem } from "@/types/cart";
 import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
 import { OtherCustomization, TasteCustomization } from "@/utils/constants";
 import { Button, Flex, HStack } from "@chakra-ui/react";
-import { RefObject, useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
+import { RefObject, useEffect, useMemo, useState } from "react";
 
 interface Props {
     quantity?: number;
@@ -30,7 +30,7 @@ const OrderFooter = ({
     const t = useTranslations("PRODUCT_DETAIL");
     const [state, setState] = useState(quantity);
     const useInfo = useAppSelector((state) => state.userInfo.userInfo?.customer_id ?? -1);
-    const { handleUpdateCart } = useUpdateCart();
+    const { handleUpdateCart, cartSync: cart } = useUpdateCart();
     useEffect(() => {
         if (quantity !== state) {
             setState(quantity);
@@ -42,6 +42,10 @@ const OrderFooter = ({
         return state * price;
     }, [state, price]);
 
+    const totalRemainQuanity = useMemo(() => {
+        const currentCartItem = cart?.cart_info?.find((item) => item.sku_id === activeSKU?.sku_id);
+        return availableQuantity - (currentCartItem?.qty_ordered ?? 0);
+    }, [activeSKU, availableQuantity, cart?.cart_info]);
     const onUpdateCart = () => {
         const foodValueSetting = formRef?.current?.values;
 
@@ -54,6 +58,7 @@ const OrderFooter = ({
             advanced_taste_customization_obj: [],
             basic_taste_customization_obj: [],
             restaurant_id: restaurantId,
+            packaging_id: foodValueSetting.package,
         };
 
         Object.keys(foodValueSetting).forEach((item) => {
@@ -112,18 +117,23 @@ const OrderFooter = ({
                     onChangeValue={setState}
                     numberInputProps={{
                         min: 1,
-                        max: availableQuantity,
+                        isDisabled: totalRemainQuanity ? undefined : true,
+                        max: totalRemainQuanity,
                     }}
                 />
                 <Button
                     h="5.4rem"
                     isLoading={loading}
                     borderRadius="2.4rem"
+                    isDisabled={!totalRemainQuanity}
                     variant={"btnAddToCart"}
                     _loading={{
                         _hover: {
                             bg: "var(--primary-color)",
                         },
+                    }}
+                    _hover={{
+                        _disabled: {},
                     }}
                     onClick={onUpdateCart}
                 >

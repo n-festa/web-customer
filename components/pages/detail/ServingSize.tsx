@@ -47,6 +47,13 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                 ...tasteCustomizationObj,
             };
         }
+        if (info?.packaging_info && info?.packaging_info.length > 0) {
+            const packageDefault = info?.packaging_info.find((item) => item.is_default)?.packaging_id;
+            initValues = {
+                ...initValues,
+                package: packageDefault,
+            };
+        }
 
         if (info?.other_customizaton && info?.other_customizaton.length > 0) {
             const otherCustomizatonObj = info?.other_customizaton.reduce(
@@ -60,7 +67,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
         }
 
         return { ...initValues, notes: "", item_id: info?.menu_item_id ?? -1 };
-    }, [info?.menu_item_id, info?.other_customizaton, info?.taste_customization]);
+    }, [info?.menu_item_id, info?.other_customizaton, info?.packaging_info, info?.taste_customization]);
 
     return (
         <VStack
@@ -263,7 +270,6 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                     {({ field }: { field: filedType }) => (
                                         <PackageSelect
                                             onChange={(value) => {
-                                                //TODO: replace by id
                                                 ref.current?.setFieldValue("package", value);
                                             }}
                                             selectedItem={field.value}

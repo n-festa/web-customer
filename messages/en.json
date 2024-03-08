@@ -308,11 +308,12 @@
         "PRODUCT_INFO": {
             "QUANTITY_AVAILABLE": "{number} available",
             "SOLD_OUT": "Sold",
+            "COMMENT": "Reviews",
+            "DISCOUNT_UP_TO": "Discount up to {money}K",
             "PLACE_ORDER_BEFORE": "Order before {time} to adjust the taste",
             "AM": "AM",
             "PM": "PM",
-            "COMMENT": "Reviews",
-            "DISCOUNT_UP_TO": "Discount up to {money}K"
+            "AVAILABLE_TO_EDIT_TASTE": "Able to customize the original tastes"
         }
     },
     "CONFIRM_ORDER": {

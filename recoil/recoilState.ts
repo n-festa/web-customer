@@ -66,10 +66,12 @@ export const cartSynced = selector({
                 if (res?.data) {
                     return res.data;
                 }
-            } catch {
+            } catch (err) {
+                const message: string | undefined = (err as any)?.error.response?.data?.message;
+
                 toast({
                     title: "Cập nhật giỏ hàng",
-                    description: `Cập nhật giỏ hàng thất bại`,
+                    description: `Cập nhật giỏ hàng thất bại\r\n${message ? message : ""}`,
                     status: "error",
                     duration: 4000,
                     position: "top",
