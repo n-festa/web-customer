@@ -76,6 +76,8 @@ export type UserType = {
     expected_diet?: string;
     expected_diet_diff?: string;
     phone_number?: string;
+    first_name?: string;
+    last_name?: string;
 };
 
 export type UserAuth = {

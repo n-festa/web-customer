@@ -8,8 +8,15 @@ interface UIFieldProps {
 
 const UIField = ({ title, description, children }: UIFieldProps) => {
     return (
-        <Flex gap="3.2rem" justifyContent="space-between" pb="2rem" mb="2rem" borderBottom="1px solid #EAECF0">
-            <Box w="28rem" paddingRight="2.4rem">
+        <Flex
+            flexDirection={{ base: "column", md: "row" }}
+            gap={{ base: "1.5rem", md: "3.2rem" }}
+            justifyContent="space-between"
+            pb="2rem"
+            mb="2rem"
+            borderBottom="1px solid #EAECF0"
+        >
+            <Box w={{ base: "100%", md: "28rem" }} paddingRight="2.4rem">
                 <Text color="var(--gray-700)" fontSize="1.4rem" fontWeight="700">
                     {title}
                 </Text>

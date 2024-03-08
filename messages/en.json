@@ -52,7 +52,8 @@
         "CONTINUE": "Continue",
         "COMPLETE": "Complete",
         "UPDATE": "Update",
-        "UPLOAD_AVATAR": "Change Photo"
+        "UPLOAD_AVATAR": "Change Photo",
+        "CANCEL": "Cancel"
     },
     "SIGN_IN": {
         "TITLE": "Order your own delicious and healthy meal today!",
@@ -80,7 +81,8 @@
         "SEC_TITLE_1": "Account Information",
         "SEC_SUB_DESC_1": "Manage account information used for login and ordering",
         "SEC_TITLE_2": "Nutritional Information",
-        "SEC_SUB_DESC_2": "Manage your physical condition and needs. The system will use this information to suggest suitable meals for you."
+        "SEC_SUB_DESC_2": "Manage your physical condition and needs. The system will use this information to suggest suitable meals for you.",
+        "CHANGE_AVATAR": "Change Profile Photo"
     },
     "REGISTRATION_SUCCESS": {
         "TITLE": "CONGRATULATION <br></br> YOU COMPLETE THE APPLICATION",
@@ -145,6 +147,9 @@
         },
         "BODY_CONDITION": {
             "LABEL": "Body Index"
+        },
+        "AVATAR": {
+            "LABEL": "Profile Photo"
         },
         "DATA_PROFILE": {
             "FORM_DATA": {

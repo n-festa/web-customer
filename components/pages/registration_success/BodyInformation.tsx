@@ -1,12 +1,12 @@
 "use client";
-import { Box, Center, Flex, Text } from "@chakra-ui/react";
+import { Center, Flex, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 
 const BodyInformation = ({ info, ...props }: any) => {
     const t = useTranslations();
     return (
         <Flex flexWrap="wrap" {...props}>
-            <Box>
+            <Flex flexDirection="column" alignItems="center">
                 <Text fontSize="2.4rem" fontWeight="600" color="var(--gray-modern-950)" mb="1.6rem">
                     {t("REGISTRATION_SUCCESS.BMI_INDEX")}
                 </Text>
@@ -27,8 +27,8 @@ const BodyInformation = ({ info, ...props }: any) => {
                 <Text fontSize="1.8rem" textAlign="center" fontWeight="500" color="var(--gray-modern-950)">
                     {t("REGISTRATION_SUCCESS.BALANCE")}
                 </Text>
-            </Box>
-            <Box>
+            </Flex>
+            <Flex flexDirection="column" alignItems="center">
                 <Text fontSize="2.4rem" textAlign="center" fontWeight="600" color="var(--gray-modern-950)" mb="1.6rem">
                     {t("REGISTRATION_SUCCESS.ENERGY")}
                 </Text>
@@ -49,7 +49,7 @@ const BodyInformation = ({ info, ...props }: any) => {
                 <Text fontSize="1.8rem" fontWeight="500" textAlign="center" color="var(--gray-modern-950)">
                     {t("REGISTRATION_SUCCESS.KCAL_PER_DAY")}
                 </Text>
-            </Box>
+            </Flex>
         </Flex>
     );
 };

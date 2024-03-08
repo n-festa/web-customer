@@ -12,8 +12,10 @@ import {
     Image,
     Text,
 } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 
 const AvatarModal = ({ avatar, isOpen, onClose, onPreview }: any) => {
+    const t = useTranslations();
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay opacity="0.6" />
@@ -22,7 +24,7 @@ const AvatarModal = ({ avatar, isOpen, onClose, onPreview }: any) => {
                     <VStack>
                         <Image src="/images/icons/icon_preview.png" alt="" />
                         <Text marginBottom="1.2rem" fontWeight="700" fontSize="1.8rem" color="var(--gray-900)">
-                            Đổi ảnh đại diện
+                            {t("PROFILE.CHANGE_AVATAR")}
                         </Text>
                         <Image
                             border="var(--divider)"
@@ -46,10 +48,10 @@ const AvatarModal = ({ avatar, isOpen, onClose, onPreview }: any) => {
                             cursor="pointer"
                             onClick={() => onPreview(false)}
                         >
-                            Hủy Bỏ
+                            {t("BUTTON.CANCEL")}
                         </Button>
                         <Button variant="btnSubmit" onClick={() => onPreview(true)}>
-                            Cập nhật
+                            {t("BUTTON.UPDATE")}
                         </Button>
                     </Flex>
                 </ModalFooter>
