@@ -159,7 +159,7 @@ const Cart = ({
                             >
                                 <HStack spacing="1rem">
                                     <Image alt="warning" src="/images/icons/warning.svg" />
-                                    <Text fontSize="1.6rem" textAlign="center">
+                                    <Text whiteSpace="nowrap" fontSize="1.6rem" textAlign="center">
                                         {t("CART_UNAVAILABLE", {
                                             time: formatDate(receiveTimePredict.backTime, YYYYMMDD),
                                         })}
@@ -269,8 +269,8 @@ const Cart = ({
                     </Flex>
                 </>
             ) : (
-                <Center h="100%">
-                    <VStack alignItems="center">
+                <Center w="42.6rem" h="100%">
+                    <VStack w="100%" alignItems="center">
                         <Image alt="cart-empty" src="/images/icons/cart.svg" />
                         <Text
                             textAlign="center"

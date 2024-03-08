@@ -1,5 +1,5 @@
 import RadioButton from "@/components/atoms/radio/RadioButton";
-import { HStack, useRadioGroup } from "@chakra-ui/react";
+import { BoxProps, HStack, useRadioGroup } from "@chakra-ui/react";
 import { useMemo } from "react";
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
     isRounded?: boolean;
     isFormikControl?: boolean;
     isDisabled?: boolean;
+    buttonStyle?: BoxProps;
     onChange?: (value: React.ChangeEvent<HTMLInputElement> | string | number) => void;
 }
 
@@ -22,6 +23,7 @@ const GroupRadioButton = ({
     value,
     isFormikControl = false,
     isDisabled,
+    buttonStyle,
     ...rest
 }: Props) => {
     const { getRootProps, getRadioProps } = useRadioGroup({
@@ -61,6 +63,7 @@ const GroupRadioButton = ({
                         value={el.value}
                         isRounded={isRounded}
                         isDisabled={isDisabled}
+                        buttonStyle={buttonStyle}
                         {...radio}
                     >
                         {el.name}
