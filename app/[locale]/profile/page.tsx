@@ -1,5 +1,6 @@
 "use client";
 import RadioCardGroup from "@/components/atoms/RadioCardGroup";
+import AvatarModal from "@/components/modal/AvatarModal";
 import InputForm from "@/components/molecules/InputForm";
 import UISignWrap from "@/components/molecules/UISignWrap";
 import UIField from "@/components/pages/profile/UIField";
@@ -12,26 +13,25 @@ import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
 import { loadState } from "@/utils/localstorage";
 import {
+    Avatar,
     Box,
     Button,
     Flex,
+    Image,
+    Input,
+    InputGroup,
+    InputLeftAddon,
     Radio,
     RadioGroup,
     Stack,
     Text,
-    useToast,
-    Image,
-    Avatar,
-    Input,
     useDisclosure,
-    InputGroup,
-    InputLeftAddon,
+    useToast,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import AvatarModal from "@/components/modal/AvatarModal";
 
 const Profile = () => {
     const t = useTranslations();
@@ -167,7 +167,7 @@ const Profile = () => {
                                 flexDirection={{ base: "column", md: "row" }}
                                 rowGap="2rem"
                             >
-                                <Box>
+                                <Box w="100%">
                                     <Text fontSize="2.4rem" fontWeight="700" mb="0.8rem" color="var(--gray-950)">
                                         {t("PROFILE.TITLE")}
                                     </Text>
