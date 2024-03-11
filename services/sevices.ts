@@ -355,7 +355,6 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: {
                     ...params,
                     //TODO: Temp
-                    menu_item_ids: [1, 2],
                     long: 106.7723030321775,
                     lat: 10.820557580712087,
                 },

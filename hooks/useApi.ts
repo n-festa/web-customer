@@ -48,10 +48,14 @@ const useSWRAPI = () => {
             config?: SWRConfiguration,
             ignoreErrorCode?: number[],
         ) =>
-            useSWR("getAvailableTime", async () => apiServices.getAvailableTime(params, ignoreErrorCode), {
-                ...swrConfig,
-                ...config,
-            }),
+            useSWR(
+                `getAvailableTime_${(params.menu_item_ids ?? []).join("_")}`,
+                async () => apiServices.getAvailableTime(params, ignoreErrorCode),
+                {
+                    ...swrConfig,
+                    ...config,
+                },
+            ),
         GetGeneralFoodRecommendation: (query?: { lat?: number; long?: number }, config?: SWRConfiguration) =>
             useSWR("getGeneralFoodRecommendation", async () => apiServices.getGeneralFoodRecommendation(query), {
                 ...swrConfig,

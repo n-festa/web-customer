@@ -27,9 +27,9 @@ const DeliveryTimeGroup = () => {
         lat: profile?.latAddress,
         long: profile?.longAddress,
         utc_offset: -(new Date().getTimezoneOffset() / 60),
-        menu_item_ids: cart.cart_info?.map((item) => item.item_id),
+        menu_item_ids: cart.cart_info?.map((item) => item.sku_id),
         now: new Date().getTime(),
-        having_advanced_customization: false,
+        having_advanced_customization: cart.cart_info?.some((item) => item.advanced_taste_customization_obj.length),
     });
     useEffect(() => {
         if (data?.statusCode === 404) {
