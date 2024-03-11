@@ -42,7 +42,8 @@
             "SOLD_OUT": "Đã bán",
             "PLACE_ORDER_BEFORE": "Đặt trước {time} để điều chỉnh vị",
             "AM": "giờ sáng",
-            "PM": "giờ chiều"
+            "PM": "giờ chiều",
+            "AVAILABLE_TO_EDIT_TASTE": "Có khả năng điều chỉnh vị"
         },
         "EMPTY": "Không tìm thấy kết quả ...",
         "SPECIAL_OFFER": "GIẢM GIÁ"

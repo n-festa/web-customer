@@ -29,17 +29,18 @@ const Today = () => {
             ratings: item.rating,
             promotion: item.promotion,
             cutoff_time: item.cutoff_time,
+            is_advanced_customizable: item.is_advanced_customizable,
             cooking_time_s: item.cooking_time_s,
             restaurantId: item.restaurant_id,
         }));
-    }, [data]);
+    }, [data?.data, renderTxt]);
 
     return (
         <Flex py="5rem" px="6.7rem" flexDir="column">
             <Text textAlign={{ base: "center", md: "unset" }} fontSize="4.8rem" fontWeight="bold">
                 {t("TITLE")}
             </Text>
-            <Wrap align="center" mt="4.8rem" justify={{ base: "center", md: "space-between" }} spacing="4rem">
+            <Wrap align="stretch" mt="4.8rem" justify={{ base: "center", md: "space-between" }} spacing="4rem">
                 {processedData?.map((item: ProductTypeList, index) => (
                     <WrapItem
                         display="flex"
@@ -65,6 +66,7 @@ const Today = () => {
                             ratings={item.ratings}
                             promotion={item.promotion}
                             cutoff_time={item.cutoff_time}
+                            is_advanced_customizable={item.is_advanced_customizable}
                             restaurantId={item.restaurantId}
                             isShowAddButton={false}
                             disableAction

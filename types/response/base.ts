@@ -38,6 +38,8 @@ export interface FoodDto {
     price_after_discount?: number;
     promotion?: string;
     cutoff_time?: string;
+    cutoff_time_m?: number;
+    is_advanced_customizable?: boolean;
     preparing_time_s?: number;
     cooking_time_s?: number;
     quantity_available?: number;
@@ -58,6 +60,7 @@ export interface RestaurantDto {
     top_food?: string;
     promotion?: string;
     cutoff_time: string[];
+    cutoff_time_m?: number;
     having_vegeterian_food?: boolean;
     max_price: number;
     min_price: number;
@@ -92,6 +95,7 @@ export interface RestaurantDetailDto {
     introduction: BaseNameInterface[];
     review_total_count: number;
     cutoff_time: string[];
+    cutoff_time_m?: number;
     having_vegeterian_food: boolean;
     unit: string;
     menu: FoodDto[];

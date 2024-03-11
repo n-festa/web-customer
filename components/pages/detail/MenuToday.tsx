@@ -142,7 +142,7 @@ const MenuToday = ({ restaurantInfo, isLoading }: Props) => {
             </HStack>
 
             <Box w="100%" mt="2.4rem" flex={1}>
-                <Wrap align="center" justify={"space-between"} spacing={{ base: "4rem", "2xl": "1rem" }} w="100%">
+                <Wrap align="stretch" justify={"space-between"} spacing={{ base: "4rem", "2xl": "1rem" }} w="100%">
                     {isLoading
                         ? Array.from([1, 2, 3], (index) => (
                               <WrapItem key={`skeleton${index}`} display="flex" flexDir="column" flex={1}>
@@ -174,7 +174,7 @@ const MenuToday = ({ restaurantInfo, isLoading }: Props) => {
                                       units_sold={item.units_sold}
                                       quantity_available={item.quantity_available}
                                       promotion={item.promotion}
-                                      cutoff_time={item.cutoff_time}
+                                      is_advanced_customizable={item.is_advanced_customizable}
                                       isShowRating={false}
                                       isShowDistance={false}
                                       isShowTime={false}

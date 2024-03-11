@@ -73,7 +73,7 @@ const SpecialFood = () => {
                                     distance={item.distance_km}
                                     ratings={item.rating}
                                     promotion={item.promotion}
-                                    cutoff_time={item.cutoff_time}
+                                    is_advanced_customizable={item.is_advanced_customizable}
                                     cooking_time_s={item.cooking_time_s}
                                     restaurantId={item.restaurant_id}
                                 />

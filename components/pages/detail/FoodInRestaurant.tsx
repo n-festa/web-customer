@@ -39,7 +39,7 @@ const FoodInRestaurant = () => {
                 );
             }}
         >
-            <Wrap align="center" justify={"center"} spacing="4rem" w="100%">
+            <Wrap align="stretch" justify={"center"} spacing="4rem" w="100%">
                 {isLoading
                     ? Array.from([1, 2, 3], (index) => (
                           <WrapItem key={`skeleton${index}`} display="flex" flexDir="column" flex={1}>
@@ -73,7 +73,7 @@ const FoodInRestaurant = () => {
                                   isShowDistance={false}
                                   isShowTime={false}
                                   isShowMerchart={false}
-                                  cutoff_time={item.cutoff_time}
+                                  is_advanced_customizable={item.is_advanced_customizable}
                                   promotion={item.promotion}
                                   isShowUnitSold={true}
                                   isShowQuantityAvailable={true}

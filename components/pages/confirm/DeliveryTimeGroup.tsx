@@ -29,6 +29,7 @@ const DeliveryTimeGroup = () => {
         utc_offset: -(new Date().getTimezoneOffset() / 60),
         menu_item_ids: cart.cart_info?.map((item) => item.item_id),
         now: new Date().getTime(),
+        having_advanced_customization: false,
     });
     useEffect(() => {
         if (data?.statusCode === 404) {

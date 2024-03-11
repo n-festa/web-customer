@@ -42,7 +42,8 @@
             "SOLD_OUT": "Sold",
             "PLACE_ORDER_BEFORE": "Order before {time} to adjust the taste",
             "AM": "AM",
-            "PM": "PM"
+            "PM": "PM",
+            "AVAILABLE_TO_EDIT_TASTE": "Able to customize the original tastes"
         },
         "EMPTY": "No results found...",
         "SPECIAL_OFFER": "SPECIAL OFFER"

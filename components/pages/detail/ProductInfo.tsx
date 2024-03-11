@@ -77,8 +77,7 @@ const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SK
                     <Text>{t("DISCOUNT_UP_TO", { money: 50 })}</Text>
                 </HStack>
             )}
-            {/* TODO: UPDATE  */}
-            {info?.cutoff_time && (
+            {info?.is_advanced_customizable && (
                 <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
                     <Img w="2.4rem" h="2.4rem" alt="" src="/images/icons/chef.svg" />
                     <Text>{t("AVAILABLE_TO_EDIT_TASTE")}</Text>

@@ -72,17 +72,14 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
         return { ...initValues, notes: "", item_id: info?.menu_item_id ?? -1 };
     }, [info?.menu_item_id, info?.other_customizaton, info?.packaging_info, info?.taste_customization]);
     const { time, isInday } = useMemo(() => {
-        //
-        // const time = calcCutoffTime(info?.cutoff_time);
-
-        const time = calcCutoffTime(-1980);
+        const time = calcCutoffTime(info?.cutoff_time_m);
         if (!time) return {};
         return isToday(time)
             ? { time: formatDate(time, "HH:mm"), isInday: true }
             : isTomorrow(time)
               ? { time: "Ngày mai", isInday: false }
               : { time: formatDate(time, "dd-MM-yyyy"), isInday: false };
-    }, [info?.cutoff_time]);
+    }, [info?.cutoff_time_m]);
     return (
         <VStack
             alignItems={"flex-start"}

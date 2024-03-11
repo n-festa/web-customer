@@ -42,8 +42,10 @@ export type ProductTypeList = {
     units_sold?: number;
     promotion?: string;
     cutoff_time?: string;
+    cutoff_time_m?: number;
     restaurantId?: string | number;
     cooking_time_s?: number;
+    is_advanced_customizable?: boolean;
 };
 export type ProductStoreType = {
     id: string;

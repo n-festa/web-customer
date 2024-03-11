@@ -1,6 +1,6 @@
 import useUpdateCart from "@/hooks/useUpdateCart";
 import { ProductTypeList } from "@/types";
-import { getCutoffTime, isNullOrEmpty } from "@/utils/functions";
+import { isNullOrEmpty } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Box, Flex, HStack, IconButton, Img, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
@@ -20,7 +20,6 @@ const FoodItemSuspense = ({
     ratings,
     kcal,
     promotion,
-    cutoff_time,
     top_label,
     units_sold = 0,
     quantity_available = 0,
@@ -34,6 +33,7 @@ const FoodItemSuspense = ({
     restaurantId,
     isShowAddButton = true,
     disableAction = false,
+    is_advanced_customizable,
 }: ProductTypeList & {
     isShowMerchart?: boolean;
     isShowRating?: boolean;
@@ -202,10 +202,10 @@ const FoodItemSuspense = ({
                         <Text>{promotion}</Text>
                     </HStack>
                 )}
-                {cutoff_time && (
+                {is_advanced_customizable && (
                     <HStack color="var(--gray-600)" spacing="0.4rem" fontSize="1.6rem" fontWeight="medium">
-                        <Img w="2.4rem" h="2.4rem" alt="" src="/images/frame-2725.svg" />
-                        <Text>{t("PLACE_ORDER_BEFORE", { time: getCutoffTime(cutoff_time, t) })}</Text>
+                        <Img w="2.4rem" h="2.4rem" alt="" src="/images/icons/chef.svg" />
+                        <Text>{t("AVAILABLE_TO_EDIT_TASTE")}</Text>
                     </HStack>
                 )}
             </VStack>

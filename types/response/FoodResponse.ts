@@ -61,12 +61,14 @@ export interface FoodDetailDto {
     promotion?: string;
     packaging_info: PackageInfo[];
     cutoff_time?: string;
+    cutoff_time_m?: number;
     ingredients: Ingredient[];
     description: BaseNameInterface[];
     portion_customization: PortionCustomization[];
     taste_customization: TasteCustomization[];
     other_customizaton: OtherCustomization[];
     reviews: Review[];
+    is_advanced_customizable?: boolean;
 }
 
 export type GetSideDishesResponse = { data: FoodDto[] };

@@ -72,7 +72,7 @@ const SideDishes = () => {
                                       units_sold={item.units_sold}
                                       quantity_available={item.quantity_available}
                                       promotion={item.promotion}
-                                      cutoff_time={item.cutoff_time}
+                                      is_advanced_customizable={item.is_advanced_customizable}
                                       isShowRating={false}
                                       isShowDistance={false}
                                       isShowTime={false}
