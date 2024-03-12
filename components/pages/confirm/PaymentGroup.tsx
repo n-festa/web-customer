@@ -9,6 +9,7 @@ const PaymentGroup = ({
     applicationFee,
     cart,
     cutleryFee,
+    totalPrice,
     handleChangeCartQuantity,
     ...props
 }: FlexProps & {
@@ -77,7 +78,7 @@ const PaymentGroup = ({
                 </Text>
                 <Flex w="100%" justifyContent="space-between">
                     <Text fontSize="1.4rem">{t("TOTAL_ITEMS")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(150000)}</Text>
+                    <Text fontSize="1.4rem"> {formatMoney(totalPrice)}</Text>
                 </Flex>
                 <Flex w="100%" justifyContent="space-between">
                     <Text fontSize="1.4rem">{t("PACKING_FEE")}</Text>
