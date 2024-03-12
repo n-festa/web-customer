@@ -1,21 +1,19 @@
 import useSWRAPI from "@/hooks/useApi";
 import useDeleteCartItem from "@/hooks/useDeleteCartItem";
 import useRenderText from "@/hooks/useRenderText";
+import useUpdateCart from "@/hooks/useUpdateCart";
 import { cartState, cartSynced, showCartState } from "@/recoil/recoilState";
-import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";
-import { Cart } from "@/types/cart";
 import { YYYYMMDD } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import { genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
-import { Button, Center, Flex, FlexProps, HStack, Image, Text, VStack, useToast } from "@chakra-ui/react";
-import Axios, { CancelTokenSource } from "axios";
-import { cloneDeep } from "lodash";
+import { Button, Center, Flex, FlexProps, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { CancelTokenSource } from "axios";
 import isEqual from "lodash/isEqual";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { BeatLoader } from "react-spinners";
 import { useRecoilStateLoadable, useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
@@ -33,9 +31,8 @@ const Cart = ({
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValueLoadable(cartSynced).getValue();
     const [rawCart, setCart] = useRecoilStateLoadable(cartState);
-    const [tempCart, setTempCart] = useState<Cart>();
+    const { totalPrice, handleChangeCartQuantity } = useUpdateCart();
     const { handleDeleteCartItem, handleDeleteWholeCart } = useDeleteCartItem();
-    const toast = useToast();
     const profile = useAppSelector((app) => app.userInfo.userInfo);
     const isCartEmpty = !cart?.cart_info?.length || (restaurant_id != undefined && cart.restaurant_id != restaurant_id);
     const { GetAvailableTime } = useSWRAPI();
@@ -52,50 +49,6 @@ const Cart = ({
         ignoreAuthError ? [401] : undefined,
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleChangeCartQuantity = async (id?: number, value?: number) => {
-        if (!id || !cart?.customer_id || !value) return;
-        _cts?.cancel();
-        _cts = Axios.CancelToken.source();
-        const tempCart = cloneDeep(rawCart.valueMaybe());
-        tempCart?.cart_info?.forEach((item) => {
-            if (item.item_id === id) {
-                item.qty_ordered = value;
-            }
-        });
-        setTempCart(tempCart);
-        try {
-            const res = await apiServices.basicUpdateCart(
-                {
-                    customer_id: Number(cart?.customer_id),
-                    updated_items: [
-                        {
-                            item_id: id,
-                            qty_ordered: value,
-                        },
-                    ],
-                },
-                _cts.token,
-            );
-
-            if (res?.data) {
-                setCart((prev) => ({ ...prev, ...res.data, cartUpdate: undefined }));
-            }
-        } catch (err) {
-            const message: string | undefined = (err as any)?.error.response?.data?.message;
-            if (message?.includes("more than available quantity")) {
-                toast({
-                    title: "Cập nhật giỏ hàng",
-                    description: `Cập nhật giỏ hàng thất bại\r\n${message ? message : ""}`,
-                    status: "error",
-                    duration: 4000,
-                    position: "top",
-                    isClosable: true,
-                });
-            }
-        }
-    };
-
     //Sync
     useEffect(() => {
         if (!isEqual(rawCart.valueMaybe()?.cart_info, cart?.cart_info)) {
@@ -107,14 +60,6 @@ const Cart = ({
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const totalPrice = useMemo(() => {
-        const _cart = tempCart ?? rawCart.valueMaybe();
-        const totalPrice =
-            _cart?.cart_info?.reduce?.((prev, cur) => prev + cur.qty_ordered * (cur.price_after_discount ?? 0), 0) ??
-            -1;
-        return totalPrice;
-    }, [rawCart, tempCart]);
 
     const receiveTimePredict = useMemo(() => {
         if (typeof timeDate?.data === "number") return { backTime: timeDate?.data as number };
@@ -223,7 +168,7 @@ const Cart = ({
                             {cart.cart_info?.map((item) => (
                                 <CartItem
                                     onChangeValue={(value) => {
-                                        handleChangeCartQuantity(item.item_id, value);
+                                        handleChangeCartQuantity(item.item_id, value, _cts);
                                     }}
                                     onDeleteCartItem={() => {
                                         if (item.item_id != undefined && cart.customer_id != undefined)

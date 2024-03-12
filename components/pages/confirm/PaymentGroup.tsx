@@ -1,15 +1,27 @@
 import CartItem from "@/components/organism/CartItem";
 import useRenderText from "@/hooks/useRenderText";
-import { cartSynced } from "@/recoil/recoilState";
+import { Cart } from "@/types/cart";
 import { formatMoney, genCartNote } from "@/utils/functions";
 import { Button, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { useRecoilValue } from "recoil";
 
-const PaymentGroup = (props: FlexProps & { onConfirm: () => void }) => {
+const PaymentGroup = ({
+    applicationFee,
+    cart,
+    cutleryFee,
+    handleChangeCartQuantity,
+    ...props
+}: FlexProps & {
+    cutleryFee?: number;
+    applicationFee?: number;
+    cart?: Cart;
+    totalPrice?: number;
+    onConfirm: () => void;
+    handleChangeCartQuantity: (id?: number, value?: number) => void;
+}) => {
     const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
     const { renderTxt } = useRenderText();
-    const cart = useRecoilValue(cartSynced);
+
     return (
         <Flex
             color="black"
@@ -35,7 +47,7 @@ const PaymentGroup = (props: FlexProps & { onConfirm: () => void }) => {
                     </Text>
                 </Flex>
                 <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
-                    {cart.cart_info?.map((item) => (
+                    {cart?.cart_info?.map((item) => (
                         <CartItem
                             key={item.item_id}
                             image={item.item_img ?? ""}
@@ -44,6 +56,9 @@ const PaymentGroup = (props: FlexProps & { onConfirm: () => void }) => {
                             price={item.price?.toLocaleString()}
                             nowPrice={item.price_after_discount?.toLocaleString()}
                             quantity={item.qty_ordered}
+                            onChangeValue={(value) => {
+                                handleChangeCartQuantity(item.item_id, value);
+                            }}
                         />
                     ))}
                 </VStack>
@@ -68,18 +83,22 @@ const PaymentGroup = (props: FlexProps & { onConfirm: () => void }) => {
                     <Text fontSize="1.4rem">{t("PACKING_FEE")}</Text>
                     <Text fontSize="1.4rem"> {formatMoney(9000)}</Text>
                 </Flex>
-                <Flex pb="0.4rem" w="100%" justifyContent="space-between" borderBottom="var(--divider)">
-                    <Text fontSize="1.4rem">{t("UTENSILS")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(0)}</Text>
-                </Flex>
+                {cutleryFee && (
+                    <Flex pb="0.4rem" w="100%" justifyContent="space-between" borderBottom="var(--divider)">
+                        <Text fontSize="1.4rem">{t("UTENSILS")}</Text>
+                        <Text fontSize="1.4rem"> {formatMoney(cutleryFee)}</Text>
+                    </Flex>
+                )}
                 <Flex w="100%" justifyContent="space-between">
                     <Text fontSize="1.4rem">{t("DELIVERY_FEE")}</Text>
                     <Text fontSize="1.4rem"> {formatMoney(10000)}</Text>
                 </Flex>
-                <Flex w="100%" pb="0.4rem" justifyContent="space-between" borderBottom="var(--divider)">
-                    <Text fontSize="1.4rem">{t("PLATFORM_FEE")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(2000)}</Text>
-                </Flex>
+                {applicationFee && (
+                    <Flex w="100%" pb="0.4rem" justifyContent="space-between" borderBottom="var(--divider)">
+                        <Text fontSize="1.4rem">{t("PLATFORM_FEE")}</Text>
+                        <Text fontSize="1.4rem"> {formatMoney(applicationFee)}</Text>
+                    </Flex>
+                )}
                 <Flex w="100%" justifyContent="space-between">
                     <Text fontSize="1.4rem">{t("PROMOTION")}</Text>
                     <Text fontSize="1.4rem"> {formatMoney(-2000)}</Text>

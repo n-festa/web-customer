@@ -119,6 +119,41 @@ const useSWRAPI = () => {
                 ...swrConfig,
                 ...config,
             }),
+        GetPaymentMethod: (config?: SWRConfiguration) =>
+            useSWR("getPaymentMethod", async () => apiServices.getPaymentMethod(), {
+                ...swrConfig,
+                ...config,
+            }),
+        GetApplicationFee: (
+            params: {
+                itemTotal: number;
+                exchangeRate: number;
+            },
+            config?: SWRConfiguration,
+        ) =>
+            useSWR(
+                `getApplicationFee${params.itemTotal}_${params.exchangeRate}`,
+                async () => apiServices.getApplicationFee(params),
+                {
+                    ...swrConfig,
+                    ...config,
+                },
+            ),
+        GetCutleryFee: (
+            params: {
+                restaurant_id?: string | number;
+                item_quantity?: number;
+            },
+            config?: SWRConfiguration,
+        ) =>
+            useSWR(
+                `getCutleryFee${params.item_quantity}_${params.restaurant_id}`,
+                async () => apiServices.getCutleryFee(params),
+                {
+                    ...swrConfig,
+                    ...config,
+                },
+            ),
     };
 };
 

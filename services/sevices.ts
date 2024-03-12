@@ -355,6 +355,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: {
                     ...params,
                     //TODO: Temp
+                    menu_item_ids: [1, 2],
                     long: 106.7723030321775,
                     lat: 10.820557580712087,
                 },
@@ -400,6 +401,48 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 method: "GET",
                 query: query,
                 ignoreAll: true,
+            });
+        },
+        getPaymentMethod: () => {
+            return this.request<{
+                data: [
+                    {
+                        payment_id: number;
+                        name: string;
+                    },
+                ];
+            }>({
+                path: `order/get-payment-method`,
+                method: "GET",
+            });
+        },
+        getApplicationFee: ({ itemTotal, exchangeRate }: { itemTotal: number; exchangeRate: number }) => {
+            return this.request<{ application_fee: number }>({
+                path: `/order/get-application-fee`,
+                method: "POST",
+                body: {
+                    items_total: itemTotal,
+                    exchange_rate: exchangeRate,
+                },
+            });
+        },
+        getCutleryFee: ({
+            restaurant_id,
+            item_quantity,
+        }: {
+            item_quantity?: number;
+            restaurant_id?: string | number;
+        }) => {
+            return this.request<{
+                cutlery_fee: number;
+                currency: string;
+            }>({
+                path: `/order/get-cutlery-fee`,
+                method: "POST",
+                body: {
+                    restaurant_id: restaurant_id,
+                    item_quantity: item_quantity,
+                },
             });
         },
         getTopReview: () => {

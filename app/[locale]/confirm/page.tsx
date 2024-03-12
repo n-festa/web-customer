@@ -13,7 +13,17 @@ import { useTranslations } from "next-intl";
 
 const ConfirmOrderPage = () => {
     const t = useTranslations("COMMON");
-    const { formRef, handleConfirm } = useConfirmOrder();
+    const {
+        cart,
+        formRef,
+        handleConfirm,
+        paymentMethod,
+        setPaymentMethod,
+        applicationFee,
+        cutleryFee,
+        totalPrice,
+        handleChangeCartQuantity,
+    } = useConfirmOrder();
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="var(--gray-100)" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="4.3rem" w="100%">
@@ -23,10 +33,18 @@ const ConfirmOrderPage = () => {
                         <DeliveryDestinationGroup formRef={formRef} />
                         <DeliveryTimeGroup />
                         <PackageGroup />
-                        <PaymentMethodGroup />
+                        <PaymentMethodGroup paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
                         <PromotionGroup />
                     </VStack>
-                    <PaymentGroup w={{ base: "100%", md: "44.5rem" }} onConfirm={handleConfirm} />
+                    <PaymentGroup
+                        totalPrice={totalPrice}
+                        handleChangeCartQuantity={handleChangeCartQuantity}
+                        applicationFee={applicationFee}
+                        cutleryFee={cutleryFee}
+                        cart={cart}
+                        w={{ base: "100%", md: "44.5rem" }}
+                        onConfirm={handleConfirm}
+                    />
                 </Flex>
             </Flex>
         </Flex>
