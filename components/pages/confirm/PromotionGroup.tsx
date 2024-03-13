@@ -1,9 +1,11 @@
 import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import GroupWrapper from "./GroupWrapper";
 
-const PromotionGroup = () => {
+const PromotionGroup = ({ onApplyCoupon }: { onApplyCoupon: (value: string) => void }) => {
     const t = useTranslations("CONFIRM_ORDER.PROMOTION_GROUP");
+    const [value, setValue] = useState("");
     return (
         <GroupWrapper title={t("TITLE")}>
             <InputGroup
@@ -23,10 +25,21 @@ const PromotionGroup = () => {
                     textOverflow="ellipsis"
                     mr="10rem"
                     variant="search"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
                 />
 
                 <InputRightElement mr="1.6rem" h="100%" w="fit-content" display="flex" gap="0.5rem">
-                    <Button fontSize="1.6rem" h="3.6rem" w="9.5rem" borderRadius="9rem" variant="solid">
+                    <Button
+                        fontSize="1.6rem"
+                        h="3.6rem"
+                        w="9.5rem"
+                        borderRadius="9rem"
+                        variant="solid"
+                        onClick={() => {
+                            onApplyCoupon(value);
+                        }}
+                    >
                         {t("APPLY")}
                     </Button>
                 </InputRightElement>

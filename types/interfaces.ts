@@ -116,3 +116,23 @@ export interface ReviewResponse {
     reviewer_title?: string;
     reviewer_img?: string;
 }
+
+export interface Coupon {
+    coupon_code?: string;
+    description?: string;
+    name?: string;
+}
+export interface CouponAppliedItem {
+    sku_id?: number;
+    qty_ordered?: number;
+    price_after_discount?: number;
+    packaging_price?: number;
+}
+
+export interface Discount {
+    discount_amount: number;
+    currency: string;
+    coupon_code: string;
+    restaurant_id: number;
+    items?: CouponAppliedItem[];
+}

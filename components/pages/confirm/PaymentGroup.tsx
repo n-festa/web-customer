@@ -10,13 +10,21 @@ const PaymentGroup = ({
     cart,
     cutleryFee,
     totalPrice,
+    totalDiscount,
     onConfirm,
+    finalPrice,
+    deliveryFee,
+    packageFee,
     ...props
 }: FlexProps & {
     cutleryFee?: number;
     applicationFee?: number;
     cart?: Cart;
+    totalDiscount?: number;
     totalPrice?: number;
+    finalPrice?: number;
+    packageFee?: number;
+    deliveryFee?: number;
     onConfirm: () => void;
 }) => {
     const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
@@ -79,7 +87,7 @@ const PaymentGroup = ({
                 </Flex>
                 <Flex w="100%" justifyContent="space-between">
                     <Text fontSize="1.4rem">{t("PACKING_FEE")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(9000)}</Text>
+                    <Text fontSize="1.4rem"> {formatMoney(packageFee)}</Text>
                 </Flex>
                 {cutleryFee && (
                     <Flex w="100%" justifyContent="space-between">
@@ -89,18 +97,20 @@ const PaymentGroup = ({
                 )}
                 <Flex pt="0.4rem" w="100%" justifyContent="space-between" borderTop="var(--divider)">
                     <Text fontSize="1.4rem">{t("DELIVERY_FEE")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(10000)}</Text>
+                    <Text fontSize="1.4rem"> {formatMoney(deliveryFee)}</Text>
                 </Flex>
                 {applicationFee && (
-                    <Flex w="100%" justifyContent="space-between" borderBottom="var(--divider)">
+                    <Flex w="100%" justifyContent="space-between">
                         <Text fontSize="1.4rem">{t("PLATFORM_FEE")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(applicationFee)}</Text>
                     </Flex>
                 )}
-                <Flex pt="0.4rem" w="100%" justifyContent="space-between">
-                    <Text fontSize="1.4rem">{t("PROMOTION")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(-2000)}</Text>
-                </Flex>
+                {totalDiscount && (
+                    <Flex pt="0.4rem" w="100%" justifyContent="space-between" borderTop="var(--divider)">
+                        <Text fontSize="1.4rem">{t("PROMOTION")}</Text>
+                        <Text fontSize="1.4rem"> {formatMoney(-totalDiscount)}</Text>
+                    </Flex>
+                )}
             </VStack>
             <Flex p="1.6rem" h="13.6rem" flexDir="column" gap="2.4rem">
                 <Flex justifyContent="space-between">
@@ -108,7 +118,7 @@ const PaymentGroup = ({
                         {t("TOTAL_PAYMENT")}
                     </Text>
                     <Text color="var(--gray-900)" fontSize="2.4rem" fontWeight="600">
-                        {formatMoney(160000)}
+                        {formatMoney(finalPrice)}
                     </Text>
                 </Flex>
                 <Button h="4.8rem" onClick={onConfirm} borderRadius="2.4rem">

@@ -2,7 +2,15 @@ import { store } from "@/store";
 import { setLoading } from "@/store/reducers/appSlice";
 import { Cart, CartItem } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
-import { DateStep, DistrictsResponse, ProvinceResponse, ReviewResponse } from "@/types/interfaces";
+import {
+    Coupon,
+    CouponAppliedItem,
+    DateStep,
+    Discount,
+    DistrictsResponse,
+    ProvinceResponse,
+    ReviewResponse,
+} from "@/types/interfaces";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import {
     GetCurrentAvailableFoodByRestaurantResponse,
@@ -451,10 +459,25 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 method: "GET",
             });
         },
-        getCouponInfo: () => {
-            return this.request({
+        getCouponInfo: ({ sku_ids, restaurant_id }: { sku_ids?: number[]; restaurant_id?: string | number }) => {
+            return this.request<{ coupons: Coupon[] }>({
                 path: `/order/get-coupon-info`,
-                method: "GET",
+                method: "POST",
+                body: {
+                    sku_ids,
+                    restaurant_id,
+                },
+            });
+        },
+        applyCoupon: (params: {
+            coupon_code?: string;
+            restaurant_id?: string | number;
+            items: CouponAppliedItem[];
+        }) => {
+            return this.request<Discount>({
+                path: `/order/apply-coupon`,
+                method: "POST",
+                body: params,
             });
         },
     };

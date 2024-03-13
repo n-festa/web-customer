@@ -24,7 +24,12 @@ const ConfirmOrderPageContent = () => {
         setPaymentMethod,
         applicationFee,
         cutleryFee,
+        totalDiscount,
         totalPrice,
+        finalPrice,
+        deliveryFee,
+        packageFee,
+        onApplyCoupon,
     } = useConfirmOrder();
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="var(--gray-100)" w="100%" h="100%">
@@ -36,7 +41,7 @@ const ConfirmOrderPageContent = () => {
                         <DeliveryTimeGroup />
                         <PackageGroup addCutlery={addCutlery} setAddCutlery={setAddCutlery} />
                         <PaymentMethodGroup paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
-                        <PromotionGroup />
+                        <PromotionGroup onApplyCoupon={onApplyCoupon} />
                     </VStack>
                     <Suspense>
                         <PaymentGroup
@@ -44,6 +49,10 @@ const ConfirmOrderPageContent = () => {
                             applicationFee={applicationFee}
                             cutleryFee={addCutlery ? cutleryFee : undefined}
                             cart={cart}
+                            deliveryFee={deliveryFee}
+                            finalPrice={finalPrice}
+                            packageFee={packageFee}
+                            totalDiscount={totalDiscount}
                             w={{ base: "100%", md: "44.5rem" }}
                             onConfirm={handleConfirm}
                         />

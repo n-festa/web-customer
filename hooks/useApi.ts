@@ -155,6 +155,17 @@ const useSWRAPI = () => {
                     ...config,
                 },
             ),
+        GetCouponInfo: (
+            params: {
+                restaurant_id?: string | number;
+                sku_ids?: number[];
+            },
+            config?: SWRConfiguration,
+        ) =>
+            useSWR(`getCouponInfo_${params.sku_ids?.join("_")}`, async () => apiServices.getCouponInfo(params), {
+                ...swrConfig,
+                ...config,
+            }),
     };
 };
 
