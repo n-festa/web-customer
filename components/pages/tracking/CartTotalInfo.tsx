@@ -51,6 +51,7 @@ const CartTotalInfo = ({
                             nowPrice={item.price.toLocaleString()}
                             numberInputProps={{ isDisabled: true }}
                             quantity={item.qty_ordered}
+                            hideNumberInput
                         />
                     ))}
                 </VStack>

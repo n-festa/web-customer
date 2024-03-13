@@ -45,7 +45,13 @@ const CartItem = ({
                     {note}
                 </Text>
             </Flex>
-            {!hideNumberInput && (
+            {hideNumberInput ? (
+                <Flex mx="2rem" h="2.7rem" alignItems="center">
+                    <Text fontSize="1.6rem" color="var(--gray-600)" fontWeight="600">
+                        {quantity}
+                    </Text>
+                </Flex>
+            ) : (
                 <Flex alignItems="flex-start">
                     <NumbericStepper
                         mx="1.6rem"
