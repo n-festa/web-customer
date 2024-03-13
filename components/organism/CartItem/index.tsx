@@ -9,6 +9,7 @@ const CartItem = ({
     image,
     quantity,
     numberInputProps,
+    hideNumberInput,
     onChangeValue,
     onDeleteCartItem,
 }: {
@@ -18,6 +19,7 @@ const CartItem = ({
     name: string;
     image: string;
     quantity?: number;
+    hideNumberInput?: boolean;
     numberInputProps?: NumberInputProps;
     onChangeValue?: (value: number) => void;
     onDeleteCartItem?: () => void;
@@ -43,28 +45,30 @@ const CartItem = ({
                     {note}
                 </Text>
             </Flex>
-            <Flex alignItems="flex-start">
-                <NumbericStepper
-                    mx="1.6rem"
-                    minW="6.3rem"
-                    h="2.4rem"
-                    key={`inputQuantity${quantity}`}
-                    defaultValue={quantity}
-                    onChangeValue={onChangeValue}
-                    inputProps={{
-                        maxW: "3.5rem",
-                        fontSize: "1.6rem",
-                    }}
-                    numberInputProps={numberInputProps}
-                    onReachZero={onDeleteCartItem}
-                    buttonProps={{
-                        w: "2rem",
-                        h: "2rem",
-                        minW: "2rem",
-                        minH: "2rem",
-                    }}
-                />
-            </Flex>
+            {!hideNumberInput && (
+                <Flex alignItems="flex-start">
+                    <NumbericStepper
+                        mx="1.6rem"
+                        minW="6.3rem"
+                        h="2.4rem"
+                        key={`inputQuantity${quantity}`}
+                        defaultValue={quantity}
+                        onChangeValue={onChangeValue}
+                        inputProps={{
+                            maxW: "3.5rem",
+                            fontSize: "1.6rem",
+                        }}
+                        numberInputProps={numberInputProps}
+                        onReachZero={onDeleteCartItem}
+                        buttonProps={{
+                            w: "2rem",
+                            h: "2rem",
+                            minW: "2rem",
+                            minH: "2rem",
+                        }}
+                    />
+                </Flex>
+            )}
             <Flex color="var(--gray-900)" minW="6.7rem" flexDir="column">
                 <Text fontSize="1.8rem" fontWeight="600" textAlign="right">
                     {nowPrice}

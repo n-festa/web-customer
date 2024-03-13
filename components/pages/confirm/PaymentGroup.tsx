@@ -10,7 +10,7 @@ const PaymentGroup = ({
     cart,
     cutleryFee,
     totalPrice,
-    handleChangeCartQuantity,
+    onConfirm,
     ...props
 }: FlexProps & {
     cutleryFee?: number;
@@ -18,7 +18,6 @@ const PaymentGroup = ({
     cart?: Cart;
     totalPrice?: number;
     onConfirm: () => void;
-    handleChangeCartQuantity: (id?: number, value?: number) => void;
 }) => {
     const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
     const { renderTxt } = useRenderText();
@@ -57,9 +56,7 @@ const PaymentGroup = ({
                             price={item.price?.toLocaleString()}
                             nowPrice={item.price_after_discount?.toLocaleString()}
                             quantity={item.qty_ordered}
-                            onChangeValue={(value) => {
-                                handleChangeCartQuantity(item.item_id, value);
-                            }}
+                            hideNumberInput
                         />
                     ))}
                 </VStack>
@@ -114,7 +111,7 @@ const PaymentGroup = ({
                         {formatMoney(160000)}
                     </Text>
                 </Flex>
-                <Button h="4.8rem" onClick={props.onConfirm} borderRadius="2.4rem">
+                <Button h="4.8rem" onClick={onConfirm} borderRadius="2.4rem">
                     {t("PLACE_ORDER")}
                 </Button>
             </Flex>

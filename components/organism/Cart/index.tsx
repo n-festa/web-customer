@@ -13,7 +13,7 @@ import { CancelTokenSource } from "axios";
 import isEqual from "lodash/isEqual";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { Suspense, useEffect, useMemo } from "react";
 import { BeatLoader } from "react-spinners";
 import { useRecoilStateLoadable, useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import CartItem from "../CartItem";
@@ -235,4 +235,9 @@ const Cart = ({
         </Flex>
     );
 };
-export default Cart;
+const CartSuspenseWrapper = (props: FlexProps & { restaurant_id?: number | string; ignoreAuthError?: boolean }) => (
+    <Suspense>
+        <Cart {...props} />
+    </Suspense>
+);
+export default CartSuspenseWrapper;

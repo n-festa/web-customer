@@ -10,20 +10,12 @@ import PromotionGroup from "@/components/pages/confirm/PromotionGroup";
 import useConfirmOrder from "@/hooks/useConfirmOrder";
 import { Flex, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+import { Suspense } from "react";
 
-const ConfirmOrderPage = () => {
+const ConfirmOrderPageContent = () => {
     const t = useTranslations("COMMON");
-    const {
-        cart,
-        formRef,
-        handleConfirm,
-        paymentMethod,
-        setPaymentMethod,
-        applicationFee,
-        cutleryFee,
-        totalPrice,
-        handleChangeCartQuantity,
-    } = useConfirmOrder();
+    const { cart, formRef, handleConfirm, paymentMethod, setPaymentMethod, applicationFee, cutleryFee, totalPrice } =
+        useConfirmOrder();
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="var(--gray-100)" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="4.3rem" w="100%">
@@ -36,19 +28,25 @@ const ConfirmOrderPage = () => {
                         <PaymentMethodGroup paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
                         <PromotionGroup />
                     </VStack>
-                    <PaymentGroup
-                        totalPrice={totalPrice}
-                        handleChangeCartQuantity={handleChangeCartQuantity}
-                        applicationFee={applicationFee}
-                        cutleryFee={cutleryFee}
-                        cart={cart}
-                        w={{ base: "100%", md: "44.5rem" }}
-                        onConfirm={handleConfirm}
-                    />
+                    <Suspense>
+                        <PaymentGroup
+                            totalPrice={totalPrice}
+                            applicationFee={applicationFee}
+                            cutleryFee={cutleryFee}
+                            cart={cart}
+                            w={{ base: "100%", md: "44.5rem" }}
+                            onConfirm={handleConfirm}
+                        />
+                    </Suspense>
                 </Flex>
             </Flex>
         </Flex>
     );
 };
+const ConfirmOrderPage = () => (
+    <Suspense>
+        <ConfirmOrderPageContent />
+    </Suspense>
+);
 
 export default ConfirmOrderPage;

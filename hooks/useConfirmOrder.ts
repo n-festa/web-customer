@@ -20,7 +20,7 @@ const useConfirmOrder = () => {
         }>
     >(null);
     const totalItem = useRecoilValue(totalQuantityState);
-    const { totalPrice, handleChangeCartQuantity, cartSync: cart } = useUpdateCart();
+    const { totalPrice, cartSync: cart } = useUpdateCart();
     const { GetApplicationFee, GetCutleryFee } = useSWRAPI();
     const [cutleryFee, setCutleryFee] = useState<number>();
     const [applicationFee, setApplicationFee] = useState<number>();
@@ -48,7 +48,6 @@ const useConfirmOrder = () => {
     };
     return {
         totalPrice,
-        handleChangeCartQuantity,
         formRef,
         handleConfirm,
         paymentMethod,
