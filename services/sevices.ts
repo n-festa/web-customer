@@ -28,7 +28,7 @@ import { SearchFoodByNameResponse } from "@/types/response/SearchFoodByNameRespo
 import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
 import { AxiosError, CancelToken } from "axios";
-import { FullRequestParams, HttpClient } from "./apiClient";
+import { ContentType, FullRequestParams, HttpClient } from "./apiClient";
 import { handleRefreshToken } from "./sessionInvalid";
 
 let callNumber = 0;
@@ -478,6 +478,23 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: `/order/apply-coupon`,
                 method: "POST",
                 body: params,
+            });
+        },
+        uploadImagePost: (data: { file: File | undefined }) => {
+            return this.request({
+                path: `uploadImage`,
+                method: "POST",
+                body: data,
+                headers: {
+                    "Content-Type": ContentType.FormData,
+                },
+            });
+        },
+        uploadImagePut: (data: { customer_id: number; url: string }) => {
+            return this.request({
+                path: `updateProfileImage`,
+                method: "PUT",
+                body: data,
             });
         },
     };

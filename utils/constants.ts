@@ -89,3 +89,13 @@ export const listCountry = [
         name: "United Kingdom",
     },
 ];
+export const optiopnDiet = (t: any) => [
+    t("FORM_DATA.VEGAN2"),
+    t("FORM_DATA.EAT_CLEAN"),
+    t("FORM_DATA.MUSCLE_GAIN"),
+    t("FORM_DATA.FIBER_SUPPLEMENT"),
+    t("FORM_DATA.MIXED_DIET"),
+    t("FORM_DATA.MIXED"),
+    t("FORM_DATA.CARNIVORE"),
+    t("FORM_DATA.NO_DIET"),
+];

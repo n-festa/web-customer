@@ -13,8 +13,15 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+interface AvatarModalProps {
+    avatar: string;
+    isOpen: boolean;
+    onClose: () => void;
+    onPreview: (isPreview: boolean) => void;
+    loading: boolean;
+}
 
-const AvatarModal = ({ avatar, isOpen, onClose, onPreview }: any) => {
+const AvatarModal = ({ avatar, isOpen, onClose, onPreview, loading }: AvatarModalProps) => {
     const t = useTranslations();
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -50,7 +57,7 @@ const AvatarModal = ({ avatar, isOpen, onClose, onPreview }: any) => {
                         >
                             {t("BUTTON.CANCEL")}
                         </Button>
-                        <Button variant="btnSubmit" onClick={() => onPreview(true)}>
+                        <Button variant="btnSubmit" isDisabled={loading} onClick={() => onPreview(true)}>
                             {t("BUTTON.UPDATE")}
                         </Button>
                     </Flex>
