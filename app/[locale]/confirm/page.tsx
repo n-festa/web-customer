@@ -14,8 +14,18 @@ import { Suspense } from "react";
 
 const ConfirmOrderPageContent = () => {
     const t = useTranslations("COMMON");
-    const { cart, formRef, handleConfirm, paymentMethod, setPaymentMethod, applicationFee, cutleryFee, totalPrice } =
-        useConfirmOrder();
+    const {
+        cart,
+        addCutlery,
+        setAddCutlery,
+        formRef,
+        handleConfirm,
+        paymentMethod,
+        setPaymentMethod,
+        applicationFee,
+        cutleryFee,
+        totalPrice,
+    } = useConfirmOrder();
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="var(--gray-100)" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="4.3rem" w="100%">
@@ -24,7 +34,7 @@ const ConfirmOrderPageContent = () => {
                     <VStack flex={1} spacing="1.6rem">
                         <DeliveryDestinationGroup formRef={formRef} />
                         <DeliveryTimeGroup />
-                        <PackageGroup />
+                        <PackageGroup addCutlery={addCutlery} setAddCutlery={setAddCutlery} />
                         <PaymentMethodGroup paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
                         <PromotionGroup />
                     </VStack>
@@ -32,7 +42,7 @@ const ConfirmOrderPageContent = () => {
                         <PaymentGroup
                             totalPrice={totalPrice}
                             applicationFee={applicationFee}
-                            cutleryFee={cutleryFee}
+                            cutleryFee={addCutlery ? cutleryFee : undefined}
                             cart={cart}
                             w={{ base: "100%", md: "44.5rem" }}
                             onConfirm={handleConfirm}

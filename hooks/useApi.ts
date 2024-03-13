@@ -140,6 +140,7 @@ const useSWRAPI = () => {
                 },
             ),
         GetCutleryFee: (
+            enable: boolean,
             params: {
                 restaurant_id?: string | number;
                 item_quantity?: number;
@@ -147,7 +148,7 @@ const useSWRAPI = () => {
             config?: SWRConfiguration,
         ) =>
             useSWR(
-                `getCutleryFee${params.item_quantity}_${params.restaurant_id}`,
+                () => (!enable ? null : `getCutleryFee${params.item_quantity}_${params.restaurant_id}`),
                 async () => apiServices.getCutleryFee(params),
                 {
                     ...swrConfig,

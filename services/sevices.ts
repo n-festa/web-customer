@@ -451,6 +451,12 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 method: "GET",
             });
         },
+        getCouponInfo: () => {
+            return this.request({
+                path: `/order/get-coupon-info`,
+                method: "GET",
+            });
+        },
     };
 }
 

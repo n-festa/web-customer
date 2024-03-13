@@ -2,7 +2,13 @@ import { Flex, Switch, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import GroupWrapper from "./GroupWrapper";
 
-const PackageGroup = () => {
+const PackageGroup = ({
+    addCutlery,
+    setAddCutlery,
+}: {
+    addCutlery: boolean;
+    setAddCutlery: (value: boolean) => void;
+}) => {
     const t = useTranslations("CONFIRM_ORDER.PACKAGE_GROUP");
     return (
         <GroupWrapper title={t("TITLE")}>
@@ -11,7 +17,15 @@ const PackageGroup = () => {
                     <Text fontWeight={600}>{t("EATING_UTENSILS")}</Text>
                     <Text>{t("REQUEST_ONLY_WHEN_NEEDED")}</Text>
                 </VStack>
-                <Switch id="isCheckedr" variant={"green"} size="lg"></Switch>
+                <Switch
+                    isChecked={addCutlery}
+                    onChange={(e) => {
+                        setAddCutlery(e.target.checked);
+                    }}
+                    id="isChecked"
+                    variant={"green"}
+                    size="lg"
+                ></Switch>
             </Flex>
         </GroupWrapper>
     );

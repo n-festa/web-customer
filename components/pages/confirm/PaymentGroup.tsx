@@ -82,22 +82,22 @@ const PaymentGroup = ({
                     <Text fontSize="1.4rem"> {formatMoney(9000)}</Text>
                 </Flex>
                 {cutleryFee && (
-                    <Flex pb="0.4rem" w="100%" justifyContent="space-between" borderBottom="var(--divider)">
+                    <Flex w="100%" justifyContent="space-between">
                         <Text fontSize="1.4rem">{t("UTENSILS")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(cutleryFee)}</Text>
                     </Flex>
                 )}
-                <Flex w="100%" justifyContent="space-between">
+                <Flex pt="0.4rem" w="100%" justifyContent="space-between" borderTop="var(--divider)">
                     <Text fontSize="1.4rem">{t("DELIVERY_FEE")}</Text>
                     <Text fontSize="1.4rem"> {formatMoney(10000)}</Text>
                 </Flex>
                 {applicationFee && (
-                    <Flex w="100%" pb="0.4rem" justifyContent="space-between" borderBottom="var(--divider)">
+                    <Flex w="100%" justifyContent="space-between" borderBottom="var(--divider)">
                         <Text fontSize="1.4rem">{t("PLATFORM_FEE")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(applicationFee)}</Text>
                     </Flex>
                 )}
-                <Flex w="100%" justifyContent="space-between">
+                <Flex pt="0.4rem" w="100%" justifyContent="space-between">
                     <Text fontSize="1.4rem">{t("PROMOTION")}</Text>
                     <Text fontSize="1.4rem"> {formatMoney(-2000)}</Text>
                 </Flex>

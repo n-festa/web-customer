@@ -23,10 +23,12 @@ const useConfirmOrder = () => {
     const { totalPrice, cartSync: cart } = useUpdateCart();
     const { GetApplicationFee, GetCutleryFee } = useSWRAPI();
     const [cutleryFee, setCutleryFee] = useState<number>();
+    const [addCutlery, setAddCutlery] = useState(false);
+
     const [applicationFee, setApplicationFee] = useState<number>();
 
     const { data: applicationFeeData } = GetApplicationFee({ itemTotal: totalPrice, exchangeRate: 1 });
-    const { data: cutleryFeeData } = GetCutleryFee({
+    const { data: cutleryFeeData } = GetCutleryFee(addCutlery, {
         restaurant_id: cart?.restaurant_id,
         item_quantity: totalItem,
     });
@@ -55,6 +57,8 @@ const useConfirmOrder = () => {
         cart,
         applicationFee,
         cutleryFee,
+        setAddCutlery,
+        addCutlery,
     };
 };
 
