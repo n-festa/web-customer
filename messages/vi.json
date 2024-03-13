@@ -13,7 +13,8 @@
             "PROFILE": {
                 "TITLE": "Cập nhật hồ sơ",
                 "SUCCESS_CONTENT": "Thông tin của bạn đã được cập nhật.",
-                "ERROR_CONTENT": "Lỗi cập nhật, vui lòng thử lại."
+                "ERROR_CONTENT": "Lỗi cập nhật, vui lòng thử lại.",
+                "ERROR_LENGTH": "Kích thước file phải bằng hoặc nhỏ hơn 50Kb"
             }
         },
         "NOTIFICATION": "Thông báo",
@@ -46,7 +47,8 @@
             "AVAILABLE_TO_EDIT_TASTE": "Có khả năng điều chỉnh vị"
         },
         "EMPTY": "Không tìm thấy kết quả ...",
-        "SPECIAL_OFFER": "GIẢM GIÁ"
+        "SPECIAL_OFFER": "GIẢM GIÁ",
+        "SUGGEST": "Gợi ý"
     },
     "BUTTON": {
         "LOGIN": "Đăng nhập",
@@ -167,7 +169,7 @@
                 "VEGETARIAN": "Chay",
                 "NO_DIET": "Không ăn kiêng",
                 "VEGAN2": "Thuần chay",
-                "EAT_CLEAN": "Eat clean",
+                "EAT_CLEAN": "Ăn sạch",
                 "MUSCLE_GAIN": "Tăng cơ",
                 "FIBER_SUPPLEMENT": "Bổ sung chất sơ",
                 "MIXED_DIET": "Chế độ ăn hỗn hợp"

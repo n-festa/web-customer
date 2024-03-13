@@ -1,5 +1,6 @@
 "use client";
 import RadioCardGroup from "@/components/atoms/RadioCardGroup";
+import TagSelector from "@/components/atoms/TagSelector";
 import AvatarModal from "@/components/modal/AvatarModal";
 import InputForm from "@/components/molecules/InputForm";
 import UISignWrap from "@/components/molecules/UISignWrap";
@@ -30,7 +31,7 @@ import {
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 const Profile = () => {
@@ -40,12 +41,15 @@ const Profile = () => {
     const tFormData = useTranslations("FORM.DATA_PROFILE");
     const { userId } = loadState("infoSign");
     const { initialValues, validationSchema, formData } = signUp(tFormData);
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const [initialForm, setInitialForm] = useState<UserType>(initialValues);
     const [bodyInfo, setBodyInfo] = useState({ bmi: 0, recommended_dietary_allowance_kcal: 0 });
     const [avatar, setAvatar] = useState<string>("");
     const [avatarPreview, setAvatarPreview] = useState<string>("");
     const [avatarFile, setAvatarFile] = useState<File>();
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [curDiet, setCurDiet] = useState<string>("");
+    const [expDiet, setExpDiet] = useState<string>("");
+    const [confirming, setConfirming] = useState<boolean>(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleSubmit = async ({ first_name, last_name, ...rest }: UserType, setSubmitting: any) => {
@@ -55,6 +59,8 @@ const Profile = () => {
                     ...rest,
                     customer_id: userId,
                     name: first_name + " " + last_name,
+                    current_diet: curDiet || "",
+                    expected_diet: expDiet || "",
                 })
                 .then(({ data }) => {
                     dispatch(setUserInfo(data));
@@ -69,7 +75,6 @@ const Profile = () => {
                     setSubmitting(false);
                 })
                 .catch((error) => {
-                    // Xử lý khi Promise bị từ chối (thất bại)
                     console.log("Error while updating customer profile:", error);
                     toast({
                         title: t("COMMON.TOAST.PROFILE.TITLE"),
@@ -80,38 +85,77 @@ const Profile = () => {
                         position: "top-right",
                     });
                     setSubmitting(false);
-
-                    // Đặt các hành động xử lý lỗi ở đây
                 });
         } catch (error) {
             console.error("Error while resending OTP:", error);
         }
     };
-    const handleUpload = (event: any) => {
-        setAvatarPreview(URL.createObjectURL(event.target.files[0]));
-        setAvatarFile(event.target.files[0]);
-        onOpen();
+
+    const handleUpload: ChangeEventHandler<HTMLInputElement> = (event) => {
+        const target = event?.target?.files?.[0];
+        if (target) {
+            setAvatarPreview(URL.createObjectURL(target));
+            setAvatarFile(target);
+            onOpen();
+        }
     };
-    const handleConfirmPreview = (confirm: boolean) => {
+
+    const handleConfirmPreview = async (confirm: boolean) => {
         if (confirm) {
-            console.log("avatarPreview", avatarPreview);
-            setAvatar(avatarPreview);
+            setConfirming(true);
+            try {
+                const { data } = await apiServices.uploadImagePost({ file: avatarFile });
+                await apiServices.uploadImagePut({
+                    url: data,
+                    customer_id: userId,
+                });
+                setAvatar(data);
+                toast({
+                    title: t("COMMON.TOAST.PROFILE.TITLE"),
+                    description: t("COMMON.TOAST.PROFILE.SUCCESS_CONTENT"),
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                    position: "top-right",
+                });
+                setConfirming(false);
+            } catch (err) {
+                setConfirming(false);
+                const message: string | undefined = (err as any)?.error?.code;
+                const errorLength = (err as any)?.error?.response?.status;
+                if (message === "ERR_NETWORK" || errorLength === 400) {
+                    toast({
+                        title: t("COMMON.TOAST.PROFILE.TITLE"),
+                        description: t("COMMON.TOAST.PROFILE.ERROR_LENGTH"),
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                        position: "top-right",
+                    });
+                } else {
+                    toast({
+                        title: t("COMMON.TOAST.PROFILE.TITLE"),
+                        description: t("COMMON.TOAST.PROFILE.ERROR_CONTENT"),
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                        position: "top-right",
+                    });
+                }
+            }
         } else {
             setAvatarPreview("");
             setAvatarFile(undefined);
         }
         onClose();
     };
-    console.log(avatarFile);
+
     useEffect(() => {
         apiServices
             .customerProfile({ userId })
             .then((response) => {
                 const { data: profile } = response;
                 if (profile) {
-                    const notExpect = formData.expectedDiet.some(
-                        (item) => item.value === profile?.health_info?.expected_diet,
-                    );
                     const [firstName, ...lastName] = profile?.name.split(" ");
                     setInitialForm({
                         phone_number: profile?.phone_number || "",
@@ -125,11 +169,12 @@ const Profile = () => {
                         current_diet: profile?.health_info?.current_diet || "Hỗn hợp",
                         allergic_food: profile?.health_info?.allergic_food || "",
                         expected_diet: profile?.health_info?.expected_diet || "",
-                        expected_diet_diff: notExpect ? "" : profile?.health_info?.expected_diet,
                         chronic_disease: profile?.health_info?.chronic_disease || "",
                         first_name: firstName || "",
                         last_name: lastName.join(" ") || "",
                     });
+                    setCurDiet(profile.health_info.current_diet || "");
+                    setExpDiet(profile.health_info.expected_diet || "");
                     setBodyInfo({
                         bmi: profile?.health_info?.bmi || 0,
                         recommended_dietary_allowance_kcal:
@@ -190,6 +235,7 @@ const Profile = () => {
                                 onClose={onClose}
                                 avatar={avatarPreview}
                                 onPreview={handleConfirmPreview}
+                                loading={confirming}
                             />
                             <UIWrapInfo title={t("PROFILE.SEC_TITLE_1")} description={t("PROFILE.SEC_SUB_DESC_1")}>
                                 <Box>
@@ -224,7 +270,7 @@ const Profile = () => {
                                                     accept="image/png, image/jpeg"
                                                     type="file"
                                                     name="upload"
-                                                    onChange={(event) => handleUpload(event)}
+                                                    onChange={handleUpload}
                                                 />
                                             </Button>
                                         </Flex>
@@ -411,19 +457,7 @@ const Profile = () => {
                                         </Field>
                                     </UIField>
                                     <UIField title={t("FORM.CURRENT_DIET.LABEL")}>
-                                        <Field mb="1.6rem" name="current_diet">
-                                            {({ field }: { field: filedType; form: formType }) => {
-                                                const { onChange, ...rest } = field;
-                                                return (
-                                                    <RadioCardGroup
-                                                        name="current_diet"
-                                                        data={formData.currentDiet}
-                                                        {...rest}
-                                                        onChange={onChange}
-                                                    />
-                                                );
-                                            }}
-                                        </Field>
+                                        <TagSelector data={curDiet} setData={setCurDiet} />
                                     </UIField>
                                     <UIField
                                         title={t("FORM.ALLERGIC_FOOD.LABEL")}
@@ -456,11 +490,7 @@ const Profile = () => {
                                         </Field>
                                     </UIField>
                                     <UIField title={t("FORM.EXPECTED_DIET.LABEL")}>
-                                        <Field name="expected_diet">
-                                            {({ field }: { field: filedType; form: formType }) => (
-                                                <InputForm type="text" {...field} />
-                                            )}
-                                        </Field>
+                                        <TagSelector data={expDiet} setData={setExpDiet} />
                                     </UIField>
                                 </Box>
                                 <BodyInformation
