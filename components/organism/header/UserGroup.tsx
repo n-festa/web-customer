@@ -7,7 +7,7 @@ import { LogInIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
 
 const UserGroup = ({ bg }: { bg?: string }) => {
@@ -33,19 +33,21 @@ const UserGroup = ({ bg }: { bg?: string }) => {
         <Menu variant="user">
             <MenuButton cursor="pointer" borderRadius="unset" overflow="hidden" w="4.8rem" h="4.8rem" order="1">
                 {image?.url ? (
-                    <Image
-                        border="var(--divider)"
-                        borderRadius={"50%"}
-                        src={image.url}
-                        fallback={
-                            <Avatar
-                                src={image.url}
-                                w={{ base: "3.5rem", lg: "4.8rem" }}
-                                h={{ base: "3.5rem", lg: "4.8rem" }}
-                            />
-                        }
-                        alt="avt"
-                    />
+                    <Suspense>
+                        <Image
+                            border="var(--divider)"
+                            borderRadius={"50%"}
+                            src={image.url}
+                            fallback={
+                                <Avatar
+                                    src={image.url}
+                                    w={{ base: "3.5rem", lg: "4.8rem" }}
+                                    h={{ base: "3.5rem", lg: "4.8rem" }}
+                                />
+                            }
+                            alt="avt"
+                        />
+                    </Suspense>
                 ) : (
                     <Avatar w="4.8rem" h="4.8rem" />
                 )}

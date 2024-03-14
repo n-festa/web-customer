@@ -11,8 +11,7 @@ import useSWRAPI from "./useApi";
 import useUpdateCart from "./useUpdateCart";
 
 const useConfirmOrder = () => {
-    const router = useRouter();
-    const [paymentMethod, setPaymentMethod] = useState<string>();
+    const { GetApplicationFee, GetCutleryFee, GetCouponInfo } = useSWRAPI();
     const formRef = useRef<
         FormikProps<{
             province: string | undefined;
@@ -22,13 +21,14 @@ const useConfirmOrder = () => {
             note: string;
         }>
     >(null);
+    const router = useRouter();
     const totalItem = useRecoilValue(totalQuantityState);
-    const [discounts, setDiscounts] = useState<{ [key: string]: Discount }>({});
     const { totalPrice, cartSync: cart } = useUpdateCart();
-    const { GetApplicationFee, GetCutleryFee, GetCouponInfo } = useSWRAPI();
+
+    const [paymentMethod, setPaymentMethod] = useState<string>();
+    const [discounts, setDiscounts] = useState<Discount>();
     const [cutleryFee, setCutleryFee] = useState<number>();
     const [addCutlery, setAddCutlery] = useState(false);
-
     const [applicationFee, setApplicationFee] = useState<number>();
 
     const { data: applicationFeeData } = GetApplicationFee({ itemTotal: totalPrice, exchangeRate: 1 });
@@ -36,6 +36,7 @@ const useConfirmOrder = () => {
         restaurant_id: cart?.restaurant_id,
         item_quantity: totalItem,
     });
+
     const sku_ids = useMemo(() => {
         const skuIds: number[] = [];
         cart?.cart_info?.forEach((item) => {
@@ -64,31 +65,23 @@ const useConfirmOrder = () => {
     };
 
     const onApplyCoupon = useCallback(
-        (couponInput: string) => {
-            apiServices
-                .applyCoupon({
-                    coupon_code: couponInput,
-                    restaurant_id: cart?.restaurant_id,
-                    items:
-                        cart?.cart_info?.map((item) => ({
-                            sku_id: item.sku_id,
-                            price_after_discount: item.price_after_discount,
-                            packaging_price: item.packaging_info?.price,
-                            qty_ordered: item.qty_ordered,
-                        })) ?? [],
-                })
-                .then((res) => {
-                    if (!discounts[res.coupon_code]) {
-                        setDiscounts((prev) => ({ ...prev, [res.coupon_code]: res }));
-                    }
-                });
+        async (couponInput: string) => {
+            const res = await apiServices.applyCoupon({
+                coupon_code: couponInput,
+                restaurant_id: cart?.restaurant_id,
+                items:
+                    cart?.cart_info?.map((item) => ({
+                        sku_id: item.sku_id,
+                        price_after_discount: item.price_after_discount,
+                        packaging_price: item.packaging_info?.price,
+                        qty_ordered: item.qty_ordered,
+                    })) ?? [],
+            });
+            if (res) setDiscounts(res);
+            return true;
         },
-        [cart?.cart_info, cart?.restaurant_id, discounts],
+        [cart?.cart_info, cart?.restaurant_id],
     );
-
-    const totalDiscount = useMemo(() => {
-        return Object.values(discounts).reduce((prevValue, item) => prevValue + item.discount_amount, 0);
-    }, [discounts]);
 
     const packageFee = useMemo(() => {
         return cart?.cart_info?.reduce((prevValue, item) => prevValue + (item.packaging_info?.price ?? 0), 0);
@@ -96,8 +89,15 @@ const useConfirmOrder = () => {
 
     const deliveryFee = 10000;
     const finalPrice = useMemo(() => {
-        return totalPrice + (applicationFee ?? 0) + (cutleryFee ?? 0) + (packageFee ?? 0) + deliveryFee - totalDiscount;
-    }, [totalPrice, applicationFee, cutleryFee, totalDiscount, packageFee, deliveryFee]);
+        return (
+            totalPrice +
+            (applicationFee ?? 0) +
+            (cutleryFee ?? 0) +
+            (packageFee ?? 0) +
+            (deliveryFee ?? 0) -
+            (discounts?.discount_amount ?? 0)
+        );
+    }, [totalPrice, applicationFee, cutleryFee, discounts?.discount_amount, packageFee, deliveryFee]);
     return {
         totalPrice,
         formRef,
@@ -110,7 +110,7 @@ const useConfirmOrder = () => {
         setAddCutlery,
         addCutlery,
         couponList,
-        totalDiscount,
+        totalDiscount: discounts?.discount_amount,
         packageFee,
         finalPrice,
         deliveryFee,
