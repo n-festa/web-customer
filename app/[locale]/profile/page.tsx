@@ -105,11 +105,12 @@ const Profile = () => {
             setConfirming(true);
             try {
                 const { data } = await apiServices.uploadImagePost({ file: avatarFile });
-                await apiServices.uploadImagePut({
+                const { data: customerData } = await apiServices.uploadImagePut({
                     url: data,
                     customer_id: userId,
                 });
                 setAvatar(data);
+                dispatch(setUserInfo(customerData));
                 toast({
                     title: t("COMMON.TOAST.PROFILE.TITLE"),
                     description: t("COMMON.TOAST.PROFILE.SUCCESS_CONTENT"),
