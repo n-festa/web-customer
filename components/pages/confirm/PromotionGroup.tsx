@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import GroupWrapper from "./GroupWrapper";
 
-const PromotionGroup = ({ onApplyCoupon }: { onApplyCoupon: (value: string) => void }) => {
+const PromotionGroup = ({ onApplyCoupon }: { onApplyCoupon: (value: string) => Promise<boolean> }) => {
     const t = useTranslations("CONFIRM_ORDER.PROMOTION_GROUP");
     const [value, setValue] = useState("");
     return (
@@ -36,8 +36,11 @@ const PromotionGroup = ({ onApplyCoupon }: { onApplyCoupon: (value: string) => v
                         w="9.5rem"
                         borderRadius="9rem"
                         variant="solid"
-                        onClick={() => {
-                            onApplyCoupon(value);
+                        onClick={async () => {
+                            const res = await onApplyCoupon(value);
+                            if (res) {
+                                setValue("");
+                            }
                         }}
                     >
                         {t("APPLY")}
