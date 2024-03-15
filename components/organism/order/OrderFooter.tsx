@@ -16,6 +16,7 @@ interface Props {
     loading?: boolean;
     formRef?: RefObject<HTMLFormElement>;
     activeSKU?: SKUsDto;
+    menuItemID?: number;
 }
 
 const OrderFooter = ({
@@ -26,6 +27,7 @@ const OrderFooter = ({
     formRef,
     restaurantId,
     activeSKU,
+    menuItemID,
 }: Props) => {
     const t = useTranslations("PRODUCT_DETAIL");
     const [state, setState] = useState(quantity);
@@ -43,9 +45,15 @@ const OrderFooter = ({
     }, [state, price]);
 
     const totalRemainQuanity = useMemo(() => {
-        const currentCartItem = cart?.cart_info?.find((item) => item.sku_id === activeSKU?.sku_id);
-        return availableQuantity - (currentCartItem?.qty_ordered ?? 0);
-    }, [activeSKU, availableQuantity, cart?.cart_info]);
+        const currentCartItemAvailable = cart?.cart_info?.reduce((prevValue, item) => {
+            if (item.menu_item_id === menuItemID) {
+                return prevValue + item.qty_ordered;
+            }
+            return prevValue;
+        }, 0);
+        return availableQuantity - (currentCartItemAvailable ?? 0);
+    }, [availableQuantity, cart?.cart_info, menuItemID]);
+
     const onUpdateCart = () => {
         const foodValueSetting = formRef?.current?.values;
 
@@ -117,7 +125,7 @@ const OrderFooter = ({
                     onChangeValue={setState}
                     numberInputProps={{
                         min: 1,
-                        isDisabled: totalRemainQuanity ? undefined : true,
+                        isDisabled: !loading && totalRemainQuanity ? undefined : true,
                         max: totalRemainQuanity,
                     }}
                 />

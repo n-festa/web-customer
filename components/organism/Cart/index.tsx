@@ -31,7 +31,7 @@ const Cart = ({
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValueLoadable(cartSynced).getValue();
     const [rawCart, setCart] = useRecoilStateLoadable(cartState);
-    const { totalPrice, handleChangeCartQuantity } = useUpdateCart();
+    const { totalPrice, handleChangeCartQuantity, maxQtyValues, handleChangeQtyRaw } = useUpdateCart();
     const { handleDeleteCartItem, handleDeleteWholeCart } = useDeleteCartItem();
     const profile = useAppSelector((app) => app.userInfo.userInfo);
     const isCartEmpty = !cart?.cart_info?.length || (restaurant_id != undefined && cart.restaurant_id != restaurant_id);
@@ -41,7 +41,7 @@ const Cart = ({
             lat: profile?.latAddress,
             long: profile?.longAddress,
             utc_offset: -(new Date().getTimezoneOffset() / 60),
-            menu_item_ids: cart?.cart_info?.map((item) => item.sku_id),
+            menu_item_ids: Array.from(new Set(cart?.cart_info?.map((item) => item.menu_item_id))),
             now: new Date().getTime(),
             having_advanced_customization: cart.cart_info?.some((item) => item.advanced_taste_customization_obj.length),
         },
@@ -168,11 +168,17 @@ const Cart = ({
                             {cart.cart_info?.map((item) => (
                                 <CartItem
                                     onChangeValue={(value) => {
+                                        handleChangeQtyRaw(item.item_id, item.menu_item_id, value);
                                         handleChangeCartQuantity(item.item_id, value, _cts);
                                     }}
                                     onDeleteCartItem={() => {
                                         if (item.item_id != undefined && cart.customer_id != undefined)
                                             handleDeleteCartItem(item.item_id, cart.customer_id);
+                                    }}
+                                    numberInputProps={{
+                                        value: maxQtyValues[String(item.menu_item_id)]?.items?.[String(item.item_id)]
+                                            .value,
+                                        max: maxQtyValues[String(item.menu_item_id)]?.items?.[String(item.item_id)].max,
                                     }}
                                     key={item.item_id}
                                     image={item.item_img ?? ""}
@@ -207,6 +213,7 @@ const Cart = ({
                             borderRadius="2.4rem"
                             onClick={() => {
                                 setShow(false);
+                                //TODO: SYNC CART TEMP AND CART SYNC BEFORE CHECKOUT
                                 router.push(routes.ConfirmOrder);
                             }}
                         >

@@ -93,6 +93,7 @@ const DeliveryDestinationGroup = ({
                 }
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [district?.key, defaultDistrict?.key, district]);
     const { defaultCommune } = useMemo(() => {
         const defaultCommune = communes.find(

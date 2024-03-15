@@ -43,6 +43,7 @@ const ProductDetailPage = () => {
                         price={activeSKU?.price_after_discount}
                         restaurantId={foodInfo.info?.restaurant_id}
                         formRef={formRef}
+                        menuItemID={foodInfo.info?.menu_item_id}
                         availableQuantity={foodInfo.info?.available_quantity}
                         activeSKU={activeSKU}
                     />

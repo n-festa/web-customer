@@ -191,12 +191,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             return this.request<GetGeneralFoodRecommendResponse>({
                 path: "food/get-general-food-recomendation",
                 method: "GET",
-                //TODO
-                query: query ?? {
-                    lat: 10.820557580712087,
-                    long: 106.7723030321775,
-                },
-
+                query: query,
                 ...reqParams,
             });
         },
@@ -360,13 +355,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             }>({
                 path: `/cart/get-available-delivery-time`,
                 method: "POST",
-                body: {
-                    ...params,
-                    //TODO: Temp
-                    menu_item_ids: [1, 2],
-                    long: 106.7723030321775,
-                    lat: 10.820557580712087,
-                },
+                body: params,
                 ignoreErrorCode: [...(ignoreErrorCode ?? []), 404],
             });
         },
