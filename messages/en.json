@@ -355,7 +355,7 @@
             "TOTAL_ITEMS": "Item total",
             "PACKING_FEE": "Package fee",
             "UTENSILS": "Cutlery fee",
-            "DELIVERY_FEE": "Delivery fee | 0.8 km",
+            "DELIVERY_FEE": "Delivery fee | {distance} km",
             "PLATFORM_FEE": "Application fee",
             "PROMOTION": "Promotion",
             "TOTAL_PAYMENT": "Total",

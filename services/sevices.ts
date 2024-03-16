@@ -442,6 +442,27 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 },
             });
         },
+        getDeliveryFee: (
+            params: {
+                lat: number;
+                long: number;
+            }[],
+        ) => {
+            return this.request<
+                [
+                    {
+                        data?: {
+                            distance: number;
+                            total_price: number;
+                        };
+                    },
+                ]
+            >({
+                path: `https://api.2all.com.vn/ahamove/estimate`,
+                method: "POST",
+                body: params,
+            });
+        },
         getTopReview: () => {
             return this.request<{ data: ReviewResponse[] }>({
                 path: `/rating-review/get-top-review`,

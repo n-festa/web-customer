@@ -358,7 +358,7 @@
             "TOTAL_ITEMS": "Tổng món ăn",
             "PACKING_FEE": "Phí đóng gói",
             "UTENSILS": "Dụng cụ ăn",
-            "DELIVERY_FEE": "Phí giao hàng | 0.8 km",
+            "DELIVERY_FEE": "Phí giao hàng | {distance} km",
             "PLATFORM_FEE": "Phí nền tảng",
             "PROMOTION": "Khuyến mãi",
             "TOTAL_PAYMENT": "Tổng thanh toán",

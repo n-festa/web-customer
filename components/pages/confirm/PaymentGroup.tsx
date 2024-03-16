@@ -26,7 +26,7 @@ const PaymentGroup = ({
     totalPrice?: number;
     finalPrice?: number;
     packageFee?: number;
-    deliveryFee?: number;
+    deliveryFee?: { deliveryFee?: number; distance?: number };
     onConfirm: () => void;
 }) => {
     const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
@@ -108,10 +108,12 @@ const PaymentGroup = ({
                         <Text fontSize="1.4rem"> {formatMoney(cutleryFee)}</Text>
                     </Flex>
                 )}
-                <Flex pt="0.4rem" w="100%" justifyContent="space-between" borderTop="var(--divider)">
-                    <Text fontSize="1.4rem">{t("DELIVERY_FEE")}</Text>
-                    <Text fontSize="1.4rem"> {formatMoney(deliveryFee)}</Text>
-                </Flex>
+                {deliveryFee && (
+                    <Flex pt="0.4rem" w="100%" justifyContent="space-between" borderTop="var(--divider)">
+                        <Text fontSize="1.4rem">{t("DELIVERY_FEE", { distance: deliveryFee?.distance ?? "-" })}</Text>
+                        <Text fontSize="1.4rem"> {formatMoney(deliveryFee?.deliveryFee)}</Text>
+                    </Flex>
+                )}
                 {applicationFee && (
                     <Flex w="100%" justifyContent="space-between">
                         <Text fontSize="1.4rem">{t("PLATFORM_FEE")}</Text>

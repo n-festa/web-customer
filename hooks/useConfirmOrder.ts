@@ -30,6 +30,7 @@ const useConfirmOrder = () => {
     const [cutleryFee, setCutleryFee] = useState<number>();
     const [addCutlery, setAddCutlery] = useState(false);
     const [applicationFee, setApplicationFee] = useState<number>();
+    const [deliveryFee, setDeliveryFee] = useState<{ distance?: number; deliveryFee?: number }>();
 
     const { data: applicationFeeData } = GetApplicationFee({ itemTotal: totalPrice, exchangeRate: 1 });
     const { data: cutleryFeeData } = GetCutleryFee(addCutlery, {
@@ -59,7 +60,7 @@ const useConfirmOrder = () => {
     }, [applicationFeeData]);
 
     const handleConfirm = () => {
-        // formRef.current?.submitForm();
+        formRef.current?.submitForm();
         //TODO: orderId
         router.push(routes.OrderDetail + `/${123}`);
     };
@@ -87,17 +88,16 @@ const useConfirmOrder = () => {
         return cart?.cart_info?.reduce((prevValue, item) => prevValue + (item.packaging_info?.price ?? 0), 0);
     }, [cart?.cart_info]);
 
-    const deliveryFee = 10000;
     const finalPrice = useMemo(() => {
         return (
             totalPrice +
             (applicationFee ?? 0) +
             (cutleryFee ?? 0) +
             (packageFee ?? 0) +
-            (deliveryFee ?? 0) -
+            (deliveryFee?.deliveryFee ?? 0) -
             (discounts?.discount_amount ?? 0)
         );
-    }, [totalPrice, applicationFee, cutleryFee, discounts?.discount_amount, packageFee, deliveryFee]);
+    }, [totalPrice, applicationFee, cutleryFee, discounts?.discount_amount, packageFee, deliveryFee?.deliveryFee]);
     return {
         totalPrice,
         formRef,
@@ -114,6 +114,7 @@ const useConfirmOrder = () => {
         packageFee,
         finalPrice,
         deliveryFee,
+        setDeliveryFee,
         onApplyCoupon,
     };
 };

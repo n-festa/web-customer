@@ -6,6 +6,7 @@ import {
     FormLabel,
     FormLabelProps,
     Input,
+    InputProps,
     Text,
     Textarea,
 } from "@chakra-ui/react";
@@ -20,6 +21,7 @@ type InputFormProps = {
     formControlProps?: FormControlProps;
     value?: string;
     textarea?: boolean;
+    inputProps?: InputProps;
 };
 
 const InputForm: React.FC<InputFormProps> = ({
@@ -31,6 +33,7 @@ const InputForm: React.FC<InputFormProps> = ({
     error,
     formControlProps,
     textarea,
+    inputProps,
     ...props
 }) => {
     const onChangeNumberKey = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +79,7 @@ const InputForm: React.FC<InputFormProps> = ({
                     placeholder={placeholder}
                     _focus={{ border: "1px solid var(--gray-300)" }}
                     {...props}
+                    {...inputProps}
                     onInput={onChangeNumberKey}
                 />
             )}

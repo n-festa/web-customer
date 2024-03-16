@@ -30,14 +30,16 @@ const ConfirmOrderPageContent = () => {
         deliveryFee,
         packageFee,
         onApplyCoupon,
+        setDeliveryFee,
     } = useConfirmOrder();
+
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="var(--gray-100)" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="4.3rem" w="100%">
                 <BackButton label={t("BACK_PAGE")} />
                 <Flex mt="1.6rem" w="100%" gap="1.6rem" flexDir={{ base: "column", lg: "row" }} flex={1}>
                     <VStack flex={1} spacing="1.6rem">
-                        <DeliveryDestinationGroup formRef={formRef} />
+                        <DeliveryDestinationGroup formRef={formRef} setDeliveryFee={setDeliveryFee} />
                         <DeliveryTimeGroup />
                         <PackageGroup addCutlery={addCutlery} setAddCutlery={setAddCutlery} />
                         <PaymentMethodGroup paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
