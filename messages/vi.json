@@ -297,7 +297,7 @@
         "DELIVERY_FEE_NOTICE": "Phí giao hàng sẽ hiển thị khi bạn xem chi tiết đơn hàng",
         "VIEW_ORDER": "Xem đơn hàng",
         "CART_UNAVAILABLE": "Giỏ hàng không khả dụng đến hết {time}",
-        "NEAREST_DELIVERY_TIME": "Thời gian nhận đồ ăn gần nhất: {timeAfter} - {timeBefore}"
+        "NEAREST_DELIVERY_TIME": "Thời gian nhận đồ ăn gần nhất: {date}{timeAfter} - {timeBefore}"
     },
     "PRODUCT_DETAIL": {
         "SIDE_DISH": "Món ăn kèm",

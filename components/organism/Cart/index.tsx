@@ -10,6 +10,7 @@ import { genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, Center, Flex, FlexProps, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { CancelTokenSource } from "axios";
+import { isToday, isTomorrow } from "date-fns";
 import isEqual from "lodash/isEqual";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -27,6 +28,7 @@ const Cart = ({
 }: FlexProps & { restaurant_id?: number | string; ignoreAuthError?: boolean }) => {
     const { renderTxt } = useRenderText();
     const t = useTranslations("CART");
+    const tCommon = useTranslations("COMMON");
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValueLoadable(cartSynced).getValue();
@@ -64,14 +66,17 @@ const Cart = ({
     const receiveTimePredict = useMemo(() => {
         if (typeof timeDate?.data === "number") return { backTime: timeDate?.data as number };
         if (!timeDate?.data?.[0] || !timeDate?.data?.[0].hours || !timeDate?.data?.[0].minutes) return;
+        const date = timeDate?.data?.[0].date;
+        const predictDate =
+            !date || isToday(date) ? "" : isTomorrow(date) ? tCommon("TOMORROW") + " " : date + " " ?? "";
         const predictTime = `${timeDate?.data?.[0].hours}:${timeDate?.data?.[0].minutes}`;
         const nextMinutes = Number(timeDate.data[0].minutes) + 30;
         const predictTimeBuffer =
             nextMinutes > 60
                 ? `${Number(timeDate?.data?.[0].hours) + 1}:${nextMinutes - 60}`
                 : `${timeDate?.data?.[0].hours}:${nextMinutes}`;
-        return { predictTimeBuffer, predictTime };
-    }, [timeDate?.data]);
+        return { predictDate, predictTimeBuffer, predictTime };
+    }, [tCommon, timeDate?.data]);
 
     return (
         <Flex
@@ -129,6 +134,7 @@ const Cart = ({
                             receiveTimePredict?.predictTimeBuffer && (
                                 <Text fontSize="1.6rem" textAlign="center">
                                     {t("NEAREST_DELIVERY_TIME", {
+                                        date: receiveTimePredict?.predictDate,
                                         timeAfter: receiveTimePredict?.predictTime,
                                         timeBefore: receiveTimePredict?.predictTimeBuffer,
                                     })}
