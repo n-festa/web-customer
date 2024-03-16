@@ -2,8 +2,10 @@ import CartItem from "@/components/organism/CartItem";
 import useRenderText from "@/hooks/useRenderText";
 import { Cart } from "@/types/cart";
 import { formatMoney, genCartNote } from "@/utils/functions";
+import { routes } from "@/utils/routes";
 import { Button, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const PaymentGroup = ({
     applicationFee,
@@ -29,6 +31,7 @@ const PaymentGroup = ({
 }) => {
     const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
     const { renderTxt } = useRenderText();
+    const router = useRouter();
 
     return (
         <Flex
@@ -48,10 +51,20 @@ const PaymentGroup = ({
                 </Text>
             </VStack>
             <Flex flexDir="column" flex={1}>
-                <Flex alignItems="center" px="0.8rem" bg="var(--gray-100)" h="5.6rem" gap="1.2rem">
+                <Flex
+                    cursor="pointer"
+                    onClick={() => {
+                        router.push(routes.RestaurantDetail + `/${cart?.restaurant_id}`);
+                    }}
+                    alignItems="center"
+                    px="0.8rem"
+                    bg="var(--gray-100)"
+                    h="5.6rem"
+                    gap="1.2rem"
+                >
                     <Image w="4rem" h="4rem" src="/images/chef_avatar.svg" alt="restaurant-icon"></Image>
                     <Text fontWeight="bold" fontSize="1.6rem" color="var(--color-mediumslateblue)">
-                        {"The Chef Town"}
+                        {renderTxt(cart?.restaurant_name)}
                     </Text>
                 </Flex>
                 <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">

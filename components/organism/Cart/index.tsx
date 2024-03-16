@@ -157,7 +157,17 @@ const Cart = ({
                         borderBottom="1px solid var(--gray-300)"
                     >
                         {cart?.restaurant_id !== undefined && (
-                            <Flex alignItems="center" px="0.8rem" bg="var(--gray-100)" h="5.6rem" gap="1.2rem">
+                            <Flex
+                                cursor="pointer"
+                                onClick={() => {
+                                    router.push(routes.RestaurantDetail + `/${cart?.restaurant_id}`);
+                                }}
+                                alignItems="center"
+                                px="0.8rem"
+                                bg="var(--gray-100)"
+                                h="5.6rem"
+                                gap="1.2rem"
+                            >
                                 <Image
                                     w="4rem"
                                     h="4rem"

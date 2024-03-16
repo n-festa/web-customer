@@ -2,8 +2,10 @@ import CartItem from "@/components/organism/CartItem";
 import useRenderText from "@/hooks/useRenderText";
 import { OrderItem, Restaurant } from "@/types/order";
 import { formatMoney, genCartNote } from "@/utils/functions";
+import { routes } from "@/utils/routes";
 import { Flex, Image, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
 const CartTotalInfo = ({
@@ -25,6 +27,7 @@ const CartTotalInfo = ({
     promotion?: number | string;
     packagingFee?: number | string;
 }) => {
+    const router = useRouter();
     const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
     const { renderTxt } = useRenderText();
 
@@ -34,7 +37,17 @@ const CartTotalInfo = ({
     return (
         <Flex color="black" position="relative" flexDir="column" borderRadius="0" p="0.8rem" bg="white" h="fit-content">
             <Flex flexDir="column" flex={1}>
-                <Flex alignItems="center" px="0.8rem" bg="var(--gray-100)" h="5.6rem" gap="1.2rem">
+                <Flex
+                    cursor="pointer"
+                    onClick={() => {
+                        router.push(routes.RestaurantDetail + `/${restaurantInfo?.restaurant_id}`);
+                    }}
+                    alignItems="center"
+                    px="0.8rem"
+                    bg="var(--gray-100)"
+                    h="5.6rem"
+                    gap="1.2rem"
+                >
                     <Image w="4rem" h="4rem" src={restaurantInfo?.restaurant_logo_img} alt="restaurant-icon"></Image>
                     <Text fontWeight="bold" fontSize="1.6rem" color="var(--color-mediumslateblue)">
                         {renderTxt(restaurantInfo?.restaurant_name)}
