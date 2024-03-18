@@ -10,7 +10,7 @@ import { Flex, VStack } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikProps } from "formik";
 import debounce from "lodash/debounce";
 import { useTranslations } from "next-intl";
-import { Dispatch, RefObject, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import GroupWrapper from "./GroupWrapper";
 
 const DeliveryDestinationGroup = ({
@@ -24,6 +24,8 @@ const DeliveryDestinationGroup = ({
             ward: string | undefined;
             address: string | undefined;
             note: string;
+            lat: number | undefined;
+            lng: number | undefined;
         }>
     >;
     setDeliveryFee: Dispatch<
@@ -48,6 +50,7 @@ const DeliveryDestinationGroup = ({
         district?: { key: string; value: string };
         commune?: { key: string; value: string };
     }>({});
+    const prevAddressFull = useRef<string>();
 
     const userInfo = useAppSelector((state) => state.userInfo.userInfo);
     const { provinces, defaultProvince, provinceMap } = useMemo(() => {
@@ -163,6 +166,9 @@ const DeliveryDestinationGroup = ({
                     },
                 ])
             )?.[0];
+            formRef.current?.setFieldValue("lat", customerLocation.lat);
+            formRef.current?.setFieldValue("lng", customerLocation.lng);
+
             setDeliveryFee({
                 deliveryFee: fee.data?.total_price,
                 distance: fee.data?.distance,
@@ -173,16 +179,30 @@ const DeliveryDestinationGroup = ({
 
     useEffect(() => {
         const values = formRef.current?.values;
-        const _address = address ?? values?.address;
-        const _ward = commune?.value ?? values?.ward;
-        const _district = district?.value ?? values?.district;
-        const _province = province?.value ?? values?.province;
-
+        const _address = address ?? values?.address ?? defaultAddress;
+        const _ward = commune?.value ?? values?.ward ?? defaultCommune?.value;
+        const _district = district?.value ?? values?.district ?? defaultDistrict?.value;
+        const _province = province?.value ?? values?.province ?? defaultProvince?.value;
         if (_address && _ward && _district && _province) {
             const addressFull = [_address, _ward, _district, _province].join(",");
-            getLongLat(addressFull);
+            if (prevAddressFull.current !== addressFull) {
+                prevAddressFull.current = addressFull;
+                getLongLat(addressFull);
+            }
         }
-    }, [formRef, formRef.current?.values, province, district, commune, address, getLongLat]);
+    }, [
+        formRef,
+        formRef.current?.values,
+        province,
+        district,
+        commune,
+        address,
+        getLongLat,
+        defaultCommune,
+        defaultAddress,
+        defaultDistrict,
+        defaultProvince,
+    ]);
 
     return (
         <GroupWrapper title={t("DELIVER_TO")}>

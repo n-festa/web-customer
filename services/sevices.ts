@@ -11,6 +11,7 @@ import {
     ProvinceResponse,
     ReviewResponse,
 } from "@/types/interfaces";
+import { Order } from "@/types/order";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import {
     GetCurrentAvailableFoodByRestaurantResponse,
@@ -504,6 +505,13 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             return this.request({
                 path: `updateProfileImage`,
                 method: "PUT",
+                body: data,
+            });
+        },
+        createOrder: (data: Order) => {
+            return this.request<Order>({
+                path: `/order/create`,
+                method: "POST",
                 body: data,
             });
         },

@@ -1,6 +1,7 @@
 import { totalQuantityState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { Discount } from "@/types/interfaces";
+import { parseStringToObj } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { FormikProps } from "formik";
 import { isUndefined } from "lodash";
@@ -19,6 +20,8 @@ const useConfirmOrder = () => {
             ward: string | undefined;
             address: string | undefined;
             note: string;
+            lng: number | undefined;
+            lat: number | undefined;
         }>
     >(null);
     const router = useRouter();
@@ -31,7 +34,7 @@ const useConfirmOrder = () => {
     const [addCutlery, setAddCutlery] = useState(false);
     const [applicationFee, setApplicationFee] = useState<number>();
     const [deliveryFee, setDeliveryFee] = useState<{ distance?: number; deliveryFee?: number }>();
-
+    const [expectedTime, setExpectedTime] = useState<{ from: number; to: number }>();
     const { data: applicationFeeData } = GetApplicationFee({ itemTotal: totalPrice, exchangeRate: 1 });
     const { data: cutleryFeeData } = GetCutleryFee(addCutlery, {
         restaurant_id: cart?.restaurant_id,
@@ -59,10 +62,45 @@ const useConfirmOrder = () => {
         }
     }, [applicationFeeData]);
 
-    const handleConfirm = () => {
-        formRef.current?.submitForm();
-        //TODO: orderId
-        router.push(routes.OrderDetail + `/${123}`);
+    const handleConfirm = async () => {
+        const addressValues = formRef.current?.values;
+        const orderItems = cart?.cart_info?.map((item) => ({
+            sku_id: item.sku_id,
+            qty_ordered: item.qty_ordered,
+            advanced_taste_customization_obj: parseStringToObj(item.advanced_taste_customization_obj) ?? [],
+            basic_taste_customization_obj: parseStringToObj(item.basic_taste_customization_obj) ?? [],
+            notes: item.notes,
+            packaging_id: item.packaging_info?.packaging_id,
+        }));
+        if (cart?.customer_id && cart?.restaurant_id && addressValues) {
+            const orderRes = await apiServices.createOrder({
+                customer_id: Number(cart?.customer_id),
+                restaurant_id: Number(cart.restaurant_id),
+                address: {
+                    address_line: addressValues?.address,
+                    ward: addressValues?.ward,
+                    district: addressValues?.district,
+                    city: addressValues?.province,
+                    latitude: addressValues?.lat,
+                    country: "Vietnam",
+                    longitude: addressValues?.lng,
+                },
+                order_total: 150000 ?? totalPrice,
+                delivery_fee: deliveryFee?.deliveryFee ?? 0,
+                packaging_fee: packageFee ?? 0,
+                cutlery_fee: 1000 ?? cutleryFee ?? 0,
+                app_fee: 1000 ?? applicationFee ?? 0,
+                coupon_value: 20000 ?? discounts?.discount_amount ?? 0,
+                coupon_code: "NKSTQUML3B" ?? discounts?.coupon_code ?? "",
+                payment_method_id: Number(paymentMethod),
+                expected_arrival_time: expectedTime?.from,
+                driver_note: addressValues.note,
+                order_items: orderItems ?? [],
+            });
+            if (orderRes.order_id) {
+                router.push(routes.OrderDetail + `/${orderRes.order_id}`);
+            }
+        }
     };
 
     const onApplyCoupon = useCallback(
@@ -116,6 +154,7 @@ const useConfirmOrder = () => {
         deliveryFee,
         setDeliveryFee,
         onApplyCoupon,
+        setExpectedTime,
     };
 };
 

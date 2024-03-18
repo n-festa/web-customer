@@ -31,6 +31,7 @@ const ConfirmOrderPageContent = () => {
         packageFee,
         onApplyCoupon,
         setDeliveryFee,
+        setExpectedTime,
     } = useConfirmOrder();
 
     return (
@@ -40,7 +41,7 @@ const ConfirmOrderPageContent = () => {
                 <Flex mt="1.6rem" w="100%" gap="1.6rem" flexDir={{ base: "column", lg: "row" }} flex={1}>
                     <VStack flex={1} spacing="1.6rem">
                         <DeliveryDestinationGroup formRef={formRef} setDeliveryFee={setDeliveryFee} />
-                        <DeliveryTimeGroup />
+                        <DeliveryTimeGroup setExpectedTime={setExpectedTime} />
                         <PackageGroup addCutlery={addCutlery} setAddCutlery={setAddCutlery} />
                         <PaymentMethodGroup paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
                         <PromotionGroup onApplyCoupon={onApplyCoupon} />
