@@ -166,3 +166,14 @@ export const parseArrayToObject = <T>(arr: T[], key: keyof T): { [key: string]: 
 export const formatPhoneNumber = (phone: string) => {
     return phone.replace(/(\d{2})(\d{3})(\d{3})(\d{3})/, "+$1 $2 $3 $4"); //+84 012 345 678
 };
+
+export const parseStringToObj = (value?: string | Object) => {
+    if (typeof value === "string") {
+        try {
+            return JSON.parse(value);
+        } catch {
+            return;
+        }
+    }
+    return value;
+};

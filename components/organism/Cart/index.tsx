@@ -10,6 +10,7 @@ import { genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, Center, Flex, FlexProps, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { CancelTokenSource } from "axios";
+import { isToday, isTomorrow } from "date-fns";
 import isEqual from "lodash/isEqual";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -27,11 +28,12 @@ const Cart = ({
 }: FlexProps & { restaurant_id?: number | string; ignoreAuthError?: boolean }) => {
     const { renderTxt } = useRenderText();
     const t = useTranslations("CART");
+    const tCommon = useTranslations("COMMON");
     const router = useRouter();
     const setShow = useSetRecoilState(showCartState);
     const cart = useRecoilValueLoadable(cartSynced).getValue();
     const [rawCart, setCart] = useRecoilStateLoadable(cartState);
-    const { totalPrice, handleChangeCartQuantity } = useUpdateCart();
+    const { totalPrice, handleChangeCartQuantity, maxQtyValues, handleChangeQtyRaw } = useUpdateCart();
     const { handleDeleteCartItem, handleDeleteWholeCart } = useDeleteCartItem();
     const profile = useAppSelector((app) => app.userInfo.userInfo);
     const isCartEmpty = !cart?.cart_info?.length || (restaurant_id != undefined && cart.restaurant_id != restaurant_id);
@@ -41,7 +43,7 @@ const Cart = ({
             lat: profile?.latAddress,
             long: profile?.longAddress,
             utc_offset: -(new Date().getTimezoneOffset() / 60),
-            menu_item_ids: cart?.cart_info?.map((item) => item.sku_id),
+            menu_item_ids: Array.from(new Set(cart?.cart_info?.map((item) => item.menu_item_id))),
             now: new Date().getTime(),
             having_advanced_customization: cart.cart_info?.some((item) => item.advanced_taste_customization_obj.length),
         },
@@ -64,14 +66,17 @@ const Cart = ({
     const receiveTimePredict = useMemo(() => {
         if (typeof timeDate?.data === "number") return { backTime: timeDate?.data as number };
         if (!timeDate?.data?.[0] || !timeDate?.data?.[0].hours || !timeDate?.data?.[0].minutes) return;
+        const date = timeDate?.data?.[0].date;
+        const predictDate =
+            !date || isToday(date) ? "" : isTomorrow(date) ? tCommon("TOMORROW") + " " : date + " " ?? "";
         const predictTime = `${timeDate?.data?.[0].hours}:${timeDate?.data?.[0].minutes}`;
         const nextMinutes = Number(timeDate.data[0].minutes) + 30;
         const predictTimeBuffer =
             nextMinutes > 60
                 ? `${Number(timeDate?.data?.[0].hours) + 1}:${nextMinutes - 60}`
                 : `${timeDate?.data?.[0].hours}:${nextMinutes}`;
-        return { predictTimeBuffer, predictTime };
-    }, [timeDate?.data]);
+        return { predictDate, predictTimeBuffer, predictTime };
+    }, [tCommon, timeDate?.data]);
 
     return (
         <Flex
@@ -129,6 +134,7 @@ const Cart = ({
                             receiveTimePredict?.predictTimeBuffer && (
                                 <Text fontSize="1.6rem" textAlign="center">
                                     {t("NEAREST_DELIVERY_TIME", {
+                                        date: receiveTimePredict?.predictDate,
                                         timeAfter: receiveTimePredict?.predictTime,
                                         timeBefore: receiveTimePredict?.predictTimeBuffer,
                                     })}
@@ -151,7 +157,17 @@ const Cart = ({
                         borderBottom="1px solid var(--gray-300)"
                     >
                         {cart?.restaurant_id !== undefined && (
-                            <Flex alignItems="center" px="0.8rem" bg="var(--gray-100)" h="5.6rem" gap="1.2rem">
+                            <Flex
+                                cursor="pointer"
+                                onClick={() => {
+                                    router.push(routes.RestaurantDetail + `/${cart?.restaurant_id}`);
+                                }}
+                                alignItems="center"
+                                px="0.8rem"
+                                bg="var(--gray-100)"
+                                h="5.6rem"
+                                gap="1.2rem"
+                            >
                                 <Image
                                     w="4rem"
                                     h="4rem"
@@ -168,11 +184,17 @@ const Cart = ({
                             {cart.cart_info?.map((item) => (
                                 <CartItem
                                     onChangeValue={(value) => {
+                                        handleChangeQtyRaw(item.item_id, item.menu_item_id, value);
                                         handleChangeCartQuantity(item.item_id, value, _cts);
                                     }}
                                     onDeleteCartItem={() => {
                                         if (item.item_id != undefined && cart.customer_id != undefined)
                                             handleDeleteCartItem(item.item_id, cart.customer_id);
+                                    }}
+                                    numberInputProps={{
+                                        value: maxQtyValues[String(item.menu_item_id)]?.items?.[String(item.item_id)]
+                                            .value,
+                                        max: maxQtyValues[String(item.menu_item_id)]?.items?.[String(item.item_id)].max,
                                     }}
                                     key={item.item_id}
                                     image={item.item_img ?? ""}
@@ -207,6 +229,7 @@ const Cart = ({
                             borderRadius="2.4rem"
                             onClick={() => {
                                 setShow(false);
+                                //TODO: SYNC CART TEMP AND CART SYNC BEFORE CHECKOUT
                                 router.push(routes.ConfirmOrder);
                             }}
                         >

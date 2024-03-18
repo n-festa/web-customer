@@ -5,6 +5,7 @@ import WraperInfo from "@/components/molecules/WraperInfo";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
 import useRenderText from "@/hooks/useRenderText";
+import { useAppSelector } from "@/store/hooks";
 import { SearchFoodType } from "@/types/enum";
 import { routes } from "@/utils/routes";
 import { Wrap, WrapItem } from "@chakra-ui/react";
@@ -16,7 +17,8 @@ const SpecialFood = () => {
     const { renderTxt } = useRenderText();
     const t = useTranslations("SEARCH.SPECIAL_FOOD");
     const { GetGeneralFoodRecommendation } = useSWRAPI();
-    const { data, isLoading } = GetGeneralFoodRecommendation();
+    const { longAddress, latAddress } = useAppSelector((state) => state.userInfo.userInfo ?? {});
+    const { data, isLoading } = GetGeneralFoodRecommendation({ lat: latAddress, long: longAddress });
     const router = useRouter();
 
     const onViewAll = () => {

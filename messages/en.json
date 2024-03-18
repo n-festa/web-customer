@@ -296,7 +296,7 @@
         "DELIVERY_FEE_NOTICE": "The shipping fee will be displayed when you check out",
         "VIEW_ORDER": "Check out",
         "CART_UNAVAILABLE": "The cart is unavailable until {time}",
-        "NEAREST_DELIVERY_TIME": "Delivery at: {timeAfter} - {timeBefore}"
+        "NEAREST_DELIVERY_TIME": "Delivery at: {date}{timeAfter} - {timeBefore}"
     },
     "PRODUCT_DETAIL": {
         "SIDE_DISH": "Eat together ",
@@ -355,7 +355,7 @@
             "TOTAL_ITEMS": "Item total",
             "PACKING_FEE": "Package fee",
             "UTENSILS": "Cutlery fee",
-            "DELIVERY_FEE": "Delivery fee | 0.8 km",
+            "DELIVERY_FEE": "Delivery fee | {distance} km",
             "PLATFORM_FEE": "Application fee",
             "PROMOTION": "Promotion",
             "TOTAL_PAYMENT": "Total",

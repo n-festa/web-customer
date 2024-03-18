@@ -19,9 +19,10 @@ export interface CartItem {
     basic_taste_customization?: string;
     portion_customization?: string;
     restaurant_id?: number;
-    advanced_taste_customization_obj: TasteCustomizationObj[];
-    advanced_portion_customization_obj?: PortionCustomizationObj[];
-    basic_taste_customization_obj: { no_adding_id: string }[];
+    menu_item_id?: number;
+    advanced_taste_customization_obj?: string | TasteCustomizationObj[];
+    advanced_portion_customization_obj?: string | PortionCustomizationObj[];
+    basic_taste_customization_obj?: string | { no_adding_id: string }[];
     notes: string;
     lang?: string | number;
     created_at?: string;
@@ -31,6 +32,7 @@ export interface CartItem {
     unit?: string;
     item_name?: BaseNameInterface[];
     packaging_id?: number;
+    quantity_available?: number;
     packaging_info?: {
         packaging_id?: number;
         name?: BaseNameInterface[];

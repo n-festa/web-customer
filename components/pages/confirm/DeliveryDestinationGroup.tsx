@@ -8,12 +8,14 @@ import { filedType, formType } from "@/types/form";
 import { parseArrayToObject } from "@/utils/functions";
 import { Flex, VStack } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikProps } from "formik";
+import debounce from "lodash/debounce";
 import { useTranslations } from "next-intl";
-import { RefObject, useEffect, useMemo, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import GroupWrapper from "./GroupWrapper";
 
 const DeliveryDestinationGroup = ({
     formRef,
+    setDeliveryFee,
 }: {
     formRef: RefObject<
         FormikProps<{
@@ -22,7 +24,18 @@ const DeliveryDestinationGroup = ({
             ward: string | undefined;
             address: string | undefined;
             note: string;
+            lat: number | undefined;
+            lng: number | undefined;
         }>
+    >;
+    setDeliveryFee: Dispatch<
+        SetStateAction<
+            | {
+                  distance?: number;
+                  deliveryFee?: number;
+              }
+            | undefined
+        >
     >;
 }) => {
     const t = useTranslations("COMMON");
@@ -31,12 +44,13 @@ const DeliveryDestinationGroup = ({
     const { data: provincesData, isLoading } = GetProvincesCities();
     const [districts, setDistrict] = useState<{ key: string; value: string }[]>([]);
     const [communes, setCommunes] = useState<{ key: string; value: string }[]>([]);
-
-    const [{ province, district }, setInfo] = useState<{
+    const [address, setAddress] = useState<string>();
+    const [{ province, district, commune }, setInfo] = useState<{
         province?: { key: string; value: string };
         district?: { key: string; value: string };
         commune?: { key: string; value: string };
     }>({});
+    const prevAddressFull = useRef<string>();
 
     const userInfo = useAppSelector((state) => state.userInfo.userInfo);
     const { provinces, defaultProvince, provinceMap } = useMemo(() => {
@@ -93,12 +107,15 @@ const DeliveryDestinationGroup = ({
                 }
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [district?.key, defaultDistrict?.key, district]);
-    const { defaultCommune } = useMemo(() => {
+    const { defaultCommune, communeMap } = useMemo(() => {
         const defaultCommune = communes.find(
             (item) => userInfo?.addressCompound?.commune && item.value.includes(userInfo?.addressCompound?.commune),
         );
-        return { defaultCommune };
+        const communeMap = parseArrayToObject(communes, "value");
+
+        return { defaultCommune, communeMap };
     }, [communes, userInfo?.addressCompound?.commune]);
 
     const { defaultAddress } = useMemo(() => {
@@ -131,6 +148,62 @@ const DeliveryDestinationGroup = ({
             formRef.current?.setFieldValue("ward", defaultCommune.value);
         }
     }, [defaultDistrict, defaultProvince, defaultCommune, formRef]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const getLongLat = useCallback(
+        debounce(async (addressFull: string) => {
+            const allAddress = await apiServices.getGeoCode(addressFull);
+            const customerLocation = allAddress.results?.[0].geometry.location;
+            const fee = (
+                await apiServices.getDeliveryFee([
+                    {
+                        lat: 10.816277,
+                        long: 106.776559,
+                    },
+                    {
+                        lat: customerLocation.lat,
+                        long: customerLocation.lng,
+                    },
+                ])
+            )?.[0];
+            formRef.current?.setFieldValue("lat", customerLocation.lat);
+            formRef.current?.setFieldValue("lng", customerLocation.lng);
+
+            setDeliveryFee({
+                deliveryFee: fee.data?.total_price,
+                distance: fee.data?.distance,
+            });
+        }, 500),
+        [],
+    );
+
+    useEffect(() => {
+        const values = formRef.current?.values;
+        const _address = address ?? values?.address ?? defaultAddress;
+        const _ward = commune?.value ?? values?.ward ?? defaultCommune?.value;
+        const _district = district?.value ?? values?.district ?? defaultDistrict?.value;
+        const _province = province?.value ?? values?.province ?? defaultProvince?.value;
+        if (_address && _ward && _district && _province) {
+            const addressFull = [_address, _ward, _district, _province].join(",");
+            if (prevAddressFull.current !== addressFull) {
+                prevAddressFull.current = addressFull;
+                getLongLat(addressFull);
+            }
+        }
+    }, [
+        formRef,
+        formRef.current?.values,
+        province,
+        district,
+        commune,
+        address,
+        getLongLat,
+        defaultCommune,
+        defaultAddress,
+        defaultDistrict,
+        defaultProvince,
+    ]);
+
     return (
         <GroupWrapper title={t("DELIVER_TO")}>
             <Formik
@@ -158,7 +231,6 @@ const DeliveryDestinationGroup = ({
                                         isDisabled={isLoading}
                                         title={tDelivery("PROVINCE_CITY")}
                                         name="province"
-                                        placeholder={tDelivery("PROVINCE_CITY")}
                                         value={field.value ?? defaultProvince?.value}
                                         options={provinces}
                                         error={form.errors.province}
@@ -181,7 +253,6 @@ const DeliveryDestinationGroup = ({
                                             }}
                                             title={tDelivery("DISTRICT")}
                                             name="district"
-                                            placeholder={tDelivery("DISTRICT")}
                                             value={field.value ?? defaultDistrict?.value}
                                             options={districts}
                                             error={form.errors.district}
@@ -203,11 +274,16 @@ const DeliveryDestinationGroup = ({
                                             }}
                                             title={tDelivery("WARD")}
                                             name="ward"
-                                            placeholder={tDelivery("WARD")}
                                             value={field.value ?? defaultCommune?.value}
                                             options={communes}
                                             error={form.errors.ward}
-                                            onChange={field.onChange}
+                                            onChange={(e) => {
+                                                field.onChange(e);
+                                                setInfo((prev) => ({
+                                                    ...prev,
+                                                    commune: communeMap[e.target.value],
+                                                }));
+                                            }}
                                         />
                                     )}
                                 </Field>
@@ -220,15 +296,19 @@ const DeliveryDestinationGroup = ({
                                         }}
                                         title={tDelivery("STREET_AND_NUMBER")}
                                         type="text"
-                                        placeholder=""
                                         error={form.errors.address}
                                         labelProps={{
                                             fontWeight: 500,
                                             fontSize: "1.4rem",
                                             color: "var(--gray-700)",
                                         }}
-                                        {...field}
-                                        value={field.value ?? defaultAddress}
+                                        inputProps={{
+                                            onChange: (e) => {
+                                                field.onChange(e);
+                                                setAddress(e.target.value);
+                                            },
+                                        }}
+                                        value={address ?? defaultAddress}
                                     />
                                 )}
                             </Field>

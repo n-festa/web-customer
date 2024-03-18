@@ -11,6 +11,7 @@ import {
     ProvinceResponse,
     ReviewResponse,
 } from "@/types/interfaces";
+import { Order } from "@/types/order";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import {
     GetCurrentAvailableFoodByRestaurantResponse,
@@ -191,12 +192,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             return this.request<GetGeneralFoodRecommendResponse>({
                 path: "food/get-general-food-recomendation",
                 method: "GET",
-                //TODO
-                query: query ?? {
-                    lat: 10.820557580712087,
-                    long: 106.7723030321775,
-                },
-
+                query: query,
                 ...reqParams,
             });
         },
@@ -360,13 +356,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             }>({
                 path: `/cart/get-available-delivery-time`,
                 method: "POST",
-                body: {
-                    ...params,
-                    //TODO: Temp
-                    menu_item_ids: [1, 2],
-                    long: 106.7723030321775,
-                    lat: 10.820557580712087,
-                },
+                body: params,
                 ignoreErrorCode: [...(ignoreErrorCode ?? []), 404],
             });
         },
@@ -453,6 +443,27 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 },
             });
         },
+        getDeliveryFee: (
+            params: {
+                lat: number;
+                long: number;
+            }[],
+        ) => {
+            return this.request<
+                [
+                    {
+                        data?: {
+                            distance: number;
+                            total_price: number;
+                        };
+                    },
+                ]
+            >({
+                path: `https://api.2all.com.vn/ahamove/estimate`,
+                method: "POST",
+                body: params,
+            });
+        },
         getTopReview: () => {
             return this.request<{ data: ReviewResponse[] }>({
                 path: `/rating-review/get-top-review`,
@@ -494,6 +505,13 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             return this.request({
                 path: `updateProfileImage`,
                 method: "PUT",
+                body: data,
+            });
+        },
+        createOrder: (data: Order) => {
+            return this.request<Order>({
+                path: `/order/create`,
+                method: "POST",
                 body: data,
             });
         },
