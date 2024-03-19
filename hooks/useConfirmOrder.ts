@@ -1,5 +1,6 @@
 import { totalQuantityState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
+import { PaymentMethod } from "@/types/enum";
 import { Discount } from "@/types/interfaces";
 import { parseStringToObj } from "@/utils/functions";
 import { routes } from "@/utils/routes";
@@ -9,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import useSWRAPI from "./useApi";
+import useDeleteCartItem from "./useDeleteCartItem";
 import useUpdateCart from "./useUpdateCart";
 
 const useConfirmOrder = () => {
@@ -27,7 +29,7 @@ const useConfirmOrder = () => {
     const router = useRouter();
     const totalItem = useRecoilValue(totalQuantityState);
     const { totalPrice, cartSync: cart } = useUpdateCart();
-
+    const { handleDeleteWholeCart } = useDeleteCartItem();
     const [paymentMethod, setPaymentMethod] = useState<string>();
     const [discounts, setDiscounts] = useState<Discount>();
     const [cutleryFee, setCutleryFee] = useState<number>();
@@ -97,8 +99,13 @@ const useConfirmOrder = () => {
                 driver_note: addressValues.note,
                 order_items: orderItems ?? [],
             });
-            if (orderRes.order_id) {
+            if (orderRes.order_id && Number(paymentMethod) === PaymentMethod.COD) {
+                await handleDeleteWholeCart(cart.customer_id);
                 router.push(routes.OrderDetail + `/${orderRes.order_id}`);
+            }
+            if (orderRes.invoice_id && Number(paymentMethod) === PaymentMethod.Momo) {
+                const momoRes = await apiServices.momo(orderRes.invoice_id);
+                console.log(momoRes);
             }
         }
     };
@@ -123,7 +130,10 @@ const useConfirmOrder = () => {
     );
 
     const packageFee = useMemo(() => {
-        return cart?.cart_info?.reduce((prevValue, item) => prevValue + (item.packaging_info?.price ?? 0), 0);
+        return cart?.cart_info?.reduce(
+            (prevValue, item) => prevValue + (item.packaging_info?.price ?? 0) * item.qty_ordered,
+            0,
+        );
     }, [cart?.cart_info]);
 
     const finalPrice = useMemo(() => {

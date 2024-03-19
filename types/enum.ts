@@ -44,3 +44,8 @@ export enum SearchFoodType {
     AllRestaurant = "AllRestaurant",
     AllFood = "AllFood",
 }
+
+export enum PaymentMethod {
+    Momo = 1,
+    COD = 2,
+}
