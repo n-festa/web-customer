@@ -17,6 +17,8 @@ const PaymentGroup = ({
     finalPrice,
     deliveryFee,
     packageFee,
+    isDisableOrder,
+    isLoading,
     ...props
 }: FlexProps & {
     cutleryFee?: number;
@@ -26,6 +28,8 @@ const PaymentGroup = ({
     totalPrice?: number;
     finalPrice?: number;
     packageFee?: number;
+    isDisableOrder?: boolean;
+    isLoading?: boolean;
     deliveryFee?: { deliveryFee?: number; distance?: number };
     onConfirm: () => void;
 }) => {
@@ -136,7 +140,13 @@ const PaymentGroup = ({
                         {formatMoney(finalPrice)}
                     </Text>
                 </Flex>
-                <Button h="4.8rem" onClick={onConfirm} borderRadius="2.4rem">
+                <Button
+                    isLoading={isLoading}
+                    isDisabled={isDisableOrder}
+                    h="4.8rem"
+                    onClick={onConfirm}
+                    borderRadius="2.4rem"
+                >
                     {t("PLACE_ORDER")}
                 </Button>
             </Flex>

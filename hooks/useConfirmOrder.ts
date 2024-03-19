@@ -4,6 +4,7 @@ import { PaymentMethod } from "@/types/enum";
 import { Discount } from "@/types/interfaces";
 import { parseStringToObj } from "@/utils/functions";
 import { routes } from "@/utils/routes";
+import { useToast } from "@chakra-ui/react";
 import { FormikProps } from "formik";
 import { isUndefined } from "lodash";
 import { useRouter } from "next/navigation";
@@ -26,9 +27,11 @@ const useConfirmOrder = () => {
             lat: number | undefined;
         }>
     >(null);
+    const toast = useToast();
     const router = useRouter();
     const totalItem = useRecoilValue(totalQuantityState);
     const { totalPrice, cartSync: cart } = useUpdateCart();
+    const [isLoading, setLoading] = useState<boolean>();
     const { handleDeleteWholeCart } = useDeleteCartItem();
     const [paymentMethod, setPaymentMethod] = useState<string>();
     const [discounts, setDiscounts] = useState<Discount>();
@@ -37,8 +40,11 @@ const useConfirmOrder = () => {
     const [applicationFee, setApplicationFee] = useState<number>();
     const [deliveryFee, setDeliveryFee] = useState<{ distance?: number; deliveryFee?: number }>();
     const [expectedTime, setExpectedTime] = useState<{ from: number; to: number }>();
-    const { data: applicationFeeData } = GetApplicationFee({ itemTotal: totalPrice, exchangeRate: 1 });
-    const { data: cutleryFeeData } = GetCutleryFee(addCutlery, {
+    const { data: applicationFeeData, isLoading: loadingAppFee } = GetApplicationFee({
+        itemTotal: totalPrice,
+        exchangeRate: 1,
+    });
+    const { data: cutleryFeeData, isLoading: loadingCutlery } = GetCutleryFee(addCutlery, {
         restaurant_id: cart?.restaurant_id,
         item_quantity: totalItem,
     });
@@ -52,7 +58,10 @@ const useConfirmOrder = () => {
         });
         return skuIds;
     }, [cart?.cart_info]);
-    const { data: couponList } = GetCouponInfo({ restaurant_id: cart?.restaurant_id, sku_ids: sku_ids });
+    const { data: couponList, isLoading: loadingCoupon } = GetCouponInfo({
+        restaurant_id: cart?.restaurant_id,
+        sku_ids: sku_ids,
+    });
     useEffect(() => {
         if (cutleryFeeData) {
             setCutleryFee(cutleryFeeData.cutlery_fee);
@@ -65,6 +74,7 @@ const useConfirmOrder = () => {
     }, [applicationFeeData]);
 
     const handleConfirm = async () => {
+        setLoading(true);
         const addressValues = formRef.current?.values;
         const orderItems = cart?.cart_info?.map((item) => ({
             sku_id: item.sku_id,
@@ -74,41 +84,64 @@ const useConfirmOrder = () => {
             notes: item.notes,
             packaging_id: item.packaging_info?.packaging_id,
         }));
-        if (cart?.customer_id && cart?.restaurant_id && addressValues) {
-            const orderRes = await apiServices.createOrder({
-                customer_id: Number(cart?.customer_id),
-                restaurant_id: Number(cart.restaurant_id),
-                address: {
-                    address_line: addressValues?.address,
-                    ward: addressValues?.ward,
-                    district: addressValues?.district,
-                    city: addressValues?.province,
-                    latitude: addressValues?.lat,
-                    country: "Vietnam",
-                    longitude: addressValues?.lng,
-                },
-                order_total: finalPrice,
-                delivery_fee: deliveryFee?.deliveryFee ?? 0,
-                packaging_fee: packageFee ?? 0,
-                cutlery_fee: cutleryFee,
-                app_fee: applicationFee ?? 0,
-                coupon_value: discounts?.discount_amount ?? 0,
-                coupon_code: discounts?.coupon_code ?? "",
-                payment_method_id: Number(paymentMethod),
-                expected_arrival_time: expectedTime?.from,
-                driver_note: addressValues.note,
-                order_items: orderItems ?? [],
+        try {
+            if (cart?.customer_id && cart?.restaurant_id && addressValues) {
+                const orderRes = await apiServices.createOrder({
+                    customer_id: Number(cart?.customer_id),
+                    restaurant_id: Number(cart.restaurant_id),
+                    address: {
+                        address_line: addressValues?.address,
+                        ward: addressValues?.ward,
+                        district: addressValues?.district,
+                        city: addressValues?.province,
+                        latitude: addressValues?.lat,
+                        country: "Vietnam",
+                        longitude: addressValues?.lng,
+                    },
+                    order_total: finalPrice,
+                    delivery_fee: deliveryFee?.deliveryFee ?? 0,
+                    packaging_fee: packageFee ?? 0,
+                    cutlery_fee: cutleryFee,
+                    app_fee: applicationFee ?? 0,
+                    coupon_value: discounts?.discount_amount ?? 0,
+                    coupon_code: discounts?.coupon_code ?? "",
+                    payment_method_id: Number(paymentMethod),
+                    expected_arrival_time: expectedTime?.from,
+                    driver_note: addressValues.note,
+                    order_items: orderItems ?? [],
+                });
+                if (orderRes.order_id) {
+                    if (Number(paymentMethod) === PaymentMethod.COD) {
+                        await handleDeleteWholeCart(cart.customer_id);
+                        setLoading(false);
+                        router.push(routes.OrderDetail + `/${orderRes.order_id}`);
+                        return;
+                    }
+                    if (orderRes.invoice_id && Number(paymentMethod) === PaymentMethod.Momo) {
+                        const momoRes = await apiServices.momo(orderRes.invoice_id);
+                        await handleDeleteWholeCart(cart.customer_id);
+                        setLoading(false);
+                        router.push(momoRes.payUrl);
+                        return;
+                    }
+                }
+            }
+        } catch {
+            setLoading(false);
+            toast({
+                title: "Đặt hàng",
+                description: `Đặt hàng thất bại`,
+                status: "error",
+                duration: 4000,
+                position: "top-right",
+                isClosable: true,
             });
-            if (orderRes.order_id && Number(paymentMethod) === PaymentMethod.COD) {
-                await handleDeleteWholeCart(cart.customer_id);
-                router.push(routes.OrderDetail + `/${orderRes.order_id}`);
-            }
-            if (orderRes.invoice_id && Number(paymentMethod) === PaymentMethod.Momo) {
-                const momoRes = await apiServices.momo(orderRes.invoice_id);
-                console.log(momoRes);
-            }
         }
     };
+
+    const isDisableOrder = useMemo(() => {
+        return !expectedTime || loadingCoupon || loadingAppFee || loadingCutlery || !deliveryFee;
+    }, [deliveryFee, expectedTime, loadingAppFee, loadingCoupon, loadingCutlery]);
 
     const onApplyCoupon = useCallback(
         async (couponInput: string) => {
@@ -162,6 +195,8 @@ const useConfirmOrder = () => {
         packageFee,
         finalPrice,
         deliveryFee,
+        isLoading,
+        isDisableOrder,
         setDeliveryFee,
         onApplyCoupon,
         setExpectedTime,

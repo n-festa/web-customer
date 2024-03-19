@@ -32,6 +32,8 @@ const ConfirmOrderPageContent = () => {
         onApplyCoupon,
         setDeliveryFee,
         setExpectedTime,
+        isDisableOrder,
+        isLoading,
     } = useConfirmOrder();
 
     return (
@@ -55,6 +57,8 @@ const ConfirmOrderPageContent = () => {
                             deliveryFee={deliveryFee}
                             finalPrice={finalPrice}
                             packageFee={packageFee}
+                            isDisableOrder={isDisableOrder}
+                            isLoading={isLoading}
                             totalDiscount={totalDiscount}
                             w={{ base: "100%", lg: "44.5rem" }}
                             onConfirm={handleConfirm}
