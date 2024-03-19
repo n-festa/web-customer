@@ -19,9 +19,9 @@ const useOrderDetail = () => {
 
         return "-";
     }, [orderDetail?.address]);
-    const orderStatus = useMemo(() => {
-        console.log(orderDetail?.order_status_log);
-    }, [orderDetail?.order_status_log]);
+    // const _orderStatus = useMemo(() => {
+    //     console.log(orderDetail?.order_status_log);
+    // }, [orderDetail?.order_status_log]);
     return { orderDetail, isLoading, addressString };
 };
 
