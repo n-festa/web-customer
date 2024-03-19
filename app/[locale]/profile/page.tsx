@@ -64,6 +64,10 @@ const Profile = () => {
                 })
                 .then(({ data }) => {
                     dispatch(setUserInfo(data));
+                    setBodyInfo({
+                        bmi: data?.health_info?.bmi || 0,
+                        recommended_dietary_allowance_kcal: data?.health_info?.recommended_dietary_allowance_kcal || 0,
+                    });
                     toast({
                         title: t("COMMON.TOAST.PROFILE.TITLE"),
                         description: t("COMMON.TOAST.PROFILE.SUCCESS_CONTENT"),
