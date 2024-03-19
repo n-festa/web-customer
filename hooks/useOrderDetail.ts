@@ -9,8 +9,8 @@ const useOrderDetail = () => {
     const addressString = useMemo(() => {
         const list: string[] = [];
         if (orderDetail?.address) {
-            Object.values(orderDetail.address).forEach((item) => {
-                if (item && typeof item != "number") {
+            Object.entries(orderDetail.address).forEach(([key, item]) => {
+                if (item && typeof item != "number" && key != "longitude" && key != "latitude") {
                     list.push(item);
                 }
             });
@@ -19,6 +19,9 @@ const useOrderDetail = () => {
 
         return "-";
     }, [orderDetail?.address]);
+    const orderStatus = useMemo(() => {
+        console.log(orderDetail?.order_status_log);
+    }, [orderDetail?.order_status_log]);
     return { orderDetail, isLoading, addressString };
 };
 

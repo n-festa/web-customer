@@ -88,4 +88,5 @@ export interface Order {
     expected_arrival_time?: number;
     order_items: OrderItem[];
     order_status_log?: OrderStatusLog[];
+    tracking_url?: string;
 }

@@ -357,7 +357,7 @@
             "TOTAL_ITEMS": "Item total",
             "PACKING_FEE": "Package fee",
             "UTENSILS": "Cutlery fee",
-            "DELIVERY_FEE": "Delivery fee | {distance} km",
+            "DELIVERY_FEE": "Delivery fee",
             "PLATFORM_FEE": "Application fee",
             "PROMOTION": "Promotion",
             "TOTAL_PAYMENT": "Total",
@@ -397,7 +397,7 @@
         "SUGARCANE_BOX": "Packaged in a sugarcane pulp box",
         "NO_UTENSILS_NEEDED": "Do not take cutlery",
         "PAYMENT_METHOD": "Payment",
-        "PAID_WITH_MOMO": "Paid via Momo",
+        "PAID_WITH": "Paid via {method}",
         "DELIVER_TO": "Deliver to",
         "PACKAGING": "Packaging",
         "ORDER_CONFIRMATION": {

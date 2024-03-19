@@ -2,7 +2,6 @@ import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import apiServices from "@/services/sevices";
 import { FetchMode } from "@/types/enum";
 import { SearchFoodAndRestaurantByCategoryIdRequest } from "@/types/request/SearchFoodAndRestaurantByCategoryIdRequest";
-import { orderDetailMock } from "@/utils/data/order";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import useSWR, { SWRConfiguration } from "swr";
@@ -115,7 +114,7 @@ const useSWRAPI = () => {
                 ...config,
             }),
         GetOrderDetail: (_orderId: string, config?: SWRConfiguration) =>
-            useSWR("getOrderDetail", async () => Promise.resolve(orderDetailMock), {
+            useSWR("getOrderDetail", async () => apiServices.orderDetail(_orderId), {
                 ...swrConfig,
                 ...config,
             }),

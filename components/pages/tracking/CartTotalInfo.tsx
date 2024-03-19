@@ -23,6 +23,7 @@ const CartTotalInfo = ({
     orderTotal?: number | string;
     deliveryFee?: number | string;
     appFee?: number | string;
+    deliveryDistance?: number | string;
     cutleryFee?: number | string;
     promotion?: number | string;
     packagingFee?: number | string;
@@ -92,25 +93,25 @@ const CartTotalInfo = ({
                     </Flex>
                 )}
                 {cutleryFee && (
-                    <Flex pb="0.4rem" w="100%" justifyContent="space-between" borderBottom="var(--divider)">
+                    <Flex w="100%" justifyContent="space-between" borderBottom="var(--divider)">
                         <Text fontSize="1.4rem">{t("UTENSILS")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(cutleryFee)}</Text>
                     </Flex>
                 )}
                 {deliveryFee && (
-                    <Flex w="100%" justifyContent="space-between">
+                    <Flex pt="0.4rem" w="100%" borderTop="var(--divider)" justifyContent="space-between">
                         <Text fontSize="1.4rem">{t("DELIVERY_FEE")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(deliveryFee)}</Text>
                     </Flex>
                 )}
                 {appFee && (
-                    <Flex w="100%" pb="0.4rem" justifyContent="space-between" borderBottom="var(--divider)">
+                    <Flex w="100%" pb="0.4rem" justifyContent="space-between">
                         <Text fontSize="1.4rem">{t("PLATFORM_FEE")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(appFee)}</Text>
                     </Flex>
                 )}
                 {promotion && (
-                    <Flex w="100%" justifyContent="space-between">
+                    <Flex w="100%" justifyContent="space-between" borderTop="var(--divider)">
                         <Text fontSize="1.4rem">{t("PROMOTION")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(-Number(promotion))}</Text>
                     </Flex>

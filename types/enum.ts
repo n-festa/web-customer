@@ -33,8 +33,15 @@ export enum MediaType {
 }
 
 export enum OrderStatus {
-    Success,
-    Cancel,
+    NEW = "NEW",
+    IDLE = "IDLE",
+    PROCESSING = "PROCESSING",
+    READY = "READY",
+    DELIVERING = "DELIVERING",
+    COMPLETED = "COMPLETED",
+    FAILED = "FAILED",
+    CANCELLED = "CANCELLED",
+    STUCK = "STUCK",
 }
 
 export enum SearchFoodType {

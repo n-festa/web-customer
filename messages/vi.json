@@ -360,7 +360,7 @@
             "TOTAL_ITEMS": "Tổng món ăn",
             "PACKING_FEE": "Phí đóng gói",
             "UTENSILS": "Dụng cụ ăn",
-            "DELIVERY_FEE": "Phí giao hàng | {distance} km",
+            "DELIVERY_FEE": "Phí giao hàng",
             "PLATFORM_FEE": "Phí nền tảng",
             "PROMOTION": "Khuyến mãi",
             "TOTAL_PAYMENT": "Tổng thanh toán",
@@ -400,7 +400,7 @@
         "SUGARCANE_BOX": "Đóng gói bằng hộp bã mía",
         "NO_UTENSILS_NEEDED": "Không lấy dụng cụ ăn uống",
         "PAYMENT_METHOD": "Phương thức thanh toán",
-        "PAID_WITH_MOMO": "Đã thanh toán bằng Momo",
+        "PAID_WITH": "Đã thanh toán bằng {method}",
         "DELIVER_TO": "Giao đến",
         "PACKAGING": "Đóng gói",
         "ORDER_CONFIRMATION": {
