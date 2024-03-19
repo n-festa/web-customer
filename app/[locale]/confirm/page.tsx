@@ -26,6 +26,7 @@ const ConfirmOrderPageContent = () => {
         cutleryFee,
         totalDiscount,
         totalPrice,
+        couponList,
         finalPrice,
         deliveryFee,
         packageFee,
@@ -46,7 +47,7 @@ const ConfirmOrderPageContent = () => {
                         <DeliveryTimeGroup setExpectedTime={setExpectedTime} />
                         <PackageGroup addCutlery={addCutlery} setAddCutlery={setAddCutlery} />
                         <PaymentMethodGroup paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
-                        <PromotionGroup onApplyCoupon={onApplyCoupon} />
+                        <PromotionGroup items={couponList?.coupons ?? []} onApplyCoupon={onApplyCoupon} />
                     </VStack>
                     <Suspense>
                         <PaymentGroup

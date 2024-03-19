@@ -350,7 +350,9 @@
         "PROMOTION_GROUP": {
             "TITLE": "Khuyến mãi",
             "APPLY": "Áp dụng",
-            "ENTER_PROMO_CODE": "Nhập mã khuyến mãi"
+            "ENTER_PROMO_CODE": "Nhập mã khuyến mãi",
+            "APPLY_FAIL": "Mã giảm giá áp dụng thất bại\r\n",
+            "MINIMUM_DESC": "Đơn hàng phải lớn hơn {value}."
         },
         "PAYMENT_GROUP": {
             "PAYMENT": "Thanh toán",
