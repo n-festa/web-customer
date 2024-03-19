@@ -56,7 +56,7 @@ const ConfirmOrderPageContent = () => {
                             finalPrice={finalPrice}
                             packageFee={packageFee}
                             totalDiscount={totalDiscount}
-                            w={{ base: "100%", md: "44.5rem" }}
+                            w={{ base: "100%", lg: "44.5rem" }}
                             onConfirm={handleConfirm}
                         />
                     </Suspense>

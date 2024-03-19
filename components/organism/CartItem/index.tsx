@@ -17,7 +17,7 @@ const CartItem = ({
     nowPrice?: string | number;
     note?: string;
     name: string;
-    image: string;
+    image?: string;
     quantity?: number;
     hideNumberInput?: boolean;
     numberInputProps?: NumberInputProps;

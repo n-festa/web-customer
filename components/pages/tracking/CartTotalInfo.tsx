@@ -32,7 +32,7 @@ const CartTotalInfo = ({
     const { renderTxt } = useRenderText();
 
     const totalSumByItems = useMemo(() => {
-        return orderItems?.reduce((prev, item) => (prev += item.price * item.qty_ordered), 0);
+        return orderItems?.reduce((prev, item) => (prev += (item.price ?? 0) * (item.qty_ordered ?? 0)), 0);
     }, [orderItems]);
     return (
         <Flex color="black" position="relative" flexDir="column" borderRadius="0" p="0.8rem" bg="white" h="fit-content">
@@ -60,8 +60,8 @@ const CartTotalInfo = ({
                             image={item.item_img}
                             name={renderTxt(item.item_name)}
                             note={genCartNote(item)}
-                            price={item.price.toLocaleString()}
-                            nowPrice={item.price.toLocaleString()}
+                            price={item.price?.toLocaleString()}
+                            nowPrice={item.price?.toLocaleString()}
                             numberInputProps={{ isDisabled: true }}
                             quantity={item.qty_ordered}
                             hideNumberInput
