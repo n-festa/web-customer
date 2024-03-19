@@ -459,7 +459,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                     },
                 ]
             >({
-                path: `https://api.2all.com.vn/ahamove/estimate`,
+                path: `/restaurant/estimate`,
                 method: "POST",
                 body: params,
             });
