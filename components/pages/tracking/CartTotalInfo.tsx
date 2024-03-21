@@ -55,9 +55,9 @@ const CartTotalInfo = ({
                     </Text>
                 </Flex>
                 <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
-                    {orderItems?.map((item) => (
+                    {orderItems?.map((item, index) => (
                         <CartItem
-                            key={item.sku_id}
+                            key={`orderItem${index}`}
                             image={item.item_img}
                             name={renderTxt(item.item_name)}
                             note={genCartNote(item)}

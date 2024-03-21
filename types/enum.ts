@@ -51,6 +51,15 @@ export enum SearchFoodType {
     AllRestaurant = "AllRestaurant",
     AllFood = "AllFood",
 }
+export enum OrderStatusLogType {
+    CREATED = "created",
+    CONFIRMED = "confirmed",
+    STARTED_TO_PROCESS = "started_to_process",
+    PICKED_UP = "picked_up",
+    COMPLETED = "completed",
+    FAILED = "failed",
+    CANCELLED = "cancelled",
+}
 
 export enum PaymentMethod {
     Momo = 1,

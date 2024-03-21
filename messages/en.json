@@ -402,16 +402,22 @@
         "PACKAGING": "Packaging",
         "ORDER_CONFIRMATION": {
             "MD": {
-                "CONFIRM_ORDER": "Order confirmed",
-                "DRIVER_ARRIVED_RESTAURANT": "Driver arrives restaurant",
-                "DRIVER_LEFT_RESTAURANT": "Driver leaves restaurant",
-                "DRIVER_ARRIVED_DESTINATION": "Driver arrives customer’s place"
+                "CREATED": "Order created",
+                "CONFIRMED": "Order confirmed",
+                "STARTED_TO_PROCESS": "Started to process",
+                "PICKED_UP": "Shiper picked up order",
+                "COMPLETED": "Order completed",
+                "FAILED": "Failed to complete order",
+                "CANCELLED": "Failed to complete order"
             },
             "BASE": {
-                "CONFIRM_ORDER": "Order\r\nconfirmed",
-                "DRIVER_ARRIVED_RESTAURANT": "Driver\r\narrives restaurant",
-                "DRIVER_LEFT_RESTAURANT": "Driver\r\nleaves restaurant",
-                "DRIVER_ARRIVED_DESTINATION": "Driver\r\narrives customer’s place"
+                "CREATED": "Order\r\ncreated",
+                "CONFIRMED": "Order\r\nconfirmed",
+                "STARTED_TO_PROCESS": "Started\r\nto process",
+                "PICKED_UP": "Shiper picked up\r\norder",
+                "COMPLETED": "Order\r\ncompleted",
+                "FAILED": "Failed to\r\ncomplete order",
+                "CANCELLED": "Failed to\r\ncomplete order"
             }
         }
     },

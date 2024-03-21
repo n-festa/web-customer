@@ -6,13 +6,16 @@ import useOrderDetail from "@/hooks/useOrderDetail";
 import { ddMMyyyy } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import { formatPhoneNumber } from "@/utils/functions";
-import { Avatar, Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { Avatar, Flex, HStack, Image, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 
 const OrderDetail = () => {
     const t = useTranslations("ORDER_DETAIL");
-    const { orderDetail, addressString } = useOrderDetail();
-
+    const { orderDetail, addressString, isSimpleScreen } = useOrderDetail();
+    const showIframe = useBreakpointValue({
+        base: false,
+        md: false,
+    });
     return (
         <Flex
             position="relative"
@@ -25,16 +28,24 @@ const OrderDetail = () => {
             flexDir="column"
             overflow="hidden"
         >
-            <GroupStepperProgress />
-            <Flex gap="1.6rem" flex={1} flexDir={{ base: "column", lg: "row" }}>
-                <iframe
-                    style={{ flex: 1 }}
-                    id="tracking-map"
-                    title="Tracking Map Frame"
-                    width="787"
-                    height="600"
-                    src={orderDetail?.tracking_url}
-                />
+            <GroupStepperProgress orderStatus={orderDetail?.order_status_log ?? []} />
+            <Flex
+                gap="1.6rem"
+                flex={1}
+                alignItems={{ base: !showIframe || isSimpleScreen ? "center" : undefined, lg: undefined }}
+                justifyContent={{ base: undefined, lg: !showIframe || isSimpleScreen ? "center" : undefined }}
+                flexDir={{ base: "column", lg: "row" }}
+            >
+                {showIframe && !isSimpleScreen && (
+                    <iframe
+                        style={{ flex: 1 }}
+                        id="tracking-map"
+                        title="Tracking Map Frame"
+                        width="787"
+                        height="600"
+                        src={orderDetail?.tracking_url}
+                    />
+                )}
                 <Flex flexDir="column" w="47.7rem" h="100%" gap="1rem">
                     <GroupWrapper titleFontSize="2rem" title={t("ORDER")}>
                         <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">

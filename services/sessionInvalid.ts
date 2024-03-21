@@ -1,4 +1,5 @@
 "use client";
+import { loginSuccessUrl } from "@/app/[locale]/providers";
 import { store } from "@/store";
 import { setErrorScreenDes } from "@/store/reducers/appSlice";
 import { setUserInfo } from "@/store/reducers/userInfo";
@@ -45,6 +46,7 @@ export const handleRefreshToken = async (errDest?: string): Promise<string | und
     removeTokenRefresh();
 
     if (typeof window !== "undefined") {
+        loginSuccessUrl.current = window.location.pathname;
         store.dispatch(setErrorScreenDes(errDest ?? routes.SignIn));
     }
     return;

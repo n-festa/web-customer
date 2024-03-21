@@ -1,6 +1,8 @@
+import { OrderStatusLogType } from "@/types/enum";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import useSWRAPI from "./useApi";
+const listStatusLog = [OrderStatusLogType.FAILED, OrderStatusLogType.CANCELLED, OrderStatusLogType.COMPLETED];
 
 const useOrderDetail = () => {
     const { id: orderId } = useParams();
@@ -19,10 +21,12 @@ const useOrderDetail = () => {
 
         return "-";
     }, [orderDetail?.address]);
-    // const _orderStatus = useMemo(() => {
-    //     console.log(orderDetail?.order_status_log);
-    // }, [orderDetail?.order_status_log]);
-    return { orderDetail, isLoading, addressString };
+
+    const isSimpleScreen = useMemo(() => {
+        return orderDetail?.order_status_log?.some((item) => item.milestone && listStatusLog.includes(item.milestone));
+    }, [orderDetail?.order_status_log]);
+
+    return { orderDetail, isLoading, addressString, isSimpleScreen };
 };
 
 export default useOrderDetail;
