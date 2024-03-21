@@ -523,7 +523,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
         },
         momo: (invoiceId: number) => {
             return this.request<{ payUrl: string }>({
-                path: `https://api.2all.com.vn/momo`,
+                path: `/order/create-momo-payment`,
                 method: "POST",
                 body: {
                     invoiceId: invoiceId,
