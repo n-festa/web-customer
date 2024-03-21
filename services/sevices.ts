@@ -28,6 +28,7 @@ import { SearchFoodAndRestaurantByCategoryIdResponse } from "@/types/response/Se
 import { SearchFoodByNameResponse } from "@/types/response/SearchFoodByNameResponse";
 import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
+import { removeToken } from "@/utils/auth";
 import { AxiosError, CancelToken } from "axios";
 import { ContentType, FullRequestParams, HttpClient } from "./apiClient";
 import { handleRefreshToken } from "./sessionInvalid";
@@ -73,6 +74,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
         }
         switch (status) {
             case 401: {
+                removeToken();
                 const result = await handleRefreshToken(errDest);
                 if (result) {
                     errorRetryCount++;
