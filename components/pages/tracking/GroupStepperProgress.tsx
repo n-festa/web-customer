@@ -13,7 +13,6 @@ import {
     Stepper,
     Text,
     useBreakpointValue,
-    useSteps,
 } from "@chakra-ui/react";
 import { XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -29,7 +28,7 @@ const GroupStepperProgress = ({ orderStatus, ...props }: FlexProps & { orderStat
             base: "BASE",
             lg: "MD",
         }) ?? [];
-    const { _step, activeIndex } = useMemo(() => {
+    const { _step, activeStep } = useMemo(() => {
         let activeIndex;
         const defaultStatusLogs: {
             [key: string]: {
@@ -81,13 +80,8 @@ const GroupStepperProgress = ({ orderStatus, ...props }: FlexProps & { orderStat
                 });
             }
         });
-        return { _step: Object.values(defaultStatusLogs), activeIndex: activeIndex };
+        return { _step: Object.values(defaultStatusLogs), activeStep: activeIndex ?? 0 };
     }, [bp, orderStatus, t]);
-
-    const { activeStep } = useSteps({
-        index: activeIndex,
-        count: _step?.length,
-    });
 
     const max = _step.length - 1;
     const progressPercent = (activeStep / max) * 100;
