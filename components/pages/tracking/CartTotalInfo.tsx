@@ -57,6 +57,8 @@ const CartTotalInfo = ({
                 <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
                     {orderItems?.map((item, index) => (
                         <CartItem
+                            restaurantId={restaurantInfo?.restaurant_id}
+                            id={item.menu_item_id}
                             key={`orderItem${index}`}
                             image={item.item_img}
                             name={renderTxt(item.item_name)}

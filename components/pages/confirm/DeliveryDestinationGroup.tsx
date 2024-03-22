@@ -14,9 +14,11 @@ import { Dispatch, RefObject, SetStateAction, useCallback, useEffect, useMemo, u
 import GroupWrapper from "./GroupWrapper";
 
 const DeliveryDestinationGroup = ({
+    restaurantId,
     formRef,
     setDeliveryFee,
 }: {
+    restaurantId?: number;
     formRef: RefObject<
         FormikProps<{
             province: string | undefined;
@@ -154,24 +156,17 @@ const DeliveryDestinationGroup = ({
         debounce(async (addressFull: string) => {
             const allAddress = await apiServices.getGeoCode(addressFull);
             const customerLocation = allAddress.results?.[0].geometry.location;
-            const fee = (
-                await apiServices.getDeliveryFee([
-                    {
-                        lat: 10.816277,
-                        long: 106.776559,
-                    },
-                    {
-                        lat: customerLocation.lat,
-                        long: customerLocation.lng,
-                    },
-                ])
-            )?.[0];
+            const fee = await apiServices.getDeliveryFee({
+                restaurant_id: restaurantId,
+                delivery_latitude: customerLocation.lat,
+                delivery_longitude: customerLocation.lng,
+            });
             formRef.current?.setFieldValue("lat", customerLocation.lat);
             formRef.current?.setFieldValue("lng", customerLocation.lng);
 
             setDeliveryFee({
-                deliveryFee: fee.data?.total_price,
-                distance: fee.data?.distance,
+                deliveryFee: fee.delivery_fee,
+                distance: fee.distance_km,
             });
         }, 500),
         [],
@@ -278,7 +273,7 @@ const DeliveryDestinationGroup = ({
                                             options={communes}
                                             error={form.errors.ward}
                                             onChange={(e) => {
-                                                field.onChange(e);
+                                                field.onChange?.(e);
                                                 setInfo((prev) => ({
                                                     ...prev,
                                                     commune: communeMap[e.target.value],
@@ -289,7 +284,7 @@ const DeliveryDestinationGroup = ({
                                 </Field>
                             </Flex>
                             <Field name="address">
-                                {({ field, form }: { field: filedType; form: formType }) => (
+                                {({ form }: { field: filedType; form: formType }) => (
                                     <InputForm
                                         formControlProps={{
                                             mb: "0",
@@ -304,7 +299,7 @@ const DeliveryDestinationGroup = ({
                                         }}
                                         inputProps={{
                                             onChange: (e) => {
-                                                field.onChange(e);
+                                                formRef.current?.setFieldValue("address", e.target.value);
                                                 setAddress(e.target.value);
                                             },
                                         }}

@@ -43,7 +43,11 @@ const ConfirmOrderPageContent = () => {
                 <BackButton label={t("BACK_PAGE")} />
                 <Flex mt="1.6rem" w="100%" gap="1.6rem" flexDir={{ base: "column", lg: "row" }} flex={1}>
                     <VStack flex={1} spacing="1.6rem">
-                        <DeliveryDestinationGroup formRef={formRef} setDeliveryFee={setDeliveryFee} />
+                        <DeliveryDestinationGroup
+                            restaurantId={Number(cart?.restaurant_id)}
+                            formRef={formRef}
+                            setDeliveryFee={setDeliveryFee}
+                        />
                         <DeliveryTimeGroup setExpectedTime={setExpectedTime} />
                         <PackageGroup addCutlery={addCutlery} setAddCutlery={setAddCutlery} />
                         <PaymentMethodGroup paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />

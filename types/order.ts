@@ -20,6 +20,7 @@ export interface OrderItem {
     item_name?: BaseNameInterface[];
     item_img?: string;
     sku_id?: number;
+    menu_item_id?: number;
     qty_ordered?: number;
     price?: number;
     advanced_taste_customization_obj?: { option_id: string; value_id: string }[];

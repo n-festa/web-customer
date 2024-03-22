@@ -185,6 +185,8 @@ const Cart = ({
                         <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
                             {cart.cart_info?.map((item) => (
                                 <CartItem
+                                    restaurantId={cart.restaurant_id}
+                                    id={item.menu_item_id}
                                     onChangeValue={(value) => {
                                         handleChangeQtyRaw(item.item_id, item.menu_item_id, value);
                                         handleChangeCartQuantity(item.item_id, value, _cts);

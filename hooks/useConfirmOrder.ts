@@ -84,6 +84,7 @@ const useConfirmOrder = () => {
             notes: item.notes,
             packaging_id: item.packaging_info?.packaging_id,
         }));
+
         try {
             if (cart?.customer_id && cart?.restaurant_id && addressValues) {
                 const orderRes = await apiServices.createOrder({
@@ -173,12 +174,20 @@ const useConfirmOrder = () => {
         return (
             totalPrice +
             (applicationFee ?? 0) +
-            (cutleryFee ?? 0) +
+            (addCutlery ? cutleryFee ?? 0 : 0) +
             (packageFee ?? 0) +
             (deliveryFee?.deliveryFee ?? 0) -
             (discounts?.discount_amount ?? 0)
         );
-    }, [totalPrice, applicationFee, cutleryFee, discounts?.discount_amount, packageFee, deliveryFee?.deliveryFee]);
+    }, [
+        totalPrice,
+        applicationFee,
+        addCutlery,
+        cutleryFee,
+        packageFee,
+        deliveryFee?.deliveryFee,
+        discounts?.discount_amount,
+    ]);
     return {
         totalPrice,
         formRef,

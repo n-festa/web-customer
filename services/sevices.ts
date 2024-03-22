@@ -445,23 +445,14 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 },
             });
         },
-        getDeliveryFee: (
-            params: {
-                lat: number;
-                long: number;
-            }[],
-        ) => {
-            return this.request<
-                [
-                    {
-                        data?: {
-                            distance: number;
-                            total_price: number;
-                        };
-                    },
-                ]
-            >({
-                path: `/restaurant/estimate`,
+        getDeliveryFee: (params: { restaurant_id?: number; delivery_latitude: number; delivery_longitude: number }) => {
+            return this.request<{
+                delivery_fee: number;
+                currency: string;
+                duration_s: number;
+                distance_km: number;
+            }>({
+                path: `/order/get-delivery-fee`,
                 method: "POST",
                 body: params,
             });

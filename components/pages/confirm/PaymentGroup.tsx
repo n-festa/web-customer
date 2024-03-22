@@ -88,6 +88,8 @@ const PaymentGroup = ({
                 <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
                     {cart?.cart_info?.map((item) => (
                         <CartItem
+                            restaurantId={cart.restaurant_id}
+                            id={item.menu_item_id}
                             key={item.item_id}
                             image={item.item_img ?? ""}
                             name={renderTxt(item.item_name) ?? ""}
