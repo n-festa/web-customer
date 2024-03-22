@@ -14,7 +14,7 @@ const OrderDetail = () => {
     const { orderDetail, addressString, isSimpleScreen } = useOrderDetail();
     const showIframe = useBreakpointValue({
         base: false,
-        md: false,
+        md: true,
     });
     return (
         <Flex

@@ -60,6 +60,17 @@ export enum OrderStatusLogType {
     FAILED = "failed",
     CANCELLED = "cancelled",
 }
+export enum OrderStatusType {
+    NEW = "NEW",
+    IDLE = "IDLE",
+    PROCESSING = "PROCESSING",
+    READY = "READY",
+    DELIVERING = "DELIVERING",
+    COMPLETED = "COMPLETED",
+    FAILED = "FAILED",
+    CANCELLED = "CANCELLED",
+    STUCK = "STUCK",
+}
 
 export enum PaymentMethod {
     Momo = 1,

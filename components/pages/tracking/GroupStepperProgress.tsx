@@ -1,4 +1,4 @@
-import { OrderStatusLogType } from "@/types/enum";
+import { OrderStatusLogType, OrderStatusType } from "@/types/enum";
 import { OrderStatusLog } from "@/types/order";
 import { formatDate } from "@/utils/date";
 import {
@@ -54,11 +54,16 @@ const GroupStepperProgress = ({ orderStatus, ...props }: FlexProps & { orderStat
                 isDefault: true,
             },
         };
+        const isStuck = orderStatus.some((item) => item.status === OrderStatusType.STUCK);
+
         orderStatus.forEach((status, index) => {
             activeIndex = index;
             const mileStone = status.milestone;
 
             if (mileStone && defaultStatusLogs[mileStone]) {
+                if (isStuck && mileStone !== OrderStatusLogType.CREATED && mileStone !== OrderStatusLogType.CONFIRMED) {
+                    return;
+                }
                 defaultStatusLogs[mileStone] = {
                     ...defaultStatusLogs[mileStone],
                     time: formatDate(Number(status.logged_at), "hh:mm a"),
@@ -80,7 +85,11 @@ const GroupStepperProgress = ({ orderStatus, ...props }: FlexProps & { orderStat
                 });
             }
         });
-        return { _step: Object.values(defaultStatusLogs), activeStep: activeIndex ?? 0 };
+        const _step = Object.values(defaultStatusLogs);
+        if (isStuck) {
+            activeIndex = 1;
+        }
+        return { _step: _step, activeStep: activeIndex ?? 0 };
     }, [bp, orderStatus, t]);
 
     const max = _step.length - 1;
