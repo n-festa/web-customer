@@ -133,7 +133,7 @@ const useSWRAPI = () => {
             config?: SWRConfiguration,
         ) =>
             useSWR(
-                `getApplicationFee${params.itemTotal}_${params.exchangeRate}`,
+                params?.itemTotal ? `getApplicationFee${params.itemTotal}_${params.exchangeRate}` : undefined,
                 async () => apiServices.getApplicationFee(params),
                 {
                     ...swrConfig,
@@ -149,7 +149,10 @@ const useSWRAPI = () => {
             config?: SWRConfiguration,
         ) =>
             useSWR(
-                () => (!enable ? null : `getCutleryFee${params.item_quantity}_${params.restaurant_id}`),
+                () =>
+                    !enable || !params.restaurant_id
+                        ? null
+                        : `getCutleryFee${params.item_quantity}_${params.restaurant_id}`,
                 async () => apiServices.getCutleryFee(params),
                 {
                     ...swrConfig,
@@ -163,10 +166,16 @@ const useSWRAPI = () => {
             },
             config?: SWRConfiguration,
         ) =>
-            useSWR(`getCouponInfo_${params.sku_ids?.join("_")}`, async () => apiServices.getCouponInfo(params), {
-                ...swrConfig,
-                ...config,
-            }),
+            useSWR(
+                params?.restaurant_id && params.sku_ids?.length
+                    ? `getCouponInfo_${params.sku_ids?.join("_")}`
+                    : undefined,
+                async () => apiServices.getCouponInfo(params),
+                {
+                    ...swrConfig,
+                    ...config,
+                },
+            ),
     };
 };
 
