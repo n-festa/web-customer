@@ -146,7 +146,7 @@ const DeliveryTimeGroup = ({
                             color: "var(--gray-700)",
                             boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
                         }}
-                        isDisabled={!date || !dateOptions[date]}
+                        isDisabled={!dateOptionsList.length}
                         isLoading={isLoadingTime}
                         border="1px solid transparent"
                         borderRadius="0.8rem"
