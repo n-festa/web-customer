@@ -1,11 +1,16 @@
 import CartItem from "@/components/organism/CartItem";
+import useDeleteCartItem from "@/hooks/useDeleteCartItem";
 import useRenderText from "@/hooks/useRenderText";
+import useUpdateCart from "@/hooks/useUpdateCart";
 import { Cart } from "@/types/cart";
 import { formatMoney, genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
+import { CancelTokenSource } from "axios";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+let _cts: CancelTokenSource | null = null;
 
 const PaymentGroup = ({
     applicationFee,
@@ -36,7 +41,16 @@ const PaymentGroup = ({
     const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
     const { renderTxt } = useRenderText();
     const router = useRouter();
+    const { handleChangeCartQuantity, maxQtyValues, handleChangeQtyRaw } = useUpdateCart();
+    const { handleDeleteCartItem } = useDeleteCartItem();
 
+    useEffect(() => {
+        return () => {
+            _cts?.cancel();
+            _cts = null;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         <Flex
             color="black"
@@ -81,7 +95,18 @@ const PaymentGroup = ({
                             price={item.price?.toLocaleString()}
                             nowPrice={item.price_after_discount?.toLocaleString()}
                             quantity={item.qty_ordered}
-                            hideNumberInput
+                            onChangeValue={(value) => {
+                                handleChangeQtyRaw(item.item_id, item.menu_item_id, value);
+                                handleChangeCartQuantity(item.item_id, value, _cts);
+                            }}
+                            onDeleteCartItem={() => {
+                                if (item.item_id != undefined && cart.customer_id != undefined)
+                                    handleDeleteCartItem(item.item_id, cart.customer_id);
+                            }}
+                            numberInputProps={{
+                                value: maxQtyValues[String(item.menu_item_id)]?.items?.[String(item.item_id)].value,
+                                max: maxQtyValues[String(item.menu_item_id)]?.items?.[String(item.item_id)].max,
+                            }}
                         />
                     ))}
                 </VStack>

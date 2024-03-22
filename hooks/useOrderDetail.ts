@@ -30,7 +30,7 @@ const useOrderDetail = () => {
 
     const isSimpleScreen = useMemo(() => {
         const _orderStatusLog = pushData?.order_status_log || orderDetail?.order_status_log;
-        const milestone = _orderStatusLog?.[_orderStatusLog?.length - 1].milestone;
+        const milestone = _orderStatusLog?.[0].milestone;
         return milestone && listStatusLog.includes(milestone);
     }, [orderDetail?.order_status_log, pushData?.order_status_log]);
     useEffect(() => {

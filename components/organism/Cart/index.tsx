@@ -240,7 +240,7 @@ const Cart = ({
                     </Flex>
                 </>
             ) : (
-                <Center w="42.6rem" h="100%">
+                <Center w="41.6rem" h="100%">
                     <VStack w="100%" alignItems="center">
                         <Image alt="cart-empty" src="/images/icons/cart.svg" />
                         <Text

@@ -20,7 +20,11 @@ import { useMemo } from "react";
 
 const ErrorStep = [OrderStatusLogType.FAILED, OrderStatusLogType.CANCELLED];
 
-const GroupStepperProgress = ({ orderStatus, ...props }: FlexProps & { orderStatus: OrderStatusLog[] }) => {
+const GroupStepperProgress = ({
+    orderStatus,
+    isLoading,
+    ...props
+}: FlexProps & { isLoading: boolean; orderStatus: OrderStatusLog[] }) => {
     const t = useTranslations("ORDER_DETAIL.ORDER_CONFIRMATION");
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const bp =
@@ -96,61 +100,73 @@ const GroupStepperProgress = ({ orderStatus, ...props }: FlexProps & { orderStat
     const progressPercent = (activeStep / max) * 100;
     return (
         <Flex {...props} bg="white" my="1rem" h="12.4rem" w="100%" justifyContent="center" alignItems="center">
-            <Flex w="100.8rem" position="relative">
-                <Stepper w="100%" zIndex={2} size="sm" index={activeStep} gap="0">
-                    {_step.map((step, index) => (
-                        <Flex alignItems="center" gap="1.2rem" flexDir="column" key={`step${index}`} flex={1}>
-                            <Step>
-                                <StepIndicator borderColor={step.isError ? "red !important" : undefined} sx={{}}>
-                                    <StepStatus
-                                        active={
-                                            step.isError ? (
-                                                <XIcon color="red" />
-                                            ) : (
-                                                <Image w="1.2rem" h="1.05rem" src="/images/icons/Tick.svg" alt="tick" />
-                                            )
-                                        }
-                                        complete={
-                                            step.isError ? (
-                                                <XIcon color="red" />
-                                            ) : (
-                                                <Image w="1.2rem" h="1.05rem" src="/images/icons/Tick.svg" alt="tick" />
-                                            )
-                                        }
-                                        incomplete={
-                                            <Box borderRadius="50%" bg="var(--gray-200)" w="0.8rem" h="0.8rem" />
-                                        }
-                                    />
-                                </StepIndicator>
-                            </Step>
-                            <Flex flexDir="column" alignItems="center">
-                                <Text
-                                    whiteSpace={{ base: "pre-line", lg: "nowrap" }}
-                                    textAlign="center"
-                                    fontSize={{ base: "1rem", lg: "1.4rem" }}
-                                    color="var(--gray-700)"
-                                    fontWeight="600"
-                                >
-                                    {step.description}
-                                </Text>
-                                <Text minH="2.1rem" fontSize="1.4rem" color="var(--gray-600)">
-                                    {step.time}
-                                </Text>
+            {!isLoading && (
+                <Flex w="100.8rem" position="relative">
+                    <Stepper w="100%" zIndex={2} size="sm" index={activeStep} gap="0">
+                        {_step.map((step, index) => (
+                            <Flex alignItems="center" gap="1.2rem" flexDir="column" key={`step${index}`} flex={1}>
+                                <Step>
+                                    <StepIndicator borderColor={step.isError ? "red !important" : undefined} sx={{}}>
+                                        <StepStatus
+                                            active={
+                                                step.isError ? (
+                                                    <XIcon color="red" />
+                                                ) : (
+                                                    <Image
+                                                        w="1.2rem"
+                                                        h="1.05rem"
+                                                        src="/images/icons/Tick.svg"
+                                                        alt="tick"
+                                                    />
+                                                )
+                                            }
+                                            complete={
+                                                step.isError ? (
+                                                    <XIcon color="red" />
+                                                ) : (
+                                                    <Image
+                                                        w="1.2rem"
+                                                        h="1.05rem"
+                                                        src="/images/icons/Tick.svg"
+                                                        alt="tick"
+                                                    />
+                                                )
+                                            }
+                                            incomplete={
+                                                <Box borderRadius="50%" bg="var(--gray-200)" w="0.8rem" h="0.8rem" />
+                                            }
+                                        />
+                                    </StepIndicator>
+                                </Step>
+                                <Flex flexDir="column" alignItems="center">
+                                    <Text
+                                        whiteSpace={{ base: "pre-line", lg: "nowrap" }}
+                                        textAlign="center"
+                                        fontSize={{ base: "1rem", lg: "1.4rem" }}
+                                        color="var(--gray-700)"
+                                        fontWeight="600"
+                                    >
+                                        {step.description}
+                                    </Text>
+                                    <Text minH="2.1rem" fontSize="1.4rem" color="var(--gray-600)">
+                                        {step.time}
+                                    </Text>
+                                </Flex>
                             </Flex>
-                        </Flex>
-                    ))}
-                </Stepper>
-                <Progress
-                    mx={`${100 / _step.length / 2}%`}
-                    colorScheme="green"
-                    position="absolute"
-                    value={progressPercent}
-                    height="0.3rem"
-                    width={`calc(100% - ${100 / _step.length}%)`}
-                    bg="var(--gray-200)"
-                    top={{ base: "calc(50% - 3.4rem)", lg: "calc(50% - 2.75rem)" }}
-                />
-            </Flex>
+                        ))}
+                    </Stepper>
+                    <Progress
+                        mx={`${100 / _step.length / 2}%`}
+                        colorScheme="green"
+                        position="absolute"
+                        value={progressPercent}
+                        height="0.3rem"
+                        width={`calc(100% - ${100 / _step.length}%)`}
+                        bg="var(--gray-200)"
+                        top={{ base: "calc(50% - 3.4rem)", lg: "calc(50% - 2.75rem)" }}
+                    />
+                </Flex>
+            )}
         </Flex>
     );
 };

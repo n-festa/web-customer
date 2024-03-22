@@ -146,6 +146,7 @@ const DeliveryTimeGroup = ({
                             color: "var(--gray-700)",
                             boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
                         }}
+                        isDisabled={!date || !dateOptions[date]}
                         isLoading={isLoadingTime}
                         border="1px solid transparent"
                         borderRadius="0.8rem"
@@ -177,6 +178,7 @@ const DeliveryTimeGroup = ({
                         h="4.4rem"
                         borderRadius="0.8rem"
                         rightIcon={<ChevronDownIcon width={15} />}
+                        isDisabled={!timeList[timeIndex] || !timeList[timeIndex].length}
                     >
                         {timeList[timeIndex]}
                     </MenuButton>
