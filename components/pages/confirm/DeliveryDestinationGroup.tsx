@@ -1,3 +1,4 @@
+import { HighlightedText } from "@/components/atoms/Label/HighlightedLabel";
 import InputForm from "@/components/molecules/InputForm";
 import InputSelectForm from "@/components/molecules/InputSelctForm";
 import confirmOrder from "@/config/confirm.config";
@@ -5,8 +6,9 @@ import useSWRAPI from "@/hooks/useApi";
 import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";
 import { filedType, formType } from "@/types/form";
+import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { parseArrayToObject } from "@/utils/functions";
-import { Flex, VStack } from "@chakra-ui/react";
+import { Box, Collapse, Flex, VStack, useDisclosure, useOutsideClick } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikProps } from "formik";
 import debounce from "lodash/debounce";
 import { useTranslations } from "next-intl";
@@ -41,6 +43,18 @@ const DeliveryDestinationGroup = ({
     >;
 }) => {
     const t = useTranslations("COMMON");
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const refAddress = useRef(null);
+    useOutsideClick({
+        ref: refAddress,
+        handler: () => {
+            onClose();
+        },
+    });
+
+    const [selectState, setSelectState] = useState<number>(0);
+    const [suggestionPlaces, setSuggesstionPlaces] = useState<SearchPlaceResponse[]>([]);
     const tDelivery = useTranslations("CONFIRM_ORDER.DELIVERY_DESTINATION");
     const { GetProvincesCities } = useSWRAPI();
     const { data: provincesData, isLoading } = GetProvincesCities();
@@ -155,6 +169,25 @@ const DeliveryDestinationGroup = ({
     const getLongLat = useCallback(
         debounce(async (addressFull: string) => {
             const allAddress = await apiServices.getGeoCode(addressFull);
+            setSuggesstionPlaces(
+                allAddress.results.map((item) => {
+                    const address = item.formatted_address
+                        ?.split(",")
+                        .filter((part) => {
+                            const partTrim = part.trim();
+                            const commune = String(item.compound?.commune?.trim());
+                            const district = String(item.compound?.district?.trim());
+                            const province = String(item.compound?.province?.trim());
+                            return (
+                                !partTrim.includes(commune) &&
+                                !partTrim.includes(district) &&
+                                !partTrim.includes(province)
+                            );
+                        })
+                        .join(",");
+                    return { ...item, formatted_address: address };
+                }),
+            );
             const customerLocation = allAddress.results?.[0].geometry.location;
             const fee = await apiServices.getDeliveryFee({
                 restaurant_id: restaurantId,
@@ -285,26 +318,66 @@ const DeliveryDestinationGroup = ({
                             </Flex>
                             <Field name="address">
                                 {({ form }: { field: filedType; form: formType }) => (
-                                    <InputForm
-                                        formControlProps={{
-                                            mb: "0",
-                                        }}
-                                        title={tDelivery("STREET_AND_NUMBER")}
-                                        type="text"
-                                        error={form.errors.address}
-                                        labelProps={{
-                                            fontWeight: 500,
-                                            fontSize: "1.4rem",
-                                            color: "var(--gray-700)",
-                                        }}
-                                        inputProps={{
-                                            onChange: (e) => {
-                                                formRef.current?.setFieldValue("address", e.target.value);
-                                                setAddress(e.target.value);
-                                            },
-                                        }}
-                                        value={address ?? defaultAddress}
-                                    />
+                                    <Box position="relative" ref={refAddress} w="100%">
+                                        <InputForm
+                                            formControlProps={{
+                                                mb: "0",
+                                            }}
+                                            title={tDelivery("STREET_AND_NUMBER")}
+                                            type="text"
+                                            error={form.errors.address}
+                                            labelProps={{
+                                                fontWeight: 500,
+                                                fontSize: "1.4rem",
+                                                color: "var(--gray-700)",
+                                            }}
+                                            inputProps={{
+                                                onChange: (e) => {
+                                                    formRef.current?.setFieldValue("address", e.target.value);
+                                                    setAddress(e.target.value);
+                                                },
+                                                onFocus: onOpen,
+                                            }}
+                                            value={address ?? defaultAddress}
+                                        />
+                                        <Collapse in={isOpen}>
+                                            <Flex py="1rem" flexDir="column" bg="white" zIndex={10} w="100%">
+                                                {suggestionPlaces.map((suggestion, index) => (
+                                                    <Flex
+                                                        cursor="pointer"
+                                                        borderRadius="0.6rem"
+                                                        px="1rem"
+                                                        bg={
+                                                            selectState === index
+                                                                ? "var(--main-bg-color-light-alpha)"
+                                                                : undefined
+                                                        }
+                                                        onClick={() => {
+                                                            setAddress(suggestion.formatted_address);
+                                                            onClose();
+                                                        }}
+                                                        w="100%"
+                                                        key={"suggestion" + index}
+                                                        color="var(--gray-600)"
+                                                        fontSize="1.6rem"
+                                                        alignItems="center"
+                                                        textOverflow="ellipsis"
+                                                        onMouseEnter={() => {
+                                                            setSelectState(index);
+                                                        }}
+                                                    >
+                                                        <HighlightedText
+                                                            text={suggestion?.formatted_address ?? ""}
+                                                            highlightStyle={{
+                                                                fontWeight: "medium",
+                                                            }}
+                                                            highlight={address}
+                                                        />
+                                                    </Flex>
+                                                ))}
+                                            </Flex>
+                                        </Collapse>
+                                    </Box>
                                 )}
                             </Field>
                             <Field name="note">

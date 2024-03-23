@@ -7,7 +7,7 @@ import useOrderDetail from "@/hooks/useOrderDetail";
 import { ddMMyyyy } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import { formatPhoneNumber } from "@/utils/functions";
-import { Avatar, Flex, HStack, Image, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
+import { Avatar, Box, Flex, HStack, Image, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 
 const OrderDetail = () => {
@@ -17,7 +17,12 @@ const OrderDetail = () => {
         base: false,
         md: true,
     });
-    if (error) return <Empty />;
+    if (error)
+        return (
+            <Box bg="white" h="100%" w="100%">
+                <Empty />
+            </Box>
+        );
 
     return (
         <Flex

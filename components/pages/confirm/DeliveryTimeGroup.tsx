@@ -153,12 +153,12 @@ const DeliveryTimeGroup = ({
                         borderRadius="0.8rem"
                         rightIcon={<ChevronDownIcon width={15} />}
                     >
-                        {date ? dateOptions[date].name : dateOptionsList?.[0]?.name ?? "-"}
+                        {date ? dateOptions[date]?.name : dateOptionsList?.[0]?.name ?? "-"}
                     </MenuButton>
                     <MenuList>
                         {dateOptionsList.map((item, i) => (
                             <MenuItem key={`date-${i}`} onClick={() => setDate(item.value)}>
-                                {item.name}
+                                {item?.name}
                             </MenuItem>
                         ))}
                     </MenuList>
