@@ -33,7 +33,7 @@ const useSWRAPI = () => {
                 }
             },
         };
-    }, []);
+    }, [t]);
     return {
         GetAvailableTime: (
             params: {

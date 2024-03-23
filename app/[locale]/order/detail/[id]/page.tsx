@@ -1,4 +1,5 @@
 "use client";
+import Empty from "@/components/molecules/Empty";
 import GroupWrapper from "@/components/pages/confirm/GroupWrapper";
 import CartTotalInfo from "@/components/pages/tracking/CartTotalInfo";
 import GroupStepperProgress from "@/components/pages/tracking/GroupStepperProgress";
@@ -11,11 +12,13 @@ import { useTranslations } from "next-intl";
 
 const OrderDetail = () => {
     const t = useTranslations("ORDER_DETAIL");
-    const { orderDetail, addressString, isSimpleScreen, isLoading } = useOrderDetail();
+    const { orderDetail, addressString, isSimpleScreen, isLoading, error, orderStatusLog } = useOrderDetail();
     const showIframe = useBreakpointValue({
         base: false,
         md: true,
     });
+    if (error) return <Empty />;
+
     return (
         <Flex
             position="relative"
@@ -50,7 +53,16 @@ const OrderDetail = () => {
                     <GroupWrapper titleFontSize="2rem" title={t("ORDER")}>
                         <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">
                             <Text>{`ID: #${orderDetail?.order_id}`}</Text>
-                            <Text>{t("ORDER_DATE", { time: formatDate(new Date(), ddMMyyyy) })}</Text>
+                            {orderStatusLog?.[orderStatusLog?.length - 1] && (
+                                <Text>
+                                    {t("ORDER_DATE", {
+                                        time: formatDate(
+                                            Number(orderStatusLog?.[orderStatusLog?.length - 1].logged_at),
+                                            ddMMyyyy,
+                                        ),
+                                    })}
+                                </Text>
+                            )}
                         </VStack>
                     </GroupWrapper>
                     {orderDetail?.driver && (

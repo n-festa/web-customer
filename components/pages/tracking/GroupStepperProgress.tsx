@@ -33,7 +33,7 @@ const GroupStepperProgress = ({
             lg: "MD",
         }) ?? [];
     const { _step, activeStep } = useMemo(() => {
-        let activeIndex;
+        let activeIndex = -1;
         const defaultStatusLogs: {
             [key: string]: {
                 description: string;
@@ -59,11 +59,11 @@ const GroupStepperProgress = ({
             },
         };
         const isStuck = orderStatus.some((item) => item.status === OrderStatusType.STUCK);
-
-        orderStatus.forEach((status, index) => {
-            activeIndex = index;
+        orderStatus.forEach((status) => {
             const mileStone = status.milestone;
-
+            if (mileStone) {
+                activeIndex = activeIndex + 1;
+            }
             if (mileStone && defaultStatusLogs[mileStone]) {
                 if (isStuck && mileStone !== OrderStatusLogType.CREATED && mileStone !== OrderStatusLogType.CONFIRMED) {
                     return;

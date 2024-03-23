@@ -1,8 +1,9 @@
 import { OrderStatusLogType } from "@/types/enum";
 import { Order } from "@/types/order";
 import { getToken } from "@/utils/auth";
+import { routes } from "@/utils/routes";
 import { EventSourcePolyfill } from "event-source-polyfill";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import useSWRAPI from "./useApi";
 // OR: may also need to set as global property
@@ -12,7 +13,14 @@ const baseURL = process.env.NEXT_PUBLIC_URL_SERVICE || "https://api.2all.com.vn/
 const useOrderDetail = () => {
     const { id: orderId } = useParams();
     const { GetOrderDetail } = useSWRAPI();
-    const { isLoading, data: orderDetail } = GetOrderDetail(String(orderId));
+    const {
+        isLoading,
+        data: orderDetail,
+        error,
+    } = GetOrderDetail(String(orderId), {
+        shouldRetryOnError: false,
+    });
+    const router = useRouter();
     const [pushData, setPushData] = useState<Order>();
     const addressString = useMemo(() => {
         const list: string[] = [];
@@ -30,8 +38,11 @@ const useOrderDetail = () => {
 
     const isSimpleScreen = useMemo(() => {
         const _orderStatusLog = pushData?.order_status_log || orderDetail?.order_status_log;
-        const milestone = _orderStatusLog?.[0].milestone;
-        return milestone && listStatusLog.includes(milestone);
+
+        return _orderStatusLog?.some((item) => {
+            const milestone = item.milestone;
+            return milestone && listStatusLog.includes(milestone.toLocaleLowerCase() as OrderStatusLogType);
+        });
     }, [orderDetail?.order_status_log, pushData?.order_status_log]);
     useEffect(() => {
         // opening a connection to the server to begin receiving events from it
@@ -47,6 +58,11 @@ const useOrderDetail = () => {
                 const orderDetail = JSON.parse(event.data) as Order;
                 if (orderDetail.order_status_log) {
                     setPushData(orderDetail);
+                    if (orderDetail.order_status_log?.some((item) => item.milestone === OrderStatusLogType.COMPLETED)) {
+                        setTimeout(() => {
+                            router.push(routes.review + `/${orderId}`);
+                        }, 3000);
+                    }
                 } else {
                     return;
                 }
@@ -55,9 +71,16 @@ const useOrderDetail = () => {
 
         // terminating the connection on component unmount
         return () => eventSource.close();
-    }, [orderId]);
+    }, [orderId, router]);
 
-    return { orderDetail: pushData || orderDetail, isLoading, addressString, isSimpleScreen };
+    return {
+        orderDetail: pushData || orderDetail,
+        isLoading,
+        addressString,
+        isSimpleScreen,
+        error,
+        orderStatusLog: orderDetail?.order_status_log,
+    };
 };
 
 export default useOrderDetail;

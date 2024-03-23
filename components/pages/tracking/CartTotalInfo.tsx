@@ -38,22 +38,29 @@ const CartTotalInfo = ({
     return (
         <Flex color="black" position="relative" flexDir="column" borderRadius="0" p="0.8rem" bg="white" h="fit-content">
             <Flex flexDir="column" flex={1}>
-                <Flex
-                    cursor="pointer"
-                    onClick={() => {
-                        router.push(routes.RestaurantDetail + `/${restaurantInfo?.restaurant_id}`);
-                    }}
-                    alignItems="center"
-                    px="0.8rem"
-                    bg="var(--gray-100)"
-                    h="5.6rem"
-                    gap="1.2rem"
-                >
-                    <Image w="4rem" h="4rem" src={restaurantInfo?.restaurant_logo_img} alt="restaurant-icon"></Image>
-                    <Text fontWeight="bold" fontSize="1.6rem" color="var(--color-mediumslateblue)">
-                        {renderTxt(restaurantInfo?.restaurant_name)}
-                    </Text>
-                </Flex>
+                {restaurantInfo && (
+                    <Flex
+                        cursor="pointer"
+                        onClick={() => {
+                            router.push(routes.RestaurantDetail + `/${restaurantInfo?.restaurant_id}`);
+                        }}
+                        alignItems="center"
+                        px="0.8rem"
+                        bg="var(--gray-100)"
+                        h="5.6rem"
+                        gap="1.2rem"
+                    >
+                        <Image
+                            w="4rem"
+                            h="4rem"
+                            src={restaurantInfo?.restaurant_logo_img}
+                            alt="restaurant-icon"
+                        ></Image>
+                        <Text fontWeight="bold" fontSize="1.6rem" color="var(--color-mediumslateblue)">
+                            {renderTxt(restaurantInfo?.restaurant_name)}
+                        </Text>
+                    </Flex>
+                )}
                 <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
                     {orderItems?.map((item, index) => (
                         <CartItem

@@ -71,7 +71,7 @@ const useConfirmOrder = () => {
         if (applicationFeeData) {
             setApplicationFee(applicationFeeData.application_fee);
         }
-    }, [applicationFeeData]);
+    }, [applicationFeeData, cart?.cart_info?.length]);
 
     const handleConfirm = async () => {
         setLoading(true);
@@ -195,15 +195,15 @@ const useConfirmOrder = () => {
         paymentMethod,
         setPaymentMethod,
         cart,
-        applicationFee,
+        applicationFee: cart?.cart_info?.length ? applicationFee : 0,
         cutleryFee,
         setAddCutlery,
         addCutlery,
         couponList,
         totalDiscount: discounts?.discount_amount,
         packageFee,
-        finalPrice,
-        deliveryFee,
+        finalPrice: cart?.cart_info?.length ? finalPrice : 0,
+        deliveryFee: cart?.cart_info?.length ? deliveryFee : undefined,
         isLoading,
         isDisableOrder,
         setDeliveryFee,
