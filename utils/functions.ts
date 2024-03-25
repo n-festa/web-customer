@@ -177,3 +177,7 @@ export const parseStringToObj = (value?: string | Object) => {
     }
     return value;
 };
+
+export const capitalizeFirstLetter = (txt: string) => {
+    return txt.charAt(0).toUpperCase() + txt.slice(1);
+};

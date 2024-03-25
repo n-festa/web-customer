@@ -15,6 +15,10 @@
                 "SUCCESS_CONTENT": "Thông tin của bạn đã được cập nhật.",
                 "ERROR_CONTENT": "Lỗi cập nhật, vui lòng thử lại.",
                 "ERROR_LENGTH": "Kích thước file phải bằng hoặc nhỏ hơn 50Kb"
+            },
+            "ADDITIONAL": {
+                "TITLE": "Tạo hồ sơ",
+                "ERROR_CONTENT": "Thông tin bạn nhập chưa đúng."
             }
         },
         "NOTIFICATION": "Thông báo",

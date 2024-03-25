@@ -8,8 +8,9 @@ import apiServices from "@/services/sevices";
 import { setUserInfo } from "@/store/reducers/userInfo";
 import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
+import { capitalizeFirstLetter } from "@/utils/functions";
 import { routes } from "@/utils/routes";
-import { Box, Button, Flex, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Radio, RadioGroup, Stack, Text, useToast } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -20,19 +21,33 @@ const IDLE_TIME_IN_MINUTES = 20;
 
 const Additional = () => {
     const t = useTranslations();
+    const toast = useToast();
     const tFormData = useTranslations("FORM.DATA_PROFILE");
     const { initialValues, validationSchema, formData } = signUp(tFormData);
     const router = useRouter();
     const dispatch = useDispatch();
     const [showExpect, setShowExpect] = useState(false);
-    const handleSubmit = async ({ expected_diet_diff, expected_diet, ...rest }: UserType) => {
+    const handleSubmit = async ({ expected_diet_diff, expected_diet, ...rest }: UserType, setSubmitting: any) => {
         try {
             const expectedDietValue = expected_diet === "Khác" ? expected_diet_diff : expected_diet;
-            const { data } = await apiServices.createProfile({ ...rest, expected_diet: expectedDietValue });
+            const { data } = await apiServices.createProfile({
+                ...rest,
+                physical_activity_level: capitalizeFirstLetter(rest.physical_activity_level),
+                expected_diet: expectedDietValue,
+            });
             dispatch(setUserInfo(data));
             router.push(routes.RegistrationSuccess);
         } catch (error) {
             console.error("Error while resending OTP:", error);
+            toast({
+                title: t("COMMON.TOAST.ADDITIONAL.TITLE"),
+                description: t("COMMON.TOAST.ADDITIONAL.ERROR_CONTENT"),
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top-right",
+            });
+            setSubmitting(false);
         }
     };
     useExpiredPage(IDLE_TIME_IN_MINUTES);
@@ -52,8 +67,8 @@ const Additional = () => {
                         validationSchema={validationSchema.validation}
                         validateOnBlur={true}
                         validateOnChange={false}
-                        onSubmit={(values) => {
-                            handleSubmit(values as UserType);
+                        onSubmit={(values, { setSubmitting }) => {
+                            handleSubmit(values as UserType, setSubmitting);
                         }}
                     >
                         {(props) => (

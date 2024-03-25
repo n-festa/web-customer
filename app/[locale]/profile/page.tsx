@@ -12,6 +12,7 @@ import apiServices from "@/services/sevices";
 import { setUserInfo } from "@/store/reducers/userInfo";
 import { UserType } from "@/types";
 import { filedType, formType } from "@/types/form";
+import { capitalizeFirstLetter } from "@/utils/functions";
 import { loadState } from "@/utils/localstorage";
 import {
     Avatar,
@@ -57,6 +58,7 @@ const Profile = () => {
             apiServices
                 .updateCustomer({
                     ...rest,
+                    physical_activity_level: capitalizeFirstLetter(rest.physical_activity_level),
                     customer_id: userId,
                     name: first_name + " " + last_name,
                     current_diet: curDiet || "",
@@ -170,7 +172,7 @@ const Profile = () => {
                         sex: profile?.sex || "",
                         height_m: profile?.health_info?.height_m || "",
                         weight_kg: profile?.health_info?.weight_kg || "",
-                        physical_activity_level: profile?.health_info?.physical_activity_level || "light",
+                        physical_activity_level: profile?.health_info?.physical_activity_level.toLowerCase() || "light",
                         current_diet: profile?.health_info?.current_diet || "Hỗn hợp",
                         allergic_food: profile?.health_info?.allergic_food || "",
                         expected_diet: profile?.health_info?.expected_diet || "",
