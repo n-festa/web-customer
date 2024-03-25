@@ -1,3 +1,4 @@
+import { OrderStatusLogType, OrderStatusType } from "./enum";
 import { BaseNameInterface } from "./response/base";
 
 interface Address {
@@ -19,6 +20,7 @@ export interface OrderItem {
     item_name?: BaseNameInterface[];
     item_img?: string;
     sku_id?: number;
+    menu_item_id?: number;
     qty_ordered?: number;
     price?: number;
     advanced_taste_customization_obj?: { option_id: string; value_id: string }[];
@@ -36,10 +38,10 @@ export interface OrderItem {
 }
 
 export interface OrderStatusLog {
-    status: string;
+    status: OrderStatusType;
     description: BaseNameInterface[];
-    logged_at: number;
-    milestone?: string;
+    logged_at: number | string;
+    milestone?: OrderStatusLogType;
 }
 
 export interface PaymentStatusHistory {
@@ -88,4 +90,5 @@ export interface Order {
     expected_arrival_time?: number;
     order_items: OrderItem[];
     order_status_log?: OrderStatusLog[];
+    tracking_url?: string;
 }

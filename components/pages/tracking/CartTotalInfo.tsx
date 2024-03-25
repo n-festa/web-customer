@@ -23,6 +23,7 @@ const CartTotalInfo = ({
     orderTotal?: number | string;
     deliveryFee?: number | string;
     appFee?: number | string;
+    deliveryDistance?: number | string;
     cutleryFee?: number | string;
     promotion?: number | string;
     packagingFee?: number | string;
@@ -32,36 +33,45 @@ const CartTotalInfo = ({
     const { renderTxt } = useRenderText();
 
     const totalSumByItems = useMemo(() => {
-        return orderItems?.reduce((prev, item) => (prev += item.price * item.qty_ordered), 0);
+        return orderItems?.reduce((prev, item) => (prev += (item.price ?? 0) * (item.qty_ordered ?? 0)), 0);
     }, [orderItems]);
     return (
         <Flex color="black" position="relative" flexDir="column" borderRadius="0" p="0.8rem" bg="white" h="fit-content">
             <Flex flexDir="column" flex={1}>
-                <Flex
-                    cursor="pointer"
-                    onClick={() => {
-                        router.push(routes.RestaurantDetail + `/${restaurantInfo?.restaurant_id}`);
-                    }}
-                    alignItems="center"
-                    px="0.8rem"
-                    bg="var(--gray-100)"
-                    h="5.6rem"
-                    gap="1.2rem"
-                >
-                    <Image w="4rem" h="4rem" src={restaurantInfo?.restaurant_logo_img} alt="restaurant-icon"></Image>
-                    <Text fontWeight="bold" fontSize="1.6rem" color="var(--color-mediumslateblue)">
-                        {renderTxt(restaurantInfo?.restaurant_name)}
-                    </Text>
-                </Flex>
+                {restaurantInfo && (
+                    <Flex
+                        cursor="pointer"
+                        onClick={() => {
+                            router.push(routes.RestaurantDetail + `/${restaurantInfo?.restaurant_id}`);
+                        }}
+                        alignItems="center"
+                        px="0.8rem"
+                        bg="var(--gray-100)"
+                        h="5.6rem"
+                        gap="1.2rem"
+                    >
+                        <Image
+                            w="4rem"
+                            h="4rem"
+                            src={restaurantInfo?.restaurant_logo_img}
+                            alt="restaurant-icon"
+                        ></Image>
+                        <Text fontWeight="bold" fontSize="1.6rem" color="var(--color-mediumslateblue)">
+                            {renderTxt(restaurantInfo?.restaurant_name)}
+                        </Text>
+                    </Flex>
+                )}
                 <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
-                    {orderItems?.map((item) => (
+                    {orderItems?.map((item, index) => (
                         <CartItem
-                            key={item.sku_id}
+                            restaurantId={restaurantInfo?.restaurant_id}
+                            id={item.menu_item_id}
+                            key={`orderItem${index}`}
                             image={item.item_img}
                             name={renderTxt(item.item_name)}
                             note={genCartNote(item)}
-                            price={item.price.toLocaleString()}
-                            nowPrice={item.price.toLocaleString()}
+                            price={item.price?.toLocaleString()}
+                            nowPrice={item.price?.toLocaleString()}
                             numberInputProps={{ isDisabled: true }}
                             quantity={item.qty_ordered}
                             hideNumberInput
@@ -92,25 +102,25 @@ const CartTotalInfo = ({
                     </Flex>
                 )}
                 {cutleryFee && (
-                    <Flex pb="0.4rem" w="100%" justifyContent="space-between" borderBottom="var(--divider)">
+                    <Flex w="100%" justifyContent="space-between" borderBottom="var(--divider)">
                         <Text fontSize="1.4rem">{t("UTENSILS")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(cutleryFee)}</Text>
                     </Flex>
                 )}
                 {deliveryFee && (
-                    <Flex w="100%" justifyContent="space-between">
+                    <Flex pt="0.4rem" w="100%" borderTop="var(--divider)" justifyContent="space-between">
                         <Text fontSize="1.4rem">{t("DELIVERY_FEE")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(deliveryFee)}</Text>
                     </Flex>
                 )}
                 {appFee && (
-                    <Flex w="100%" pb="0.4rem" justifyContent="space-between" borderBottom="var(--divider)">
+                    <Flex w="100%" pb="0.4rem" justifyContent="space-between">
                         <Text fontSize="1.4rem">{t("PLATFORM_FEE")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(appFee)}</Text>
                     </Flex>
                 )}
                 {promotion && (
-                    <Flex w="100%" justifyContent="space-between">
+                    <Flex w="100%" justifyContent="space-between" borderTop="var(--divider)">
                         <Text fontSize="1.4rem">{t("PROMOTION")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(-Number(promotion))}</Text>
                     </Flex>

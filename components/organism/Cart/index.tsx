@@ -6,7 +6,7 @@ import { cartState, cartSynced, showCartState } from "@/recoil/recoilState";
 import { useAppSelector } from "@/store/hooks";
 import { YYYYMMDD } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
-import { genCartNote } from "@/utils/functions";
+import { genCartNote, parseStringToObj } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, Center, Flex, FlexProps, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { CancelTokenSource } from "axios";
@@ -45,7 +45,9 @@ const Cart = ({
             utc_offset: -(new Date().getTimezoneOffset() / 60),
             menu_item_ids: Array.from(new Set(cart?.cart_info?.map((item) => item.menu_item_id))),
             now: new Date().getTime(),
-            having_advanced_customization: cart.cart_info?.some((item) => item.advanced_taste_customization_obj.length),
+            having_advanced_customization: cart.cart_info?.some(
+                (item) => parseStringToObj(item.advanced_taste_customization_obj)?.length,
+            ),
         },
         undefined,
         ignoreAuthError ? [401] : undefined,
@@ -183,6 +185,8 @@ const Cart = ({
                         <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
                             {cart.cart_info?.map((item) => (
                                 <CartItem
+                                    restaurantId={cart.restaurant_id}
+                                    id={item.menu_item_id}
                                     onChangeValue={(value) => {
                                         handleChangeQtyRaw(item.item_id, item.menu_item_id, value);
                                         handleChangeCartQuantity(item.item_id, value, _cts);
@@ -238,7 +242,7 @@ const Cart = ({
                     </Flex>
                 </>
             ) : (
-                <Center w="42.6rem" h="100%">
+                <Center w="41.6rem" h="100%">
                     <VStack w="100%" alignItems="center">
                         <Image alt="cart-empty" src="/images/icons/cart.svg" />
                         <Text

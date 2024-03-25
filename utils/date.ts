@@ -21,7 +21,6 @@ export const formatDate = (
 
         return formatFns(value, format ?? YYYYMMDD);
     } catch (error) {
-        console.log(error);
         return "";
     }
 };

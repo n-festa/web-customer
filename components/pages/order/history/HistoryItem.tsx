@@ -12,17 +12,17 @@ interface Props {
     orderStatus?: OrderStatus;
 }
 
-const HistoryItem = ({ orderStatus = OrderStatus.Success }: Props) => {
+const HistoryItem = ({ orderStatus = OrderStatus.COMPLETED }: Props) => {
     const t = useTranslations("ORDER_HISTORY.HISTORY_ITEM");
     const router = useRouter();
     const status = useMemo(() => {
         switch (orderStatus) {
-            case OrderStatus.Cancel:
+            case OrderStatus.CANCELLED:
                 return t("CANCEL_ORDER");
             default:
                 return t("DELIVERY_SUCCESSFUL");
         }
-    }, [orderStatus]);
+    }, [orderStatus, t]);
 
     const handleViewDetail = () => {
         router.push(routes.OrderDetail);
@@ -94,7 +94,7 @@ const HistoryItem = ({ orderStatus = OrderStatus.Success }: Props) => {
                     md: "space-between",
                 }}
             >
-                {orderStatus === OrderStatus.Success ? (
+                {orderStatus === OrderStatus.COMPLETED ? (
                     <Wrap alignItems={"center"} spacing={{ base: "1rem", md: "2.4rem" }} justify={"flex-start"}>
                         <WrapItem>
                             <Text variant={"successStatus"}>{status}</Text>

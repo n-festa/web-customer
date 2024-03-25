@@ -77,9 +77,9 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
         return isToday(time)
             ? { time: formatDate(time, "HH:mm"), isInday: true }
             : isTomorrow(time)
-              ? { time: "Ngày mai", isInday: false }
+              ? { time: t("TOMORROW"), isInday: false }
               : { time: formatDate(time, "dd-MM-yyyy"), isInday: false };
-    }, [info?.cutoff_time_m]);
+    }, [info?.cutoff_time_m, t]);
     return (
         <VStack
             alignItems={"flex-start"}

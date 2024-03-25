@@ -350,7 +350,9 @@
         "PROMOTION_GROUP": {
             "TITLE": "Khuyến mãi",
             "APPLY": "Áp dụng",
-            "ENTER_PROMO_CODE": "Nhập mã khuyến mãi"
+            "ENTER_PROMO_CODE": "Nhập mã khuyến mãi",
+            "APPLY_FAIL": "Mã giảm giá áp dụng thất bại\r\n",
+            "MINIMUM_DESC": "Đơn hàng phải lớn hơn {value}."
         },
         "PAYMENT_GROUP": {
             "PAYMENT": "Thanh toán",
@@ -358,7 +360,7 @@
             "TOTAL_ITEMS": "Tổng món ăn",
             "PACKING_FEE": "Phí đóng gói",
             "UTENSILS": "Dụng cụ ăn",
-            "DELIVERY_FEE": "Phí giao hàng | {distance} km",
+            "DELIVERY_FEE": "Phí giao hàng",
             "PLATFORM_FEE": "Phí nền tảng",
             "PROMOTION": "Khuyến mãi",
             "TOTAL_PAYMENT": "Tổng thanh toán",
@@ -398,21 +400,27 @@
         "SUGARCANE_BOX": "Đóng gói bằng hộp bã mía",
         "NO_UTENSILS_NEEDED": "Không lấy dụng cụ ăn uống",
         "PAYMENT_METHOD": "Phương thức thanh toán",
-        "PAID_WITH_MOMO": "Đã thanh toán bằng Momo",
+        "PAID_WITH": "Đã thanh toán bằng {method}",
         "DELIVER_TO": "Giao đến",
         "PACKAGING": "Đóng gói",
         "ORDER_CONFIRMATION": {
             "MD": {
-                "CONFIRM_ORDER": "Xác Nhận Đơn Hàng",
-                "DRIVER_ARRIVED_RESTAURANT": "Tài Xế Đã Tới Nhà Hàng",
-                "DRIVER_LEFT_RESTAURANT": "Tài Xế Đã Rời Nhà Hàng",
-                "DRIVER_ARRIVED_DESTINATION": "Tài Xế Đã Đến Nơi"
+                "CREATED": "Đã tạo đơn hàng",
+                "CONFIRMED": "Đã xác nhận đơn hàng",
+                "STARTED_TO_PROCESS": "Bắt đầu xử lý đơn hàng",
+                "PICKED_UP": "Tài xế đã lấy đơn hàng",
+                "COMPLETED": "Hoàn thành đơn hàng",
+                "FAILED": "Thực hiện đơn hàng thất bại",
+                "CANCELLED": "Huỷ đơn hàng"
             },
             "BASE": {
-                "CONFIRM_ORDER": "Xác Nhận\r\nĐơn Hàng",
-                "DRIVER_ARRIVED_RESTAURANT": "Tài Xế\r\nĐã Tới Nhà Hàng",
-                "DRIVER_LEFT_RESTAURANT": "Tài Xế\r\nĐã Rời Nhà Hàng",
-                "DRIVER_ARRIVED_DESTINATION": "Tài Xế\r\nĐã Đến Nơi"
+                "CREATED": "Đã tạo\r\nđơn hàng",
+                "CONFIRMED": "Đã xác nhận\r\nđơn hàng",
+                "STARTED_TO_PROCESS": "Bắt đầu\r\nxử lý đơn hàng",
+                "PICKED_UP": "Tài xế\r\nđã lấy đơn hàng",
+                "COMPLETED": "Hoàn thành\r\nđơn hàng",
+                "FAILED": "Thực hiện\r\nđơn hàng thất bại",
+                "CANCELLED": "Huỷ\r\nđơn hàng"
             }
         }
     },

@@ -26,12 +26,15 @@ const ConfirmOrderPageContent = () => {
         cutleryFee,
         totalDiscount,
         totalPrice,
+        couponList,
         finalPrice,
         deliveryFee,
         packageFee,
         onApplyCoupon,
         setDeliveryFee,
         setExpectedTime,
+        isDisableOrder,
+        isLoading,
     } = useConfirmOrder();
 
     return (
@@ -40,11 +43,15 @@ const ConfirmOrderPageContent = () => {
                 <BackButton label={t("BACK_PAGE")} />
                 <Flex mt="1.6rem" w="100%" gap="1.6rem" flexDir={{ base: "column", lg: "row" }} flex={1}>
                     <VStack flex={1} spacing="1.6rem">
-                        <DeliveryDestinationGroup formRef={formRef} setDeliveryFee={setDeliveryFee} />
+                        <DeliveryDestinationGroup
+                            restaurantId={Number(cart?.restaurant_id)}
+                            formRef={formRef}
+                            setDeliveryFee={setDeliveryFee}
+                        />
                         <DeliveryTimeGroup setExpectedTime={setExpectedTime} />
                         <PackageGroup addCutlery={addCutlery} setAddCutlery={setAddCutlery} />
                         <PaymentMethodGroup paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
-                        <PromotionGroup onApplyCoupon={onApplyCoupon} />
+                        <PromotionGroup items={couponList?.coupons ?? []} onApplyCoupon={onApplyCoupon} />
                     </VStack>
                     <Suspense>
                         <PaymentGroup
@@ -55,8 +62,10 @@ const ConfirmOrderPageContent = () => {
                             deliveryFee={deliveryFee}
                             finalPrice={finalPrice}
                             packageFee={packageFee}
+                            isDisableOrder={isDisableOrder}
+                            isLoading={isLoading}
                             totalDiscount={totalDiscount}
-                            w={{ base: "100%", md: "44.5rem" }}
+                            w={{ base: "100%", lg: "44.5rem" }}
                             onConfirm={handleConfirm}
                         />
                     </Suspense>

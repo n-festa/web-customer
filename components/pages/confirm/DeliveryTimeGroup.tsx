@@ -50,9 +50,10 @@ const DeliveryTimeGroup = ({
     });
     useEffect(() => {
         if (data?.statusCode === 404) {
+            const timeStamp = (data as { timestamp?: string }).timestamp ?? "";
             dialogRef.current?.show({
                 message: t("CONFIRM_ORDER.DELIVERY_TIME_GROUP.CART_UNAVAILABLE_UTIL", {
-                    time: formatDate(data.data as unknown as number, YYYYMMDD),
+                    time: formatDate(timeStamp, YYYYMMDD),
                 }),
                 title: t("CONFIRM_ORDER.DELIVERY_TIME_GROUP.CART_UNAVAILABLE"),
                 negative: {
@@ -146,17 +147,18 @@ const DeliveryTimeGroup = ({
                             color: "var(--gray-700)",
                             boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
                         }}
+                        isDisabled={!dateOptionsList.length}
                         isLoading={isLoadingTime}
                         border="1px solid transparent"
                         borderRadius="0.8rem"
                         rightIcon={<ChevronDownIcon width={15} />}
                     >
-                        {date ? dateOptions[date].name : dateOptionsList?.[0]?.name ?? "-"}
+                        {date ? dateOptions[date]?.name : dateOptionsList?.[0]?.name ?? "-"}
                     </MenuButton>
                     <MenuList>
                         {dateOptionsList.map((item, i) => (
                             <MenuItem key={`date-${i}`} onClick={() => setDate(item.value)}>
-                                {item.name}
+                                {item?.name}
                             </MenuItem>
                         ))}
                     </MenuList>
@@ -177,6 +179,7 @@ const DeliveryTimeGroup = ({
                         h="4.4rem"
                         borderRadius="0.8rem"
                         rightIcon={<ChevronDownIcon width={15} />}
+                        isDisabled={!timeList[timeIndex] || !timeList[timeIndex].length}
                     >
                         {timeList[timeIndex]}
                     </MenuButton>

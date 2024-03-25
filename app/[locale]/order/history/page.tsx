@@ -67,7 +67,7 @@ const OrderHistoryPage = () => {
                     <VStack w="100%" spacing={"0.8rem"}>
                         <HistoryItem />
                         <HistoryItem />
-                        <HistoryItem orderStatus={OrderStatus.Cancel} />
+                        <HistoryItem orderStatus={OrderStatus.CANCELLED} />
                     </VStack>
                 </Flex>
             </Flex>

@@ -2,7 +2,6 @@ import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import apiServices from "@/services/sevices";
 import { FetchMode } from "@/types/enum";
 import { SearchFoodAndRestaurantByCategoryIdRequest } from "@/types/request/SearchFoodAndRestaurantByCategoryIdRequest";
-import { orderDetailMock } from "@/utils/data/order";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import useSWR, { SWRConfiguration } from "swr";
@@ -34,7 +33,7 @@ const useSWRAPI = () => {
                 }
             },
         };
-    }, []);
+    }, [t]);
     return {
         GetAvailableTime: (
             params: {
@@ -49,7 +48,9 @@ const useSWRAPI = () => {
             ignoreErrorCode?: number[],
         ) =>
             useSWR(
-                `getAvailableTime_${(params.menu_item_ids ?? []).join("_")}`,
+                params?.menu_item_ids?.length
+                    ? `getAvailableTime_${(params.menu_item_ids ?? []).join("_")}`
+                    : undefined,
                 async () => apiServices.getAvailableTime(params, ignoreErrorCode),
                 {
                     ...swrConfig,
@@ -115,7 +116,7 @@ const useSWRAPI = () => {
                 ...config,
             }),
         GetOrderDetail: (_orderId: string, config?: SWRConfiguration) =>
-            useSWR("getOrderDetail", async () => Promise.resolve(orderDetailMock), {
+            useSWR("getOrderDetail", async () => apiServices.orderDetail(_orderId), {
                 ...swrConfig,
                 ...config,
             }),
@@ -132,7 +133,7 @@ const useSWRAPI = () => {
             config?: SWRConfiguration,
         ) =>
             useSWR(
-                `getApplicationFee${params.itemTotal}_${params.exchangeRate}`,
+                params?.itemTotal ? `getApplicationFee${params.itemTotal}_${params.exchangeRate}` : undefined,
                 async () => apiServices.getApplicationFee(params),
                 {
                     ...swrConfig,
@@ -148,7 +149,10 @@ const useSWRAPI = () => {
             config?: SWRConfiguration,
         ) =>
             useSWR(
-                () => (!enable ? null : `getCutleryFee${params.item_quantity}_${params.restaurant_id}`),
+                () =>
+                    !enable || !params.restaurant_id
+                        ? null
+                        : `getCutleryFee${params.item_quantity}_${params.restaurant_id}`,
                 async () => apiServices.getCutleryFee(params),
                 {
                     ...swrConfig,
@@ -162,10 +166,16 @@ const useSWRAPI = () => {
             },
             config?: SWRConfiguration,
         ) =>
-            useSWR(`getCouponInfo_${params.sku_ids?.join("_")}`, async () => apiServices.getCouponInfo(params), {
-                ...swrConfig,
-                ...config,
-            }),
+            useSWR(
+                params?.restaurant_id && params.sku_ids?.length
+                    ? `getCouponInfo_${params.sku_ids?.join("_")}`
+                    : undefined,
+                async () => apiServices.getCouponInfo(params),
+                {
+                    ...swrConfig,
+                    ...config,
+                },
+            ),
     };
 };
 

@@ -28,6 +28,7 @@ import { SearchFoodAndRestaurantByCategoryIdResponse } from "@/types/response/Se
 import { SearchFoodByNameResponse } from "@/types/response/SearchFoodByNameResponse";
 import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
+import { removeToken } from "@/utils/auth";
 import { AxiosError, CancelToken } from "axios";
 import { ContentType, FullRequestParams, HttpClient } from "./apiClient";
 import { handleRefreshToken } from "./sessionInvalid";
@@ -73,6 +74,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
         }
         switch (status) {
             case 401: {
+                removeToken();
                 const result = await handleRefreshToken(errDest);
                 if (result) {
                     errorRetryCount++;
@@ -443,23 +445,14 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 },
             });
         },
-        getDeliveryFee: (
-            params: {
-                lat: number;
-                long: number;
-            }[],
-        ) => {
-            return this.request<
-                [
-                    {
-                        data?: {
-                            distance: number;
-                            total_price: number;
-                        };
-                    },
-                ]
-            >({
-                path: `https://api.2all.com.vn/ahamove/estimate`,
+        getDeliveryFee: (params: { restaurant_id?: number; delivery_latitude: number; delivery_longitude: number }) => {
+            return this.request<{
+                delivery_fee: number;
+                currency: string;
+                duration_s: number;
+                distance_km: number;
+            }>({
+                path: `/order/get-delivery-fee`,
                 method: "POST",
                 body: params,
             });
@@ -513,6 +506,21 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: `/order/create`,
                 method: "POST",
                 body: data,
+            });
+        },
+        orderDetail: (orderId: number | string) => {
+            return this.request<Order>({
+                path: `/order/${orderId}`,
+                method: "GET",
+            });
+        },
+        momo: (invoiceId: number) => {
+            return this.request<{ payUrl: string }>({
+                path: `/order/create-momo-payment`,
+                method: "POST",
+                body: {
+                    invoiceId: invoiceId,
+                },
             });
         },
     };

@@ -4,6 +4,7 @@ import { useAppSelector } from "@/store/hooks";
 import { CartItem } from "@/types/cart";
 import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
 import { OtherCustomization, TasteCustomization } from "@/utils/constants";
+import { parseStringToObj } from "@/utils/functions";
 import { Button, Flex, HStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { RefObject, useEffect, useMemo, useState } from "react";
@@ -82,7 +83,7 @@ const OrderFooter = ({
                         cartItem = {
                             ...cartItem,
                             advanced_taste_customization_obj: [
-                                ...cartItem.advanced_taste_customization_obj,
+                                ...parseStringToObj(cartItem.advanced_taste_customization_obj),
                                 {
                                     option_id: split[1],
                                     value_id: foodValueSetting[item],
@@ -95,7 +96,7 @@ const OrderFooter = ({
                             cartItem = {
                                 ...cartItem,
                                 basic_taste_customization_obj: [
-                                    ...cartItem.basic_taste_customization_obj,
+                                    ...parseStringToObj(cartItem.basic_taste_customization_obj),
                                     {
                                         no_adding_id: split[1],
                                     },

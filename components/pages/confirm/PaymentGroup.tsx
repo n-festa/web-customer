@@ -1,11 +1,16 @@
 import CartItem from "@/components/organism/CartItem";
+import useDeleteCartItem from "@/hooks/useDeleteCartItem";
 import useRenderText from "@/hooks/useRenderText";
+import useUpdateCart from "@/hooks/useUpdateCart";
 import { Cart } from "@/types/cart";
 import { formatMoney, genCartNote } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, Flex, FlexProps, Image, Text, VStack } from "@chakra-ui/react";
+import { CancelTokenSource } from "axios";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+let _cts: CancelTokenSource | null = null;
 
 const PaymentGroup = ({
     applicationFee,
@@ -17,6 +22,8 @@ const PaymentGroup = ({
     finalPrice,
     deliveryFee,
     packageFee,
+    isDisableOrder,
+    isLoading,
     ...props
 }: FlexProps & {
     cutleryFee?: number;
@@ -26,13 +33,24 @@ const PaymentGroup = ({
     totalPrice?: number;
     finalPrice?: number;
     packageFee?: number;
+    isDisableOrder?: boolean;
+    isLoading?: boolean;
     deliveryFee?: { deliveryFee?: number; distance?: number };
     onConfirm: () => void;
 }) => {
     const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
     const { renderTxt } = useRenderText();
     const router = useRouter();
+    const { handleChangeCartQuantity, maxQtyValues, handleChangeQtyRaw } = useUpdateCart();
+    const { handleDeleteCartItem } = useDeleteCartItem();
 
+    useEffect(() => {
+        return () => {
+            _cts?.cancel();
+            _cts = null;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         <Flex
             color="black"
@@ -70,6 +88,8 @@ const PaymentGroup = ({
                 <VStack flex={1} overflow="auto" mt="0.8rem" spacing="0.8rem">
                     {cart?.cart_info?.map((item) => (
                         <CartItem
+                            restaurantId={cart.restaurant_id}
+                            id={item.menu_item_id}
                             key={item.item_id}
                             image={item.item_img ?? ""}
                             name={renderTxt(item.item_name) ?? ""}
@@ -77,7 +97,18 @@ const PaymentGroup = ({
                             price={item.price?.toLocaleString()}
                             nowPrice={item.price_after_discount?.toLocaleString()}
                             quantity={item.qty_ordered}
-                            hideNumberInput
+                            onChangeValue={(value) => {
+                                handleChangeQtyRaw(item.item_id, item.menu_item_id, value);
+                                handleChangeCartQuantity(item.item_id, value, _cts);
+                            }}
+                            onDeleteCartItem={() => {
+                                if (item.item_id != undefined && cart.customer_id != undefined)
+                                    handleDeleteCartItem(item.item_id, cart.customer_id);
+                            }}
+                            numberInputProps={{
+                                value: maxQtyValues[String(item.menu_item_id)]?.items?.[String(item.item_id)].value,
+                                max: maxQtyValues[String(item.menu_item_id)]?.items?.[String(item.item_id)].max,
+                            }}
                         />
                     ))}
                 </VStack>
@@ -136,7 +167,13 @@ const PaymentGroup = ({
                         {formatMoney(finalPrice)}
                     </Text>
                 </Flex>
-                <Button h="4.8rem" onClick={onConfirm} borderRadius="2.4rem">
+                <Button
+                    isLoading={isLoading}
+                    isDisabled={isDisableOrder}
+                    h="4.8rem"
+                    onClick={onConfirm}
+                    borderRadius="2.4rem"
+                >
                     {t("PLACE_ORDER")}
                 </Button>
             </Flex>
