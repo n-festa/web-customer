@@ -11,9 +11,17 @@ const userInfoSlice = createSlice({
         setUserInfo: (state, action: PayloadAction<Customer | undefined>) => {
             state.userInfo = action.payload ? { ...state.userInfo, ...action.payload } : undefined;
         },
+        clearKeepAddress: (state) => {
+            state.userInfo = {
+                latAddress: state.userInfo?.latAddress,
+                longAddress: state.userInfo?.longAddress,
+                address: state.userInfo?.address,
+                addressCompound: state.userInfo?.addressCompound,
+            };
+        },
     },
 });
 
-export const { setUserInfo } = userInfoSlice.actions;
+export const { setUserInfo, clearKeepAddress } = userInfoSlice.actions;
 
 export default userInfoSlice.reducer;

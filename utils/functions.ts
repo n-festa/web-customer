@@ -1,5 +1,9 @@
-import { locationRef, loginSuccessUrl } from "@/app/providers";
+import { locationRef, loginSuccessUrl } from "@/app/[locale]/providers";
 import { CartItem } from "@/types/cart";
+import { OrderItem } from "@/types/order";
+import { formatDate } from "@/utils/date";
+import { addDays, addHours, compareAsc, startOfDay } from "date-fns";
+import { isBefore } from "date-fns/isBefore";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { getToken } from "./auth";
 import { routes } from "./routes";
@@ -57,16 +61,66 @@ export const formatMoney = (input?: string | number) => {
     if (input === undefined) return "-";
     return `${input.toLocaleString()} đ`;
 };
+export const calcCutoffTime = (cutoffTime?: number) => {
+    if (!cutoffTime) return;
+    const hours = Math.abs(cutoffTime / 60);
+    let anchorTime = hours % 24;
+    const days = Math.abs((hours - anchorTime) / 24);
+    const currentTime = new Date();
+    const anchor = startOfDay(currentTime);
+    if (cutoffTime > 0) {
+        const target = addHours(anchor, anchorTime);
+        if (compareAsc(currentTime, target) < 0) {
+            return;
+        }
+        return target;
+    }
+    if (cutoffTime < 0) {
+        anchorTime = 24 - anchorTime;
 
-export const getCutoffTime = (cutoffTime?: string) => {
-    if (cutoffTime) {
+        const target = addHours(anchor, anchorTime);
+
+        if (compareAsc(currentTime, target) < 0) {
+            return addDays(target, days);
+        }
+
+        return addDays(target, days + 1);
+    }
+    return anchorTime;
+};
+
+export const getCutoffTime = (cutoffTime?: string | string[], t?: any) => {
+    if (!cutoffTime) return;
+    if (typeof cutoffTime === "string") {
         const split = cutoffTime.split(":");
         if (split.length > 1) {
-            return `${split[0]}:${split[1]}`;
+            if (+split[0] >= 12) {
+                return `${split[0]}:${split[1]} ${t("PM")}`;
+            }
+            return `${split[0]}:${split[1]} ${t("AM")}`;
         }
-        return "-";
+        return;
     }
-    return "-";
+
+    const _cutoffTime = cutoffTime ?? [];
+    let date: Date | null = null;
+    if (_cutoffTime.length > 0) {
+        const currentData = new Date();
+
+        _cutoffTime.forEach((el) => {
+            const dateString = formatDate(new Date());
+            if (!isNullOrEmpty(el) && date == null) {
+                const _itemDate = new Date(`${dateString} ${el}`);
+                if (isBefore(currentData, _itemDate)) {
+                    date = _itemDate;
+                }
+            }
+        });
+    }
+    if (date) {
+        return formatDate(date, "HH:mm aa");
+    }
+    return;
 };
 
 export const redirectAfterLogin = (router: AppRouterInstance) => {
@@ -75,7 +129,7 @@ export const redirectAfterLogin = (router: AppRouterInstance) => {
     router.push(destination);
 };
 
-export const genCartNote = (cartItem: CartItem) => {
+export const genCartNote = (cartItem: CartItem | OrderItem) => {
     const mapString = [];
     cartItem.portion_customization && mapString.push(cartItem.portion_customization);
     cartItem.advanced_taste_customization && mapString.push(cartItem.advanced_taste_customization);
@@ -83,4 +137,47 @@ export const genCartNote = (cartItem: CartItem) => {
     cartItem.notes && mapString.push(cartItem.notes);
     //<portion> - <advanced> - <basic> - <note>
     return mapString.join(" - ");
+};
+
+export const isNullOrEmpty = (value?: number | string | Date | null): value is null | undefined => {
+    return (value ?? "") === "";
+};
+
+export function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export const validateEmail = (email: string) => {
+    return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    );
+};
+
+export const parseArrayToObject = <T>(arr: T[], key: keyof T): { [key: string]: T } => {
+    const result = arr.reduce(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (obj: { [key: string]: T }, cur: T) => ({ ...obj, [cur?.[key] as any]: cur }),
+        {},
+    );
+
+    return result;
+};
+
+export const formatPhoneNumber = (phone: string) => {
+    return phone.replace(/(\d{2})(\d{3})(\d{3})(\d{3})/, "+$1 $2 $3 $4"); //+84 012 345 678
+};
+
+export const parseStringToObj = (value?: string | Object) => {
+    if (typeof value === "string") {
+        try {
+            return JSON.parse(value);
+        } catch {
+            return;
+        }
+    }
+    return value;
+};
+
+export const capitalizeFirstLetter = (txt: string) => {
+    return txt.charAt(0).toUpperCase() + txt.slice(1);
 };

@@ -1,8 +1,10 @@
 import { Box, Flex, Img, Text, VStack } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 
 const WhyChoose = () => {
+    const t = useTranslations("HOME.WHY_CHOOSE");
     return (
-        <Flex scrollMarginTop="8rem">
+        <Flex>
             <Flex
                 flexDir="column"
                 alignItems="center"
@@ -12,7 +14,7 @@ const WhyChoose = () => {
                 className="why-choose-us align-items-center justify-content-center"
             >
                 <Text color="var(--icterine-500)" fontSize="4rem" fontWeight="600">
-                    Tại sao chọn 2All
+                    {t("TITLE")}
                 </Text>
                 <VStack spacing="2.4rem">
                     <VStack spacing="0.8rem" alignItems="center" flexDir="column">
@@ -27,10 +29,10 @@ const WhyChoose = () => {
                             <Img alt="" src="/images/enjoy_food.svg" />
                         </Flex>
                         <Text fontSize="2rem" fontWeight="600" color="var(--icterine-500)">
-                            Bữa ăn theo nhu cầu
+                            {t("REASON_1")}
                         </Text>
                         <Text maxW="34rem" textAlign="center" color="white" fontSize="1.6rem">
-                            Lựa chọn thực phẩm, các món ăn theo nhu cầu dinh dưỡng, khẩu vị và thể trạng của bạn
+                            {t("DESCRIPTION_1")}
                         </Text>
                     </VStack>
                     <VStack spacing="0.8rem" alignItems="center" flexDir="column">
@@ -45,10 +47,10 @@ const WhyChoose = () => {
                             <Img alt="" src="/images/nutrition.svg" />
                         </Flex>
                         <Text fontSize="2rem" fontWeight="600" color="var(--icterine-500)">
-                            Thông tin dinh dưỡng đầy đủ
+                            {t("REASON_2")}
                         </Text>
                         <Text maxW="34rem" textAlign="center" color="white" fontSize="1.6rem">
-                            Thông tin dinh dưỡng cho từng món ăn bao gồm số Kcal, protein, lipid,carb,...
+                            {t("DESCRIPTION_2")}
                         </Text>
                     </VStack>
 
@@ -64,10 +66,10 @@ const WhyChoose = () => {
                             <Img alt="" src="/images/delivery.svg" />
                         </Flex>
                         <Text fontSize="2rem" fontWeight="600" color="var(--icterine-500)">
-                            Đặt hàng hẹn giờ linh hoạt
+                            {t("REASON_3")}
                         </Text>
                         <Text maxW="34rem" textAlign="center" color="white" fontSize="1.6rem">
-                            Đặt hàng với khung giờ giao linh hoạt, phù hợp với nhu cầu của bạn.
+                            {t("DESCRIPTION_3")}
                         </Text>
                     </VStack>
                 </VStack>

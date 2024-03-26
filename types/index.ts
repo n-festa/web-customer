@@ -1,3 +1,5 @@
+import { Compound } from "./response/SearchPlaceResponse";
+
 export type IngredientType = {
     name?: number | string;
     quantity?: string | number;
@@ -40,7 +42,10 @@ export type ProductTypeList = {
     units_sold?: number;
     promotion?: string;
     cutoff_time?: string;
+    cutoff_time_m?: number;
+    restaurantId?: string | number;
     cooking_time_s?: number;
+    is_advanced_customizable?: boolean;
 };
 export type ProductStoreType = {
     id: string;
@@ -62,7 +67,7 @@ export type GtagEventType = {
 export type UserType = {
     name: string;
     email: string;
-    birthday: string;
+    birthday: string | Date;
     sex: string;
     height_m: number | string;
     weight_kg: number | string;
@@ -70,7 +75,11 @@ export type UserType = {
     current_diet?: string;
     allergic_food?: string;
     chronic_disease: string;
-    expected_diet: string;
+    expected_diet?: string;
+    expected_diet_diff?: string;
+    phone_number?: string;
+    first_name?: string;
+    last_name?: string;
 };
 
 export type UserAuth = {
@@ -122,4 +131,5 @@ export interface Customer {
     latAddress?: number;
     longAddress?: number;
     address?: string;
+    addressCompound?: Compound;
 }

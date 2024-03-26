@@ -2,18 +2,35 @@ import { store } from "@/store";
 import { setLoading } from "@/store/reducers/appSlice";
 import { Cart, CartItem } from "@/types/cart";
 import { FetchMode } from "@/types/enum";
+import {
+    Coupon,
+    CouponAppliedItem,
+    DateStep,
+    Discount,
+    DistrictsResponse,
+    ProvinceResponse,
+    ReviewResponse,
+} from "@/types/interfaces";
+import { Order } from "@/types/order";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
-import { GetFoodDetailResponse, GetSideDishesResponse } from "@/types/response/FoodResponse";
+import {
+    GetCurrentAvailableFoodByRestaurantResponse,
+    GetFoodDetailResponse,
+    GetPersonalFoodRecommendationResponse,
+    GetSideDishesResponse,
+} from "@/types/response/FoodResponse";
 import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesResponse";
 import { GetGeneralFoodRecommendResponse } from "@/types/response/GetGeneralFoodRecommendResponse";
 import { GetGeneralRestaurantRecommendationResponse } from "@/types/response/GetGeneralRestaurantRecommendationResponse";
 import { GetListSKUsByIdResponse } from "@/types/response/GetListSKUsByIdResponse";
+import { RestaurantDetailResponse } from "@/types/response/RestaurantDetailResponse";
 import { SearchFoodAndRestaurantByCategoryIdResponse } from "@/types/response/SearchFoodAndRestaurantByCategoryIdResponse";
 import { SearchFoodByNameResponse } from "@/types/response/SearchFoodByNameResponse";
 import { SearchPlaceResponse } from "@/types/response/SearchPlaceResponse";
 import { GeoCode } from "@/types/response/base";
-import { AxiosError } from "axios";
-import { FullRequestParams, HttpClient } from "./apiClient";
+import { removeToken } from "@/utils/auth";
+import { AxiosError, CancelToken } from "axios";
+import { ContentType, FullRequestParams, HttpClient } from "./apiClient";
 import { handleRefreshToken } from "./sessionInvalid";
 
 let callNumber = 0;
@@ -47,16 +64,17 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
         _err: AxiosError & {
             config: { ignoreAll?: boolean; ignoreErrorCode?: number[]; hasLoading?: boolean; errDest?: string };
         },
-    ): Promise<string | T | undefined> {
+    ): Promise<string | T | undefined | unknown> {
         const { ignoreAll, ignoreErrorCode, hasLoading, errDest } = _err?.config || {};
 
         const status = _err.response?.status;
         if (ignoreAll || (status && ignoreErrorCode?.includes(status))) {
             endLoading(hasLoading);
-            return;
+            return Promise.resolve(_err.response?.data);
         }
         switch (status) {
             case 401: {
+                removeToken();
                 const result = await handleRefreshToken(errDest);
                 if (result) {
                     errorRetryCount++;
@@ -72,7 +90,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             }
         }
         endLoading(hasLoading);
-        return Promise.reject();
+        return Promise.reject({ error: _err });
     }
     constructor() {
         // Add BaseConfig Into Super Constructor
@@ -133,7 +151,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
         createProfile: (data: {
             name: string;
             email: string;
-            birthday: string;
+            birthday: string | Date;
             sex: string;
             height_m: number | string;
             weight_kg: number | string;
@@ -141,11 +159,31 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             current_diet?: string;
             allergic_food?: string;
             chronic_disease: string;
-            expected_diet: string;
+            expected_diet?: string;
         }) => {
             return this.request({
                 path: "create-customer-profile",
                 method: "POST",
+                body: data,
+            });
+        },
+        updateCustomer: (data: {
+            customer_id: number;
+            name: string;
+            email: string;
+            birthday: string | Date;
+            sex: string;
+            height_m: number | string;
+            weight_kg: number | string;
+            physical_activity_level: string;
+            current_diet?: string;
+            allergic_food?: string;
+            chronic_disease: string;
+            expected_diet?: string;
+        }) => {
+            return this.request({
+                path: "customer-profile/updateCustomer",
+                method: "PUT",
                 body: data,
             });
         },
@@ -156,12 +194,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             return this.request<GetGeneralFoodRecommendResponse>({
                 path: "food/get-general-food-recomendation",
                 method: "GET",
-                //TODO
-                query: query ?? {
-                    lat: 10.820557580712087,
-                    long: 106.7723030321775,
-                },
-
+                query: query,
                 ...reqParams,
             });
         },
@@ -226,10 +259,11 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             });
         },
 
-        getSideDishByMenuItemId: (id: number) => {
+        getSideDishByMenuItemId: (id: number, query?: { fetch_mode?: FetchMode }) => {
             return this.request<GetSideDishesResponse>({
                 path: `food/get-side-dish/${id}`,
                 method: "GET",
+                query: query,
             });
         },
 
@@ -238,6 +272,13 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: "/food/search-by-name",
                 method: "POST",
                 body: params,
+            });
+        },
+
+        getRestaurantDetail: (id: number) => {
+            return this.request<RestaurantDetailResponse>({
+                path: `/restaurant/get-detail/${id}`,
+                method: "GET",
             });
         },
 
@@ -263,17 +304,223 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 hasLoading: true,
             });
         },
-        basicUpdateCart: (params: {
-            customer_id: number;
-            updated_items: {
-                item_id: number;
-                qty_ordered: number;
-            }[];
-        }) => {
+        deleteCartItem: (params: { customer_id: string | number; cart_items: number[] }) => {
+            return this.request<{ data: Cart }>({
+                path: `/cart/delelte-item`,
+                method: "POST",
+                body: params,
+            });
+        },
+        basicUpdateCart: (
+            params: {
+                customer_id: number;
+                updated_items: {
+                    item_id: number;
+                    qty_ordered: number;
+                }[];
+            },
+            cts?: CancelToken,
+        ) => {
             return this.request<{ data: Cart }>({
                 path: `/cart/basic-update`,
                 method: "POST",
                 body: params,
+                cancelToken: cts,
+            });
+        },
+        quickAddCart: (params: { customer_id: number; menu_item_id: number }) => {
+            return this.request<{ data: Cart }>({
+                path: `/cart/quick-add`,
+                method: "POST",
+                body: params,
+            });
+        },
+        getHotFood: () => {
+            return this.request<GetGeneralFoodRecommendResponse>({
+                path: `/food/get-hot-food`,
+                method: "GET",
+            });
+        },
+        getAvailableTime: (
+            params: {
+                menu_item_ids?: (number | undefined)[];
+                now?: number;
+                long?: number;
+                lat?: number;
+                utc_offset?: number;
+                having_advanced_customization?: boolean;
+            },
+            ignoreErrorCode?: number[],
+        ) => {
+            return this.request<{
+                data: DateStep[] | number;
+                statusCode: number;
+            }>({
+                path: `/cart/get-available-delivery-time`,
+                method: "POST",
+                body: params,
+                ignoreErrorCode: [...(ignoreErrorCode ?? []), 404],
+            });
+        },
+        sendContactForm: (params: { email: string; message: string; recaptcha_token?: string | null }) => {
+            return this.request({
+                path: `/restaurant/send-contact-form`,
+                method: "POST",
+                body: params,
+            });
+        },
+        getProvincesCities: () => {
+            return this.request<{ data: ProvinceResponse[] }>({
+                path: `https://pos.pages.fm/api/v1/geo/provinces?country_code=84`,
+                method: "GET",
+            });
+        },
+        getDistricts: (provinceId: string) => {
+            return this.request<{ data: DistrictsResponse[] }>({
+                path: `https://pos.pages.fm/api/v1/geo/districts?province_id=${provinceId}`,
+                method: "GET",
+            });
+        },
+        getWards: (districtId: string) => {
+            return this.request<{ data: DistrictsResponse[] }>({
+                path: `https://pos.pages.fm/api/v1/geo/communes?district_id=${districtId}`,
+                method: "GET",
+            });
+        },
+        getCurrentAvailableFoodByRestaurant: (id: number | string, query?: { fetch_mode?: FetchMode }) => {
+            return this.request<GetCurrentAvailableFoodByRestaurantResponse>({
+                path: `/todo/${id}`, // TODO
+                method: "GET",
+                query: query,
+                ignoreAll: true,
+            });
+        },
+        getPersonalFoodRecommendation: (id: number | string, query?: { fetch_mode?: FetchMode }) => {
+            return this.request<GetPersonalFoodRecommendationResponse>({
+                path: `/todo/${id}`, // TODO
+                method: "GET",
+                query: query,
+                ignoreAll: true,
+            });
+        },
+        getPaymentMethod: () => {
+            return this.request<{
+                data: [
+                    {
+                        payment_id: number;
+                        name: string;
+                    },
+                ];
+            }>({
+                path: `order/get-payment-method`,
+                method: "GET",
+            });
+        },
+        getApplicationFee: ({ itemTotal, exchangeRate }: { itemTotal: number; exchangeRate: number }) => {
+            return this.request<{ application_fee: number }>({
+                path: `/order/get-application-fee`,
+                method: "POST",
+                body: {
+                    items_total: itemTotal,
+                    exchange_rate: exchangeRate,
+                },
+            });
+        },
+        getCutleryFee: ({
+            restaurant_id,
+            item_quantity,
+        }: {
+            item_quantity?: number;
+            restaurant_id?: string | number;
+        }) => {
+            return this.request<{
+                cutlery_fee: number;
+                currency: string;
+            }>({
+                path: `/order/get-cutlery-fee`,
+                method: "POST",
+                body: {
+                    restaurant_id: restaurant_id,
+                    item_quantity: item_quantity,
+                },
+            });
+        },
+        getDeliveryFee: (params: { restaurant_id?: number; delivery_latitude: number; delivery_longitude: number }) => {
+            return this.request<{
+                delivery_fee: number;
+                currency: string;
+                duration_s: number;
+                distance_km: number;
+            }>({
+                path: `/order/get-delivery-fee`,
+                method: "POST",
+                body: params,
+            });
+        },
+        getTopReview: () => {
+            return this.request<{ data: ReviewResponse[] }>({
+                path: `/rating-review/get-top-review`,
+                method: "GET",
+            });
+        },
+        getCouponInfo: ({ sku_ids, restaurant_id }: { sku_ids?: number[]; restaurant_id?: string | number }) => {
+            return this.request<{ coupons: Coupon[] }>({
+                path: `/order/get-coupon-info`,
+                method: "POST",
+                body: {
+                    sku_ids,
+                    restaurant_id,
+                },
+            });
+        },
+        applyCoupon: (params: {
+            coupon_code?: string;
+            restaurant_id?: string | number;
+            items: CouponAppliedItem[];
+        }) => {
+            return this.request<Discount>({
+                path: `/order/apply-coupon`,
+                method: "POST",
+                body: params,
+            });
+        },
+        uploadImagePost: (data: { file: File | undefined }) => {
+            return this.request({
+                path: `uploadImage`,
+                method: "POST",
+                body: data,
+                headers: {
+                    "Content-Type": ContentType.FormData,
+                },
+            });
+        },
+        uploadImagePut: (data: { customer_id: number; url: string }) => {
+            return this.request({
+                path: `updateProfileImage`,
+                method: "PUT",
+                body: data,
+            });
+        },
+        createOrder: (data: Order) => {
+            return this.request<Order>({
+                path: `/order/create`,
+                method: "POST",
+                body: data,
+            });
+        },
+        orderDetail: (orderId: number | string) => {
+            return this.request<Order>({
+                path: `/order/${orderId}`,
+                method: "GET",
+            });
+        },
+        momo: (invoiceId: number) => {
+            return this.request<{ payUrl: string }>({
+                path: `/order/create-momo-payment`,
+                method: "POST",
+                body: {
+                    invoiceId: invoiceId,
+                },
             });
         },
     };

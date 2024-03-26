@@ -4,23 +4,37 @@ import SkeletonBox from "@/components/molecules/SkeletonBox";
 import WraperInfo from "@/components/molecules/WraperInfo";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
+import useRenderText from "@/hooks/useRenderText";
+import { useAppSelector } from "@/store/hooks";
+import { SearchFoodType } from "@/types/enum";
 import { routes } from "@/utils/routes";
 import { Wrap, WrapItem } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
+import { useTranslations } from "use-intl";
 
 const SpecialFood = () => {
+    const { renderTxt } = useRenderText();
+    const t = useTranslations("SEARCH.SPECIAL_FOOD");
     const { GetGeneralFoodRecommendation } = useSWRAPI();
-    // const profile = useSelector((state: RootState) => state.auth.profile);
-    const { data, isLoading } = GetGeneralFoodRecommendation();
+    const { longAddress, latAddress } = useAppSelector((state) => state.userInfo.userInfo ?? {});
+    const { data, isLoading } = GetGeneralFoodRecommendation({ lat: latAddress, long: longAddress });
     const router = useRouter();
 
     const onViewAll = () => {
-        router.push(`${routes.SearchDetail}?viewAllFood=true`);
+        router.push(`${routes.SearchDetail}?&detailType=${SearchFoodType.AllFood}&name=${t("TITLE")}`);
     };
-    return (
+
+    const lstRecommendFood = useMemo(() => {
+        return data?.data ?? [];
+    }, [data]);
+
+    return lstRecommendFood.length < 1 ? (
+        <></>
+    ) : (
         <WraperInfo
-            title="Hấp dẫn"
-            description="Khám phá món hấp dẫn xung quanh bạn"
+            title={t("TITLE")}
+            description={t("DESCRIPTION")}
             onClickViewAll={onViewAll}
             contentProps={{
                 display: "flex",
@@ -37,7 +51,7 @@ const SpecialFood = () => {
                 ) : data && data?.data.length < 1 ? (
                     <Empty />
                 ) : (
-                    data?.data?.map((item) => {
+                    lstRecommendFood.map((item) => {
                         return (
                             <WrapItem
                                 key={item.id}
@@ -50,10 +64,10 @@ const SpecialFood = () => {
                                     key={item.id}
                                     top_label={item.top_label}
                                     id={item.id}
-                                    name={item.name?.[0].text ?? "-"}
+                                    name={renderTxt(item.name) ?? "-"}
                                     images={item.image}
-                                    merchart={item.restaurant_name?.[0].text}
-                                    cook_method={item.main_cooking_method?.[0]?.text}
+                                    merchart={renderTxt(item.restaurant_name)}
+                                    cook_method={renderTxt(item.main_cooking_method)}
                                     currentPrice={item.price_after_discount}
                                     price={item.price}
                                     ingredientName={item.ingredient_brief_vie}
@@ -61,8 +75,9 @@ const SpecialFood = () => {
                                     distance={item.distance_km}
                                     ratings={item.rating}
                                     promotion={item.promotion}
-                                    cutoff_time={item.cutoff_time}
+                                    is_advanced_customizable={item.is_advanced_customizable}
                                     cooking_time_s={item.cooking_time_s}
+                                    restaurantId={item.restaurant_id}
                                 />
                             </WrapItem>
                         );

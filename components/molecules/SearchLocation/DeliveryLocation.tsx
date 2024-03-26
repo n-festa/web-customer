@@ -1,32 +1,29 @@
 import SearchLocation from "@/components/molecules/SearchLocation";
 import { RootState } from "@/store";
 import textStyles from "@/theme/textStyle";
-import { Customer } from "@/types";
-import { storageKeys } from "@/utils/constants";
-import { loadState } from "@/utils/localstorage";
 import { Img, InputLeftElement, Text } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 
 const DeliveryLocation = () => {
-    const defaultAddress: Customer = loadState(storageKeys.userProfile);
-    const address = useSelector(
-        (state: RootState) => state.userInfo?.userInfo?.address ?? defaultAddress?.address ?? "",
-    );
+    const t = useTranslations("COMMON");
+    const address = useSelector((state: RootState) => state.userInfo?.userInfo?.address ?? "");
     return (
         <SearchLocation
             variant={"searchBox"}
             bg="white"
             borderRadius="1rem"
             minW={{
-                lg: "44rem",
                 base: "70%",
+                xl: "30rem",
+                "2xl": "44rem",
             }}
             h="4.4rem"
             rightElement={<></>}
             leftElement={
                 <InputLeftElement pointerEvents="none" w="12rem" h="100%" p="1rem 1rem">
                     <Text fontWeight={"400"} color="var(--gray-500)" whiteSpace={"nowrap"} {...textStyles.small}>
-                        Giao đến
+                        {t("DELIVER_TO")}
                     </Text>
                     <Img
                         src="/images/icons/marker-pin-01.svg"
@@ -44,6 +41,7 @@ const DeliveryLocation = () => {
                 flex: 1,
                 color: "var(--gray-600)",
                 fontSize: "1.6rem",
+                fontWeight: "bold",
                 bg: "transparent",
             }}
             locationSuggestionProps={{

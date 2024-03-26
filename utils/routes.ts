@@ -10,4 +10,7 @@ export const routes = {
     ProductDetail: "/detail",
     ConfirmOrder: "/confirm",
     review: "/review",
+    OrderDetail: "/order/detail",
+    OrderHistory: "/order/history",
+    Profile: "/profile",
 };

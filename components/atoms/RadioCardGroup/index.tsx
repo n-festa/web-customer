@@ -3,7 +3,7 @@ import { ChangeEvent } from "react";
 import RadioCard from "../RadioCard";
 
 type RadioCardGroupProps = {
-    title: string;
+    title?: string;
     data: { value: string; content: string }[];
     name: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;

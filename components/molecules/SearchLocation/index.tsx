@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useCallback, useRef, useState } from "react";
 import useOnClickOutside from "use-onclickoutside";
 import LocationSuggestion from "./LocationSuggestion";
+import { useTranslations } from "next-intl";
 
 interface Props {
     rightElement?: React.ReactNode;
@@ -36,6 +37,7 @@ const SearchLocation = ({
     locationSuggestionProps,
     ...props
 }: Props & InputGroupProps) => {
+    const t = useTranslations("HOME.BANNER");
     const {
         input,
         setInput,
@@ -69,7 +71,7 @@ const SearchLocation = ({
         } else {
             setError({
                 type: SearchLocationErrorType.Error,
-                text: "Vui lòng chọn địa chỉ của bạn",
+                text: t("SELECT_YOUR_ADDRESS"),
             });
         }
     }, [router, selectedPlace, setError]);
@@ -96,7 +98,7 @@ const SearchLocation = ({
                 )}
                 <Input
                     ref={inputRef}
-                    placeholder="Nhập địa chỉ để tìm món ngon gần bạn"
+                    placeholder={t("SEARCH")}
                     ml="1.6rem"
                     fontSize="1.8rem"
                     onFocus={() => {
@@ -129,7 +131,7 @@ const SearchLocation = ({
                             color="var(--primary-text-color)"
                         />
                         <Button h="3.6rem" w="9.1rem" borderRadius="9rem" variant="solid" onClick={handleOnClickSearch}>
-                            Tìm món
+                            {t("DISCOVER_FOOD")}
                         </Button>
                     </InputRightElement>
                 )}

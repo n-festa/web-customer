@@ -34,6 +34,16 @@ const textStyle = {
             fontWeight: "500",
             lineHeight: "2.4rem",
         },
+        successStatus: {
+            fontSize: "1.6rem",
+            color: "#16B364",
+            fontWeight: 600,
+        },
+        cancelStatus: {
+            fontSize: "1.6rem",
+            color: "#F04438",
+            fontWeight: 600,
+        },
     },
 };
 

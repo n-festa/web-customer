@@ -1,34 +1,32 @@
-import { Box, Flex, HStack, Image, Switch, Text, VStack } from "@chakra-ui/react";
+import { Flex, Switch, Text, VStack } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import GroupWrapper from "./GroupWrapper";
 
-const PackageGroup = () => {
+const PackageGroup = ({
+    addCutlery,
+    setAddCutlery,
+}: {
+    addCutlery: boolean;
+    setAddCutlery: (value: boolean) => void;
+}) => {
+    const t = useTranslations("CONFIRM_ORDER.PACKAGE_GROUP");
     return (
-        <GroupWrapper title="Đóng gói">
-            <VStack w="100%" spacing="0.8rem" color="black">
-                <Flex alignItems="center" mt="0.8rem" w="100%" color="black">
-                    <VStack fontSize="1.6rem" flex={1} alignItems="flex-start">
-                        <Text fontWeight={600}>Đóng gói bằng hộp bã mía</Text>
-                        <Text>3,000 đ</Text>
-                    </VStack>
-                    <HStack flex={1}>
-                        <Box w="10rem" h="10rem">
-                            <Image borderRadius="0.8rem" src="/images/image-2.svg" alt="food-container-1" />
-                        </Box>
-                        <Box w="10rem" h="10rem">
-                            <Image borderRadius="0.8rem" src="/images/image-3.svg" alt="food-container-2" />
-                        </Box>
-                    </HStack>
-                </Flex>
-                <Flex minW="fit-content" alignItems="center" mt="0.8rem" w="100%" color="black">
-                    <VStack fontSize="1.6rem" flex={1} alignItems="flex-start">
-                        <Text fontWeight={600}>Dụng cụ ăn uống</Text>
-                        <Text>Chỉ yêu cầu dụng dụ ăn uống khi bạn thực sự cần</Text>
-                    </VStack>
-                    <Flex flex={1}>
-                        <Switch id="isCheckedr" variant={"green"} size="lg"></Switch>
-                    </Flex>
-                </Flex>
-            </VStack>
+        <GroupWrapper title={t("TITLE")}>
+            <Flex minW="fit-content" alignItems="center" mt="0.8rem" w="100%" color="black" gap="4rem">
+                <VStack fontSize="1.6rem" alignItems="flex-start">
+                    <Text fontWeight={600}>{t("EATING_UTENSILS")}</Text>
+                    <Text>{t("REQUEST_ONLY_WHEN_NEEDED")}</Text>
+                </VStack>
+                <Switch
+                    isChecked={addCutlery}
+                    onChange={(e) => {
+                        setAddCutlery(e.target.checked);
+                    }}
+                    id="isChecked"
+                    variant={"green"}
+                    size="lg"
+                ></Switch>
+            </Flex>
         </GroupWrapper>
     );
 };

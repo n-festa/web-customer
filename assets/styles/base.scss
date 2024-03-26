@@ -67,22 +67,6 @@ img {
         overflow: hidden;
     }
 }
-.remove-calendar-icon {
-    input[type="date"]::-webkit-inner-spin-button,
-    input[type="date"]::-webkit-calendar-picker-indicator {
-        display: none;
-        -webkit-appearance: none;
-    }
-}
-
-.hidden-date {
-    input[type="date"]::-webkit-datetime-edit {
-        color: transparent !important;
-    }
-    input[type="date"]:focus::-webkit-datetime-edit {
-        color: transparent !important;
-    }
-}
 
 .chakra-select {
     padding-inline-start: 0 !important;
@@ -103,21 +87,6 @@ img {
     &.three-lines {
         -webkit-line-clamp: 3;
     }
-}
-
-.pagination-dot-indicator {
-    position: relative;
-    border-radius: var(--br-9xs);
-    width: 8px;
-    height: 8px;
-    overflow: hidden;
-    flex-shrink: 0;
-    mix-blend-mode: multiply;
-    background-color: var(--gray-200);
-}
-
-.pagination-dot-indicator.active {
-    background-color: #b7eb52;
 }
 
 .disabled-scroll {

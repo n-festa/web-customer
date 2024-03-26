@@ -2,6 +2,7 @@ import Empty from "@/components/molecules/Empty";
 import FoodChef from "@/components/molecules/FoodChef";
 import SkeletonBox from "@/components/molecules/SkeletonBox";
 import FoodItem from "@/components/organism/FoodItem";
+import useRenderText from "@/hooks/useRenderText";
 import { FilterType, FoodOtherFilterOptionsKeys, SortOrder } from "@/types/enum";
 import { FilterCondition, SearchResult } from "@/types/interfaces";
 import { FoodDto, RestaurantDto } from "@/types/response/base";
@@ -23,6 +24,7 @@ const SearchResult = ({
     filterCondition,
     isLoading,
 }: Props) => {
+    const { renderTxt } = useRenderText();
     const displayed = useMemo(() => {
         const data = result?.[type] ?? [];
         if (data.length === 0) return [];
@@ -94,10 +96,10 @@ const SearchResult = ({
                                     key={item.id}
                                     top_label={item.top_label}
                                     id={item.id}
-                                    name={item.name?.[0].text ?? "-"}
+                                    name={renderTxt(item.name) ?? "-"}
                                     images={item.image}
-                                    merchart={item.restaurant_name?.[0].text}
-                                    cook_method={item.main_cooking_method?.[0]?.text}
+                                    merchart={renderTxt(item.restaurant_name)}
+                                    cook_method={renderTxt(item.main_cooking_method)}
                                     currentPrice={item.price_after_discount}
                                     price={item.price}
                                     ingredientName={item.ingredient_brief_vie}
@@ -105,8 +107,8 @@ const SearchResult = ({
                                     distance={item.distance_km}
                                     ratings={item.rating}
                                     promotion={item.promotion}
-                                    cutoff_time={item.cutoff_time}
                                     cooking_time_s={item.cooking_time_s}
+                                    restaurantId={item.restaurant_id}
                                 />
                             ) : (
                                 <FoodChef data={el as RestaurantDto} />

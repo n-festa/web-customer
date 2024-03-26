@@ -1,7 +1,9 @@
 import config from "@/config";
 import { store } from "@/store";
-import { setUserInfo } from "@/store/reducers/userInfo";
+import { setErrorScreenDes } from "@/store/reducers/appSlice";
+import { clearKeepAddress } from "@/store/reducers/userInfo";
 import Cookies from "js-cookie";
+import { routes } from "./routes";
 
 interface CookieConfig {
     auth_token_key: string;
@@ -35,10 +37,13 @@ function removeTokenRefresh(): void {
     Cookies.remove(cookieConfig.auth_refresh_token);
 }
 
-const logout = () => {
+const logout = (pathname: string) => {
     removeToken();
     removeTokenRefresh();
-    store.dispatch(setUserInfo(undefined));
+    store.dispatch(clearKeepAddress());
+    if (pathname.includes("/order") || pathname.includes(routes.Profile)) {
+        store.dispatch(setErrorScreenDes(routes.Home));
+    }
 };
 
 export { getToken, getTokenRefresh, logout, removeToken, removeTokenRefresh, setToken, setTokenRefresh };

@@ -1,8 +1,11 @@
+import useRenderText from "@/hooks/useRenderText";
 import { RestaurantDto } from "@/types/response/base";
+import { getCutoffTime } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Box, Button, Center, Flex, HStack, Img, Text, VStack } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player/lazy";
 
 interface Props {
@@ -10,6 +13,8 @@ interface Props {
 }
 
 const FoodChef = ({ data }: Props) => {
+    const t = useTranslations("COMMON.FOOD_ITEM");
+    const { renderTxt } = useRenderText();
     const {
         id,
         name,
@@ -23,6 +28,7 @@ const FoodChef = ({ data }: Props) => {
         max_price,
         having_vegeterian_food,
         promotion,
+        cutoff_time,
     } = data;
     const [mounted, setMounted] = useState(false);
     const [playing, setPlaying] = useState(false);
@@ -33,6 +39,10 @@ const FoodChef = ({ data }: Props) => {
             setMounted(true);
         }
     }, [mounted]);
+
+    const _time = useMemo(() => {
+        return getCutoffTime(cutoff_time, t);
+    }, [cutoff_time, t]);
 
     return (
         <Flex
@@ -102,7 +112,7 @@ const FoodChef = ({ data }: Props) => {
             </VStack>
             <VStack w="100%" alignItems={"flex-start"} spacing={"0"} padding="0.8rem 2.4rem" position="relative">
                 <Text fontSize={"2.4rem"} color="var(--gray-900)" fontWeight={"bold"} m="0">
-                    {name?.[0].text ?? "-"}
+                    {renderTxt(name) ?? "-"}
                 </Text>
 
                 <HStack spacing="0.8rem" w="100%">
@@ -129,7 +139,7 @@ const FoodChef = ({ data }: Props) => {
                     </HStack>
                 </HStack>
                 <Text as="span" color="var(--gray-600)" fontSize={"1.6rem"} fontWeight={"700"}>
-                    {specialty?.[0]?.text} | {top_food}
+                    {renderTxt(specialty)} | {top_food}
                 </Text>
 
                 {promotion && (
@@ -140,12 +150,14 @@ const FoodChef = ({ data }: Props) => {
                         </Text>
                     </HStack>
                 )}
-                <HStack spacing="0">
-                    <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2725.svg" />
-                    <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
-                        Đặt trước 09:00 giờ sáng để điều chỉnh vị
-                    </Text>
-                </HStack>
+                {_time && (
+                    <HStack spacing="0">
+                        <Img w="2.4rem" height={"2.4rem"} src="/images/frame-2725.svg" />
+                        <Text fontSize={"1.6rem"} color="var(--gray-600)" m="0" fontWeight={"500"}>
+                            Đặt trước {_time} để điều chỉnh vị
+                        </Text>
+                    </HStack>
+                )}
                 {having_vegeterian_food && (
                     <HStack spacing="0">
                         <Img w="2.4rem" height={"2.4rem"} src="/images/icons/vegan.svg" />

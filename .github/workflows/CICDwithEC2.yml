@@ -24,12 +24,15 @@ jobs:
                   cache: "yarn"
 
             - run: yarn install --immutable
-            - run: yarn build
+            - env:
+                  GEO_GOONG_API_KEY: ${{ secrets.GEO_GOONG_API_KEY }}
+                  CAPTCHA_KEY: ${{ secrets.CAPTCHA_KEY }}
+              run: yarn build
 
             - name: rsync deployments
               uses: burnett01/rsync-deployments@6.0.0
               with:
-                  switches: -avzr --delete --include=".next"
+                  switches: -avzr --delete
                   path: ./*
                   remote_path: /var/www/web-customer/
                   remote_host: 13.214.73.95

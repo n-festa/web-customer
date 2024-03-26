@@ -1,29 +1,41 @@
 "use client";
+import CartIcon from "@/components/atoms/CartIcon";
 import DeliveryLocation from "@/components/molecules/SearchLocation/DeliveryLocation";
+import { useAppSelector } from "@/store/hooks";
 import { routes } from "@/utils/routes";
-import { Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, HStack, Image, Text, useDisclosure } from "@chakra-ui/react";
+import { useLocale, useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import SlideMenu from "../SlideMenu";
+import LocaleSwitcher from "./LocaleSwitcher";
 import NavigationButton from "./NavigationButton";
 const UserGroup = dynamic(() => import("./UserGroup"), { ssr: false });
-const CartIcon = dynamic(() => import("@/components/atoms/CartIcon"), { ssr: false });
 
 const Header = () => {
+    const t = useTranslations("MENU");
     const { isOpen, onClose, onOpen } = useDisclosure();
     const pathname = usePathname();
-
-    const { showDeliveryBox, showSignUpGroup, showListNavi, bg } = useMemo(() => {
+    const locale = useLocale();
+    const error = useAppSelector((state) => state.app.error);
+    const { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart, hideMenu } = useMemo(() => {
         let showDeliveryBox = false;
         let bg = "white";
         let showSignUpGroup = true;
         let showListNavi = false;
-        switch (pathname) {
+        let hideCart = false;
+        let hideMenu = false;
+        const pathNameWithoutLocale = pathname.replace(locale + "/", "");
+        const pathLocale = "/" + locale;
+
+        switch (pathNameWithoutLocale) {
+            case pathLocale:
             case routes.Home:
                 bg = "var(--main-bg-color)";
                 showListNavi = true;
+                hideCart = true;
                 break;
             case routes.Otp:
             case routes.RegistrationSuccess:
@@ -31,19 +43,34 @@ const Header = () => {
             case routes.AdditionalSignUpInfo:
                 showListNavi = true;
                 showSignUpGroup = false;
+                hideCart = true;
                 bg = "var(--main-bg-color)";
 
                 break;
+            case routes.OrderHistory:
+                hideCart = true;
+                break;
             default:
-                const index = [routes.RestaurantDetail, routes.Search, routes.SearchDetail].findIndex((el) =>
-                    pathname.includes(el),
-                );
+                const index = [
+                    routes.RestaurantDetail,
+                    routes.Search,
+                    routes.SearchDetail,
+                    routes.OrderDetail,
+                ].findIndex((el) => pathname.includes(el));
                 if (index != -1) showDeliveryBox = true;
+                if (error?.message) {
+                    showListNavi = false;
+                    showSignUpGroup = false;
+                    showDeliveryBox = false;
+                    hideCart = true;
+                    hideMenu = true;
+                    bg = "var(--main-bg-color)";
+                }
                 break;
         }
-        return { showDeliveryBox, showSignUpGroup, showListNavi, bg };
+        return { showDeliveryBox, showSignUpGroup, showListNavi, bg, hideCart, hideMenu };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pathname]);
+    }, [pathname, error]);
 
     return (
         <>
@@ -66,22 +93,33 @@ const Header = () => {
                     pl={"3.1rem"}
                     display={{ base: "flex", lg: !showListNavi ? "flex" : "none" }}
                 >
-                    <Image alt="menu" onClick={onOpen} color="red" src={"/images/menu-03.svg"} />
-                    <Link href="/">
+                    {!hideMenu && (
                         <Image
-                            width={"14.3rem"}
-                            height={"3.3rem"}
-                            alt="fictional-company-logo"
-                            src="/images/logo1.svg"
+                            width={{ base: "2rem", md: "inherit" }}
+                            alt="menu"
+                            onClick={onOpen}
+                            color="red"
+                            src={"/images/menu-03.svg"}
                         />
-                    </Link>
+                    )}
+                    <Box minW="fit-content">
+                        <Link href={`/${locale}`}>
+                            <Image
+                                minW="fit-content"
+                                width={{ base: "12rem", md: "14.3rem" }}
+                                height={"3.3rem"}
+                                alt="fictional-company-logo"
+                                src="/images/logo1.svg"
+                            />
+                        </Link>
+                    </Box>
                     {showDeliveryBox && <DeliveryLocation />}
                 </HStack>
                 {showListNavi && (
                     <Flex pl="8.3rem" display={{ base: "none", lg: "flex" }} h="100%" alignItems="center">
-                        <Link href="/">
+                        <Link href={`/${locale}`}>
                             <Image
-                                width={"14.3rem"}
+                                width={{ base: "10rem", md: "14.3rem" }}
                                 height={"3.3rem"}
                                 alt="fictional-company-logo"
                                 src="/images/logo1.svg"
@@ -90,23 +128,23 @@ const Header = () => {
 
                         <HStack alignItems="center" h="100%" gap="3.2rem" mr="3rem">
                             <NavigationButton>
-                                <Link href="/#order-section">Đặt hàng</Link>
+                                <Link href="#order-section">{t("PLACE_ORDER")}</Link>
                             </NavigationButton>
                             <NavigationButton>
-                                <Link href="/#contact-section">Dành cho Đối tác</Link>
+                                <Link href="#contact-section">{t("FOR_PARTNERS")}</Link>
                             </NavigationButton>
                             <NavigationButton>
-                                <Link href="/#download-section">Tải App</Link>
+                                <Link href="#download-section">{t("DOWNLOAD_APP")}</Link>
                             </NavigationButton>
                             <NavigationButton>
-                                <Link href="/#footer-section">Liên hệ</Link>
+                                <Link href="#footer-section">{t("CONTACT_US")}</Link>
                             </NavigationButton>
                         </HStack>
                     </Flex>
                 )}
 
-                <HStack spacing="1.6rem">
-                    <HStack spacing="1.6rem">
+                <HStack spacing={{ base: "0rem", lg: "1.6rem" }}>
+                    <HStack spacing="1.6rem" minW="fit-content">
                         {!showListNavi && (
                             <Text
                                 whiteSpace="nowrap"
@@ -119,19 +157,9 @@ const Header = () => {
                             </Text>
                         )}
                         {showSignUpGroup && <UserGroup bg={bg} />}
-                        <CartIcon />
+                        {!hideCart && <CartIcon />}
                     </HStack>
-                    <HStack as="button" alignItems="center" display={{ base: "none", lg: "flex" }}>
-                        <Text
-                            color="var(--text-gray)"
-                            display={{ base: "none", md: "block" }}
-                            fontSize="1.6rem"
-                            fontWeight="600"
-                        >
-                            VIE
-                        </Text>
-                        <Image width={19} height={19} alt="" src="/images/vn.svg" />
-                    </HStack>
+                    <LocaleSwitcher bg={bg} />
                 </HStack>
             </HStack>
         </>

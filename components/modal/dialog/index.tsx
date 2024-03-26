@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, HStack, Modal, ModalContent, ModalOverlay, Text } from "@chakra-ui/react";
+import { Button, ButtonProps, HStack, Modal, ModalContent, ModalOverlay, Text } from "@chakra-ui/react";
 import React, { forwardRef } from "react";
 
 interface PromiseInfo {
@@ -14,16 +14,19 @@ interface Params {
     negative?: {
         text?: string;
         onClick?: () => Promise<void>;
+        buttonProps?: ButtonProps;
     };
     positive?: {
         text?: string;
         onClick?: () => Promise<void>;
+        buttonProps?: ButtonProps;
     };
     isNavigatingAfterResolve?: boolean;
 }
 interface State {
     show: boolean;
     params: Params;
+    loading?: boolean;
 }
 class DialogComponent extends React.Component<{ ref: React.Ref<DialogComponent> }, State> {
     state: State = {
@@ -32,6 +35,7 @@ class DialogComponent extends React.Component<{ ref: React.Ref<DialogComponent> 
             negative: {},
             positive: {},
         },
+        loading: false,
     };
     promiseInfo: PromiseInfo = {};
     currentTask = new Promise((resolve) => {
@@ -53,17 +57,23 @@ class DialogComponent extends React.Component<{ ref: React.Ref<DialogComponent> 
             });
         }));
     };
-    unshow = () => {
+    unShow = () => {
         this.setState({
             show: false,
             params: {},
         });
-        this.promiseInfo.resolve?.("unshow");
+        this.promiseInfo.resolve?.("unShow");
     };
     handleNegative = async () => {
         const { negative, isNavigatingAfterResolve } = this.state.params;
         if (negative?.onClick) {
+            this.setState({
+                loading: true,
+            });
             await negative?.onClick();
+            this.setState({
+                loading: false,
+            });
         }
         //Do not close on waiting for navigating
         if (isNavigatingAfterResolve) {
@@ -80,7 +90,13 @@ class DialogComponent extends React.Component<{ ref: React.Ref<DialogComponent> 
     handlePositive = async () => {
         const { positive, isNavigatingAfterResolve } = this.state.params;
         if (positive?.onClick) {
+            this.setState({
+                loading: true,
+            });
             await positive?.onClick();
+            this.setState({
+                loading: false,
+            });
         }
         //Do not close on waiting for navigating
         if (isNavigatingAfterResolve) {
@@ -142,16 +158,26 @@ class DialogComponent extends React.Component<{ ref: React.Ref<DialogComponent> 
                         maxW="26.5rem"
                         justifyContent="center"
                     >
-                        <Button borderRadius="1.5rem" w="100%" onClick={this.handleNegative} h="4rem" fontWeight="bold">
+                        <Button
+                            borderRadius="1.5rem"
+                            w="100%"
+                            onClick={this.handleNegative}
+                            h="4rem"
+                            fontWeight="bold"
+                            isLoading={this.state.loading}
+                            {...negative?.buttonProps}
+                        >
                             {negative?.text ?? "Đóng"}
                         </Button>
                         {positive && (
                             <Button
                                 w="100%"
                                 h="4rem"
+                                isLoading={this.state.loading}
                                 borderRadius="1.5rem"
                                 onClick={this.handlePositive}
                                 fontWeight="bold"
+                                {...positive.buttonProps}
                             >
                                 {positive?.text ?? "Xác nhận"}
                             </Button>

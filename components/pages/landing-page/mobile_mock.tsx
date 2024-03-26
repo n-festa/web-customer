@@ -1,19 +1,21 @@
 import { Box, Img } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 
 const MobileMock = () => {
+    const t = useTranslations("COMMON");
     return (
         <Box className="mock-up-mobile-app">
             <Box className="main-screen">
                 <Img className="" alt="" src="/images/-elements--iphone-x--status-bar.svg" />
                 <Box px="15px" className="heading d-flex justify-content-between mt-3">
-                    <b className="mn-ngon-hm">Món ngon hôm nay</b>
+                    <b className="mn-ngon-hm">{t("TODAY")}</b>
                     <Img className="" alt="" src="/images/vuesaxlineararrowright.svg" />
                 </Box>
                 <Box display="flex" flexDir="column" className="food-card-parent">
                     <Box className="food-card m-3">
                         <Box className="rectangle-parent d-flex flex-column align-items-center">
                             <Box className="discount-wrapper w-100 py-2 px-3">
-                                <b className="discount">GIẢM GIÁ</b>
+                                <b className="discount">{t("SPECIAL_OFFER")}</b>
                             </Box>
 
                             <Img className="food-image2" alt="" src="/images/mask-group4@2x.png" />
@@ -51,7 +53,7 @@ const MobileMock = () => {
                     <Box className="food-card m-3">
                         <Box className="rectangle-parent d-flex flex-column align-items-center">
                             <Box className="discount-wrapper w-100 py-2 px-3">
-                                <b className="discount">GIẢM GIÁ</b>
+                                <b className="discount">{t("SPECIAL_OFFER")}</b>
                             </Box>
 
                             <Img className="food-image2" alt="" src="/images/mask-group4@2x.png" />

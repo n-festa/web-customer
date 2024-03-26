@@ -128,28 +128,32 @@ const Pagination = ({ currentPage, onChangePage, totalPage, showAll, isDisabledD
     };
     const showPrev = () => {
         return (
-            <Button
-                variant={"btnPagination"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                disabled={currentPage === 1}
-                onClick={prev}
-            >
-                <Img src="/images/chevronleft.svg" w="20px" h="20px" />
-            </Button>
+            firstThreeArray.length && (
+                <Button
+                    variant={"btnPagination"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    disabled={currentPage === 1}
+                    onClick={prev}
+                >
+                    <Img src="/images/chevronleft.svg" w="20px" h="20px" />
+                </Button>
+            )
         );
     };
     const showNext = () => {
         return (
-            <Button
-                variant={"btnPagination"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                disabled={currentPage === totalPage}
-                onClick={next}
-            >
-                <Img src="/images/chevronright.svg" w="20px" h="20px" />
-            </Button>
+            firstThreeArray.length && (
+                <Button
+                    variant={"btnPagination"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    disabled={currentPage === totalPage}
+                    onClick={next}
+                >
+                    <Img src="/images/chevronright.svg" w="20px" h="20px" />
+                </Button>
+            )
         );
     };
 

@@ -1,0 +1,452 @@
+{
+    "COMMON": {
+        "ERROR": {
+            "ERROR_TITLE": "Something went wrong!",
+            "BACK_TO_HOME": "Back to home",
+            "API_REQUEST_FAIL": "Cannot connect to server"
+        },
+        "SEE_MORE": "...... see more",
+        "SEE_LESS": "...... see less",
+        "TOAST": {
+            "PORTION_UNAVAILABLE": "Unavailable Portion",
+            "PORTION_UNAVAILABLE_DESC": "The portion you selected is unavailable,\r\nPlease choose another portion.",
+            "SUCCESS_UPDATE": "",
+            "PROFILE": {
+                "TITLE": "Update profile",
+                "SUCCESS_CONTENT": "Your information has been updated.",
+                "ERROR_CONTENT": "Update failed, please try again.",
+                "ERROR_LENGTH": "File size must be equal or less than 50Kb"
+            },
+            "ADDITIONAL": {
+                "TITLE": "Create profile",
+                "ERROR_CONTENT": "The information you entered is not correct."
+            }
+        },
+        "NOTIFICATION": "Notification",
+        "CLOSE": "Close",
+        "PROFILE": "Profile",
+        "ORDERS": "Orders",
+        "LOGOUT": "Log out",
+        "BACK_PAGE": "Go back",
+        "VIEW_ALL": "See all",
+        "VIEW_MORE": "See more",
+        "FOOD": "Food",
+        "RESTAURANT": "Restaurant",
+        "SORT": "Sort by",
+        "PRICE_ASCENDING": "Price ascending",
+        "PRICE_DESCENDING": "Price descending",
+        "DELIVER_TO": "Deliver to",
+        "STARS": "> 4 Stars",
+        "VEG": "Veg",
+        "MENU": "Menu",
+        "TODAY": "Today",
+        "TOMORROW": "Tomorrow",
+        "VEGETARIAN_DISH": "Veg",
+        "FOOD_ITEM": {
+            "QUANTITY_AVAILABLE": "{number} available",
+            "SOLD_OUT": "Sold",
+            "PLACE_ORDER_BEFORE": "Order before {time} to adjust the taste",
+            "AM": "AM",
+            "PM": "PM",
+            "AVAILABLE_TO_EDIT_TASTE": "Able to customize the original tastes"
+        },
+        "EMPTY": "No results found...",
+        "SPECIAL_OFFER": "SPECIAL OFFER",
+        "SUGGEST": "Gợi ý"
+    },
+    "BUTTON": {
+        "LOGIN": "Log in",
+        "CONTINUE": "Continue",
+        "COMPLETE": "Complete",
+        "UPDATE": "Update",
+        "UPLOAD_AVATAR": "Change Photo",
+        "CANCEL": "Cancel"
+    },
+    "SIGN_IN": {
+        "TITLE": "Order your own delicious and healthy meal today!",
+        "PROVIDE_PHONE": "Enter your phone number",
+        "OTP_MESSAGE": "We'll be sending you an OTP for verification.",
+        "PHONE_NUMBER_PROMPT": "Please enter your phone number",
+        "INVALID_PHONE_NUMBER_MESSAGE": "Invalid phone number"
+    },
+    "PHONE_VERIFICATION": {
+        "TITLE": "OTP Verification",
+        "OTP_PROMPT": "Enter the 6-digit OTP code sent to your registered phone number. The OTP code is only valid for 2 minutes.",
+        "RESEND_OTP": "Resend OTP",
+        "INCORRECT_ATTEMPTS": "You've entered {number} times incorrectly",
+        "TWO_MINUTES": "2 minutes",
+        "INCORRECT_ATTEMPTS_LIMIT_REACHED": "You've entered incorrectly 5 times. Please try again after 30 minutes.",
+        "TOO_MANY_ATTEMPTS": "The customer has exceeded the allowed number of attempts. <br></br> Please wait {time} to continue."
+    },
+    "ADDITIONAL": {
+        "TITLE": "TELL US MORE ABOUT YOURSELF",
+        "DESCRIPTION": "The information you provide will help us recommend food that is better suited to your body type and needs."
+    },
+    "PROFILE": {
+        "TITLE": "PROFILE PAGE",
+        "SUB_TITLE": "Manage your login information and personal nutrition settings",
+        "SEC_TITLE_1": "Account Information",
+        "SEC_SUB_DESC_1": "Manage account information used for login and ordering",
+        "SEC_TITLE_2": "Nutritional Information",
+        "SEC_SUB_DESC_2": "Manage your physical condition and needs. The system will use this information to suggest suitable meals for you.",
+        "CHANGE_AVATAR": "Change Profile Photo"
+    },
+    "REGISTRATION_SUCCESS": {
+        "TITLE": "CONGRATULATION <br></br> YOU COMPLETE THE APPLICATION",
+        "BMI_INDEX": "BMI score",
+        "BALANCE": "Normal",
+        "ENERGY": "Energy intake",
+        "KCAL_PER_DAY": "Kcal/ day",
+        "DISCOVER_FOOD_TODAY": "Discover delicious food today "
+    },
+    "FORM": {
+        "NAME": {
+            "LABEL": "*Name",
+            "PLACEHOLDER": "Ex: Nguyễn Văn A"
+        },
+        "EMAIL": {
+            "LABEL": "*Email",
+            "PLACEHOLDER": "Ex: nguyen.vana@email.com"
+        },
+        "BIRTH_DAY": {
+            "LABEL": "*Birthday",
+            "PLACEHOLDER": "Ex: 27/07/1995"
+        },
+        "SEX": {
+            "LABEL": "*Sex"
+        },
+        "HEIGHT": {
+            "LABEL": "*Height ( cm )",
+            "PLACEHOLDER": "Ex: 163"
+        },
+        "WEIGHT": {
+            "LABEL": "*Weight ( kg )",
+            "PLACEHOLDER": "Ex: 58"
+        },
+        "ACTIVITY_LEVEL": {
+            "LABEL": "*Physical activity level"
+        },
+        "CURRENT_DIET": {
+            "LABEL": "Current Diet"
+        },
+        "ALLERGIC_FOOD": {
+            "LABEL": "Allergic Food (if any)",
+            "PLACEHOLDER": "Ex: milk, eggs ...",
+            "NOTE": "Please share more about the foods you are allergic to. Examples: animal milk, eggs, seafood (fish, shrimp, crab...), aquatic products (fish, shrimp, eel...), nuts (soybeans, walnuts, almonds...)"
+        },
+        "CHRONIC_DISEASE": {
+            "LABEL": "Chronic Diseases (if any)",
+            "PLACEHOLDER": "Ex: Heart Disease ...",
+            "NOTE": "Heart Disease, Cancer, Chronic Lung Disease, Stroke, Alzheimer's, Diabetes, Chronic Kidney Disease ..."
+        },
+        "EXPECTED_DIET": {
+            "LABEL": "Expected Diet"
+        },
+        "EXPECTED_DIET_DIFF": {
+            "PLACEHOLDER": "Please share your desired diet "
+        },
+        "PHONE_NUMBER": {
+            "LABEL": "*Phone number"
+        },
+        "FULL_NAME": {
+            "LABEL": "*First and last name",
+            "PLACEHOLDER": "Ex: Nguyễn Văn A"
+        },
+        "BODY_CONDITION": {
+            "LABEL": "Body Index"
+        },
+        "AVATAR": {
+            "LABEL": "Profile Photo"
+        },
+        "DATA_PROFILE": {
+            "FORM_DATA": {
+                "MEN": "Male",
+                "WOMEN": "Femail",
+                "OTHER": "Other",
+                "LIGHT": "Light",
+                "MODERATE": "Moderate",
+                "VIGOROUS": "Vigorous",
+                "MIXED": "Mixed",
+                "VEGAN1": "Veg",
+                "CARNIVORE": "Only meat",
+                "FISH": "Fish",
+                "VEGETARIAN": "Vegetable",
+                "NO_DIET": "No diet",
+                "VEGAN2": "Vegetarianism",
+                "EAT_CLEAN": "Eat clean",
+                "MUSCLE_GAIN": "Body-building diet",
+                "FIBER_SUPPLEMENT": "Fiber-boosting diet",
+                "MIXED_DIET": "Mixed"
+            },
+            "MESSAGE_FORM": {
+                "REQUIRED": "Please enter this field.",
+                "EMAIL": "Invalid email."
+            }
+        }
+    },
+    "HOME": {
+        "BANNER": {
+            "TITLE": {
+                "0": "Order your own",
+                "1": "delicious & healthy",
+                "2": "meal now"
+            },
+            "DESCRIPTION": "A delicious and nutritious meal, prepared to your liking. No need to worry, no need to cook, flexible delivery time.",
+            "SEARCH": "Enter your address to find delicious food",
+            "DISCOVER_FOOD": "Search",
+            "SELECT_YOUR_ADDRESS": "Please select your address"
+        },
+        "TODAY": {
+            "TITLE": "The food we are proud of"
+        },
+        "ORDER_STEP": {
+            "TITLE": "How it work",
+            "STEP_1": "Looking for food",
+            "STEP_2": "Select food",
+            "STEP_3": "Place the order",
+            "STEP_4": "Enjoy the meal",
+            "DESCRIPTION_1": "Find delicious food near you or browse recommendations from 2ALL",
+            "DESCRIPTION_2": "Choose and customize dishes to your taste or dietary needs",
+            "DESCRIPTION_3": "Order flexibly and get your food delivered at your preferred time.",
+            "DESCRIPTION_4": "Savor delectable, nutritious meals customized to your personal preferences."
+        },
+        "WHY_CHOOSE": {
+            "TITLE": "Why 2All",
+            "REASON_1": "Customized meal",
+            "REASON_2": "Comprehensive nutritional details",
+            "REASON_3": "Flexible scheduled order",
+            "DESCRIPTION_1": "Select food and dishes tailored to your nutritional requirements, taste preferences, and physical condition.",
+            "DESCRIPTION_2": "Each dish's nutritional information includes its calorie, protein, fat, and carbohydrate content.",
+            "DESCRIPTION_3": "Place an order with a flexible delivery window that fits your schedule."
+        },
+        "TESTIMONIAL": {
+            "TITLE": "Customer voices"
+        },
+        "CONTACT": {
+            "TITLE": "Contact us today to become a 2ALL partner",
+            "DESCRIPTION": "We're looking for partners across Vietnam to help us provide millions of delicious and healthy meals to Vietnamese customers.",
+            "EMAIL_PLACEHOLDER": "Please input your email",
+            "MESSAGE_PLACEHOLDER": "Example: Hello 2ALL, I am interested in cooperating with you.",
+            "NOT_A_ROBOT": "I’m not a robot",
+            "SEND_MESSAGE": "Send",
+            "IN_TRANSIT": "On going",
+            "TOMATOES": "Tomatoes",
+            "KALE": "Kale",
+            "CONTACT_PARTNERS": "Contact Partners",
+            "SENT_CONTACT": "Contact Sent",
+            "INVALID_EMAIL": "Invalid Email",
+            "INVALID_MESSAGE": "Message must not be empty",
+            "VERIFY_ROBOT": "Please verify that you are not a robot"
+        },
+        "DOWNLOAD_APP": {
+            "TITLE": "Download the 2ALL app",
+            "DESCRIPTION": "The experience of searching for delicious food at 2ALL is better on the mobile app. Now available on both iOS and Android platforms."
+        }
+    },
+    "MENU": {
+        "PLACE_ORDER": "Order",
+        "FOR_PARTNERS": "Partner",
+        "DOWNLOAD_APP": "Download",
+        "CONTACT_US": "Contact"
+    },
+    "SEARCH": {
+        "SEARCH_BOX_PLACEHOLDER": "Search for your food",
+        "SPECIAL_FOOD": {
+            "TITLE": "Delicious",
+            "DESCRIPTION": "Explore the delicious food around you"
+        },
+        "SPECIAL_RESTAURANTS": {
+            "TITLE": "Must-try dish this week",
+            "DESCRIPTION": "Explore the local food scene and find your new favorite restaurant"
+        }
+    },
+    "FOOTER": {
+        "DESCRIPTION": "A delicious and nutritious meal, tailored to your taste. No need to worry, no need to cook, flexible delivery scheduling.",
+        "CONTACT": {
+            "TITLE": "Contact",
+            "EMAIL": "info@gmail.com",
+            "ADDRESS1": "162 Hoang Sa",
+            "ADDRESS2": "D.1, HCMC"
+        },
+        "ABOUT_US": {
+            "TITLE": "About us",
+            "TEAM": "Team",
+            "CAREERS": "Jobs",
+            "NEWS": "News"
+        },
+        "LOCATIONS": {
+            "TITLE": "Operating Areas",
+            "DISTRICT_1": "District 1, Ho Chi Minh City",
+            "DISTRICT_2": "District 2, Ho Chi Minh City",
+            "DISTRICT_3": "District 3, Ho Chi Minh City",
+            "DISTRICT_4": "District 4, Ho Chi Minh City",
+            "BINH_TAN": "Binh Tan District, Ho Chi Minh City",
+            "PHU_NHUAN": "Phu Nhuan District, Ho Chi Minh City"
+        },
+        "FOLLOW": {
+            "TITLE": "Follow us"
+        },
+        "COPYRIGHT": "© 2023 Copyright belongs to 2ALL "
+    },
+    "RESTAURANT": {
+        "COMMENT_CUSTOMER": "Reviews",
+        "COMMENT_FOOD": "Reviews"
+    },
+    "CART": {
+        "ADD_NOW": "Add your delicious and nutritious<br></br> meal right away.",
+        "FOOD_BASKET": "Your Cart",
+        "CLEAR_CART": "Clear cart",
+        "TOTAL": "Total",
+        "DELIVERY_FEE_NOTICE": "The shipping fee will be displayed when you check out",
+        "VIEW_ORDER": "Check out",
+        "CART_UNAVAILABLE": "The cart is unavailable until {time}",
+        "NEAREST_DELIVERY_TIME": "Delivery at: {date}{timeAfter} - {timeBefore}"
+    },
+    "PRODUCT_DETAIL": {
+        "SIDE_DISH": "Eat together ",
+        "SAME_RESTAURANT": "Same restaurant",
+        "SIMILAR_DISHES": "Similar",
+        "ADD_TO_CART": "Add to cart- {money}VND",
+        "COMPONENTS": "Main ingredients",
+        "DESCRIPTION": "Description",
+        "SERVINGSIVE": {
+            "SELECT_PORTION": "Portion",
+            "ADJUST_TASTE": "Taste",
+            "OTHER_ADJUSTMENT": "Others",
+            "NOTES": "Notes",
+            "NOTES_PLACEHOLDER": "Example: Allergic to peanuts",
+            "PACKAGING": "Packaging",
+            "TODAY": "today",
+            "TOMORROW": "tomorrow",
+            "I_WANT_TO_PRE_ORDER": "I want to pre-oder.",
+            "I_WANT_TO_GET_IT_NOW": "I want to get it now.",
+            "PLACE_ORDER_BEFORE": "You need to order before {time} giờ to custom the original tastes",
+            "RECEIVE_FOOD_NOTE": "Your food will be received after {date} to customize the original tastes."
+        },
+        "PRODUCT_INFO": {
+            "QUANTITY_AVAILABLE": "{number} available",
+            "SOLD_OUT": "Sold",
+            "COMMENT": "Reviews",
+            "DISCOUNT_UP_TO": "Discount up to {money}K",
+            "AM": "AM",
+            "PM": "PM",
+            "AVAILABLE_TO_EDIT_TASTE": "Able to customize the original tastes"
+        }
+    },
+    "CONFIRM_ORDER": {
+        "DELIVERY_TIME_GROUP": {
+            "DELIVERY_TIME": "Time"
+        },
+        "PACKAGE_GROUP": {
+            "TITLE": "Packaging",
+            "SUGARCANE_BOX": "Packaged in a sugarcane pulp box",
+            "EATING_UTENSILS": "Cutlery",
+            "REQUEST_ONLY_WHEN_NEEDED": "Only take if you really need"
+        },
+        "PAYMENT_METHOD_GROUP": {
+            "TITLE": "Payment",
+            "MOMO_PAYMENT": "Momo",
+            "CASH_PAYMENT": "Cash"
+        },
+        "PROMOTION_GROUP": {
+            "TITLE": "Promotion",
+            "APPLY": "Apply",
+            "ENTER_PROMO_CODE": "Enter the code",
+            "APPLY_FAIL": "The discount code application failed.\r\nThe order must be greater than the {value}.",
+            "MINIMUM_DESC": "The order must be greater than the {value."
+        },
+        "PAYMENT_GROUP": {
+            "PAYMENT": "Bill Detail",
+            "PAYMENT_INFO": "Detail",
+            "TOTAL_ITEMS": "Item total",
+            "PACKING_FEE": "Package fee",
+            "UTENSILS": "Cutlery fee",
+            "DELIVERY_FEE": "Delivery fee",
+            "PLATFORM_FEE": "Application fee",
+            "PROMOTION": "Promotion",
+            "TOTAL_PAYMENT": "Total",
+            "PLACE_ORDER": "Order"
+        },
+        "DELIVERY_DESTINATION": {
+            "PROVINCE_CITY": "Province / City",
+            "DISTRICT": "District",
+            "WARD": "Ward",
+            "STREET_AND_NUMBER": "Address number & street",
+            "DRIVER_NOTE": "Note for drivers",
+            "DRIVER_NOTE_PLACEHOLDER": "Ex: meet at hall"
+        }
+    },
+    "REVIEW": {
+        "TITLE": "Feedback",
+        "ORDER_NUMBER": "Order: {number}",
+        "ORDER_DATE": "Date: {time}",
+        "QUICK_REVIEW": "Quick feedback",
+        "DETAILED_REVIEW": "Advanced feeback",
+        "DRIVER_RATING": "Driver",
+        "DISH_RATING": "Dishes",
+        "SATISFIED_WITH_DISH": "We value your opinion. Please let us know if you have any comments or suggestions about our food",
+        "ADD_PHOTO": "Insert images",
+        "SUBMIT_REVIEW": "Send",
+        "VERY_SATISFIED": "Excellent",
+        "PLACEHOLDER_COMMENT": "Additional feedback about the driver",
+        "RATE_YAKITORI_FISH_NOODLES": "Feedback Mỳ Cá Cờ Sốt Yakitori",
+        "RATE_SUMMER_AVOCADO_SALAD": "Feedback Summer Avocado Salad",
+        "SHARE_FEEDBACK_PLACEHOLDER": "Please take a moment to share your thoughts on this service"
+    },
+    "ORDER_DETAIL": {
+        "DRIVER": "Driver",
+        "ORDER": "Order",
+        "ORDER_DATE": "Date: {time}",
+        "FOR_DRIVER_NOTE": "Note for driver:",
+        "SUGARCANE_BOX": "Packaged in a sugarcane pulp box",
+        "NO_UTENSILS_NEEDED": "Do not take cutlery",
+        "PAYMENT_METHOD": "Payment",
+        "PAID_WITH": "Paid via {method}",
+        "DELIVER_TO": "Deliver to",
+        "PACKAGING": "Packaging",
+        "ORDER_CONFIRMATION": {
+            "MD": {
+                "CREATED": "Order created",
+                "CONFIRMED": "Order confirmed",
+                "STARTED_TO_PROCESS": "Started to process",
+                "PICKED_UP": "Shiper picked up order",
+                "COMPLETED": "Order completed",
+                "FAILED": "Failed to complete order",
+                "CANCELLED": "Failed to complete order"
+            },
+            "BASE": {
+                "CREATED": "Order\r\ncreated",
+                "CONFIRMED": "Order\r\nconfirmed",
+                "STARTED_TO_PROCESS": "Started\r\nto process",
+                "PICKED_UP": "Shiper picked up\r\norder",
+                "COMPLETED": "Order\r\ncompleted",
+                "FAILED": "Failed to\r\ncomplete order",
+                "CANCELLED": "Failed to\r\ncomplete order"
+            }
+        }
+    },
+    "ORDER_HISTORY": {
+        "MY_ORDERS": "My orders",
+        "DELIVERING": "On going",
+        "HISTORY": "History",
+        "SEARCH_FOOD_RESTAURANT": "Search for dishes or restaurants",
+        "FILTER": {
+            "FOOD": "Dishes",
+            "RESTAURANT": "Restaurants",
+            "NEAREST_DATE": "Recent",
+            "ALL_STATUS": "All status",
+            "DELIVERED": "Success",
+            "CANCELLED": "Cancelled",
+            "ALL_LABELS": "All labels",
+            "FAVORITES": "Favorites"
+        },
+        "HISTORY_ITEM": {
+            "CANCEL_ORDER": "Cancel",
+            "DELIVERY_SUCCESSFUL": "Success",
+            "ORDER": "Order",
+            "TODAY": "Today",
+            "REORDER": "Re-order",
+            "VIEW_DETAILS": "Detail"
+        }
+    }
+}

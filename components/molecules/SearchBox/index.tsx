@@ -4,9 +4,9 @@ interface Props {
     groupsProps?: InputGroupProps;
 }
 
-const SeachBox = ({ groupsProps, ...rest }: Props & InputProps) => {
+const SeachBox = ({ groupsProps, variant = "searchBox", ...rest }: Props & InputProps) => {
     return (
-        <InputGroup variant={"searchBox"} {...groupsProps}>
+        <InputGroup variant={variant} {...groupsProps}>
             <InputLeftElement pointerEvents="none">
                 <Img src="/images/search-md.svg" />
             </InputLeftElement>

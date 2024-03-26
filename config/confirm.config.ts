@@ -1,8 +1,9 @@
 import * as Yup from "yup";
 const confirmOrder = {
     initialValues: {
-        address: "",
         note: "",
+        lat: undefined,
+        lng: undefined,
     },
     validationSchema: {
         validation: Yup.object({

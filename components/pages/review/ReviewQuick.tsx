@@ -1,12 +1,14 @@
 import GroupRadioButton from "@/components/atoms/radio/GroupRadioButton";
 import config from "@/config";
 import { Box, Button, Flex, HStack, Img, Input, Text, Textarea } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import UIRating from "./UIRating";
 const {
     review: { formData },
 } = config;
 const ReviewQuick = () => {
+    const t = useTranslations("REVIEW");
     const [listImage, setListImage] = useState<string[]>([]);
     const [listImageUpload, setListImageUpload] = useState<File[]>([]);
     const handleUpload = (event: any) => {
@@ -25,7 +27,7 @@ const ReviewQuick = () => {
                 <Flex gap="1.6rem" alignItems="center">
                     <Img w="4rem" height="3.8rem" src="/images/icons/icon_shipper.svg" />
                     <Text fontSize="1.8rem" fontWeight="bold">
-                        Đánh giá tài xế
+                        {t("DRIVER_RATING")}
                     </Text>
                 </Flex>
                 <UIRating size="lg" maxRating={5} />
@@ -34,7 +36,7 @@ const ReviewQuick = () => {
                 <Flex gap="1.6rem" alignItems="center">
                     <Img w="4rem" height="3.8rem" src="/images/icons/icon_disk.svg" />
                     <Text fontSize="1.8rem" fontWeight="bold">
-                        Đánh giá món ăn
+                        {t("DISH_RATING")}
                     </Text>
                 </Flex>
                 <Flex gap="0.7rem">
@@ -42,7 +44,7 @@ const ReviewQuick = () => {
                 </Flex>
             </Flex>
             <Text mb="1rem" fontSize="1.6rem" fontWeight="400">
-                Bạn có hài lòng về món ăn của chúng tôi không? Hãy cho chúng tôi biết ý kiến của bạn
+                {t("SATISFIED_WITH_DISH")}
             </Text>
             <GroupRadioButton
                 isRounded
@@ -50,7 +52,7 @@ const ReviewQuick = () => {
                 defaultValue={"Đồ ăn chất lượng"}
             ></GroupRadioButton>
             <Box m="1.8rem 0 1rem">
-                <Textarea placeholder="Hãy chia sẻ nhận xét cho dịch vụ này bạn nhé!" minH="12.8rem" />
+                <Textarea placeholder={t("SHARE_FEEDBACK_PLACEHOLDER")} minH="12.8rem" />
             </Box>
             <HStack spacing={6} p="2rem 0" borderTop="1px solid var(--gray-300)" minH="10rem">
                 {listImage.map((item, index) => (
@@ -68,7 +70,7 @@ const ReviewQuick = () => {
                     cursor="pointer"
                     _hover={{ opacity: 0.8, background: "#fff", color: "var(--gray-700)" }}
                 >
-                    Thêm ảnh
+                    {t("ADD_PHOTO")}
                     <Input
                         display="none"
                         accept="image/png, image/jpeg"
@@ -77,7 +79,7 @@ const ReviewQuick = () => {
                         onChange={(event) => handleUpload(event)}
                     />
                 </Button>
-                <Button variant="btnSubmit">Gửi đánh giá</Button>
+                <Button variant="btnSubmit">{t("SUBMIT_REVIEW")}</Button>
             </Flex>
         </Box>
     );

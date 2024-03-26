@@ -1,4 +1,5 @@
 import { Box, Flex, Img, Input, Text, Textarea } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import UIRating from "./UIRating";
 interface ReviewDetailItemProps {
@@ -6,6 +7,7 @@ interface ReviewDetailItemProps {
     iconTitle: string;
 }
 const ReviewDetailItem = ({ title, iconTitle }: ReviewDetailItemProps) => {
+    const t = useTranslations("REVIEW");
     const [listImage, setListImage] = useState<string[]>([]);
     const [listImageUpload, setListImageUpload] = useState<File[]>([]);
     const handleUpload = (event: any) => {
@@ -24,7 +26,7 @@ const ReviewDetailItem = ({ title, iconTitle }: ReviewDetailItemProps) => {
                 <Flex gap="0.4rem" m="1rem 0">
                     <UIRating maxRating={5} size="sm" />
                     <Text ml="0.4rem" fontSize="1.4rem" fontWeight="400">
-                        Rất hài lòng
+                        {t("VERY_SATISFIED")}
                     </Text>
                 </Flex>
                 <Flex gap="1.6rem">
@@ -53,7 +55,7 @@ const ReviewDetailItem = ({ title, iconTitle }: ReviewDetailItemProps) => {
                 </Flex>
             </Box>
             <Box flex="1">
-                <Textarea w="100%" placeholder="Nhận xét thêm về tài xế..." minH="12.8rem"></Textarea>
+                <Textarea w="100%" placeholder={t("PLACEHOLDER_COMMENT")} minH="12.8rem"></Textarea>
             </Box>
         </Flex>
     );

@@ -9,19 +9,22 @@ const baseStyle = definePartsStyle({
         // this will style the MenuList component
         py: "4",
         borderRadius: "xl",
-        border: "none",
-        bg: "var(--primary-color)",
+        border: "var(--divider)",
+        bg: "white",
+        boxShadow: "0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08) !important",
     },
     item: {
         // this will style the MenuItem and MenuItemOption components
-        fontSize: "1.4rem",
-        bg: "var(--primary-color)",
-        color: "var(--primary-button-text-color)",
+        fontSize: "1.6rem",
+        fontWeight: "500",
+        px: "1.4rem",
+        bg: "white",
+        color: "var(--gray-900)",
         _hover: {
-            bg: "var(--primary-300)",
+            bg: "var(--gray-100)",
         },
         _focus: {
-            bg: "var(--primary-300)",
+            bg: "var(--gray-100)",
         },
     },
 });
@@ -45,10 +48,10 @@ const variants = {
             bg: "var(--main-bg-color)",
             color: "var(--primary-text-color)",
             _hover: {
-                bg: "var(--main-bg-color-light-alpha)",
+                bg: "var(--chakra-colors-gray-200)",
             },
             _focus: {
-                bg: "var(--main-bg-color-light-alpha)",
+                bg: "transparent",
             },
         },
     },

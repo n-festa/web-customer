@@ -23,6 +23,8 @@ export interface TasteCustomization {
     option_values: {
         value_id: string;
         value_txt: BaseNameInterface[];
+        is_default: boolean;
+        order: number;
     }[];
 }
 
@@ -38,6 +40,15 @@ export interface OtherCustomization {
     description: BaseNameInterface[];
 }
 
+export interface PackageInfo {
+    currency?: string;
+    description?: BaseNameInterface[];
+    image_url?: string;
+    name?: BaseNameInterface[];
+    price?: number;
+    is_default?: boolean;
+    packaging_id?: number;
+}
 export interface FoodDetailDto {
     menu_item_id: number;
     images: string[];
@@ -48,14 +59,16 @@ export interface FoodDetailDto {
     units_sold: number;
     review_number: number;
     promotion?: string;
-    packaging_info: BaseNameInterface[];
+    packaging_info: PackageInfo[];
     cutoff_time?: string;
+    cutoff_time_m?: number;
     ingredients: Ingredient[];
     description: BaseNameInterface[];
     portion_customization: PortionCustomization[];
     taste_customization: TasteCustomization[];
     other_customizaton: OtherCustomization[];
     reviews: Review[];
+    is_advanced_customizable?: boolean;
 }
 
 export type GetSideDishesResponse = { data: FoodDto[] };
@@ -63,3 +76,7 @@ export type GetSideDishesResponse = { data: FoodDto[] };
 export type GetFoodDetailResponse = {
     data: FoodDetailDto;
 };
+
+export type GetCurrentAvailableFoodByRestaurantResponse = { data: FoodDto[] };
+
+export type GetPersonalFoodRecommendationResponse = { data: FoodDto[] };
