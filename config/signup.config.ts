@@ -34,9 +34,9 @@ const signUp = (t: any) => ({
             { value: "O", content: t("FORM_DATA.OTHER") },
         ],
         physicalActivityLevel: [
-            { value: "Light", content: t("FORM_DATA.LIGHT") },
-            { value: "Moderate", content: t("FORM_DATA.MODERATE") },
-            { value: "Vigorous", content: t("FORM_DATA.VIGOROUS") },
+            { value: "light", content: t("FORM_DATA.LIGHT") },
+            { value: "moderate", content: t("FORM_DATA.MODERATE") },
+            { value: "vigorous", content: t("FORM_DATA.VIGOROUS") },
         ],
         currentDiet: [
             { value: "Hỗn hợp", content: t("FORM_DATA.MIXED") },

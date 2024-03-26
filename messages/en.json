@@ -16,6 +16,10 @@
                 "SUCCESS_CONTENT": "Your information has been updated.",
                 "ERROR_CONTENT": "Update failed, please try again.",
                 "ERROR_LENGTH": "File size must be equal or less than 50Kb"
+            },
+            "ADDITIONAL": {
+                "TITLE": "Create profile",
+                "ERROR_CONTENT": "The information you entered is not correct."
             }
         },
         "NOTIFICATION": "Notification",
