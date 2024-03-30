@@ -176,6 +176,24 @@ const buttonStyle = {
                 opacity: 0.5,
             },
         },
+        btnRating: {
+            p: "0.8rem 1.4rem",
+            bg: "var(--primary-500)",
+            color: "var(--icterine-500)",
+            border: "1px solid var(--primary-500)",
+            borderRadius: "2.4rem",
+            fontSize: "1.4rem",
+            lineHeight: "2rem",
+            fontWeight: 600,
+            minH: "3.6rem",
+            minW: "10rem",
+            boxSizing: "border-box",
+            _active: {
+                bg: null,
+
+                opacity: 0.5,
+            },
+        },
     },
 };
 

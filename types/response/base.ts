@@ -100,3 +100,15 @@ export interface RestaurantDetailDto {
     unit: string;
     menu: FoodDto[];
 }
+
+export interface RestaurantInfo {
+    restaurant_id: number;
+    restaurant_name: BaseNameInterface[];
+    restaurant_logo_img: string;
+    specialty: BaseNameInterface[];
+}
+
+export interface TimeRange {
+    from: number; //timestamp
+    to: number; //timestamp
+}
