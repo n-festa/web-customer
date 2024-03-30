@@ -1,6 +1,7 @@
 import { locationRef, loginSuccessUrl } from "@/app/[locale]/providers";
 import { CartItem } from "@/types/cart";
-import { OrderItem } from "@/types/order";
+import { OrderItem, OrderStatusLog } from "@/types/order";
+import { OrderStatusLogTypeColor } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import { addDays, addHours, compareAsc, startOfDay } from "date-fns";
 import { isBefore } from "date-fns/isBefore";
@@ -180,4 +181,31 @@ export const parseStringToObj = (value?: string | Object) => {
 
 export const capitalizeFirstLetter = (txt: string) => {
     return txt.charAt(0).toUpperCase() + txt.slice(1);
+};
+
+export const getOrderStatusLog = (statusLog: OrderStatusLog[], t: any) => {
+    const statusList = statusLog.sort((prev, curr) => {
+        return Number(prev.logged_at) - Number(curr.logged_at);
+    });
+
+    if (statusList && statusList.length > 0) {
+        const currentStatus = statusList?.reduce(
+            (prev, curr) => (curr.milestone ? curr.milestone : prev),
+            statusList[0].milestone,
+        );
+
+        if (currentStatus) {
+            return {
+                status: t(`${currentStatus?.toLocaleUpperCase()}`),
+                color: OrderStatusLogTypeColor[currentStatus ?? "UNKNOWN"],
+                dateTime: statusList[statusList?.length - 1]?.logged_at,
+                statusRaw: statusList[statusList.length - 1]?.milestone,
+            };
+        }
+        return {
+            dateTime: statusList[statusList?.length - 1]?.logged_at,
+            statusRaw: statusList[statusList.length - 1]?.milestone,
+        };
+    }
+    return;
 };

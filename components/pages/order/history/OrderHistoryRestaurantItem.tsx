@@ -2,8 +2,8 @@
 import GroupWrapper from "@/components/pages/confirm/GroupWrapper";
 import { GroupStars } from "@/components/pages/landing-page/testimonial";
 import useRenderText from "@/hooks/useRenderText";
-import { OrderStatus, OrderStatusLogType } from "@/types/enum";
-import { HistoricalOrderByFood } from "@/types/response/GetHistoryOrderResponse";
+import { OrderStatusLogType } from "@/types/enum";
+import { HistoricalOrderByRestaurant } from "@/types/response/GetHistoryOrderResponse";
 import { ddMMyyyy } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import { getOrderStatusLog, isNullOrEmpty } from "@/utils/functions";
@@ -14,19 +14,14 @@ import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
 interface Props {
-    orderStatus?: OrderStatus;
-    orderInfo?: HistoricalOrderByFood;
+    orderInfo?: HistoricalOrderByRestaurant;
 }
 
-const HistoryItem = ({ orderInfo }: Props) => {
+const OrderHistoryRestaurantItem = ({ orderInfo }: Props) => {
     const t = useTranslations("ORDER_HISTORY.HISTORY_ITEM");
     const tMileston = useTranslations("ORDER_DETAIL.ORDER_CONFIRMATION.MD");
-    const router = useRouter();
     const { renderTxt } = useRenderText();
-
-    const orderStatusLog = useMemo(() => {
-        return getOrderStatusLog(orderInfo?.order_status_log ?? [], tMileston);
-    }, [orderInfo?.order_status_log, tMileston]);
+    const router = useRouter();
 
     const handleViewDetail = () => {
         router.push(`${routes.OrderDetail}/${orderInfo?.order_id}`);
@@ -39,6 +34,37 @@ const HistoryItem = ({ orderInfo }: Props) => {
     const handleViewRating = () => {
         router.push(`${routes.orderReview}/${orderInfo?.order_id}`);
     };
+
+    const { restaurantInfo, orderItems } = useMemo(() => {
+        return {
+            restaurantInfo: orderInfo?.restaurant_info,
+            orderItems: orderInfo?.order_items ?? [],
+        };
+    }, [orderInfo]);
+
+    const specialText = useMemo(() => {
+        if (restaurantInfo && restaurantInfo.specialty.length > 0) {
+            return renderTxt(restaurantInfo.specialty);
+        }
+        return undefined;
+    }, [renderTxt, restaurantInfo]);
+
+    const orderItemsText = useMemo(() => {
+        if (orderItems.length > 0) {
+            return orderItems.map((el) => `${renderTxt(el.item_name)} x${el.qty_ordered}`).join(" ");
+        }
+        return undefined;
+    }, [renderTxt, orderItems]);
+
+    const statusList = useMemo(() => {
+        return orderInfo?.order_status_log.sort((prev, curr) => {
+            return Number(prev.logged_at) - Number(curr.logged_at);
+        });
+    }, [orderInfo?.order_status_log]);
+
+    const orderStatusLog = useMemo(() => {
+        return getOrderStatusLog(statusList ?? [], tMileston);
+    }, [statusList, tMileston]);
 
     return (
         <GroupWrapper
@@ -79,44 +105,32 @@ const HistoryItem = ({ orderInfo }: Props) => {
                     alignItems={"flex-start"}
                     spacing={"1.6rem"}
                 >
-                    <Img src={orderInfo?.image} boxSize="6.2rem" />
+                    <Img src={restaurantInfo?.restaurant_logo_img} boxSize="6.2rem" />
                     <VStack flex="1" alignItems={"flex-start"}>
-                        <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="1.6rem">
-                            {renderTxt(orderInfo?.name)} x {orderInfo?.qty_ordered?.toLocaleString()}
-                        </Text>
-                        <Text color="var(--gray-600)" as="span" fontSize="1.4rem" className="text-ellipsis">
-                            <Text as="span" wordBreak="keep-all" color="var(--color-mediumslateblue)" fontWeight="600">
-                                {renderTxt(orderInfo?.main_cooking_method)}{" "}
-                            </Text>
-                            <Text wordBreak="break-word" fontWeight="600" as="span">
-                                |{" "}
-                                {renderTxt([
-                                    {
-                                        ISO_language_code: "eng",
-                                        text: orderInfo?.ingredient_brief_eng,
-                                    },
-                                    {
-                                        ISO_language_code: "vie",
-                                        text: orderInfo?.ingredient_brief_vie,
-                                    },
-                                ])}
-                            </Text>
-                        </Text>
-                        {!isNullOrEmpty(orderInfo?.notes) && (
+                        <HStack w="100%" alignItems={"center"} justifyContent={"space-between"}>
                             <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="1.6rem">
-                                {orderInfo?.notes}
+                                {renderTxt(restaurantInfo?.restaurant_name)}
                             </Text>
-                        )}
-                        <Text as="span" fontSize="1.4rem" lineHeight="2rem" color="var(--gray-600)">
-                            <Text as="span">by </Text>
-                            <Text as="span" fontWeight="bold" color="var(--color-mediumslateblue)">
-                                {renderTxt(orderInfo?.restaurant_info?.restaurant_name)}
+                            <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="1.6rem">
+                                {orderInfo?.order_total?.toLocaleString()}đ
                             </Text>
+                        </HStack>
+                        <Text as="span" color="var(--gray-600)" fontSize={"1.2rem"} fontWeight={"400"}>
+                            {specialText}
                         </Text>
+
+                        <Text as="span" fontSize="1.6rem" lineHeight="2rem" color="black">
+                            {orderItemsText}
+                        </Text>
+                        <HStack>
+                            <Text as="span" fontSize="1.6rem" lineHeight="2rem" color="black">
+                                {t("PAYMENT_METHOD", { method: "momo" })}
+                            </Text>
+                            <Img src="/images/icons/payment_momo.svg" />
+                        </HStack>
                     </VStack>
                 </Stack>
             </VStack>
-
             <Stack
                 direction={{ base: "column", md: "row" }}
                 w="100%"
@@ -128,33 +142,27 @@ const HistoryItem = ({ orderInfo }: Props) => {
                 }}
             >
                 <Wrap alignItems={"center"} spacing={{ base: "1rem", md: "2.4rem" }} justify={"flex-start"}>
-                    <WrapItem>
-                        <Text variant={"cancelStatus"} color={orderStatusLog?.color}>
-                            {orderStatusLog?.status}
-                        </Text>
-                    </WrapItem>
-                    {!isNullOrEmpty(orderInfo?.calorie_kcal) && (
+                    {orderStatusLog && (
                         <WrapItem>
-                            <HStack spacing="0.4rem">
-                                <Img w="2.4rem" h="2.4rem" alt="" src="/images/markerpin02.svg" />
-                                <Text wordBreak="keep-all" className="kcal font-weight-600" fontSize={"1.6rem"}>
-                                    {orderInfo?.calorie_kcal} Kcal
-                                </Text>
-                            </HStack>
+                            <Text variant={"cancelStatus"} color={orderStatusLog?.color}>
+                                {orderStatusLog?.status}
+                            </Text>
                         </WrapItem>
                     )}
-                    {orderInfo?.score && (
+
+                    {orderInfo?.order_score && (
                         <WrapItem>
-                            <GroupStars star={orderInfo?.score} h="100%" />
+                            <GroupStars star={orderInfo?.order_score} h="100%" />
                         </WrapItem>
                     )}
                 </Wrap>
                 <HStack spacing={"1rem"} flex={1} justifyContent={"flex-end"}>
-                    {isNullOrEmpty(orderInfo?.score) && orderStatusLog?.statusRaw === OrderStatusLogType.COMPLETED && (
-                        <Button variant={"btnRating"} onClick={handleViewRating}>
-                            <Text>{t("RATING")}</Text>
-                        </Button>
-                    )}
+                    {isNullOrEmpty(orderInfo?.order_score) &&
+                        orderStatusLog?.statusRaw === OrderStatusLogType.COMPLETED && (
+                            <Button variant={"btnRating"} onClick={handleViewRating}>
+                                <Text>{t("RATING")}</Text>
+                            </Button>
+                        )}
                     <Button variant={"outlineWhite"} onClick={handleReorder}>
                         <Text>{t("REORDER")}</Text>
                     </Button>
@@ -167,4 +175,4 @@ const HistoryItem = ({ orderInfo }: Props) => {
     );
 };
 
-export default HistoryItem;
+export default OrderHistoryRestaurantItem;

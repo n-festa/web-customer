@@ -1,27 +1,59 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import GroupRadioButton from "@/components/atoms/radio/GroupRadioButton";
-import { FilterType } from "@/types/enum";
+import { HistoryFilterCondition } from "@/hooks/useOrderHistory";
+import { FilterOrderStatuType, FilterType, SortOrderHistory } from "@/types/enum";
 import { ddMMyyyy } from "@/utils/constants";
-import { formatDate, subDays } from "@/utils/date";
-import { HStack, Img, Popover, PopoverContent, PopoverTrigger, Select, Text, Wrap, WrapItem } from "@chakra-ui/react";
+import { formatDate } from "@/utils/date";
+import {
+    HStack,
+    Img,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+    Select,
+    Text,
+    Wrap,
+    WrapItem,
+    useDisclosure,
+} from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
-const HistoryFilter = () => {
-    const t = useTranslations("ORDER_HISTORY.FILTER");
-    const [selectedDate, setSelectedDate] = useState<{
-        from: Date | undefined;
-        to: Date | undefined;
-    }>({
-        from: subDays(new Date(), 30),
-        to: new Date(),
-    });
+interface Props {
+    condition: HistoryFilterCondition;
+    onChangeType: (type: FilterType) => void;
+    onChangeFilterCondition: (params: { type: FilterType; name: string; value: any }) => void;
+}
 
-    const handleRangeSelect = (range: DateRange | undefined) => {
-        setSelectedDate({ from: range?.from, to: range?.to });
-    };
+const HistoryFilter = ({ condition, onChangeType, onChangeFilterCondition }: Props) => {
+    const t = useTranslations("ORDER_HISTORY.FILTER");
+    const tOrder = useTranslations("ORDER_DETAIL.ORDER_CONFIRMATION.MD");
+    const [range, setRange] = useState<DateRange | undefined>();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const options = useMemo(() => {
+        return condition[condition.type];
+    }, [condition]);
+
+    useEffect(() => {
+        const timeRange = options.timeRange;
+        if (timeRange?.from?.getTime() != range?.from?.getTime() || timeRange?.to?.getTime() != range?.to?.getTime()) {
+            setRange(options.timeRange);
+        }
+    }, [options.timeRange]);
+
+    useEffect(() => {
+        if (range?.from && range.to && !isOpen) {
+            onChangeFilterCondition({
+                type: condition.type,
+                name: "timeRange",
+                value: range,
+            });
+        }
+    }, [range, isOpen]);
 
     return (
         <Wrap py="1rem" w="100%">
@@ -37,22 +69,52 @@ const HistoryFilter = () => {
                             name: t("RESTAURANT"),
                         },
                     ]}
+                    value={condition.type}
+                    onChange={(value) => onChangeType(value as FilterType)}
                 />
             </WrapItem>
             <WrapItem>
-                <Select placeholder="" w="16rem" variant={"filter"} defaultValue={"1"}>
-                    <option value={"1"}>{t("NEAREST_DATE")}</option>
+                <Select
+                    placeholder=""
+                    w="16rem"
+                    variant={"filter"}
+                    defaultValue={options.sortType}
+                    onChange={(e) => {
+                        onChangeFilterCondition({
+                            type: condition.type,
+                            name: "sortType",
+                            value: e.target.value,
+                        });
+                    }}
+                >
+                    <option value={SortOrderHistory.DATE_ASC}>{t("DATE_ASC")}</option>
+                    <option value={SortOrderHistory.DATE_DESC}>{t("DATE_DESC")}</option>
+                    <option value={SortOrderHistory.TOTAL_ASC}>{t("TOTAL_ASC")}</option>
+                    <option value={SortOrderHistory.TOTAL_DESC}>{t("TOTAL_DESC")}</option>
                 </Select>
             </WrapItem>
             <WrapItem>
-                <Select placeholder="" w="18.5rem" variant={"filter"} defaultValue={"1"}>
-                    <option value={"1"}>{t("ALL_STATUS")}</option>
-                    <option value={"1"}>{t("DELIVERED")}</option>
-                    <option value={"1"}>{t("CANCELLED")}</option>
+                <Select
+                    placeholder=""
+                    w="25rem"
+                    variant={"filter"}
+                    value={options.orderStatus}
+                    onChange={(e) => {
+                        onChangeFilterCondition({
+                            type: condition.type,
+                            name: "orderStatus",
+                            value: e.target.value,
+                        });
+                    }}
+                >
+                    <option value={FilterOrderStatuType.ALL}>{t("ALL_STATUS")}</option>
+                    <option value={FilterOrderStatuType.COMPLETED}>{tOrder(FilterOrderStatuType.COMPLETED)}</option>
+                    <option value={FilterOrderStatuType.FAILED}>{tOrder(FilterOrderStatuType.FAILED)}</option>
+                    <option value={FilterOrderStatuType.CANCELLED}> {tOrder(FilterOrderStatuType.CANCELLED)}</option>
                 </Select>
             </WrapItem>
             <WrapItem>
-                <Popover variant={"responsive"}>
+                <Popover variant={"responsive"} isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
                     <PopoverTrigger>
                         <HStack
                             p="1rem 1.6rem"
@@ -61,15 +123,23 @@ const HistoryFilter = () => {
                             border="1px solid var(--gray-300)"
                             boxSizing="border-box"
                             h="4rem"
+                            minW="25rem"
                         >
                             <Img src="/images/calendar.svg" />
-                            <Text fontSize={"1.4rem"} lineHeight={"2rem"} fontWeight={"600"}>
-                                {formatDate(selectedDate.from, ddMMyyyy)} - {formatDate(selectedDate.to, ddMMyyyy)}
+                            <Text
+                                fontSize={"1.4rem"}
+                                lineHeight={"2rem"}
+                                fontWeight={"600"}
+                                textAlign={"center"}
+                                flex={1}
+                            >
+                                {formatDate(options.timeRange?.from, ddMMyyyy)} -{" "}
+                                {formatDate(options.timeRange?.to, ddMMyyyy)}
                             </Text>
                         </HStack>
                     </PopoverTrigger>
                     <PopoverContent minWidth={"max-content"}>
-                        <DayPicker mode="range" selected={selectedDate} onSelect={handleRangeSelect} />
+                        <DayPicker mode="range" selected={range} onSelect={setRange} defaultMonth={new Date()} />
                     </PopoverContent>
                 </Popover>
             </WrapItem>

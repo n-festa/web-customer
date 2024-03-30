@@ -437,6 +437,10 @@
             "FOOD": "Món ăn",
             "RESTAURANT": "Nhà hàng",
             "NEAREST_DATE": "Ngày gần nhất",
+            "DATE_ASC": "Ngày gần nhất",
+            "DATE_DESC": "Ngày xa nhất",
+            "TOTAL_ASC": "Giá lớn nhất",
+            "TOTAL_DESC": "Giá nhỏ nhất",
             "ALL_STATUS": "Tất cả trạng thái",
             "DELIVERED": "Giao hàng thành công",
             "CANCELLED": "Đã hủy",
@@ -449,7 +453,11 @@
             "ORDER": "Đơn hàng",
             "TODAY": "Hôm nay",
             "REORDER": "Mua lại",
-            "VIEW_DETAILS": "Xem chi tiết"
+            "VIEW_DETAILS": "Xem chi tiết",
+            "ORDER_DATE": "Ngày: {time}",
+            "PAYMENT_METHOD": "Thanh toán {method}",
+            "RATING": "Đánh giá",
+            "ALL_STATUS": "Tất cả trạng thái"
         }
     }
 }

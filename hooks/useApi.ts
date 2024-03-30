@@ -1,6 +1,7 @@
 import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import apiServices from "@/services/sevices";
 import { FetchMode } from "@/types/enum";
+import { GetOrderHistoryRequest } from "@/types/request/GetOrderHistoryRequest";
 import { SearchFoodAndRestaurantByCategoryIdRequest } from "@/types/request/SearchFoodAndRestaurantByCategoryIdRequest";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
@@ -176,6 +177,22 @@ const useSWRAPI = () => {
                     ...config,
                 },
             ),
+
+        OnGoingOrder: (config?: SWRConfiguration) =>
+            useSWR("OnGoingOrder", async () => apiServices.onGoingOrder(), {
+                ...swrConfig,
+                ...config,
+            }),
+        GetHistoryOrderByFood: (request: GetOrderHistoryRequest, config?: SWRConfiguration) =>
+            useSWR("GetHistoryOrderByFood", async () => apiServices.getHistoryOrderByFood(request), {
+                ...swrConfig,
+                ...config,
+            }),
+        GetHistoryOrderByRestaurant: (request: GetOrderHistoryRequest, config?: SWRConfiguration) =>
+            useSWR("GetHistoryOrderByRestaurant", async () => apiServices.getHistoryOrderByRestaurant(request), {
+                ...swrConfig,
+                ...config,
+            }),
     };
 };
 

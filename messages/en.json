@@ -434,6 +434,10 @@
             "FOOD": "Dishes",
             "RESTAURANT": "Restaurants",
             "NEAREST_DATE": "Recent",
+            "DATE_ASC": "Recent",
+            "DATE_DESC": "Oldest date",
+            "TOTAL_ASC": "Total ASC",
+            "TOTAL_DESC": "Total DESC",
             "ALL_STATUS": "All status",
             "DELIVERED": "Success",
             "CANCELLED": "Cancelled",
@@ -446,7 +450,11 @@
             "ORDER": "Order",
             "TODAY": "Today",
             "REORDER": "Re-order",
-            "VIEW_DETAILS": "Detail"
+            "VIEW_DETAILS": "Detail",
+            "ORDER_DATE": "Date: {time}",
+            "PAYMENT_METHOD": "Pair via {method}",
+            "RATING": "Rating",
+            "ALL_STATUS": "All status"
         }
     }
 }

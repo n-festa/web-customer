@@ -12,5 +12,6 @@ export const routes = {
     review: "/review",
     OrderDetail: "/order/detail",
     OrderHistory: "/order/history",
+    orderReview: "/order/review",
     Profile: "/profile",
 };

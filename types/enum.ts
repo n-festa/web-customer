@@ -8,6 +8,13 @@ export enum SortOrder {
     DESC = "desc",
 }
 
+export enum SortOrderHistory {
+    DATE_ASC = "DATE_ASC",
+    DATE_DESC = "DATE_DESC",
+    TOTAL_ASC = "TOTAL_ASC",
+    TOTAL_DESC = "TOTAL_DESC",
+}
+
 export enum FetchMode {
     Full = "full",
     Some = "some",
@@ -60,6 +67,14 @@ export enum OrderStatusLogType {
     FAILED = "failed",
     CANCELLED = "cancelled",
 }
+
+export enum FilterOrderStatuType {
+    ALL = "ALL",
+    COMPLETED = "COMPLETED",
+    FAILED = "FAILED",
+    CANCELLED = "CANCELLED",
+}
+
 export enum OrderStatusType {
     NEW = "NEW",
     IDLE = "IDLE",
