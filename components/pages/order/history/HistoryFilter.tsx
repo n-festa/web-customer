@@ -17,6 +17,7 @@ import {
     WrapItem,
     useDisclosure,
 } from "@chakra-ui/react";
+import { subDays } from "date-fns/subDays";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
@@ -31,7 +32,11 @@ interface Props {
 const HistoryFilter = ({ condition, onChangeType, onChangeFilterCondition }: Props) => {
     const t = useTranslations("ORDER_HISTORY.FILTER");
     const tOrder = useTranslations("ORDER_DETAIL.ORDER_CONFIRMATION.MD");
-    const [range, setRange] = useState<DateRange | undefined>();
+    const defaultRange = {
+        from: subDays(new Date(), 30),
+        to: new Date(),
+    };
+    const [range, setRange] = useState<DateRange | undefined>(defaultRange);
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const options = useMemo(() => {
@@ -133,8 +138,8 @@ const HistoryFilter = ({ condition, onChangeType, onChangeFilterCondition }: Pro
                                 textAlign={"center"}
                                 flex={1}
                             >
-                                {formatDate(options.timeRange?.from, ddMMyyyy)} -{" "}
-                                {formatDate(options.timeRange?.to, ddMMyyyy)}
+                                {formatDate(options.timeRange?.from ?? defaultRange.from, ddMMyyyy)} -{" "}
+                                {formatDate(options.timeRange?.to ?? defaultRange.to, ddMMyyyy)}
                             </Text>
                         </HStack>
                     </PopoverTrigger>
