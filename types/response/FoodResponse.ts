@@ -79,4 +79,4 @@ export type GetFoodDetailResponse = {
 
 export type GetCurrentAvailableFoodByRestaurantResponse = { data: FoodDto[] };
 
-export type GetPersonalFoodRecommendationResponse = { data: FoodDto[] };
+export type GetPersonalFoodRecommendationResponse = { foods: FoodDto[] };

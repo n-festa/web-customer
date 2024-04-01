@@ -3,7 +3,7 @@ import WraperInfo from "@/components/molecules/WraperInfo";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
 import useRenderText from "@/hooks/useRenderText";
-import { SearchFoodType } from "@/types/enum";
+import { FetchMode, SearchFoodType } from "@/types/enum";
 import { routes } from "@/utils/routes";
 import { Wrap, WrapItem } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
@@ -15,7 +15,7 @@ const SideDishes = () => {
     const { renderTxt } = useRenderText();
     const { product } = useParams();
     const { GetSideDishByMenuItemId } = useSWRAPI();
-    const { data, isLoading } = GetSideDishByMenuItemId(Number(product));
+    const { data, isLoading } = GetSideDishByMenuItemId(Number(product), { fetch_mode: FetchMode.Some });
     const router = useRouter();
 
     const lstSideDish = useMemo(() => {
