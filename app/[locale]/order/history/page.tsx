@@ -26,8 +26,17 @@ import { useCallback } from "react";
 const OrderHistoryPage = () => {
     const t = useTranslations();
 
-    const { onGoingOrder, condition, totalHistory, history, isLoading, onChangeType, onChangeFilterCondition } =
-        useOrderHistory();
+    const {
+        tab,
+        onGoingOrder,
+        condition,
+        totalHistory,
+        history,
+        isLoading,
+        onChangeTab,
+        onChangeType,
+        onChangeFilterCondition,
+    } = useOrderHistory();
 
     const onChangeSearchKey = useCallback(
         debounce((value?: string) => {
@@ -36,8 +45,8 @@ const OrderHistoryPage = () => {
                 name: "searchKey",
                 value: value,
             });
-        }, 300),
-        [],
+        }, 500),
+        [condition.type],
     );
 
     return (
@@ -51,7 +60,7 @@ const OrderHistoryPage = () => {
                     p="1.6rem 0 0 0"
                     titleProps={{ px: "1.6rem" }}
                 >
-                    <Tabs position="relative" variant="history" mt="0.8rem" w="100%">
+                    <Tabs position="relative" variant="history" mt="0.8rem" w="100%" index={tab} onChange={onChangeTab}>
                         <TabList>
                             <Tab px="1.6rem">
                                 <HStack p="0 0.2rem" justifyContent={"space-between"} spacing={"0.8rem"}>
