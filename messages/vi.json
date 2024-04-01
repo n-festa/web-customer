@@ -319,9 +319,11 @@
             "PACKAGING": "Đóng gói",
             "TODAY": "hôm nay",
             "TOMORROW": "ngày mai",
+            "NUM_DAY": "{distance} ngày",
+            "NUM_HOUR": "{time} giờ",
             "I_WANT_TO_PRE_ORDER": "Tôi muốn đặt trước.",
             "I_WANT_TO_GET_IT_NOW": "Tôi muốn nhận ngay hôm nay.",
-            "PLACE_ORDER_BEFORE": "Bạn cần đặt trước {time} giờ để điều chỉnh vị. ",
+            "PLACE_ORDER_BEFORE": "Bạn cần đặt trước {time} để điều chỉnh vị. ",
             "RECEIVE_FOOD_NOTE": "Món ăn sẽ được nhận sau ngày {date} để được điều chỉnh vị."
         },
         "PRODUCT_INFO": {

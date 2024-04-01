@@ -82,10 +82,10 @@ export const calcCutoffTime = (cutoffTime?: number) => {
         const target = addHours(anchor, anchorTime);
 
         if (compareAsc(currentTime, target) < 0) {
-            return addDays(target, days);
+            return addDays(target, days + 1);
         }
 
-        return addDays(target, days + 1);
+        return addDays(target, days + 2);
     }
     return anchorTime;
 };
