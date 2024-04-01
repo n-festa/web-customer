@@ -83,8 +83,8 @@ const useSWRAPI = () => {
                 ...swrConfig,
                 ...config,
             }),
-        GetSideDishByMenuItemId: (id: number, config?: SWRConfiguration) =>
-            useSWR("getSideDishByMenuItemId", async () => apiServices.getSideDishByMenuItemId(id), {
+        GetSideDishByMenuItemId: (id: number, query: { fetch_mode: FetchMode }, config?: SWRConfiguration) =>
+            useSWR("getSideDishByMenuItemId", async () => apiServices.getSideDishByMenuItemId(id, query), {
                 ...swrConfig,
                 ...config,
             }),
@@ -93,24 +93,23 @@ const useSWRAPI = () => {
                 ...swrConfig,
                 ...config,
             }),
-        GetCurrentAvailableFoodByRestaurant: (id: number, fetch_mode?: FetchMode, config?: SWRConfiguration) =>
+        GetCurrentAvailableFoodByRestaurant: (id: number, fetch_mode: FetchMode, config?: SWRConfiguration) =>
             useSWR(
                 "getCurrentAvailableFoodByRestaurant",
-                async () => apiServices.getCurrentAvailableFoodByRestaurant(id, { fetch_mode }),
+                async () => apiServices.getCurrentAvailableFoodByRestaurant(id, fetch_mode),
                 {
                     ...swrConfig,
                     ...config,
                 },
             ),
-        GetPersonalFoodRecommendation: (id: number, fetch_mode?: FetchMode, config?: SWRConfiguration) =>
-            useSWR(
-                "getPersonalFoodRecommendation",
-                async () => apiServices.getPersonalFoodRecommendation(id, { fetch_mode }),
-                {
-                    ...swrConfig,
-                    ...config,
-                },
-            ),
+        GetPersonalFoodRecommendation: (
+            query: { fetch_mode: FetchMode; menu_item_id: number | string },
+            config?: SWRConfiguration,
+        ) =>
+            useSWR("getPersonalFoodRecommendation", async () => apiServices.getPersonalFoodRecommendation(query), {
+                ...swrConfig,
+                ...config,
+            }),
         GetTopReview: (config?: SWRConfiguration) =>
             useSWR("getTopReview", async () => apiServices.getTopReview(), {
                 ...swrConfig,

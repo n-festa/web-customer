@@ -8,6 +8,12 @@ export interface HistoricalOrderByRestaurant {
     order_items: OrderItem[];
     order_total: number;
     order_score: number;
+    payment_method: Payment;
+}
+
+export interface Payment {
+    id: number;
+    name: string;
 }
 
 export interface HistoricalOrderByFood {

@@ -219,9 +219,7 @@ const useSearchResult = () => {
     const getCurrentAvailableFoodByRestaurant = async (id: number) => {
         setLoading(true);
         apiServices
-            .getCurrentAvailableFoodByRestaurant(id, {
-                fetch_mode: FetchMode.Full,
-            })
+            .getCurrentAvailableFoodByRestaurant(id, FetchMode.Full)
             .then(({ data }) => {
                 if (data) {
                     setState((prevState) => ({
@@ -241,15 +239,16 @@ const useSearchResult = () => {
     const getPersonalFoodRecommendation = async (id: number) => {
         setLoading(true);
         apiServices
-            .getPersonalFoodRecommendation(id, {
+            .getPersonalFoodRecommendation({
+                menu_item_id: id,
                 fetch_mode: FetchMode.Full,
             })
-            .then(({ data }) => {
-                if (data) {
+            .then(({ foods }) => {
+                if (foods) {
                     setState((prevState) => ({
                         ...prevState,
                         searchResult: {
-                            [FilterType.Food]: data ?? [],
+                            [FilterType.Food]: foods ?? [],
                             [FilterType.Restaurant]: [],
                         },
                     }));

@@ -3,7 +3,7 @@ import WraperInfo from "@/components/molecules/WraperInfo";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
 import useRenderText from "@/hooks/useRenderText";
-import { SearchFoodType } from "@/types/enum";
+import { FetchMode, SearchFoodType } from "@/types/enum";
 import products from "@/utils/data/products";
 import { routes } from "@/utils/routes";
 import { Wrap, WrapItem } from "@chakra-ui/react";
@@ -17,10 +17,13 @@ const SimilarDishes = () => {
     const { product } = useParams();
     const router = useRouter();
     const { GetPersonalFoodRecommendation } = useSWRAPI();
-    const { data, isLoading } = GetPersonalFoodRecommendation(Number(product));
+    const { data, isLoading } = GetPersonalFoodRecommendation({
+        menu_item_id: Number(product),
+        fetch_mode: FetchMode.Some,
+    });
 
     const lstSimilarDishes = useMemo(() => {
-        return data?.data ?? [];
+        return data?.foods ?? [];
     }, [data]);
 
     return lstSimilarDishes.length < 1 ? (

@@ -2,7 +2,7 @@
 import GroupWrapper from "@/components/pages/confirm/GroupWrapper";
 import { GroupStars } from "@/components/pages/landing-page/testimonial";
 import useRenderText from "@/hooks/useRenderText";
-import { OrderStatusLogType } from "@/types/enum";
+import { OrderStatusLogType, PaymentMethod } from "@/types/enum";
 import { HistoricalOrderByRestaurant } from "@/types/response/GetHistoryOrderResponse";
 import { ddMMyyyy } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
@@ -122,12 +122,20 @@ const OrderHistoryRestaurantItem = ({ orderInfo }: Props) => {
                         <Text as="span" fontSize="1.6rem" lineHeight="2rem" color="black">
                             {orderItemsText}
                         </Text>
-                        <HStack>
-                            <Text as="span" fontSize="1.6rem" lineHeight="2rem" color="black">
-                                {t("PAYMENT_METHOD", { method: "momo" })}
-                            </Text>
-                            <Img src="/images/icons/payment_momo.svg" />
-                        </HStack>
+                        {orderInfo?.payment_method && (
+                            <HStack>
+                                <Text as="span" fontSize="1.6rem" lineHeight="2rem" color="black">
+                                    {t("PAYMENT_METHOD", { method: orderInfo?.payment_method?.name ?? "-" })}
+                                </Text>
+                                <Img
+                                    src={
+                                        orderInfo?.payment_method.id === PaymentMethod.Momo
+                                            ? "/images/icons/payment_momo.svg"
+                                            : "/images/icons/payment_cash.svg"
+                                    }
+                                />
+                            </HStack>
+                        )}
                     </VStack>
                 </Stack>
             </VStack>
