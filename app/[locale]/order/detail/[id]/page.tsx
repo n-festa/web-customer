@@ -4,6 +4,7 @@ import GroupWrapper from "@/components/pages/confirm/GroupWrapper";
 import CartTotalInfo from "@/components/pages/tracking/CartTotalInfo";
 import GroupStepperProgress from "@/components/pages/tracking/GroupStepperProgress";
 import useOrderDetail from "@/hooks/useOrderDetail";
+import useRenderText from "@/hooks/useRenderText";
 import { ddMMyyyy } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import { formatPhoneNumber } from "@/utils/functions";
@@ -11,6 +12,7 @@ import { Avatar, Box, Flex, HStack, Image, Text, VStack, useBreakpointValue } fr
 import { useTranslations } from "next-intl";
 
 const OrderDetail = () => {
+    const { renderTxt } = useRenderText();
     const t = useTranslations("ORDER_DETAIL");
     const { orderDetail, addressString, isSimpleScreen, isLoading, error, orderStatusLog } = useOrderDetail();
     const showIframe = useBreakpointValue({
@@ -113,7 +115,6 @@ const OrderDetail = () => {
                     {!orderDetail?.cutlery_fee && (
                         <GroupWrapper titleFontSize="2rem" title={t("PACKAGING")}>
                             <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">
-                                {/* <Text>{t("SUGARCANE_BOX")}</Text> */}
                                 {!orderDetail?.cutlery_fee && <Text>{t("NO_UTENSILS_NEEDED")}</Text>}
                             </VStack>
                         </GroupWrapper>
@@ -121,7 +122,7 @@ const OrderDetail = () => {
                     {orderDetail?.payment_method && (
                         <GroupWrapper titleFontSize="2rem" title={t("PAYMENT_METHOD")}>
                             <Text lineHeight="4rem" fontSize="1.6rem" mt="0.8rem">
-                                {t("PAID_WITH", { method: orderDetail?.payment_method?.name })}
+                                {renderTxt(orderDetail?.payment_status_history?.[0]?.name)}
                             </Text>
                         </GroupWrapper>
                     )}

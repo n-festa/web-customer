@@ -102,7 +102,7 @@ const CartTotalInfo = ({
                     </Flex>
                 )}
                 {cutleryFee && (
-                    <Flex w="100%" justifyContent="space-between" borderBottom="var(--divider)">
+                    <Flex w="100%" justifyContent="space-between">
                         <Text fontSize="1.4rem">{t("UTENSILS")}</Text>
                         <Text fontSize="1.4rem"> {formatMoney(cutleryFee)}</Text>
                     </Flex>
