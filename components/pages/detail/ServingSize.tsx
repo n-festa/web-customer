@@ -8,7 +8,7 @@ import { DefaultOtherOption, OtherCustomization, PortionCustomization, TasteCust
 import { formatDate } from "@/utils/date";
 import { calcCutoffTime } from "@/utils/functions";
 import { FormControl, Grid, GridItem, HStack, Skeleton, Stack, Switch, Text, Textarea, VStack } from "@chakra-ui/react";
-import { isToday, isTomorrow } from "date-fns";
+import { differenceInCalendarDays } from "date-fns";
 import { Field, Form, Formik } from "formik";
 import { useTranslations } from "next-intl";
 import { forwardRef, useMemo, useState } from "react";
@@ -71,14 +71,18 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
 
         return { ...initValues, notes: "", item_id: info?.menu_item_id ?? -1 };
     }, [info?.menu_item_id, info?.other_customizaton, info?.packaging_info, info?.taste_customization]);
-    const { time, isInday } = useMemo(() => {
+    const { time, receiveTime } = useMemo(() => {
         const time = calcCutoffTime(info?.cutoff_time_m);
+        const distance = time ? differenceInCalendarDays(time, new Date()) : 0;
+
         if (!time) return {};
-        return isToday(time)
-            ? { time: formatDate(time, "HH:mm"), isInday: true }
-            : isTomorrow(time)
-              ? { time: t("TOMORROW"), isInday: false }
-              : { time: formatDate(time, "dd-MM-yyyy"), isInday: false };
+        return distance < 1
+            ? { time: formatDate(time, "HH:mm"), receiveTime: t("TODAY") }
+            : {
+                  time: t("NUM_DAY", { distance: distance }),
+                  receiveTime:
+                      distance == 1 ? t("TODAY") : distance == 2 ? t("TOMORROW") : formatDate(time, "dd-MM-yyyy"),
+              };
     }, [info?.cutoff_time_m, t]);
     return (
         <VStack
@@ -177,22 +181,24 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                     {time && (
                                         <HStack fontSize="1.4rem" spacing="0.4rem">
                                             <Text color="var(--gray-600)">
-                                                {isInday
+                                                {disableTasteCustomize
                                                     ? t("PLACE_ORDER_BEFORE", { time: time })
-                                                    : t("RECEIVE_FOOD_NOTE", { date: time })}
+                                                    : t("RECEIVE_FOOD_NOTE", { date: receiveTime })}
                                             </Text>
-                                            {disableTasteCustomize && (
-                                                <Text
-                                                    cursor="pointer"
-                                                    fontWeight={600}
-                                                    color="var(--text-blue)"
-                                                    onClick={() => {
-                                                        setDisableTasteCustomize(false);
-                                                    }}
-                                                >
-                                                    {t(isInday ? "I_WANT_TO_PRE_ORDER" : "I_WANT_TO_GET_IT_NOW")}
-                                                </Text>
-                                            )}
+                                            <Text
+                                                cursor="pointer"
+                                                fontWeight={600}
+                                                color="var(--text-blue)"
+                                                onClick={() => {
+                                                    setDisableTasteCustomize((prev) => !prev);
+                                                }}
+                                            >
+                                                {t(
+                                                    disableTasteCustomize
+                                                        ? "I_WANT_TO_PRE_ORDER"
+                                                        : "I_WANT_TO_GET_IT_NOW",
+                                                )}
+                                            </Text>
                                             <HStack fontSize="1.4rem"></HStack>
                                         </HStack>
                                     )}

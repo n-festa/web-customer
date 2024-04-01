@@ -102,7 +102,7 @@ const useConfirmOrder = () => {
                     order_total: finalPrice,
                     delivery_fee: deliveryFee?.deliveryFee ?? 0,
                     packaging_fee: packageFee ?? 0,
-                    cutlery_fee: cutleryFee,
+                    cutlery_fee: addCutlery ? cutleryFee : undefined,
                     app_fee: applicationFee ?? 0,
                     coupon_value: discounts?.discount_amount ?? 0,
                     coupon_code: discounts?.coupon_code ?? "",

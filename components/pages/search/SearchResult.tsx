@@ -102,7 +102,16 @@ const SearchResult = ({
                                     cook_method={renderTxt(item.main_cooking_method)}
                                     currentPrice={item.price_after_discount}
                                     price={item.price}
-                                    ingredientName={item.ingredient_brief_vie}
+                                    ingredientName={renderTxt([
+                                        {
+                                            ISO_language_code: "eng",
+                                            text: item?.ingredient_brief_eng,
+                                        },
+                                        {
+                                            ISO_language_code: "vie",
+                                            text: item?.ingredient_brief_vie,
+                                        },
+                                    ])}
                                     kcal={item.calorie_kcal?.toLocaleString()}
                                     distance={item.distance_km}
                                     ratings={item.rating}

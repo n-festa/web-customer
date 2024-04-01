@@ -1,4 +1,4 @@
-import { FoodOtherFilterOptionsKeys } from "@/types/enum";
+import { FoodOtherFilterOptionsKeys, OrderStatusLogType } from "@/types/enum";
 
 export const FoodOtherFilterOptions = (t: any) => [
     { key: FoodOtherFilterOptionsKeys.GT4Star, name: t("COMMON.STARS") },
@@ -99,3 +99,16 @@ export const optiopnDiet = (t: any) => [
     t("FORM_DATA.CARNIVORE"),
     t("FORM_DATA.NO_DIET"),
 ];
+
+export const OrderStatusLogTypeColor: { [key: string]: string } = {
+    [OrderStatusLogType.CANCELLED]: "#F04438",
+    [OrderStatusLogType.FAILED]: "#F04438",
+    //
+    [OrderStatusLogType.COMPLETED]: "#17B26A",
+    //
+    [OrderStatusLogType.PICKED_UP]: "#FEC84B",
+    [OrderStatusLogType.STARTED_TO_PROCESS]: "#FEC84B",
+    [OrderStatusLogType.CONFIRMED]: "#FEC84B",
+    [OrderStatusLogType.CREATED]: "#FEC84B",
+    UNKOWN: "#F04438",
+};

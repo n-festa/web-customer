@@ -319,9 +319,11 @@
             "PACKAGING": "Đóng gói",
             "TODAY": "hôm nay",
             "TOMORROW": "ngày mai",
+            "NUM_DAY": "{distance} ngày",
+            "NUM_HOUR": "{time} giờ",
             "I_WANT_TO_PRE_ORDER": "Tôi muốn đặt trước.",
             "I_WANT_TO_GET_IT_NOW": "Tôi muốn nhận ngay hôm nay.",
-            "PLACE_ORDER_BEFORE": "Bạn cần đặt trước {time} giờ để điều chỉnh vị. ",
+            "PLACE_ORDER_BEFORE": "Bạn cần đặt trước {time} để điều chỉnh vị. ",
             "RECEIVE_FOOD_NOTE": "Món ăn sẽ được nhận sau ngày {date} để được điều chỉnh vị."
         },
         "PRODUCT_INFO": {
@@ -437,6 +439,10 @@
             "FOOD": "Món ăn",
             "RESTAURANT": "Nhà hàng",
             "NEAREST_DATE": "Ngày gần nhất",
+            "DATE_ASC": "Ngày gần nhất",
+            "DATE_DESC": "Ngày xa nhất",
+            "TOTAL_ASC": "Giá lớn nhất",
+            "TOTAL_DESC": "Giá nhỏ nhất",
             "ALL_STATUS": "Tất cả trạng thái",
             "DELIVERED": "Giao hàng thành công",
             "CANCELLED": "Đã hủy",
@@ -449,7 +455,11 @@
             "ORDER": "Đơn hàng",
             "TODAY": "Hôm nay",
             "REORDER": "Mua lại",
-            "VIEW_DETAILS": "Xem chi tiết"
+            "VIEW_DETAILS": "Xem chi tiết",
+            "ORDER_DATE": "Ngày: {time}",
+            "PAYMENT_METHOD": "Thanh toán {method}",
+            "RATING": "Đánh giá",
+            "ALL_STATUS": "Tất cả trạng thái"
         }
     }
 }

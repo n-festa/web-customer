@@ -12,6 +12,7 @@ import {
     ReviewResponse,
 } from "@/types/interfaces";
 import { Order } from "@/types/order";
+import { GetOrderHistoryRequest } from "@/types/request/GetOrderHistoryRequest";
 import { SearchFoodByNameRequest } from "@/types/request/SearchFoodByNameRequest";
 import {
     GetCurrentAvailableFoodByRestaurantResponse,
@@ -22,7 +23,12 @@ import {
 import { GetAllCategoriesResponse } from "@/types/response/GetAllCategoriesResponse";
 import { GetGeneralFoodRecommendResponse } from "@/types/response/GetGeneralFoodRecommendResponse";
 import { GetGeneralRestaurantRecommendationResponse } from "@/types/response/GetGeneralRestaurantRecommendationResponse";
+import {
+    GetHistoryOrderByFoodResponse,
+    GetHistoryOrderByRestaurantResponse,
+} from "@/types/response/GetHistoryOrderResponse";
 import { GetListSKUsByIdResponse } from "@/types/response/GetListSKUsByIdResponse";
+import { OnGoingOrderResponse } from "@/types/response/OnGoingOrderResponse";
 import { RestaurantDetailResponse } from "@/types/response/RestaurantDetailResponse";
 import { SearchFoodAndRestaurantByCategoryIdResponse } from "@/types/response/SearchFoodAndRestaurantByCategoryIdResponse";
 import { SearchFoodByNameResponse } from "@/types/response/SearchFoodByNameResponse";
@@ -521,6 +527,26 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: {
                     invoiceId: invoiceId,
                 },
+            });
+        },
+        onGoingOrder: () => {
+            return this.request<OnGoingOrderResponse>({
+                path: `order/ongoing/`,
+                method: "GET",
+            });
+        },
+        getHistoryOrderByFood: (payload: GetOrderHistoryRequest) => {
+            return this.request<GetHistoryOrderByFoodResponse>({
+                path: `order/history-food`,
+                method: "POST",
+                body: payload,
+            });
+        },
+        getHistoryOrderByRestaurant: (payload: GetOrderHistoryRequest) => {
+            return this.request<GetHistoryOrderByRestaurantResponse>({
+                path: `order/history-restaurant`,
+                method: "POST",
+                body: payload,
             });
         },
     };
