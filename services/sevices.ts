@@ -9,6 +9,7 @@ import {
     Discount,
     DistrictsResponse,
     ProvinceResponse,
+    ReviewFormType,
     ReviewResponse,
 } from "@/types/interfaces";
 import { Order } from "@/types/order";
@@ -547,6 +548,13 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: `order/history-restaurant`,
                 method: "POST",
                 body: payload,
+            });
+        },
+        getReviewForm: (data: { customer_id: number; order_id: number }) => {
+            return this.request<ReviewFormType>({
+                path: "rating-review/get-form",
+                method: "POST",
+                body: data,
             });
         },
     };

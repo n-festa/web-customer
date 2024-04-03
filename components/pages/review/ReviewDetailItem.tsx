@@ -1,3 +1,4 @@
+import { DriverType, OrderType } from "@/hooks/usePostReview";
 import { Box, Flex, Img, Input, Text, Textarea } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -5,15 +6,31 @@ import UIRating from "./UIRating";
 interface ReviewDetailItemProps {
     title: string;
     iconTitle: string;
+    order?: OrderType;
+    driver?: DriverType;
+    onChangeOrders?: (index: number, key: "score" | "remarks" | "img_urls", value: string | number | Blob[]) => void;
+    onChangeDriver?: (key: "score" | "remarks" | "img_urls", value: string | number | Blob[]) => void;
 }
-const ReviewDetailItem = ({ title, iconTitle }: ReviewDetailItemProps) => {
+const ReviewDetailItem = ({
+    title,
+    iconTitle,
+    order,
+    onChangeOrders,
+    onChangeDriver,
+    driver,
+}: ReviewDetailItemProps) => {
     const t = useTranslations("REVIEW");
     const [listImage, setListImage] = useState<string[]>([]);
     const [listImageUpload, setListImageUpload] = useState<File[]>([]);
     const handleUpload = (event: any) => {
         setListImage([...listImage, URL.createObjectURL(event.target.files[0])]);
         setListImageUpload([...listImageUpload, event.target.files[0]]);
+        order &&
+            order.order_sku_id &&
+            onChangeOrders?.(order.order_sku_id, "img_urls", [...listImage, event.target.files[0]]);
+        driver && onChangeDriver?.("img_urls", [...listImage, event.target.files[0]]);
     };
+
     return (
         <Flex pb="4.8rem" w="100%" gap="2rem" flexDirection={{ base: "column", md: "row" }}>
             <Box flex="1">
@@ -24,7 +41,15 @@ const ReviewDetailItem = ({ title, iconTitle }: ReviewDetailItemProps) => {
                     </Text>
                 </Flex>
                 <Flex gap="0.4rem" m="1rem 0">
-                    <UIRating maxRating={5} size="sm" />
+                    <UIRating
+                        maxRating={5}
+                        value={driver ? driver.score ?? 0 : order?.score || 0}
+                        size="sm"
+                        onRatingChange={(value) => {
+                            order && order.order_sku_id && onChangeOrders?.(order.order_sku_id, "score", value);
+                            driver && onChangeDriver?.("score", value);
+                        }}
+                    />
                     <Text ml="0.4rem" fontSize="1.4rem" fontWeight="400">
                         {t("VERY_SATISFIED")}
                     </Text>
@@ -55,7 +80,15 @@ const ReviewDetailItem = ({ title, iconTitle }: ReviewDetailItemProps) => {
                 </Flex>
             </Box>
             <Box flex="1">
-                <Textarea w="100%" placeholder={t("PLACEHOLDER_COMMENT")} minH="12.8rem"></Textarea>
+                <Textarea
+                    w="100%"
+                    placeholder={t("PLACEHOLDER_COMMENT")}
+                    minH="12.8rem"
+                    onChange={(e) => {
+                        order && order.order_sku_id && onChangeOrders?.(order.order_sku_id, "remarks", e.target.value);
+                        driver && onChangeDriver?.("remarks", e.target.value);
+                    }}
+                ></Textarea>
             </Box>
         </Flex>
     );

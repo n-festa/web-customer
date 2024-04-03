@@ -1,5 +1,5 @@
 import { FilterType, SearchFoodType, SortOrder } from "@/types/enum";
-import { FoodDto, RestaurantDto } from "@/types/response/base";
+import { BaseNameInterface, FoodDto, RestaurantDto } from "@/types/response/base";
 export interface Options {
     key: string;
     name: string;
@@ -135,4 +135,21 @@ export interface Discount {
     coupon_code: string;
     restaurant_id: number;
     items?: CouponAppliedItem[];
+}
+
+export interface ReviewItem {
+    order_sku_id: number;
+    name: BaseNameInterface[];
+    price: number;
+    advanced_taste_customization: string;
+    basic_taste_customization: string;
+    portion_customization: string;
+}
+
+export interface ReviewFormType {
+    customer_id: number;
+    order_id: number;
+    order_date: string; // Assuming this is a string representation of a timestamp
+    driver_id: number;
+    order_items: ReviewItem[];
 }

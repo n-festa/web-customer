@@ -60,7 +60,7 @@ const useOrderDetail = () => {
                     setPushData(orderDetail);
                     if (orderDetail.order_status_log?.some((item) => item.milestone === OrderStatusLogType.COMPLETED)) {
                         setTimeout(() => {
-                            router.push(routes.review + `/${orderId}`);
+                            router.push(routes.orderReview + `/${orderId}`);
                         }, 3000);
                     }
                 } else {

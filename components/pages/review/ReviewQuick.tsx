@@ -1,5 +1,6 @@
 import GroupRadioButton from "@/components/atoms/radio/GroupRadioButton";
 import config from "@/config";
+import { DriverType, OrderType } from "@/hooks/usePostReview";
 import { Box, Button, Flex, HStack, Img, Input, Text, Textarea } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -7,13 +8,25 @@ import UIRating from "./UIRating";
 const {
     review: { formData },
 } = config;
-const ReviewQuick = () => {
+
+const ReviewQuick = ({
+    driver,
+    orderQuick,
+    onChangeOrderQuick,
+    onChangeDriver,
+}: {
+    driver?: DriverType;
+    orderQuick: OrderType;
+    onChangeOrderQuick: (key: "score" | "remarks" | "img_urls", value: string | number | Blob[]) => void;
+    onChangeDriver: (key: "score" | "remarks" | "img_urls", value: string | number | Blob[]) => void;
+}) => {
     const t = useTranslations("REVIEW");
     const [listImage, setListImage] = useState<string[]>([]);
     const [listImageUpload, setListImageUpload] = useState<File[]>([]);
     const handleUpload = (event: any) => {
         setListImage([...listImage, URL.createObjectURL(event.target.files[0])]);
         setListImageUpload([...listImageUpload, event.target.files[0]]);
+        onChangeOrderQuick("img_urls", [...listImageUpload, event.target.files[0]]);
     };
     return (
         <Box pb="4.8rem">
@@ -30,7 +43,12 @@ const ReviewQuick = () => {
                         {t("DRIVER_RATING")}
                     </Text>
                 </Flex>
-                <UIRating size="lg" maxRating={5} />
+                <UIRating
+                    value={driver?.score || 0}
+                    size="lg"
+                    maxRating={5}
+                    onRatingChange={(value) => onChangeDriver("score", value)}
+                />
             </Flex>
             <Flex p="2rem 0 1rem" alignItems="center" justifyContent="space-between" mb="1rem">
                 <Flex gap="1.6rem" alignItems="center">
@@ -40,7 +58,12 @@ const ReviewQuick = () => {
                     </Text>
                 </Flex>
                 <Flex gap="0.7rem">
-                    <UIRating size="lg" maxRating={5} />
+                    <UIRating
+                        value={orderQuick.score || 0}
+                        size="lg"
+                        maxRating={5}
+                        onRatingChange={(value) => onChangeOrderQuick("score", value)}
+                    />
                 </Flex>
             </Flex>
             <Text mb="1rem" fontSize="1.6rem" fontWeight="400">
@@ -52,7 +75,11 @@ const ReviewQuick = () => {
                 defaultValue={"Đồ ăn chất lượng"}
             ></GroupRadioButton>
             <Box m="1.8rem 0 1rem">
-                <Textarea placeholder={t("SHARE_FEEDBACK_PLACEHOLDER")} minH="12.8rem" />
+                <Textarea
+                    placeholder={t("SHARE_FEEDBACK_PLACEHOLDER")}
+                    minH="12.8rem"
+                    onChange={(e) => onChangeOrderQuick("remarks", e.target.value)}
+                />
             </Box>
             <HStack spacing={6} p="2rem 0" borderTop="1px solid var(--gray-300)" minH="10rem">
                 {listImage.map((item, index) => (

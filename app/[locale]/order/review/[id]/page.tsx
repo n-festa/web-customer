@@ -2,11 +2,13 @@
 import { BackButton } from "@/components/atoms/bottom/BackButton";
 import ReviewDetail from "@/components/pages/review/ReviewDetail";
 import ReviewQuick from "@/components/pages/review/ReviewQuick";
+import usePostReview from "@/hooks/usePostReview";
 import { Box, Flex, Heading, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 
 const Review = () => {
     const t = useTranslations("REVIEW");
+    const { handeleChangeOrder, handleChangeDriver, orders, driver, orderQuick, handleOrderQuick } = usePostReview();
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
@@ -55,10 +57,20 @@ const Review = () => {
                         </TabList>
                         <TabPanels mt="2rem">
                             <TabPanel>
-                                <ReviewQuick />
+                                <ReviewQuick
+                                    driver={driver}
+                                    orderQuick={orderQuick}
+                                    onChangeOrderQuick={handleOrderQuick}
+                                    onChangeDriver={handleChangeDriver}
+                                />
                             </TabPanel>
                             <TabPanel>
-                                <ReviewDetail />
+                                <ReviewDetail
+                                    driver={driver}
+                                    orders={orders}
+                                    onChangeOrders={handeleChangeOrder}
+                                    onChangeDriver={handleChangeDriver}
+                                />
                             </TabPanel>
                         </TabPanels>
                     </Tabs>
