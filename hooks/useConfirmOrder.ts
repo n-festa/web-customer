@@ -145,7 +145,7 @@ const useConfirmOrder = () => {
     }, [deliveryFee, expectedTime, loadingAppFee, loadingCoupon, loadingCutlery]);
 
     const onApplyCoupon = useCallback(
-        async (couponInput: string) => {
+        async (couponInput?: string) => {
             const res = await apiServices.applyCoupon({
                 coupon_code: couponInput,
                 restaurant_id: cart?.restaurant_id,
@@ -206,8 +206,10 @@ const useConfirmOrder = () => {
         deliveryFee: cart?.cart_info?.length ? deliveryFee : undefined,
         isLoading,
         isDisableOrder,
+        discounts,
         setDeliveryFee,
         onApplyCoupon,
+        setDiscounts,
         setExpectedTime,
     };
 };

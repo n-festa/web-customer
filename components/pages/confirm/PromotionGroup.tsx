@@ -1,4 +1,4 @@
-import { Coupon } from "@/types/interfaces";
+import { Coupon, Discount } from "@/types/interfaces";
 import { formatMoney } from "@/utils/functions";
 import {
     Box,
@@ -10,22 +10,29 @@ import {
     Popover,
     PopoverContent,
     PopoverTrigger,
+    Tag,
+    TagLabel,
     Text,
     VStack,
     useDisclosure,
     useOutsideClick,
     useToast,
 } from "@chakra-ui/react";
+import { XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import GroupWrapper from "./GroupWrapper";
 
 const PromotionGroup = ({
+    discounts,
     items,
+    setDiscounts,
     onApplyCoupon,
 }: {
     items: Coupon[];
-    onApplyCoupon: (value: string) => Promise<boolean>;
+    discounts?: Discount;
+    setDiscounts: Dispatch<SetStateAction<Discount | undefined>>;
+    onApplyCoupon: (value?: string) => Promise<boolean>;
 }) => {
     const t = useTranslations("CONFIRM_ORDER.PROMOTION_GROUP");
     const [value, setValue] = useState("");
@@ -53,17 +60,38 @@ const PromotionGroup = ({
                             as="form"
                             w="33.9rem"
                         >
-                            <Input
-                                onFocus={onOpen}
-                                placeholder={t("ENTER_PROMO_CODE")}
-                                ml="1.6rem"
-                                fontSize="1.8rem"
-                                textOverflow="ellipsis"
-                                mr="10rem"
-                                variant="search"
-                                value={value}
-                                onChange={(e) => setValue(e.target.value)}
-                            />
+                            {!discounts ? (
+                                <Input
+                                    onFocus={onOpen}
+                                    placeholder={t("ENTER_PROMO_CODE")}
+                                    ml="1.6rem"
+                                    fontSize="1.8rem"
+                                    textOverflow="ellipsis"
+                                    mr="10rem"
+                                    variant="search"
+                                    value={value}
+                                    onChange={(e) => setValue(e.target.value)}
+                                />
+                            ) : (
+                                <Tag
+                                    ml="0.8rem"
+                                    fontSize="1.8rem"
+                                    h="3.6rem"
+                                    px="1rem"
+                                    borderRadius="full"
+                                    variant="solid"
+                                    bg="var(--primary-color)"
+                                >
+                                    <TagLabel mr="1rem">{discounts.coupon_code}</TagLabel>
+                                    <XIcon
+                                        cursor="pointer"
+                                        width="1.5rem"
+                                        onClick={() => {
+                                            setDiscounts(undefined);
+                                        }}
+                                    />
+                                </Tag>
+                            )}
 
                             <InputRightElement mr="1.6rem" h="100%" w="fit-content" display="flex" gap="0.5rem">
                                 <Button
