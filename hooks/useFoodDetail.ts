@@ -62,8 +62,10 @@ const useFoodDetail = () => {
         (key: string, value: string | number) => {
             const newSKU = foodInfo.listSKUs?.find((item) => {
                 const result = item.portion_customization.every((_portion) => {
-                    return value === _portion.value_id;
+                    if (_portion.option_id === key) return String(value) === String(_portion.value_id);
+                    return portions?.[_portion.option_id].value_id === _portion.value_id;
                 });
+
                 return result;
             });
 
