@@ -8,13 +8,13 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function Error({ error }: { error: Error & { digest?: string }; reset: () => void }) {
+export default function Error({ error }: { error?: Error & { digest?: string }; reset?: () => void }) {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const t = useTranslations("COMMON.ERROR");
     useEffect(() => {
         // Log the error to an error reporting service
-        console.log(error.message);
+        console.log(error?.message);
         dispatch(setError(error));
         return () => {
             dispatch(setError(undefined));

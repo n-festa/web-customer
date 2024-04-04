@@ -84,6 +84,7 @@ const usePostReview = () => {
             img_urls: urlsImg,
         };
     };
+
     const handleSubmit = async (type: "quick" | "detail") => {
         let result;
 
@@ -132,14 +133,12 @@ const usePostReview = () => {
             };
         }
         if (result) {
-            apiServices
-                .createReview(result)
-                .then(() => {
-                    router.push(routes.Home);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            try {
+                await apiServices.createReview(result);
+                router.push(routes.Home);
+            } catch (err) {
+                console.log(err);
+            }
         }
     };
     useEffect(() => {

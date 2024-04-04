@@ -3,7 +3,7 @@ import WraperInfo from "@/components/molecules/WraperInfo";
 import FoodItem from "@/components/organism/FoodItem";
 import useSWRAPI from "@/hooks/useApi";
 import useRenderText from "@/hooks/useRenderText";
-import { SearchFoodType } from "@/types/enum";
+import { FetchMode, SearchFoodType } from "@/types/enum";
 import products from "@/utils/data/products";
 import { routes } from "@/utils/routes";
 import { Wrap, WrapItem } from "@chakra-ui/react";
@@ -17,7 +17,7 @@ const FoodInRestaurant = () => {
     const { product } = useParams();
     const router = useRouter();
     const { GetCurrentAvailableFoodByRestaurant } = useSWRAPI();
-    const { data, isLoading } = GetCurrentAvailableFoodByRestaurant(Number(product));
+    const { data, isLoading } = GetCurrentAvailableFoodByRestaurant(Number(product), FetchMode.Some);
 
     const lstRestaurants = useMemo(() => {
         return data?.data ?? [];

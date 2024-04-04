@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
+import Error from "../error";
 
 export default function CatchAllPage() {
-    return notFound();
+    return <Error />;
 }

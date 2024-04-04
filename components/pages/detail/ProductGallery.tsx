@@ -59,7 +59,7 @@ const ProductGallery = ({ info, isLoading, activeSKU }: Props) => {
                     >
                         <Stack
                             direction={{ base: "row", md: "column" }}
-                            justifyContent={{ md: "space-between", base: "center" }}
+                            justifyContent={{ md: "flex-start", base: "center" }}
                             h={{ base: "10rem", md: "100%" }}
                             w={{ base: "100%", md: "10rem" }}
                             maxH={{ base: "unset", md: "33rem" }}

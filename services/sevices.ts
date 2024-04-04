@@ -395,17 +395,21 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 method: "GET",
             });
         },
-        getCurrentAvailableFoodByRestaurant: (id: number | string, query?: { fetch_mode?: FetchMode }) => {
+        getCurrentAvailableFoodByRestaurant: (id: number | string, fetch_mode: FetchMode) => {
+            const payload = {
+                menu_item_id: id,
+                fetch_mode: fetch_mode,
+            };
             return this.request<GetCurrentAvailableFoodByRestaurantResponse>({
-                path: `/todo/${id}`, // TODO
-                method: "GET",
-                query: query,
+                path: `/food/get-available-food-by-restaurant`,
+                method: "POST",
+                body: payload,
                 ignoreAll: true,
             });
         },
-        getPersonalFoodRecommendation: (id: number | string, query?: { fetch_mode?: FetchMode }) => {
+        getPersonalFoodRecommendation: (query: { fetch_mode: FetchMode; menu_item_id: number | string }) => {
             return this.request<GetPersonalFoodRecommendationResponse>({
-                path: `/todo/${id}`, // TODO
+                path: `/food/get-similar-food`,
                 method: "GET",
                 query: query,
                 ignoreAll: true,

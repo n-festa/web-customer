@@ -30,11 +30,13 @@ const ConfirmOrderPageContent = () => {
         finalPrice,
         deliveryFee,
         packageFee,
+        discounts,
         onApplyCoupon,
         setDeliveryFee,
         setExpectedTime,
         isDisableOrder,
         isLoading,
+        setDiscounts,
     } = useConfirmOrder();
 
     return (
@@ -51,7 +53,12 @@ const ConfirmOrderPageContent = () => {
                         <DeliveryTimeGroup setExpectedTime={setExpectedTime} />
                         <PackageGroup addCutlery={addCutlery} setAddCutlery={setAddCutlery} />
                         <PaymentMethodGroup paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
-                        <PromotionGroup items={couponList?.coupons ?? []} onApplyCoupon={onApplyCoupon} />
+                        <PromotionGroup
+                            setDiscounts={setDiscounts}
+                            discounts={discounts}
+                            items={couponList?.coupons ?? []}
+                            onApplyCoupon={onApplyCoupon}
+                        />
                     </VStack>
                     <Suspense>
                         <PaymentGroup

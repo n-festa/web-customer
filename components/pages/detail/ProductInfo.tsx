@@ -28,6 +28,20 @@ const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SK
         return "0";
     }, [info?.review_number]);
 
+    const { isShowDiscountPrice, price, latestPrice } = useMemo(() => {
+        const price = activeSKU?.price;
+        const discountPrice = activeSKU?.price_after_discount;
+
+        if (discountPrice && price && discountPrice < price) {
+            return {
+                price: price?.toLocaleString() ?? "-",
+                isShowDiscountPrice: true,
+                latestPrice: discountPrice?.toLocaleString() ?? "-",
+            };
+        }
+        return { latestPrice: price?.toLocaleString() ?? "-", isShowDiscountPrice: false };
+    }, [activeSKU]);
+
     return (
         <VStack w="100%" align="flex-start" spacing="1.2rem">
             <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="3.6rem">
@@ -64,11 +78,13 @@ const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SK
             </HStack>
 
             <HStack h="3.8rem" color="black" fontSize="1.6rem" spacing="0.8rem">
-                <Text textDecoration="line-through" textDecorationThickness="1px">
-                    {activeSKU?.price?.toLocaleString() ?? "-"}
-                </Text>
+                {isShowDiscountPrice && (
+                    <Text textDecoration="line-through" textDecorationThickness="1px">
+                        {price}
+                    </Text>
+                )}
                 <Text fontSize="2.4rem" fontWeight="bold">
-                    {activeSKU?.price_after_discount?.toLocaleString() ?? "-"}
+                    {latestPrice}
                 </Text>
             </HStack>
             {info?.promotion && (

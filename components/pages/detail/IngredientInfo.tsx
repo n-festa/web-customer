@@ -26,7 +26,18 @@ const IngredientInfo = ({ info, activeSKU: _activeSKU }: { info?: FoodDetailDto;
                                     spacing={"0"}
                                     alignItems={"flex-start"}
                                 >
-                                    <Text color="var(--gray-900)">{el.item_name_vie ?? "-"}</Text>
+                                    <Text color="var(--gray-900)">
+                                        {renderTxt([
+                                            {
+                                                ISO_language_code: "eng",
+                                                text: el.item_name_eng,
+                                            },
+                                            {
+                                                ISO_language_code: "vie",
+                                                text: el.item_name_vie,
+                                            },
+                                        ])}
+                                    </Text>
                                     <Text color="var(--gray-600)">{`${el.quantity?.toLocaleString() ?? "-"}${el.unit ?? ""}`}</Text>
                                 </VStack>
                             </WrapItem>
