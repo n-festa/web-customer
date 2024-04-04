@@ -5,13 +5,14 @@ import { useTranslations } from "next-intl";
 import ReviewDetailItem from "./ReviewDetailItem";
 
 interface ReviewDetailProps {
-    onChangeOrders: (index: number, key: "score" | "remarks" | "img_urls", value: string | number | Blob[]) => void;
+    onChangeOrders: (index: number, key: "score" | "remarks" | "img_blobs", value: string | number | Blob[]) => void;
     orders: { [key: string]: OrderType };
     driver?: DriverType;
-    onChangeDriver?: (key: "score" | "remarks" | "img_urls", value: string | number | Blob[]) => void;
+    onChangeDriver?: (key: "score" | "remarks" | "img_blobs", value: string | number | Blob[]) => void;
+    onSubmit: (type: "quick" | "detail") => void;
 }
 
-const ReviewDetail = ({ onChangeOrders, orders, driver, onChangeDriver }: ReviewDetailProps) => {
+const ReviewDetail = ({ onChangeOrders, orders, driver, onChangeDriver, onSubmit }: ReviewDetailProps) => {
     const { renderTxt } = useRenderText();
     const t = useTranslations("REVIEW");
     return (
@@ -35,7 +36,9 @@ const ReviewDetail = ({ onChangeOrders, orders, driver, onChangeDriver }: Review
                         />
                     ))}
             </VStack>
-            <Button variant="btnSubmit">{t("SUBMIT_REVIEW")}</Button>
+            <Button variant="btnSubmit" onClick={() => onSubmit("detail")}>
+                {t("SUBMIT_REVIEW")}
+            </Button>
         </Box>
     );
 };

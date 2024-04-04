@@ -8,7 +8,16 @@ import { useTranslations } from "next-intl";
 
 const Review = () => {
     const t = useTranslations("REVIEW");
-    const { handeleChangeOrder, handleChangeDriver, orders, driver, orderQuick, handleOrderQuick } = usePostReview();
+    const {
+        handleChangeOrder,
+        handleChangeDriver,
+        handleOrderQuick,
+        handleSubmit,
+        setRemarkQuick,
+        driver,
+        orders,
+        remarkQuick,
+    } = usePostReview();
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
@@ -58,18 +67,19 @@ const Review = () => {
                         <TabPanels mt="2rem">
                             <TabPanel>
                                 <ReviewQuick
-                                    driver={driver}
-                                    orderQuick={orderQuick}
+                                    remarkQuick={remarkQuick}
+                                    setRemarkQuick={setRemarkQuick}
                                     onChangeOrderQuick={handleOrderQuick}
-                                    onChangeDriver={handleChangeDriver}
+                                    onSubmit={handleSubmit}
                                 />
                             </TabPanel>
                             <TabPanel>
                                 <ReviewDetail
                                     driver={driver}
                                     orders={orders}
-                                    onChangeOrders={handeleChangeOrder}
+                                    onChangeOrders={handleChangeOrder}
                                     onChangeDriver={handleChangeDriver}
+                                    onSubmit={handleSubmit}
                                 />
                             </TabPanel>
                         </TabPanels>

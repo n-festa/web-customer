@@ -1,6 +1,5 @@
-import GroupRadioButton from "@/components/atoms/radio/GroupRadioButton";
+import CheckBoxCard from "@/components/atoms/checkbox/CheckboxCard";
 import config from "@/config";
-import { DriverType, OrderType } from "@/hooks/usePostReview";
 import { Box, Button, Flex, HStack, Img, Input, Text, Textarea } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -10,15 +9,19 @@ const {
 } = config;
 
 const ReviewQuick = ({
-    driver,
-    orderQuick,
+    remarkQuick,
+    setRemarkQuick,
     onChangeOrderQuick,
-    onChangeDriver,
+    onSubmit,
 }: {
-    driver?: DriverType;
-    orderQuick: OrderType;
-    onChangeOrderQuick: (key: "score" | "remarks" | "img_urls", value: string | number | Blob[]) => void;
-    onChangeDriver: (key: "score" | "remarks" | "img_urls", value: string | number | Blob[]) => void;
+    remarkQuick: string[];
+    setRemarkQuick: any;
+    onChangeOrderQuick: (
+        type: "driver" | "orders",
+        key: "score" | "remarks" | "img_blobs",
+        value: string | number | Blob[],
+    ) => void;
+    onSubmit: (type: "quick" | "detail") => void;
 }) => {
     const t = useTranslations("REVIEW");
     const [listImage, setListImage] = useState<string[]>([]);
@@ -26,7 +29,23 @@ const ReviewQuick = ({
     const handleUpload = (event: any) => {
         setListImage([...listImage, URL.createObjectURL(event.target.files[0])]);
         setListImageUpload([...listImageUpload, event.target.files[0]]);
-        onChangeOrderQuick("img_urls", [...listImageUpload, event.target.files[0]]);
+        onChangeOrderQuick("orders", "img_blobs", [...listImageUpload, event.target.files[0]]);
+    };
+    const handleRemoveImage = (index: number) => {
+        setListImage([...listImage.slice(0, index), ...listImage.slice(index + 1)]);
+        setListImageUpload([...listImageUpload.slice(0, index), ...listImageUpload.slice(index + 1)]);
+        onChangeOrderQuick("orders", "img_blobs", [
+            ...listImageUpload.slice(0, index),
+            ...listImageUpload.slice(index + 1),
+        ]);
+    };
+    const handleCheckRemark = (value: string) => () => {
+        let newOptions = [...remarkQuick];
+        const index = remarkQuick.findIndex((e) => e === value);
+        if (index != -1) {
+            newOptions.splice(index, 1);
+        } else newOptions = [...newOptions, value];
+        setRemarkQuick([...newOptions]);
     };
     return (
         <Box pb="4.8rem">
@@ -44,10 +63,9 @@ const ReviewQuick = ({
                     </Text>
                 </Flex>
                 <UIRating
-                    value={driver?.score || 0}
                     size="lg"
                     maxRating={5}
-                    onRatingChange={(value) => onChangeDriver("score", value)}
+                    onRatingChange={(value) => onChangeOrderQuick("driver", "score", value)}
                 />
             </Flex>
             <Flex p="2rem 0 1rem" alignItems="center" justifyContent="space-between" mb="1rem">
@@ -59,31 +77,47 @@ const ReviewQuick = ({
                 </Flex>
                 <Flex gap="0.7rem">
                     <UIRating
-                        value={orderQuick.score || 0}
                         size="lg"
                         maxRating={5}
-                        onRatingChange={(value) => onChangeOrderQuick("score", value)}
+                        onRatingChange={(value) => onChangeOrderQuick("orders", "score", value)}
                     />
                 </Flex>
             </Flex>
             <Text mb="1rem" fontSize="1.6rem" fontWeight="400">
                 {t("SATISFIED_WITH_DISH")}
             </Text>
-            <GroupRadioButton
-                isRounded
-                options={formData.satisfied}
-                defaultValue={"Đồ ăn chất lượng"}
-            ></GroupRadioButton>
+            <HStack alignItems={"center"} h="100%">
+                {formData.satisfied.map((el, index) => (
+                    <CheckBoxCard onChange={handleCheckRemark(el.value)} key={index}>
+                        {el.name}
+                    </CheckBoxCard>
+                ))}
+            </HStack>
             <Box m="1.8rem 0 1rem">
                 <Textarea
                     placeholder={t("SHARE_FEEDBACK_PLACEHOLDER")}
                     minH="12.8rem"
-                    onChange={(e) => onChangeOrderQuick("remarks", e.target.value)}
+                    onChange={(e) => onChangeOrderQuick("orders", "remarks", e.target.value)}
                 />
             </Box>
             <HStack spacing={6} p="2rem 0" borderTop="1px solid var(--gray-300)" minH="10rem">
                 {listImage.map((item, index) => (
-                    <Img key={index} src={item} objectFit="cover" w="10rem" h="10rem" borderRadius="0.8rem" />
+                    <Box key={index} position="relative">
+                        <Img
+                            src="/images/icons/icon_close.svg"
+                            position="absolute"
+                            top="-0.4rem"
+                            right="-0.4rem"
+                            padding="0.2rem"
+                            bg="var(--gray-300)"
+                            borderRadius="50%"
+                            w="1.2rem"
+                            h="1.2rem"
+                            cursor="pointer"
+                            onClick={() => handleRemoveImage(index)}
+                        />
+                        <Img src={item} objectFit="cover" w="10rem" h="10rem" borderRadius="0.8rem" />
+                    </Box>
                 ))}
             </HStack>
             <Flex gap="1rem">
@@ -106,7 +140,9 @@ const ReviewQuick = ({
                         onChange={(event) => handleUpload(event)}
                     />
                 </Button>
-                <Button variant="btnSubmit">{t("SUBMIT_REVIEW")}</Button>
+                <Button variant="btnSubmit" onClick={() => onSubmit("quick")}>
+                    {t("SUBMIT_REVIEW")}
+                </Button>
             </Flex>
         </Box>
     );

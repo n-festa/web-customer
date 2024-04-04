@@ -149,7 +149,28 @@ export interface ReviewItem {
 export interface ReviewFormType {
     customer_id: number;
     order_id: number;
-    order_date: string; // Assuming this is a string representation of a timestamp
+    order_date?: string; // Assuming this is a string representation of a timestamp
     driver_id: number;
     order_items: ReviewItem[];
+}
+
+export interface Review {
+    driver_id?: number;
+    score: number;
+    remarks: string;
+    img_urls: string[];
+}
+
+export interface FoodReview {
+    order_sku_id?: number;
+    score: number;
+    remarks: string;
+    img_urls: string[];
+}
+
+export interface OrderReview {
+    customer_id: number;
+    order_id: number;
+    driver_review: Review;
+    food_reviews: FoodReview[];
 }

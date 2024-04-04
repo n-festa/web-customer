@@ -3,15 +3,14 @@ import React, { useState } from "react";
 import UIStar from "./UIStar";
 
 interface UIRatingProps {
-    value: number;
     maxRating: number;
     size: string;
     onRatingChange?: (rating: number) => void;
 }
 
-const UIRating = ({ value, maxRating, size, onRatingChange }: UIRatingProps) => {
+const UIRating = ({ maxRating, size, onRatingChange }: UIRatingProps) => {
     const [hoverRating, setHoverRating] = useState(0);
-
+    const [selectedRating, setSelectedRating] = useState(0);
     const onMouseEnter = (index: React.SetStateAction<number>) => {
         setHoverRating(index);
     };
@@ -21,11 +20,12 @@ const UIRating = ({ value, maxRating, size, onRatingChange }: UIRatingProps) => 
     };
 
     const onSaveRating = (index: number) => {
+        setSelectedRating(index);
         onRatingChange?.(index);
     };
 
     const renderStar = (index: number) => {
-        const isFilled = index <= (hoverRating || value);
+        const isFilled = index <= (hoverRating || selectedRating);
 
         return (
             <UIStar
