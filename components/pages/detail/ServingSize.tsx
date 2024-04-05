@@ -33,7 +33,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
     const { info, isLoading, onChangePortion, portions } = props;
     const [disableTasteCustomize, setDisableTasteCustomize] = useState(true);
 
-    const initFormData = useMemo(() => {
+    const initFormData: { [key: string]: number | string } = useMemo(() => {
         let initValues = {};
         if (info?.taste_customization && info?.taste_customization.length > 0) {
             const tasteCustomizationObj = info?.taste_customization.reduce(
@@ -190,6 +190,13 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                                 fontWeight={600}
                                                 color="var(--text-blue)"
                                                 onClick={() => {
+                                                    if (!disableTasteCustomize) {
+                                                        Object.keys(initFormData).forEach((key) => {
+                                                            if (key.includes(TasteCustomization) && ref.current) {
+                                                                ref.current.setFieldValue(key, initFormData[key]);
+                                                            }
+                                                        });
+                                                    }
                                                     setDisableTasteCustomize((prev) => !prev);
                                                 }}
                                             >
