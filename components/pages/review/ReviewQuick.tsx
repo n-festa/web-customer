@@ -27,6 +27,7 @@ const ReviewQuick = ({
     const [listImage, setListImage] = useState<string[]>([]);
     const [listImageUpload, setListImageUpload] = useState<File[]>([]);
     const handleUpload = (event: any) => {
+        if (listImage.length >= 3) return;
         setListImage([...listImage, URL.createObjectURL(event.target.files[0])]);
         setListImageUpload([...listImageUpload, event.target.files[0]]);
         onChangeOrderQuick("orders", "img_blobs", [...listImageUpload, event.target.files[0]]);
@@ -129,6 +130,8 @@ const ReviewQuick = ({
                     color="var(--gray-700)"
                     borderColor="var(--gray-300)"
                     cursor="pointer"
+                    pointerEvents={listImage.length >= 3 ? "none" : "auto"}
+                    opacity={listImage.length >= 3 ? "0.5" : "1"}
                     _hover={{ opacity: 0.8, background: "#fff", color: "var(--gray-700)" }}
                 >
                     {t("ADD_PHOTO")}

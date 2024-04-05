@@ -48,7 +48,6 @@ const usePostReview = () => {
     const [orders, setOrders] = useState<{ [key: string]: OrderType }>({});
     const [orderQuick, setOderQuick] = useState<OrderQuickType>({});
     const [remarkQuick, setRemarkQuick] = useState<string[]>([]);
-    console.log("remarkQuick", remarkQuick.join(", "));
 
     const handleChangeOrder = (id: number, key: "score" | "remarks" | "img_blobs", value: string | number | Blob[]) => {
         setOrders((prev) => ({ ...prev, [String(id)]: { ...prev[String(id)], [key]: value } }));
@@ -65,20 +64,20 @@ const usePostReview = () => {
     ) => {
         if (orderQuick) setOderQuick((prev) => ({ ...prev, [type]: { ...prev[type], [key]: value } }));
     };
-    const handleUploadImage = async (files: (File | Blob)[] | any) => {
+    const handleUploadImage = async (files: (File | Blob)[]) => {
         const data = await apiServices.uploadImageReview({
             order_id: Number(orderId),
             list_file: files,
         });
         return data.urls;
     };
-    const handleFoodReview = async (order: any): Promise<FoodReview> => {
+    const handleFoodReview = async (order: OrderType): Promise<FoodReview> => {
         let urlsImg: string[] = [""];
         if (order?.img_blobs) {
             urlsImg = await handleUploadImage(order.img_blobs);
         }
         return {
-            order_sku_id: order.order_sku_id,
+            order_sku_id: order.order_sku_id ?? 0,
             score: order?.score ?? 0,
             remarks: order?.remarks ?? "",
             img_urls: urlsImg,

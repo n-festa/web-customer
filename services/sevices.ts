@@ -563,9 +563,9 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: data,
             });
         },
-        uploadImageReview: ({ order_id, list_file }: { order_id: number; list_file: File[] | any }) => {
+        uploadImageReview: ({ order_id, list_file }: { order_id: number; list_file: (File | Blob)[] }) => {
             const formData = new FormData();
-            list_file.forEach((file: File) => {
+            list_file.forEach((file: File | Blob) => {
                 formData.append(`files`, file);
             });
             return this.request({
