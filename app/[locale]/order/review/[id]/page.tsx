@@ -2,11 +2,22 @@
 import { BackButton } from "@/components/atoms/bottom/BackButton";
 import ReviewDetail from "@/components/pages/review/ReviewDetail";
 import ReviewQuick from "@/components/pages/review/ReviewQuick";
+import usePostReview from "@/hooks/usePostReview";
 import { Box, Flex, Heading, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 
 const Review = () => {
     const t = useTranslations("REVIEW");
+    const {
+        handleChangeOrder,
+        handleChangeDriver,
+        handleOrderQuick,
+        handleSubmit,
+        setRemarkQuick,
+        driver,
+        orders,
+        remarkQuick,
+    } = usePostReview();
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
             <Flex flexDirection={"column"} alignItems={"flex-start"} py="2rem" px="6.7rem" w="100%">
@@ -55,10 +66,21 @@ const Review = () => {
                         </TabList>
                         <TabPanels mt="2rem">
                             <TabPanel>
-                                <ReviewQuick />
+                                <ReviewQuick
+                                    remarkQuick={remarkQuick}
+                                    setRemarkQuick={setRemarkQuick}
+                                    onChangeOrderQuick={handleOrderQuick}
+                                    onSubmit={handleSubmit}
+                                />
                             </TabPanel>
                             <TabPanel>
-                                <ReviewDetail />
+                                <ReviewDetail
+                                    driver={driver}
+                                    orders={orders}
+                                    onChangeOrders={handleChangeOrder}
+                                    onChangeDriver={handleChangeDriver}
+                                    onSubmit={handleSubmit}
+                                />
                             </TabPanel>
                         </TabPanels>
                     </Tabs>

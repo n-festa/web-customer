@@ -8,7 +8,9 @@ import {
     DateStep,
     Discount,
     DistrictsResponse,
+    OrderReview,
     ProvinceResponse,
+    ReviewFormType,
     ReviewResponse,
 } from "@/types/interfaces";
 import { Order } from "@/types/order";
@@ -495,6 +497,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             });
         },
         uploadImagePost: (data: { file: File | undefined }) => {
+            console.log("fileeData:", data);
             return this.request({
                 path: `uploadImage`,
                 method: "POST",
@@ -551,6 +554,34 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 path: `order/history-restaurant`,
                 method: "POST",
                 body: payload,
+            });
+        },
+        getReviewForm: (data: { customer_id: number; order_id: number }) => {
+            return this.request<ReviewFormType>({
+                path: "rating-review/get-form",
+                method: "POST",
+                body: data,
+            });
+        },
+        uploadImageReview: ({ order_id, list_file }: { order_id: number; list_file: (File | Blob)[] }) => {
+            const formData = new FormData();
+            list_file.forEach((file: File | Blob) => {
+                formData.append(`files`, file);
+            });
+            return this.request({
+                path: `rating-review/upload-images?orderId=${order_id}`,
+                method: "POST",
+                body: formData,
+                headers: {
+                    "Content-Type": ContentType.FormData,
+                },
+            });
+        },
+        createReview: (data: OrderReview) => {
+            return this.request<{ message: string }>({
+                path: "rating-review/create",
+                method: "POST",
+                body: data,
             });
         },
     };

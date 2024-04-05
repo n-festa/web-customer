@@ -8,10 +8,9 @@ interface UIRatingProps {
     onRatingChange?: (rating: number) => void;
 }
 
-const UIRating = ({ maxRating, size }: UIRatingProps) => {
+const UIRating = ({ maxRating, size, onRatingChange }: UIRatingProps) => {
     const [hoverRating, setHoverRating] = useState(0);
     const [selectedRating, setSelectedRating] = useState(0);
-
     const onMouseEnter = (index: React.SetStateAction<number>) => {
         setHoverRating(index);
     };
@@ -20,9 +19,9 @@ const UIRating = ({ maxRating, size }: UIRatingProps) => {
         setHoverRating(0);
     };
 
-    const onSaveRating = (index: React.SetStateAction<number>) => {
+    const onSaveRating = (index: number) => {
         setSelectedRating(index);
-        // onRatingChange(index);
+        onRatingChange?.(index);
     };
 
     const renderStar = (index: number) => {

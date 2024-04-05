@@ -186,7 +186,9 @@ const PhoneVerification = () => {
                                     textAlign="center"
                                     borderRadius="0.8rem"
                                     pointerEvents={isLock ? "none" : "unset"}
-                                    ref={(reference) => (otpBoxReference.current[index] = reference)}
+                                    ref={(reference) => {
+                                        otpBoxReference.current[index] = reference;
+                                    }}
                                 />
                             ))}
                         </PinInput>

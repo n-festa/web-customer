@@ -1,10 +1,10 @@
 import SkeletonBox from "@/components/molecules/SkeletonBox";
 import OnGoingOrderItem from "@/components/pages/order/history/OnGoingOrderItem";
-import { OnGoingOrder } from "@/types/response/OnGoingOrderResponse";
+import { OnGoingOrder as OnGoingOrderType } from "@/types/response/OnGoingOrderResponse";
 import { VStack } from "@chakra-ui/react";
 
 interface Props {
-    orderInfo: OnGoingOrder[];
+    orderInfo: OnGoingOrderType[];
     isLoading?: boolean;
 }
 

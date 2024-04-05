@@ -4,12 +4,12 @@ import SkeletonBox from "@/components/molecules/SkeletonBox";
 import FoodItem from "@/components/organism/FoodItem";
 import useRenderText from "@/hooks/useRenderText";
 import { FilterType, FoodOtherFilterOptionsKeys, SortOrder } from "@/types/enum";
-import { FilterCondition, SearchResult } from "@/types/interfaces";
+import { FilterCondition, SearchResult as SearchResultInterface } from "@/types/interfaces";
 import { FoodDto, RestaurantDto } from "@/types/response/base";
 import { Wrap, WrapItem } from "@chakra-ui/react";
 import { useMemo } from "react";
 interface Props {
-    result?: SearchResult;
+    result?: SearchResultInterface;
     type?: FilterType;
     isLoading?: boolean;
     filterCondition?: FilterCondition;
