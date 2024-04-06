@@ -38,6 +38,7 @@ export interface CartItem {
         name?: BaseNameInterface[];
         price?: number;
     };
+    isUpdateAll?: boolean;
 }
 
 export type Cart = {

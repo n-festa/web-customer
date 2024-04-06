@@ -1,12 +1,14 @@
 "use client";
+import { RootState } from "@/store";
+import { useAppSelector } from "@/store/hooks";
 import { Center, Spinner } from "@chakra-ui/react";
 import { useEffect } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 export default function Loading({ isLoading }: { isLoading?: boolean }) {
-    // const _isLoading = useSelector((state: RootState) => state.app.loading);
-    const loading = isLoading;
+    const globalLoading = useAppSelector((state: RootState) => state.app.globalLoading);
+    const loading = globalLoading || isLoading;
     useEffect(() => {
         if (loading) {
             document.body?.classList.add("disable-mouse-event");

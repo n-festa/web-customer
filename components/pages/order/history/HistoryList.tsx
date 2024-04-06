@@ -6,6 +6,7 @@ import OrderHistoryRestaurantItem from "@/components/pages/order/history/OrderHi
 import useDeleteCartItem from "@/hooks/useDeleteCartItem";
 import useUpdateCart from "@/hooks/useUpdateCart";
 import { useAppSelector } from "@/store/hooks";
+import { setGlobalLoading } from "@/store/reducers/appSlice";
 import { CartItem } from "@/types/cart";
 import { FilterType } from "@/types/enum";
 import { OrderItem } from "@/types/order";
@@ -16,8 +17,12 @@ import {
     HistoricalOrderByRestaurant,
 } from "@/types/response/GetHistoryOrderResponse";
 import { RestaurantInfo } from "@/types/response/base";
+import { sleep } from "@/utils/functions";
+import { routes } from "@/utils/routes";
 import { VStack } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import { useMemo } from "react";
+import { useDispatch } from "react-redux";
 
 interface Props {
     histories: {
@@ -30,6 +35,8 @@ interface Props {
 
 const HistoryList = ({ histories, isLoading, type }: Props) => {
     const profile = useAppSelector((state) => state.userInfo.userInfo);
+    const router = useRouter();
+    const dispatch = useDispatch();
     const data = useMemo(() => {
         if (type == FilterType.Food) return histories.food?.hitorical_oders ?? [];
         return histories.restaurant?.hitorical_oders ?? [];
@@ -38,9 +45,9 @@ const HistoryList = ({ histories, isLoading, type }: Props) => {
 
     const { handleDeleteWholeCart, cartTranslate } = useDeleteCartItem();
     const { cartSync, handleUpdateCart } = useUpdateCart();
-    const handleAddToCart = (items: (OrderItem | undefined)[] = [], restaurant?: RestaurantInfo) => {
-        if (items.length === 1) {
-            const item = items[0];
+    const handleAddToCart = async (items: (OrderItem | undefined)[] = [], restaurant?: RestaurantInfo) => {
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
             const cartItem: CartItem = {
                 sku_id: Number(item?.sku_id),
                 customer_id: Number(profile?.customer_id),
@@ -57,9 +64,13 @@ const HistoryList = ({ histories, isLoading, type }: Props) => {
                 item_name: item?.item_name ?? [],
                 packaging_id: item?.packaging_info?.packaging_id,
                 packaging_info: item?.packaging_info,
+                isUpdateAll: true,
             };
-            handleUpdateCart(cartItem);
+            await handleUpdateCart(cartItem);
+            await sleep(500);
         }
+        dispatch(setGlobalLoading(false));
+        router.push(routes.ConfirmOrder);
     };
     const handleReorder = async (items: (OrderItem | undefined)[] = [], restaurant?: RestaurantInfo) => {
         if (cartSync?.cart_info?.length) {
@@ -70,10 +81,12 @@ const HistoryList = ({ histories, isLoading, type }: Props) => {
                 positive: {
                     text: cartTranslate("CONFIRM"),
                     onClick: async () => {
-                        handleDeleteWholeCart(profile?.customer_id).then(() => {
-                            setTimeout(() => {
-                                handleAddToCart(items, restaurant);
-                            }, 500);
+                        dispatch(setGlobalLoading(true));
+
+                        handleDeleteWholeCart(profile?.customer_id).then(async () => {
+                            await sleep(500);
+                            await handleAddToCart(items, restaurant);
+                            dispatch(setGlobalLoading(false));
                         });
                     },
                 },
