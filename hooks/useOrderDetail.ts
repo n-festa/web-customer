@@ -1,3 +1,4 @@
+import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import { OrderStatusLogType } from "@/types/enum";
 import { Order } from "@/types/order";
 import { getToken } from "@/utils/auth";
@@ -58,10 +59,31 @@ const useOrderDetail = () => {
                 const orderDetail = JSON.parse(event.data) as Order;
                 if (orderDetail.order_status_log) {
                     setPushData(orderDetail);
+                    const isDone = orderDetail.order_status_log?.some((item) => {
+                        const milestone = item.milestone;
+                        return milestone && listStatusLog.includes(milestone.toLocaleLowerCase() as OrderStatusLogType);
+                    });
+                    if (isDone) {
+                        eventSource.close();
+                    }
+
                     if (orderDetail.order_status_log?.some((item) => item.milestone === OrderStatusLogType.COMPLETED)) {
-                        setTimeout(() => {
-                            router.push(routes.orderReview + `/${orderId}`);
-                        }, 3000);
+                        dialogRef.current?.show({
+                            title: "Hoàn thành đơn hàng",
+                            message: "Đơn hàng của bạn đã hoàn thành, bạn có muốn để lại đánh giá không?",
+                            negative: {
+                                text: "Trở lại",
+                                onClick: async () => {
+                                    router.push(routes.Home);
+                                },
+                            },
+                            positive: {
+                                text: "Đánh giá",
+                                onClick: async () => {
+                                    router.push(routes.orderReview + `/${orderId}`);
+                                },
+                            },
+                        });
                     }
                 } else {
                     return;

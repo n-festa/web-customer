@@ -3,7 +3,9 @@
         "ERROR": {
             "ERROR_TITLE": "Có lỗi xảy ra",
             "BACK_TO_HOME": "Trở lại trang chủ",
-            "API_REQUEST_FAIL": "Không thể kết nối tới máy chủ"
+            "API_REQUEST_FAIL": "Không thể kết nối tới máy chủ",
+            "BAD_REQUEST": "Yêu cầu không hợp lệ",
+            "SYSTEM_ERROR": "Lỗi hệ thống"
         },
         "SEE_MORE": "...... xem thêm",
         "SEE_LESS": "...... ẩn bớt",

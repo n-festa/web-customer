@@ -3,7 +3,9 @@
         "ERROR": {
             "ERROR_TITLE": "Something went wrong!",
             "BACK_TO_HOME": "Back to home",
-            "API_REQUEST_FAIL": "Cannot connect to server"
+            "API_REQUEST_FAIL": "Cannot connect to server",
+            "BAD_REQUEST": "Bad request",
+            "SYSTEM_ERROR": "System error"
         },
         "SEE_MORE": "...... see more",
         "SEE_LESS": "...... see less",
