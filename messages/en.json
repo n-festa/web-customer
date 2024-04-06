@@ -1,5 +1,13 @@
 {
     "COMMON": {
+        "CART": {
+            "REMOVE_CART": " Remove from cart",
+            "CONFIRM_REMOVE": "Do you want to remove this item from your cart?",
+            "CANCEL": "Cancel",
+            "CONFIRM": "Confirm",
+            "REMOVE_ALL": "Clear cart",
+            "REORDER_MESSAGE": "Before placing another order, you need to clear your current cart"
+        },
         "ERROR": {
             "ERROR_TITLE": "Something went wrong!",
             "BACK_TO_HOME": "Back to home",

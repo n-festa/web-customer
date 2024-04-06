@@ -3,7 +3,9 @@ import GroupWrapper from "@/components/pages/confirm/GroupWrapper";
 import { GroupStars } from "@/components/pages/landing-page/testimonial";
 import useRenderText from "@/hooks/useRenderText";
 import { OrderStatusLogType, PaymentMethod } from "@/types/enum";
+import { OrderItem } from "@/types/order";
 import { HistoricalOrderByRestaurant } from "@/types/response/GetHistoryOrderResponse";
+import { RestaurantInfo } from "@/types/response/base";
 import { ddMMyyyy } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import { getOrderStatusLog, isNullOrEmpty } from "@/utils/functions";
@@ -15,9 +17,10 @@ import { useMemo } from "react";
 
 interface Props {
     orderInfo?: HistoricalOrderByRestaurant;
+    handleReorder: (orderItems?: OrderItem[], restaurant?: RestaurantInfo) => void;
 }
 
-const OrderHistoryRestaurantItem = ({ orderInfo }: Props) => {
+const OrderHistoryRestaurantItem = ({ orderInfo, handleReorder }: Props) => {
     const t = useTranslations("ORDER_HISTORY.HISTORY_ITEM");
     const tMileston = useTranslations("ORDER_DETAIL.ORDER_CONFIRMATION.MD");
     const { renderTxt } = useRenderText();
@@ -25,10 +28,6 @@ const OrderHistoryRestaurantItem = ({ orderInfo }: Props) => {
 
     const handleViewDetail = () => {
         router.push(`${routes.OrderDetail}/${orderInfo?.order_id}`);
-    };
-
-    const handleReorder = () => {
-        // TODO
     };
 
     const handleViewRating = () => {
@@ -171,7 +170,10 @@ const OrderHistoryRestaurantItem = ({ orderInfo }: Props) => {
                                 <Text>{t("RATING")}</Text>
                             </Button>
                         )}
-                    <Button variant={"outlineWhite"} onClick={handleReorder}>
+                    <Button
+                        variant={"outlineWhite"}
+                        onClick={() => handleReorder(orderInfo?.order_items, orderInfo?.restaurant_info)}
+                    >
                         <Text>{t("REORDER")}</Text>
                     </Button>
                     <Button variant={"outlineWhite"} onClick={handleViewDetail}>

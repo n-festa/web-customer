@@ -1,5 +1,13 @@
 {
     "COMMON": {
+        "CART": {
+            "REMOVE_CART": "Xóa khỏi giỏ hàng",
+            "CONFIRM_REMOVE": "Bạn muốn xóa món ăn khỏi giỏ hàng?",
+            "CANCEL": "Hủy",
+            "CONFIRM": "Xác nhận",
+            "REMOVE_ALL": "Xóa giỏ hàng",
+            "REORDER_MESSAGE": "Trước khi đặt hàng lại, bạn cần xóa giỏ hàng hiện tại"
+        },
         "ERROR": {
             "ERROR_TITLE": "Có lỗi xảy ra",
             "BACK_TO_HOME": "Trở lại trang chủ",
