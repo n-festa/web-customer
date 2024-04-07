@@ -2,7 +2,7 @@
 import CheckBoxButton from "@/components/atoms/checkbox/CheckboxButton";
 import GroupRadioButton from "@/components/atoms/radio/GroupRadioButton";
 import { FilterOptionKey } from "@/hooks/useSearchResult";
-import { FilterType, SortOrder } from "@/types/enum";
+import { FilterType, SortOrderFood } from "@/types/enum";
 import { FilterCondition } from "@/types/interfaces";
 import { isNullOrEmpty } from "@/utils/functions";
 import { HStack, Select, Wrap, WrapItem } from "@chakra-ui/react";
@@ -60,15 +60,16 @@ const FilterBox = ({ condition, onChangeFilterOptions }: Props) => {
             <WrapItem>
                 <Select
                     placeholder={t("SORT")}
-                    w="11.6rem"
+                    w="14rem"
                     variant={"filter"}
                     onChange={(e) => {
-                        const value = e.target.value ? (e.target.value as SortOrder) : undefined;
-                        onChangeFilterOptions<SortOrder | undefined>("sort", value);
+                        const value = e.target.value ? (e.target.value as SortOrderFood) : undefined;
+                        onChangeFilterOptions<SortOrderFood | undefined>("sort", value);
                     }}
                 >
-                    <option value={SortOrder.ASC}>{t("PRICE_ASCENDING")}</option>
-                    <option value={SortOrder.DESC}>{t("PRICE_DESCENDING")}</option>
+                    <option value={SortOrderFood.RELEVANCE}>{t("RELEVANCE")}</option>
+                    <option value={SortOrderFood.PRICE_ASC}>{t("PRICE_ASCENDING")}</option>
+                    <option value={SortOrderFood.PRICE_DESC}>{t("PRICE_DESCENDING")}</option>
                 </Select>
             </WrapItem>
             <WrapItem>

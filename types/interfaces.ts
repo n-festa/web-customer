@@ -1,4 +1,4 @@
-import { FilterType, SearchFoodType, SortOrder } from "@/types/enum";
+import { FilterType, SearchFoodType, SortOrderFood } from "@/types/enum";
 import { BaseNameInterface, FoodDto, RestaurantDto } from "@/types/response/base";
 export interface Options {
     key: string;
@@ -7,7 +7,7 @@ export interface Options {
 
 export interface FilterCondition {
     type: FilterType;
-    sort?: SortOrder;
+    sort?: SortOrderFood;
     categoryId?: number;
     detailType?: SearchFoodType;
     other: {

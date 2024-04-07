@@ -3,7 +3,7 @@ import FoodChef from "@/components/molecules/FoodChef";
 import SkeletonBox from "@/components/molecules/SkeletonBox";
 import FoodItem from "@/components/organism/FoodItem";
 import useRenderText from "@/hooks/useRenderText";
-import { FilterType, FoodOtherFilterOptionsKeys, SortOrder } from "@/types/enum";
+import { FilterType } from "@/types/enum";
 import { FilterCondition, SearchResult as SearchResultInterface } from "@/types/interfaces";
 import { FoodDto, RestaurantDto } from "@/types/response/base";
 import { Wrap, WrapItem } from "@chakra-ui/react";
@@ -21,54 +21,12 @@ const SearchResult = ({
         [FilterType.Food]: [],
         [FilterType.Restaurant]: [],
     },
-    filterCondition,
     isLoading,
 }: Props) => {
     const { renderTxt } = useRenderText();
     const displayed = useMemo(() => {
-        const data = result?.[type] ?? [];
-        if (data.length === 0) return [];
-        const options = filterCondition?.other?.[filterCondition.type] ?? [];
-        let filtered = [...data];
-        if (options?.length > 0) {
-            options.forEach((condition) => {
-                filtered = filtered.filter((item: any) => {
-                    switch (condition) {
-                        case FoodOtherFilterOptionsKeys.GT4Star:
-                            return item.rating && Number(item.rating) > 4;
-                        case FoodOtherFilterOptionsKeys.Vegetarian:
-                            return item.is_vegetarian;
-                        case FoodOtherFilterOptionsKeys.LT500Kcal:
-                            return item.calorie_kcal && Number(item.calorie_kcal) < 500;
-                        default:
-                            return true;
-                    }
-                });
-            });
-        }
-        const sort = filterCondition?.sort;
-        if (sort) {
-            const key = type === FilterType.Food ? "price" : "min_price";
-            switch (sort) {
-                case SortOrder.DESC:
-                    // eslint-disable-next-line unused-imports/no-unused-vars
-                    filtered = filtered.sort((a: any, b: any) => {
-                        const num1 = Number(a[key]);
-                        const num2 = Number(b[key]);
-                        return num2 - num1;
-                    });
-                    break;
-                default:
-                    filtered = filtered.sort((a: any, b: any) => {
-                        const num1 = Number(a[key]);
-                        const num2 = Number(b[key]);
-                        return num1 - num2;
-                    });
-                    break;
-            }
-        }
-        return filtered;
-    }, [filterCondition?.other, filterCondition?.type, result, type, filterCondition?.sort]);
+        return result?.[type] ?? [];
+    }, [result, type]);
 
     return (
         <Wrap align="center" mt="4.8rem" justify={"center"} w="100%" spacing={"2rem"}>

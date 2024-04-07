@@ -43,6 +43,7 @@
         "FOOD": "Food",
         "RESTAURANT": "Restaurant",
         "SORT": "Sort by",
+        "RELEVANCE": "Recently",
         "PRICE_ASCENDING": "Price ascending",
         "PRICE_DESCENDING": "Price descending",
         "DELIVER_TO": "Deliver to",
