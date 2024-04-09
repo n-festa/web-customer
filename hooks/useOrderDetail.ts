@@ -46,6 +46,12 @@ const useOrderDetail = () => {
         });
     }, [orderDetail?.order_status_log, pushData?.order_status_log]);
     useEffect(() => {
+        const isDone = orderDetail?.order_status_log?.some((item) => {
+            const milestone = item.milestone;
+            return milestone && listStatusLog.includes(milestone.toLocaleLowerCase() as OrderStatusLogType);
+        });
+
+        if (isDone || !orderId || !orderDetail) return;
         // opening a connection to the server to begin receiving events from it
         const eventSource = new EventSourcePolyfill(`${baseURL}order/sse-connection/${orderId}`, {
             headers: {
@@ -93,7 +99,8 @@ const useOrderDetail = () => {
 
         // terminating the connection on component unmount
         return () => eventSource.close();
-    }, [orderId, router]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [JSON.stringify(orderDetail?.order_status_log), orderId, router]);
 
     return {
         orderDetail: pushData || orderDetail,
