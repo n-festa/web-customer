@@ -61,7 +61,7 @@ const PackageSelect = ({
     onChange?: (value?: string | number) => void;
 }) => {
     return (
-        <Wrap align="center" spacing="4rem" w="100%">
+        <Wrap align="center" spacing="1.6rem" w="100%">
             {items.map((item, index) => (
                 <WrapItem key={`package_${index}`}>
                     <PackageItem
