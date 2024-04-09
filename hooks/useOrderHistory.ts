@@ -7,7 +7,7 @@ import {
 } from "@/types/response/GetHistoryOrderResponse";
 import { OnGoingOrder } from "@/types/response/OnGoingOrderResponse";
 import { loadState } from "@/utils/localstorage";
-import { subDays } from "date-fns/subDays";
+import { endOfDay, startOfDay, subDays } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -85,8 +85,8 @@ const useOrderHistory = () => {
     const getFilterDateTime = (range?: DateRange) => {
         if (range?.from && range.to) {
             return {
-                from: range.from.getTime(),
-                to: range.to.getTime(),
+                from: startOfDay(range.from).getTime(),
+                to: endOfDay(range.to).getTime(),
             };
         }
         return {

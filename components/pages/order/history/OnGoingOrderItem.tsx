@@ -2,9 +2,9 @@
 import GroupWrapper from "@/components/pages/confirm/GroupWrapper";
 import useRenderText from "@/hooks/useRenderText";
 import { OnGoingOrder } from "@/types/response/OnGoingOrderResponse";
-import { OrderStatusLogTypeColor, ddMMyyyy } from "@/utils/constants";
+import { ddMMyyyy } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
-import { formatMoney } from "@/utils/functions";
+import { formatMoney, getOrderStatusLog } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, Flex, HStack, Img, Stack, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
@@ -46,32 +46,9 @@ const OnGoingOrderItem = ({ orderInfo }: Props) => {
         return undefined;
     }, [renderTxt, orderItems]);
 
-    const statusList = useMemo(() => {
-        return orderInfo?.order_status_log.sort((prev, curr) => {
-            return Number(prev.logged_at) - Number(curr.logged_at);
-        });
-    }, [orderInfo?.order_status_log]);
-
     const orderStatusLog = useMemo(() => {
-        if (statusList && statusList.length > 0) {
-            const currentStatus = statusList?.reduce(
-                (prev, curr) => (curr.milestone ? curr.milestone : prev),
-                statusList[0].milestone,
-            );
-
-            if (currentStatus) {
-                return {
-                    status: tMileston(`${currentStatus?.toLocaleUpperCase()}`),
-                    color: OrderStatusLogTypeColor[currentStatus ?? "UNKNOWN"],
-                    dateTime: statusList[statusList?.length - 1].logged_at,
-                };
-            }
-            return {
-                dateTime: statusList[statusList?.length - 1].logged_at,
-            };
-        }
-        return;
-    }, [statusList, tMileston]);
+        return getOrderStatusLog(orderInfo?.order_status_log ?? [], tMileston);
+    }, [orderInfo?.order_status_log, tMileston]);
 
     return (
         <GroupWrapper
@@ -91,8 +68,8 @@ const OnGoingOrderItem = ({ orderInfo }: Props) => {
                     <Text fontSize="1.4rem" color="black">
                         {t("ORDER_DATE", {
                             time:
-                                orderStatusLog && orderStatusLog.dateTime
-                                    ? formatDate(Number(orderStatusLog.dateTime), ddMMyyyy)
+                                orderStatusLog && orderStatusLog.orderDate
+                                    ? formatDate(Number(orderStatusLog.orderDate), ddMMyyyy)
                                     : "-",
                         })}
                     </Text>

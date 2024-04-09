@@ -200,11 +200,13 @@ export const getOrderStatusLog = (statusLog: OrderStatusLog[], t: any) => {
                 color: OrderStatusLogTypeColor[currentStatus ?? "UNKNOWN"],
                 dateTime: statusList[statusList?.length - 1]?.logged_at,
                 statusRaw: statusList[statusList.length - 1]?.milestone,
+                orderDate: statusList[0]?.logged_at,
             };
         }
         return {
             dateTime: statusList[statusList?.length - 1]?.logged_at,
             statusRaw: statusList[statusList.length - 1]?.milestone,
+            orderDate: statusList[0]?.logged_at,
         };
     }
     return;

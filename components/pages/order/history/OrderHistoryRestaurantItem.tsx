@@ -83,8 +83,8 @@ const OrderHistoryRestaurantItem = ({ orderInfo, handleReorder }: Props) => {
                     <Text fontSize="1.4rem" color="black">
                         {t("ORDER_DATE", {
                             time:
-                                orderStatusLog && orderStatusLog.dateTime
-                                    ? formatDate(Number(orderStatusLog.dateTime), ddMMyyyy)
+                                orderStatusLog && orderStatusLog.orderDate
+                                    ? formatDate(Number(orderStatusLog.orderDate), ddMMyyyy)
                                     : "-",
                         })}
                     </Text>
