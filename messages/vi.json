@@ -6,7 +6,9 @@
             "CANCEL": "Hủy",
             "CONFIRM": "Xác nhận",
             "REMOVE_ALL": "Xóa giỏ hàng",
-            "REORDER_MESSAGE": "Trước khi đặt hàng lại, bạn cần xóa giỏ hàng hiện tại"
+            "REORDER_MESSAGE": "Trước khi đặt hàng lại, bạn cần xóa giỏ hàng hiện tại",
+            "RESTAURANT_CHANGE": "Bạn muốn đặt món ở nhà hàng này?",
+            "RESTAURANT_CHANGE_MESSAGE": "Chuyện nhỏ! Nhưng những món bạn đã chọn từ nhà hàng trước sẽ bị xóa khỏi giỏ hàng nhé!"
         },
         "ERROR": {
             "ERROR_TITLE": "Có lỗi xảy ra",

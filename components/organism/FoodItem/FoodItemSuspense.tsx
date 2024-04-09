@@ -77,14 +77,16 @@ const FoodItemSuspense = ({
             }}
         >
             <Flex flexDir="column" background="var(--primary-color)" p="0.8rem 1.6rem 3.2rem 1.6rem">
-                {top_label ? (
-                    <Text fontWeight="bold" lineHeight="2rem" fontSize="1.6rem" color="var(--color-gold)">
+                {!top_label ? (
+                    <Text fontWeight="bold" minH="2rem" lineHeight="2rem" fontSize="1.6rem" color="var(--color-gold)">
                         {top_label}
                     </Text>
                 ) : (
                     <Box h="2rem"></Box>
                 )}
-                <Img px="2rem" src={images} alt="product" />
+                <Box mt="0.4rem" borderRadius="0.8rem" alignSelf="center" w="31.2rem" h="23.2rem" overflow="hidden">
+                    <Img w="100%" h="100%" src={images} alt="product" />
+                </Box>
             </Flex>
             <VStack align="flex-start" p="0.8rem 2.4rem" spacing="0.4rem">
                 <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="2.4rem">
@@ -185,7 +187,7 @@ const FoodItemSuspense = ({
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                handleQuickAdd(Number(id), name);
+                                handleQuickAdd(Number(id), name, restaurantId);
                             }}
                             isLoading={loading}
                             _hover={{ opacity: 0.7 }}

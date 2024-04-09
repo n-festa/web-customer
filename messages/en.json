@@ -6,7 +6,9 @@
             "CANCEL": "Cancel",
             "CONFIRM": "Confirm",
             "REMOVE_ALL": "Clear cart",
-            "REORDER_MESSAGE": "Before placing another order, you need to clear your current cart"
+            "REORDER_MESSAGE": "Before placing another order, you need to clear your current cart",
+            "RESTAURANT_CHANGE": "Want to order food at this restaurant?",
+            "RESTAURANT_CHANGE_MESSAGE": "No problem! However, the items you've previously selected from the restaurant will be removed from your cart"
         },
         "ERROR": {
             "ERROR_TITLE": "Something went wrong!",
