@@ -25,7 +25,7 @@ const OrderDetail = () => {
                 <Empty />
             </Box>
         );
-
+    const isCenterDisplay = !showIframe || isSimpleScreen || !orderDetail?.tracking_url;
     return (
         <Flex
             position="relative"
@@ -42,11 +42,17 @@ const OrderDetail = () => {
             <Flex
                 gap="1.6rem"
                 flex={1}
-                alignItems={{ base: !showIframe || isSimpleScreen ? "center" : undefined, lg: undefined }}
-                justifyContent={{ base: undefined, lg: !showIframe || isSimpleScreen ? "center" : undefined }}
+                alignItems={{
+                    base: isCenterDisplay ? "center" : undefined,
+                    lg: undefined,
+                }}
+                justifyContent={{
+                    base: undefined,
+                    lg: isCenterDisplay ? "center" : undefined,
+                }}
                 flexDir={{ base: "column", lg: "row" }}
             >
-                {showIframe && !isSimpleScreen && (
+                {showIframe && !isSimpleScreen && orderDetail?.tracking_url && (
                     <iframe
                         style={{ flex: 1 }}
                         id="tracking-map"
