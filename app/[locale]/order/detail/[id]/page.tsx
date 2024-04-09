@@ -10,6 +10,7 @@ import { formatDate } from "@/utils/date";
 import { formatPhoneNumber } from "@/utils/functions";
 import { Avatar, Box, Flex, HStack, Image, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 
 const OrderDetail = () => {
     const { renderTxt } = useRenderText();
@@ -19,6 +20,14 @@ const OrderDetail = () => {
         base: false,
         md: true,
     });
+    const driverInfo = useMemo(() => {
+        const list: string[] = [];
+        orderDetail?.driver?.vehicle && list.push(orderDetail?.driver?.vehicle);
+        orderDetail?.driver?.license_plates && list.push(orderDetail?.driver?.license_plates);
+
+        return list.join(" | ");
+    }, [orderDetail?.driver?.license_plates, orderDetail?.driver?.vehicle]);
+
     if (error)
         return (
             <Box bg="white" h="100%" w="100%">
@@ -26,6 +35,7 @@ const OrderDetail = () => {
             </Box>
         );
     const isCenterDisplay = !showIframe || isSimpleScreen || !orderDetail?.tracking_url;
+
     return (
         <Flex
             position="relative"
@@ -90,12 +100,12 @@ const OrderDetail = () => {
                                     />
                                     <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">
                                         <Text fontWeight="600">{orderDetail.driver.name}</Text>
-                                        <Text whiteSpace="pre-line">{`${formatPhoneNumber(orderDetail.driver.phone_number)}\r\n${orderDetail.driver.vehicle} | ${orderDetail.driver.license_plates}`}</Text>
+                                        <Text whiteSpace="pre-line">{`${formatPhoneNumber(orderDetail.driver.phone_number)}\r\n${driverInfo}`}</Text>
                                     </VStack>
                                 </Flex>
                                 <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">
                                     <Text fontWeight="600">{t("FOR_DRIVER_NOTE")}</Text>
-                                    <Text>{orderDetail.driver_note}</Text>
+                                    {orderDetail.driver_note && <Text>{orderDetail.driver_note}</Text>}
                                 </VStack>
                             </VStack>
                         </GroupWrapper>
