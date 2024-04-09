@@ -1,11 +1,12 @@
 import useParams from "@/hooks/useParams";
 import apiServices from "@/services/sevices";
 import { RootState } from "@/store";
-import { FetchMode, FilterType, SearchFoodType } from "@/types/enum";
+import { FetchMode, FilterType, SearchFoodType, SortOrderFood } from "@/types/enum";
 import { FilterCondition, SearchResult } from "@/types/interfaces";
-import { FoodOtherFilterOptions, RestaurantOtherFilterOptions } from "@/utils/constants";
+import { FoodDto, RestaurantDto } from "@/types/response/base";
+import { FoodOtherFilterOptions, RestaurantOtherFilterOptions, localeOption } from "@/utils/constants";
 import { isNullOrEmpty } from "@/utils/functions";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -29,6 +30,8 @@ const useSearchResult = () => {
     }>({});
     useParams();
     const profile = useSelector((state: RootState) => state.userInfo.userInfo);
+    const locale = useLocale();
+    const localVal = localeOption.find((local) => local.val === locale)?.content.toLowerCase();
 
     const [state, setState] = useState<DiscoveryState>({
         keySearch: params.searchKey ?? "",
@@ -48,6 +51,7 @@ const useSearchResult = () => {
             [FilterType.Restaurant]: [],
         },
     });
+    const [mounted, setMounted] = useState(false);
     const [isLoading, setLoading] = useState(true);
 
     const onChangeValue = <T>(key: DiscoveryKeyState, value: T) => {
@@ -92,26 +96,31 @@ const useSearchResult = () => {
 
     const searchFoodByName = async () => {
         setLoading(true);
+        const { type } = state.filterCondition;
         const payload = {
             keyword: params.searchKey ?? "",
-            ISO_language_code: "vie",
+            ISO_language_code: localVal ?? "vie",
             lat: profile?.latAddress ?? 10.799963,
             long: profile?.longAddress ?? 106.707171,
-            record_offset: 0,
-            page_size: 40,
+            offset: 0,
+            page_size: 50,
             distance_offset_m: 0,
             distance_limit_m: 10000,
             base_distance_for_grouping_m: 200,
+            result_type: type.toLocaleUpperCase(),
+            sort_type: state.filterCondition.sort ?? SortOrderFood.RELEVANCE,
+            filter: state.filterCondition.other[type],
         };
         apiServices
             .searchFoodByName(payload)
-            .then(({ data }) => {
-                if (data) {
+            .then(({ results }) => {
+                if (results) {
                     setState((prevState) => ({
                         ...prevState,
                         searchResult: {
-                            [FilterType.Food]: data.byFoods ?? [],
-                            [FilterType.Restaurant]: data.byRestaurants ?? [],
+                            [FilterType.Food]: type === FilterType.Food ? ((results ?? []) as FoodDto[]) : [],
+                            [FilterType.Restaurant]:
+                                type === FilterType.Restaurant ? ((results ?? []) as RestaurantDto[]) : [],
                         },
                     }));
                 }
@@ -303,7 +312,7 @@ const useSearchResult = () => {
                 ...prevState,
                 keySearch: params.searchKey ?? "",
             }));
-            searchFoodByName();
+            setMounted(true);
             return;
         }
         // search food and restaurant by Category
@@ -336,6 +345,13 @@ const useSearchResult = () => {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [params, profile]);
+
+    useEffect(() => {
+        if (mounted) {
+            searchFoodByName();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [JSON.stringify(state.filterCondition), mounted]);
 
     return {
         keySearch: state.keySearch,
