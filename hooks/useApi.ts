@@ -143,7 +143,7 @@ const useSWRAPI = () => {
             config?: SWRConfiguration,
         ) =>
             useSWR(
-                params?.itemTotal ? `getApplicationFee${params.itemTotal}_${params.exchangeRate}` : undefined,
+                params?.itemTotal > 0 ? `getApplicationFee${params.itemTotal}_${params.exchangeRate}` : undefined,
                 async () => apiServices.getApplicationFee(params),
                 {
                     ...swrConfig,

@@ -1,5 +1,6 @@
 import { totalQuantityState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
+import { Cart } from "@/types/cart";
 import { PaymentMethod } from "@/types/enum";
 import { Discount } from "@/types/interfaces";
 import { parseStringToObj } from "@/utils/functions";
@@ -33,6 +34,7 @@ const useConfirmOrder = () => {
     const { totalPrice, cartSync: cart } = useUpdateCart();
     const [isLoading, setLoading] = useState<boolean>();
     const { handleDeleteWholeCart } = useDeleteCartItem();
+    const [tempCart, setTempCart] = useState<Cart>();
     const [paymentMethod, setPaymentMethod] = useState<string>();
     const [discounts, setDiscounts] = useState<Discount>();
     const [cutleryFee, setCutleryFee] = useState<number>();
@@ -113,6 +115,7 @@ const useConfirmOrder = () => {
                 });
                 if (orderRes.order_id) {
                     if (Number(paymentMethod) === PaymentMethod.COD) {
+                        setTempCart(cart);
                         await handleDeleteWholeCart(cart.customer_id);
                         setLoading(false);
                         router.push(routes.OrderDetail + `/${orderRes.order_id}`);
@@ -120,6 +123,7 @@ const useConfirmOrder = () => {
                     }
                     if (orderRes.invoice_id && Number(paymentMethod) === PaymentMethod.Momo) {
                         const momoRes = await apiServices.momo(orderRes.invoice_id);
+                        setTempCart(cart);
                         await handleDeleteWholeCart(cart.customer_id);
                         setLoading(false);
                         router.push(momoRes.payUrl);
@@ -194,7 +198,7 @@ const useConfirmOrder = () => {
         handleConfirm,
         paymentMethod,
         setPaymentMethod,
-        cart,
+        cart: tempCart ?? cart,
         applicationFee: cart?.cart_info?.length ? applicationFee : 0,
         cutleryFee,
         setAddCutlery,
