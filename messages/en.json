@@ -367,7 +367,8 @@
             "APPLY": "Apply",
             "ENTER_PROMO_CODE": "Enter the code",
             "APPLY_FAIL": "The discount code application failed.\r\nThe order must be greater than the {value}.",
-            "MINIMUM_DESC": "The order must be greater than the {value."
+            "MINIMUM_DESC": "The order must be greater than the {value.",
+            "NO_PROMO": "There are no applicable promo codes for this order"
         },
         "PAYMENT_GROUP": {
             "PAYMENT": "Bill Detail",

@@ -370,7 +370,8 @@
             "APPLY": "Áp dụng",
             "ENTER_PROMO_CODE": "Nhập mã khuyến mãi",
             "APPLY_FAIL": "Mã giảm giá áp dụng thất bại\r\n",
-            "MINIMUM_DESC": "Đơn hàng phải lớn hơn {value}."
+            "MINIMUM_DESC": "Đơn hàng phải lớn hơn {value}.",
+            "NO_PROMO": "Không có mã khuyến mãi nào khả dụng cho đơn hàng"
         },
         "PAYMENT_GROUP": {
             "PAYMENT": "Thanh toán",
