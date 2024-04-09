@@ -8,7 +8,7 @@ import { HistoricalOrderByRestaurant } from "@/types/response/GetHistoryOrderRes
 import { RestaurantInfo } from "@/types/response/base";
 import { ddMMyyyy } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
-import { getOrderStatusLog, isNullOrEmpty } from "@/utils/functions";
+import { formatMoney, getOrderStatusLog, isNullOrEmpty } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, HStack, Img, Stack, Text, VStack, Wrap, WrapItem } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
@@ -73,7 +73,6 @@ const OrderHistoryRestaurantItem = ({ orderInfo, handleReorder }: Props) => {
                     lineHeight={"2rem"}
                     w="100%"
                     justifyContent={"space-between"}
-                    borderBottom={"1px solid var(--gray-200)"}
                     p="1.6rem"
                     py-="0.8rem"
                 >
@@ -92,11 +91,17 @@ const OrderHistoryRestaurantItem = ({ orderInfo, handleReorder }: Props) => {
                 </HStack>
             }
             py="1.6rem"
+            px="0"
             contentProps={{
                 flexDirection: "column",
             }}
         >
-            <VStack w="100%" p="1.6rem 2.4rem" borderBottom={"1px solid var(--gray-200)"}>
+            <VStack
+                w="100%"
+                p="1.6rem 2.4rem"
+                borderTop={"1px solid var(--gray-200)"}
+                borderBottom={"1px solid var(--gray-200)"}
+            >
                 <Stack
                     direction={{ base: "column", md: "row" }}
                     w="100%"
@@ -111,7 +116,7 @@ const OrderHistoryRestaurantItem = ({ orderInfo, handleReorder }: Props) => {
                                 {renderTxt(restaurantInfo?.restaurant_name)}
                             </Text>
                             <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="1.6rem">
-                                {orderInfo?.order_total?.toLocaleString()}đ
+                                {formatMoney(orderInfo?.order_total)}
                             </Text>
                         </HStack>
                         <Text as="span" color="var(--gray-600)" fontSize={"1.2rem"} fontWeight={"400"}>

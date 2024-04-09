@@ -189,6 +189,7 @@ const DeliveryDestinationGroup = ({
                 }),
             );
             const customerLocation = allAddress.results?.[0].geometry.location;
+            if (!restaurantId) return;
             const fee = await apiServices.getDeliveryFee({
                 restaurant_id: restaurantId,
                 delivery_latitude: customerLocation.lat,

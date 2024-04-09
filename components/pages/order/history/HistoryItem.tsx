@@ -8,9 +8,9 @@ import { HistoricalOrderByFood } from "@/types/response/GetHistoryOrderResponse"
 import { RestaurantInfo } from "@/types/response/base";
 import { ddMMyyyy } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
-import { getOrderStatusLog, isNullOrEmpty } from "@/utils/functions";
+import { formatMoney, getOrderStatusLog, isNullOrEmpty } from "@/utils/functions";
 import { routes } from "@/utils/routes";
-import { Button, HStack, Img, Stack, Text, VStack, Wrap, WrapItem } from "@chakra-ui/react";
+import { Button, Flex, HStack, Img, Stack, Text, VStack, Wrap, WrapItem } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
@@ -50,7 +50,6 @@ const HistoryItem = ({ orderInfo, handleReorder }: Props) => {
                     lineHeight={"2rem"}
                     w="100%"
                     justifyContent={"space-between"}
-                    borderBottom={"1px solid var(--gray-200)"}
                     p="1.6rem"
                     py-="0.8rem"
                 >
@@ -69,55 +68,75 @@ const HistoryItem = ({ orderInfo, handleReorder }: Props) => {
                 </HStack>
             }
             py="1.6rem"
+            px="0"
             contentProps={{
                 flexDirection: "column",
             }}
         >
-            <VStack w="100%" p="1.6rem 2.4rem" borderBottom={"1px solid var(--gray-200)"}>
-                <Stack
-                    direction={{ base: "column", md: "row" }}
-                    w="100%"
-                    justifyContent={"start"}
-                    alignItems={"flex-start"}
-                    spacing={"1.6rem"}
-                >
-                    <Img src={orderInfo?.image} boxSize="6.2rem" />
-                    <VStack flex="1" alignItems={"flex-start"}>
-                        <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="1.6rem">
-                            {renderTxt(orderInfo?.name)} x {orderInfo?.qty_ordered?.toLocaleString()}
-                        </Text>
-                        <Text color="var(--gray-600)" as="span" fontSize="1.4rem" className="text-ellipsis">
-                            <Text as="span" wordBreak="keep-all" color="var(--color-mediumslateblue)" fontWeight="600">
-                                {renderTxt(orderInfo?.main_cooking_method)}{" "}
-                            </Text>
-                            <Text wordBreak="break-word" fontWeight="600" as="span">
-                                |{" "}
-                                {renderTxt([
-                                    {
-                                        ISO_language_code: "eng",
-                                        text: orderInfo?.ingredient_brief_eng,
-                                    },
-                                    {
-                                        ISO_language_code: "vie",
-                                        text: orderInfo?.ingredient_brief_vie,
-                                    },
-                                ])}
-                            </Text>
-                        </Text>
-                        {!isNullOrEmpty(orderInfo?.notes) && (
+            <Flex
+                justifyContent="space-between"
+                p="1.6rem 2.4rem"
+                borderTop={"1px solid var(--gray-200)"}
+                borderBottom={"1px solid var(--gray-200)"}
+            >
+                <VStack w="100%">
+                    <Stack
+                        direction={{ base: "column", md: "row" }}
+                        w="100%"
+                        justifyContent={"start"}
+                        alignItems={"flex-start"}
+                        spacing={"1.6rem"}
+                    >
+                        <Img src={orderInfo?.image} boxSize="6.2rem" />
+                        <VStack flex="1" alignItems={"flex-start"}>
                             <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="1.6rem">
-                                {orderInfo?.notes}
+                                {renderTxt(orderInfo?.name)} x {orderInfo?.qty_ordered?.toLocaleString()}
                             </Text>
-                        )}
-                        <Text as="span" fontSize="1.4rem" lineHeight="2rem" color="var(--gray-600)">
-                            <Text as="span">by </Text>
-                            <Text as="span" fontWeight="bold" color="var(--color-mediumslateblue)">
-                                {renderTxt(orderInfo?.restaurant_info?.restaurant_name)}
+                            <Text color="var(--gray-600)" as="span" fontSize="1.4rem" className="text-ellipsis">
+                                <Text
+                                    as="span"
+                                    wordBreak="keep-all"
+                                    color="var(--color-mediumslateblue)"
+                                    fontWeight="600"
+                                >
+                                    {renderTxt(orderInfo?.main_cooking_method)}{" "}
+                                </Text>
+                                <Text wordBreak="break-word" fontWeight="600" as="span">
+                                    |{" "}
+                                    {renderTxt([
+                                        {
+                                            ISO_language_code: "eng",
+                                            text: orderInfo?.ingredient_brief_eng,
+                                        },
+                                        {
+                                            ISO_language_code: "vie",
+                                            text: orderInfo?.ingredient_brief_vie,
+                                        },
+                                    ])}
+                                </Text>
                             </Text>
-                        </Text>
-                    </VStack>
-                </Stack>
-            </VStack>
+                            {!isNullOrEmpty(orderInfo?.notes) && (
+                                <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="1.6rem">
+                                    {orderInfo?.notes}
+                                </Text>
+                            )}
+                            <Text as="span" fontSize="1.4rem" lineHeight="2rem" color="var(--gray-600)">
+                                <Text as="span">by </Text>
+                                <Text as="span" fontWeight="bold" color="var(--color-mediumslateblue)">
+                                    {renderTxt(orderInfo?.restaurant_info?.restaurant_name)}
+                                </Text>
+                            </Text>
+                        </VStack>
+                    </Stack>
+                </VStack>
+                <Text fontSize="1.6rem" fontWeight="bold" color="var(--gray-900)" whiteSpace="nowrap">
+                    {formatMoney(
+                        orderInfo?.price && orderInfo?.qty_ordered
+                            ? orderInfo?.price * orderInfo?.qty_ordered
+                            : undefined,
+                    )}
+                </Text>
+            </Flex>
 
             <Stack
                 direction={{ base: "column", md: "row" }}

@@ -497,7 +497,6 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             });
         },
         uploadImagePost: (data: { file: File | undefined }) => {
-            console.log("fileeData:", data);
             return this.request({
                 path: `uploadImage`,
                 method: "POST",

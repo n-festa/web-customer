@@ -4,8 +4,9 @@ import useRenderText from "@/hooks/useRenderText";
 import { OnGoingOrder } from "@/types/response/OnGoingOrderResponse";
 import { OrderStatusLogTypeColor, ddMMyyyy } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
+import { formatMoney } from "@/utils/functions";
 import { routes } from "@/utils/routes";
-import { Button, HStack, Img, Stack, Text, VStack } from "@chakra-ui/react";
+import { Button, Flex, HStack, Img, Stack, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
@@ -80,7 +81,6 @@ const OnGoingOrderItem = ({ orderInfo }: Props) => {
                     lineHeight={"2rem"}
                     w="100%"
                     justifyContent={"space-between"}
-                    borderBottom={"1px solid var(--gray-200)"}
                     p="1.6rem"
                     py-="0.8rem"
                 >
@@ -102,30 +102,41 @@ const OnGoingOrderItem = ({ orderInfo }: Props) => {
             contentProps={{
                 flexDirection: "column",
             }}
+            px="0"
         >
-            <VStack w="100%" p="1.6rem 2.4rem" borderBottom={"1px solid var(--gray-200)"}>
-                <Stack
-                    direction={{ base: "column", md: "row" }}
-                    w="100%"
-                    justifyContent={"start"}
-                    alignItems={"flex-start"}
-                    spacing={"1.6rem"}
-                >
-                    <Img src={restaurantInfo?.restaurant_logo_img} boxSize="6.2rem" />
-                    <VStack flex="1" alignItems={"flex-start"}>
-                        <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="1.6rem">
-                            {renderTxt(restaurantInfo?.restaurant_name)}
-                        </Text>
-                        <Text as="span" color="var(--gray-600)" fontSize={"1.2rem"} fontWeight={"400"}>
-                            {specialText}
-                        </Text>
+            <Flex
+                borderTop={"1px solid var(--gray-200)"}
+                borderBottom={"1px solid var(--gray-200)"}
+                justifyContent="space-between"
+                p="1.6rem 2.4rem"
+            >
+                <VStack w="100%">
+                    <Stack
+                        direction={{ base: "column", md: "row" }}
+                        w="100%"
+                        justifyContent={"start"}
+                        alignItems={"flex-start"}
+                        spacing={"1.6rem"}
+                    >
+                        <Img src={restaurantInfo?.restaurant_logo_img} boxSize="6.2rem" />
+                        <VStack flex="1" alignItems={"flex-start"}>
+                            <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="1.6rem">
+                                {renderTxt(restaurantInfo?.restaurant_name)}
+                            </Text>
+                            <Text as="span" color="var(--gray-600)" fontSize={"1.2rem"} fontWeight={"400"}>
+                                {specialText}
+                            </Text>
 
-                        <Text as="span" fontSize="1.6rem" lineHeight="2rem" color="black">
-                            {orderItemsText}
-                        </Text>
-                    </VStack>
-                </Stack>
-            </VStack>
+                            <Text as="span" fontSize="1.6rem" lineHeight="2rem" color="black">
+                                {orderItemsText}
+                            </Text>
+                        </VStack>
+                    </Stack>
+                </VStack>
+                <Text fontSize="1.6rem" fontWeight="bold" color="var(--gray-900)" whiteSpace="nowrap">
+                    {formatMoney(orderInfo?.order_total)}
+                </Text>
+            </Flex>
             <Stack
                 direction={{ base: "column", md: "row" }}
                 w="100%"
