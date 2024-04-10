@@ -18,12 +18,13 @@ function getToken(): string | undefined {
 }
 
 function setToken(token: string, expires = 1): void {
-    const domain = window ? window.location.hostname.replace("www.", "") : undefined;
+    const domain = store.getState().navigation.domain;
     Cookies.set(cookieConfig.auth_token_key, token, { expires, domain: domain });
 }
 
 function removeToken(): void {
-    Cookies.remove(cookieConfig.auth_token_key);
+    const domain = store.getState().navigation.domain;
+    Cookies.remove(cookieConfig.auth_token_key, { domain: domain });
 }
 // Refresh token
 function getTokenRefresh(): string | undefined {
@@ -31,12 +32,13 @@ function getTokenRefresh(): string | undefined {
 }
 
 function setTokenRefresh(token: string, expires = 1): void {
-    const domain = window ? window.location.hostname.replace("www.", "") : undefined;
+    const domain = store.getState().navigation.domain;
     Cookies.set(cookieConfig.auth_refresh_token, token, { expires, domain: domain });
 }
 
 function removeTokenRefresh(): void {
-    Cookies.remove(cookieConfig.auth_refresh_token);
+    const domain = store.getState().navigation.domain;
+    Cookies.remove(cookieConfig.auth_refresh_token, { domain });
 }
 
 const logout = (pathname: string) => {

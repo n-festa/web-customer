@@ -1,6 +1,5 @@
 "use client";
 
-import { loginSuccessUrl } from "@/app/[locale]/providers";
 import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import { cartState, cartSynced } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
@@ -45,7 +44,6 @@ const useUpdateCart = () => {
         async (cartItem: CartItem) => {
             if (cartItem.qty_ordered <= 0) return;
             if (!isLoggedIn() && typeof window != "undefined") {
-                loginSuccessUrl.current = window.location.pathname;
                 store.dispatch(setErrorScreenDes(routes.SignIn));
                 return;
             }
@@ -82,7 +80,6 @@ const useUpdateCart = () => {
             async (id?: number, name?: string, restaurant_id?: number | string) => {
                 try {
                     if (!isLoggedIn()) {
-                        loginSuccessUrl.current = window.location.pathname;
                         store.dispatch(setErrorScreenDes(routes.SignIn));
                     }
                     const _customerId = rawCart?.customer_id || customerId;

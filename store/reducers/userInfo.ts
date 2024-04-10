@@ -9,7 +9,14 @@ const userInfoSlice = createSlice({
     initialState,
     reducers: {
         setUserInfo: (state, action: PayloadAction<Customer | undefined>) => {
-            state.userInfo = action.payload ? { ...state.userInfo, ...action.payload } : undefined;
+            state.userInfo = action.payload
+                ? { ...state.userInfo, ...action.payload }
+                : {
+                      latAddress: state.userInfo?.latAddress,
+                      longAddress: state.userInfo?.longAddress,
+                      address: state.userInfo?.address,
+                      addressCompound: state.userInfo?.addressCompound,
+                  };
         },
         clearKeepAddress: (state) => {
             state.userInfo = {

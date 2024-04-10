@@ -12,7 +12,10 @@ const LoginEffect = () => {
         async (userId: string) => {
             const res = await apiServices.getCartDetail(`${userId}`);
             if (res?.data) {
-                setCart(res.data);
+                setCart({
+                    ...res.data,
+                    restaurant_id: res.data.restaurant_id || res.data.cart_info?.[0]?.restaurant_id,
+                });
             }
         },
         [setCart],
