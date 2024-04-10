@@ -89,15 +89,16 @@ const GroupStepperProgress = ({
                     isDefault: false,
                     isError: true,
                 };
-                Object.keys(defaultStatusLogs).forEach((key) => {
-                    const item = defaultStatusLogs[key];
-                    if (item.isDefault) {
-                        delete defaultStatusLogs[key];
-                    }
-                });
+                if (Object.keys(defaultStatusLogs).length > 5) {
+                    delete defaultStatusLogs[OrderStatusLogType.COMPLETED];
+                }
             }
         });
-        const _step = Object.values(defaultStatusLogs);
+        const _step = Object.values(defaultStatusLogs).sort((a, b) => {
+            if (a.isDefault) return 1;
+            if (b.isDefault) return -1;
+            return 0;
+        });
         if (isStuck) {
             activeIndex = 1;
         }
