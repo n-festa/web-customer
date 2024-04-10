@@ -10,6 +10,8 @@ export const storageKeys = {
     userProfile: "userProfile",
 };
 
+export const DEFAULT_ORIGINAL_VALUE = "-1";
+
 export const RestaurantOtherFilterOptions = [{ key: FoodOtherFilterOptionsKeys.GT4Star, name: "> 4 Sao" }];
 
 export const DefaultTasteOption = "7";

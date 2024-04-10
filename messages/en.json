@@ -336,7 +336,8 @@
             "I_WANT_TO_PRE_ORDER": "I want to pre-oder.",
             "I_WANT_TO_GET_IT_NOW": "I want to get it now.",
             "PLACE_ORDER_BEFORE": "You need to order before {time} to custom the original tastes",
-            "RECEIVE_FOOD_NOTE": "Your food will be received after {date} to customize the original tastes."
+            "RECEIVE_FOOD_NOTE": "Your food will be received after {date} to customize the original tastes.",
+            "ORIGINAL": "Original"
         },
         "PRODUCT_INFO": {
             "QUANTITY_AVAILABLE": "{number} available",
