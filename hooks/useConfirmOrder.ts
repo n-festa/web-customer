@@ -1,5 +1,6 @@
 import { totalQuantityState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
+import { useAppSelector } from "@/store/hooks";
 import { Cart } from "@/types/cart";
 import { PaymentMethod } from "@/types/enum";
 import { Discount } from "@/types/interfaces";
@@ -17,6 +18,7 @@ import useUpdateCart from "./useUpdateCart";
 
 const useConfirmOrder = () => {
     const { GetApplicationFee, GetCutleryFee, GetCouponInfo } = useSWRAPI();
+    const profile = useAppSelector((state) => state.userInfo.userInfo);
     const formRef = useRef<
         FormikProps<{
             province: string | undefined;
@@ -31,6 +33,10 @@ const useConfirmOrder = () => {
     const toast = useToast();
     const router = useRouter();
     const totalItem = useRecoilValue(totalQuantityState);
+    const [customerLocation, setCustomerLocation] = useState<{
+        lat?: number;
+        lng?: number;
+    }>();
     const { totalPrice, cartSync: cart } = useUpdateCart();
     const [isLoading, setLoading] = useState<boolean>();
     const { handleDeleteWholeCart } = useDeleteCartItem();
@@ -145,8 +151,24 @@ const useConfirmOrder = () => {
     };
 
     const isDisableOrder = useMemo(() => {
-        return !expectedTime || loadingCoupon || loadingAppFee || loadingCutlery || !deliveryFee;
-    }, [deliveryFee, expectedTime, loadingAppFee, loadingCoupon, loadingCutlery]);
+        return (
+            !expectedTime ||
+            loadingCoupon ||
+            loadingAppFee ||
+            loadingCutlery ||
+            !deliveryFee ||
+            !customerLocation?.lat ||
+            !customerLocation.lng
+        );
+    }, [
+        customerLocation?.lat,
+        customerLocation?.lng,
+        deliveryFee,
+        expectedTime,
+        loadingAppFee,
+        loadingCoupon,
+        loadingCutlery,
+    ]);
 
     const onApplyCoupon = useCallback(
         async (couponInput?: string) => {
@@ -215,6 +237,8 @@ const useConfirmOrder = () => {
         onApplyCoupon,
         setDiscounts,
         setExpectedTime,
+        customerLocation: customerLocation ?? { lat: profile?.latAddress, lng: profile?.longAddress },
+        setCustomerLocation,
     };
 };
 

@@ -73,6 +73,20 @@ const HistoryList = ({ histories, isLoading, type }: Props) => {
         router.push(routes.ConfirmOrder);
     };
     const handleReorder = async (items: (OrderItem | undefined)[] = [], restaurant?: RestaurantInfo) => {
+        if (!profile?.latAddress || !profile.longAddress) {
+            await dialogRef.current?.show({
+                title: cartTranslate("ADDRESS_MISSING"),
+                message: cartTranslate("ADDRESS_MISSING_MESSAGE"),
+                negative: { text: cartTranslate("CANCEL") },
+                positive: {
+                    text: cartTranslate("BACK_TO_HOME"),
+                    onClick: async () => {
+                        router.push(routes.Home);
+                    },
+                },
+            });
+            return;
+        }
         if (cartSync?.cart_info?.length) {
             await dialogRef.current?.show({
                 title: cartTranslate("REMOVE_ALL"),

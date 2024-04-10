@@ -47,7 +47,10 @@ const Header = () => {
                 bg = "var(--main-bg-color)";
 
                 break;
-
+            case routes.OrderHistory:
+            case routes.Profile:
+                hideCart = true;
+                break;
             default:
                 const index = [routes.RestaurantDetail, routes.Search, routes.SearchDetail].findIndex((el) =>
                     pathname.includes(el),

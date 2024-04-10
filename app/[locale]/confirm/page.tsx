@@ -29,6 +29,8 @@ const ConfirmOrderPageContent = () => {
         couponList,
         finalPrice,
         deliveryFee,
+        customerLocation,
+        setCustomerLocation,
         packageFee,
         discounts,
         onApplyCoupon,
@@ -48,9 +50,14 @@ const ConfirmOrderPageContent = () => {
                         <DeliveryDestinationGroup
                             restaurantId={Number(cart?.restaurant_id)}
                             formRef={formRef}
+                            setCustomerLocation={setCustomerLocation}
                             setDeliveryFee={setDeliveryFee}
                         />
-                        <DeliveryTimeGroup setExpectedTime={setExpectedTime} />
+                        <DeliveryTimeGroup
+                            latAddress={customerLocation.lat}
+                            longAddress={customerLocation.lng}
+                            setExpectedTime={setExpectedTime}
+                        />
                         <PackageGroup addCutlery={addCutlery} setAddCutlery={setAddCutlery} />
                         <PaymentMethodGroup paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
                         <PromotionGroup
