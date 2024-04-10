@@ -99,6 +99,9 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                 <Skeleton isLoaded={false} />
             ) : (
                 <Formik
+                    onSubmit={() => {
+                        //
+                    }}
                     initialValues={initFormData}
                     key={JSON.stringify(initFormData)}
                     onKeyPress={(e: { key: string; preventDefault: () => void }) => {
