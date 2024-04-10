@@ -14,11 +14,14 @@ const { cookieConfig }: { cookieConfig: CookieConfig } = config;
 
 // Access token
 function getToken(): string | undefined {
+    console.log("window.", window.location.hostname);
+
     return Cookies.get(cookieConfig.auth_token_key);
 }
 
 function setToken(token: string, expires = 1): void {
-    Cookies.set(cookieConfig.auth_token_key, token, { expires });
+    const domain = window ? window.location.hostname.replace("www.", "") : undefined;
+    Cookies.set(cookieConfig.auth_token_key, token, { expires, domain: domain });
 }
 
 function removeToken(): void {
@@ -30,7 +33,8 @@ function getTokenRefresh(): string | undefined {
 }
 
 function setTokenRefresh(token: string, expires = 1): void {
-    Cookies.set(cookieConfig.auth_refresh_token, token, { expires });
+    const domain = window ? window.location.hostname.replace("www.", "") : undefined;
+    Cookies.set(cookieConfig.auth_refresh_token, token, { expires, domain: domain });
 }
 
 function removeTokenRefresh(): void {
