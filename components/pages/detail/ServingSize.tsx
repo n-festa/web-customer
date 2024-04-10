@@ -101,9 +101,6 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                 <Formik
                     initialValues={initFormData}
                     key={JSON.stringify(initFormData)}
-                    onSubmit={() => {
-                        // console.log(values);
-                    }}
                     onKeyPress={(e: { key: string; preventDefault: () => void }) => {
                         if (e.key === "Enter") {
                             e.preventDefault();

@@ -73,21 +73,23 @@ const OrderDetail = () => {
                     />
                 )}
                 <Flex flexDir="column" w="47.7rem" h="100%" gap="1rem">
-                    <GroupWrapper titleFontSize="2rem" title={t("ORDER")}>
-                        <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">
-                            <Text>{`ID: #${orderDetail?.order_id}`}</Text>
-                            {orderStatusLog?.[orderStatusLog?.length - 1] && (
-                                <Text>
-                                    {t("ORDER_DATE", {
-                                        time: formatDate(
-                                            Number(orderStatusLog?.[orderStatusLog?.length - 1].logged_at),
-                                            ddMMyyyy,
-                                        ),
-                                    })}
-                                </Text>
-                            )}
-                        </VStack>
-                    </GroupWrapper>
+                    {orderDetail && (
+                        <GroupWrapper titleFontSize="2rem" title={t("ORDER")}>
+                            <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">
+                                <Text>{`ID: #${orderDetail?.order_id}`}</Text>
+                                {orderStatusLog?.[orderStatusLog?.length - 1] && (
+                                    <Text>
+                                        {t("ORDER_DATE", {
+                                            time: formatDate(
+                                                Number(orderStatusLog?.[orderStatusLog?.length - 1].logged_at),
+                                                ddMMyyyy,
+                                            ),
+                                        })}
+                                    </Text>
+                                )}
+                            </VStack>
+                        </GroupWrapper>
+                    )}
                     {orderDetail?.driver && (
                         <GroupWrapper titleFontSize="2rem" title={t("DRIVER")}>
                             <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">
@@ -138,7 +140,8 @@ const OrderDetail = () => {
                     {orderDetail?.payment_method && (
                         <GroupWrapper titleFontSize="2rem" title={t("PAYMENT_METHOD")}>
                             <Text lineHeight="4rem" fontSize="1.6rem" mt="0.8rem">
-                                {renderTxt(orderDetail?.payment_status_history?.[0]?.name)}
+                                {`${orderDetail.payment_method.name} -
+                                ${renderTxt(orderDetail?.payment_status_history?.[0]?.name)}`}
                             </Text>
                         </GroupWrapper>
                     )}

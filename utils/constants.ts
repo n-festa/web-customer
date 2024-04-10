@@ -22,6 +22,10 @@ export const OtherCustomization = "OtherCustomization";
 
 export const YYYYMMDD = "yyyy-MM-dd";
 export const YYYYMMDDHHmm = "yyyy-MM-dd HH:mm";
+export const YYYYMMDDhhmma = "yyyy-MM-dd hh:mm a";
+
+export const hhmma = "hh:mm a";
+
 export const HHmm = "HH:mm";
 export const yyyMMdd = "yyyy/MM/dd";
 export const ddMMyyyy = "dd/MM/yyyy";

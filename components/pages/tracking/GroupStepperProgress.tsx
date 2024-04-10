@@ -1,5 +1,6 @@
 import { OrderStatusLogType, OrderStatusType } from "@/types/enum";
 import { OrderStatusLog } from "@/types/order";
+import { YYYYMMDDHHmm, YYYYMMDDhhmma, hhmma } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import {
     Box,
@@ -14,6 +15,7 @@ import {
     Text,
     useBreakpointValue,
 } from "@chakra-ui/react";
+import { isToday } from "date-fns";
 import { XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
@@ -70,14 +72,20 @@ const GroupStepperProgress = ({
                 }
                 defaultStatusLogs[mileStone] = {
                     ...defaultStatusLogs[mileStone],
-                    time: formatDate(Number(status.logged_at), "hh:mm a"),
+                    time: formatDate(
+                        Number(status.logged_at),
+                        isToday(status.logged_at) ? hhmma : bp === "BASE" ? YYYYMMDDHHmm : YYYYMMDDhhmma,
+                    ),
                     isDefault: false,
                 };
             }
             if (mileStone && ErrorStep.includes(mileStone)) {
                 defaultStatusLogs[mileStone] = {
                     description: t(`${bp}.${mileStone.toUpperCase()}`),
-                    time: formatDate(Number(status.logged_at), "hh:mm a"),
+                    time: formatDate(
+                        Number(status.logged_at),
+                        isToday(status.logged_at) ? hhmma : bp === "BASE" ? YYYYMMDDHHmm : YYYYMMDDhhmma,
+                    ),
                     isDefault: false,
                     isError: true,
                 };
@@ -148,7 +156,12 @@ const GroupStepperProgress = ({
                                     >
                                         {step.description}
                                     </Text>
-                                    <Text minH="2.1rem" fontSize="1.4rem" color="var(--gray-600)">
+                                    <Text
+                                        whiteSpace={"nowrap"}
+                                        minH="2.1rem"
+                                        fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
+                                        color="var(--gray-600)"
+                                    >
                                         {step.time}
                                     </Text>
                                 </Flex>
