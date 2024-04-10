@@ -14,8 +14,6 @@ const { cookieConfig }: { cookieConfig: CookieConfig } = config;
 
 // Access token
 function getToken(): string | undefined {
-    console.log("window.", window.location.hostname);
-
     return Cookies.get(cookieConfig.auth_token_key);
 }
 

@@ -3,7 +3,9 @@ import { BackButton } from "@/components/atoms/bottom/BackButton";
 import ReviewDetail from "@/components/pages/review/ReviewDetail";
 import ReviewQuick from "@/components/pages/review/ReviewQuick";
 import usePostReview from "@/hooks/usePostReview";
+import { ddMMyyyy } from "@/utils/constants";
 import { Box, Flex, Heading, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
+import { formatDate } from "date-fns";
 import { useTranslations } from "next-intl";
 
 const Review = () => {
@@ -17,6 +19,7 @@ const Review = () => {
         driver,
         orders,
         remarkQuick,
+        reviewForm,
     } = usePostReview();
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
@@ -41,9 +44,13 @@ const Review = () => {
                         justifyContent="center"
                         mb="2rem"
                     >
-                        <Text>{t("ORDER_NUMBER", { number: "#1234567" })}</Text>
+                        <Text>{t("ORDER_NUMBER", { number: `#${reviewForm?.order_id || 0}` })}</Text>
                         <Text>-</Text>
-                        <Text>{t("ORDER_DATE", { time: "26/07/2023" })}</Text>
+                        <Text>
+                            {t("ORDER_DATE", {
+                                time: formatDate(new Date(Number(reviewForm?.order_date || "")), ddMMyyyy),
+                            })}
+                        </Text>
                     </Flex>
                     <Tabs>
                         <TabList>
@@ -64,7 +71,7 @@ const Review = () => {
                                 {t("DETAILED_REVIEW")}
                             </Tab>
                         </TabList>
-                        <TabPanels mt="2rem">
+                        <TabPanels>
                             <TabPanel>
                                 <ReviewQuick
                                     remarkQuick={remarkQuick}
@@ -73,7 +80,7 @@ const Review = () => {
                                     onSubmit={handleSubmit}
                                 />
                             </TabPanel>
-                            <TabPanel>
+                            <TabPanel mt="2rem">
                                 <ReviewDetail
                                     driver={driver}
                                     orders={orders}

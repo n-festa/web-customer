@@ -19,6 +19,7 @@ const ReviewDetail = ({ onChangeOrders, orders, driver, onChangeDriver, onSubmit
         <Box pb="4.8rem">
             <VStack spacing="1.6rem">
                 <ReviewDetailItem
+                    placeholder={t("PLACEHOLDER_COMMENT")}
                     title={t("DRIVER_RATING")}
                     iconTitle="/images/icons/icon_shipper.svg"
                     driver={driver}
@@ -29,6 +30,7 @@ const ReviewDetail = ({ onChangeOrders, orders, driver, onChangeDriver, onSubmit
                     Object.values(orders).map((order) => (
                         <ReviewDetailItem
                             key={order.order_sku_id}
+                            placeholder={t("PLACEHOLDER_FOOD")}
                             title={renderTxt(order?.raw?.name)}
                             iconTitle="/images/icons/icon_disk.svg"
                             order={order}

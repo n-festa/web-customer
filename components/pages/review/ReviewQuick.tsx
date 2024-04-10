@@ -101,26 +101,29 @@ const ReviewQuick = ({
                     onChange={(e) => onChangeOrderQuick("orders", "remarks", e.target.value)}
                 />
             </Box>
-            <HStack spacing={6} p="2rem 0" borderTop="1px solid var(--gray-300)" minH="10rem">
-                {listImage.map((item, index) => (
-                    <Box key={index} position="relative">
-                        <Img
-                            src="/images/icons/icon_close.svg"
-                            position="absolute"
-                            top="-0.4rem"
-                            right="-0.4rem"
-                            padding="0.2rem"
-                            bg="var(--gray-300)"
-                            borderRadius="50%"
-                            w="1.2rem"
-                            h="1.2rem"
-                            cursor="pointer"
-                            onClick={() => handleRemoveImage(index)}
-                        />
-                        <Img src={item} objectFit="cover" w="10rem" h="10rem" borderRadius="0.8rem" />
-                    </Box>
-                ))}
-            </HStack>
+            {listImage.length > 0 && (
+                <HStack spacing={6} p="2rem 0" borderTop="1px solid var(--gray-300)" minH="10rem">
+                    {listImage.map((item, index) => (
+                        <Box key={index} position="relative">
+                            <Img
+                                src="/images/icons/icon_close.svg"
+                                position="absolute"
+                                top="-0.4rem"
+                                right="-0.4rem"
+                                padding="0.2rem"
+                                bg="var(--gray-300)"
+                                borderRadius="50%"
+                                w="1.2rem"
+                                h="1.2rem"
+                                cursor="pointer"
+                                onClick={() => handleRemoveImage(index)}
+                            />
+                            <Img src={item} objectFit="cover" w="10rem" h="10rem" borderRadius="0.8rem" />
+                        </Box>
+                    ))}
+                </HStack>
+            )}
+
             <Flex gap="1rem">
                 <Button
                     as="label"
