@@ -75,7 +75,10 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
         const time = calcCutoffTime(info?.cutoff_time_m);
         const distance = time ? differenceInCalendarDays(time, new Date()) : 0;
 
-        if (!time) return {};
+        if (!time) {
+            setDisableTasteCustomize(false);
+            return {};
+        }
         return distance < 1
             ? { time: formatDate(time, "HH:mm"), receiveTime: t("TODAY") }
             : {
