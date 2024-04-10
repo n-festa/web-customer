@@ -1,5 +1,4 @@
 "use client";
-import { loginSuccessUrl } from "@/app/[locale]/providers";
 import { showCartState } from "@/recoil/recoilState";
 import { isLoggedIn } from "@/utils/functions";
 import { routes } from "@/utils/routes";
@@ -24,7 +23,6 @@ const CartIconFallBack = ({ totalQuantity, isLoading }: { totalQuantity?: number
                     setShow(true);
                     return;
                 }
-                loginSuccessUrl.current = window.location.pathname;
                 router.push(routes.SignIn);
             }}
             cursor="pointer"

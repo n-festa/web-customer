@@ -1,4 +1,6 @@
-import { locationRef, loginSuccessUrl } from "@/app/[locale]/providers";
+import { locationRef } from "@/app/[locale]/providers";
+import { store } from "@/store";
+import { clearPrevLoginUrl } from "@/store/reducers/navigationSlice";
 import { CartItem } from "@/types/cart";
 import { OrderItem, OrderStatusLog } from "@/types/order";
 import { OrderStatusLogTypeColor } from "@/utils/constants";
@@ -125,8 +127,8 @@ export const getCutoffTime = (cutoffTime?: string | string[], t?: any) => {
 };
 
 export const redirectAfterLogin = (router: AppRouterInstance) => {
-    const destination = loginSuccessUrl.current ?? routes.Home;
-    loginSuccessUrl.current = null;
+    const destination = store.getState().navigation.prevLoginUrl ?? routes.Home;
+    store.dispatch(clearPrevLoginUrl());
     router.push(destination);
 };
 

@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import appSlice from "./reducers/appSlice";
 import authReducer from "./reducers/auth";
+import navigationSlice from "./reducers/navigationSlice";
 import userInfoReducer from "./reducers/userInfo";
 import storage from "./storage";
 
@@ -9,6 +10,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     userInfo: userInfoReducer,
     app: appSlice,
+    navigation: navigationSlice,
 });
 
 const persistConfig = {

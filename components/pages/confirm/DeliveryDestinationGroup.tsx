@@ -203,7 +203,7 @@ const DeliveryDestinationGroup = ({
                 distance: fee.distance_km,
             });
         }, 500),
-        [],
+        [restaurantId],
     );
 
     useEffect(() => {
