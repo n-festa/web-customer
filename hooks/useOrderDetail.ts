@@ -1,3 +1,4 @@
+import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import { OrderStatusLogType } from "@/types/enum";
 import { Order } from "@/types/order";
 import { getToken } from "@/utils/auth";
@@ -45,6 +46,12 @@ const useOrderDetail = () => {
         });
     }, [orderDetail?.order_status_log, pushData?.order_status_log]);
     useEffect(() => {
+        const isDone = orderDetail?.order_status_log?.some((item) => {
+            const milestone = item.milestone;
+            return milestone && listStatusLog.includes(milestone.toLocaleLowerCase() as OrderStatusLogType);
+        });
+
+        if (isDone || !orderId || !orderDetail) return;
         // opening a connection to the server to begin receiving events from it
         const eventSource = new EventSourcePolyfill(`${baseURL}order/sse-connection/${orderId}`, {
             headers: {
@@ -58,10 +65,31 @@ const useOrderDetail = () => {
                 const orderDetail = JSON.parse(event.data) as Order;
                 if (orderDetail.order_status_log) {
                     setPushData(orderDetail);
+                    const isDone = orderDetail.order_status_log?.some((item) => {
+                        const milestone = item.milestone;
+                        return milestone && listStatusLog.includes(milestone.toLocaleLowerCase() as OrderStatusLogType);
+                    });
+                    if (isDone) {
+                        eventSource.close();
+                    }
+
                     if (orderDetail.order_status_log?.some((item) => item.milestone === OrderStatusLogType.COMPLETED)) {
-                        setTimeout(() => {
-                            router.push(routes.orderReview + `/${orderId}`);
-                        }, 3000);
+                        dialogRef.current?.show({
+                            title: "Hoàn thành đơn hàng",
+                            message: "Đơn hàng của bạn đã hoàn thành, bạn có muốn để lại đánh giá không?",
+                            negative: {
+                                text: "Trở lại",
+                                onClick: async () => {
+                                    router.push(routes.Home);
+                                },
+                            },
+                            positive: {
+                                text: "Đánh giá",
+                                onClick: async () => {
+                                    router.push(routes.orderReview + `/${orderId}`);
+                                },
+                            },
+                        });
                     }
                 } else {
                     return;
@@ -71,7 +99,8 @@ const useOrderDetail = () => {
 
         // terminating the connection on component unmount
         return () => eventSource.close();
-    }, [orderId, router]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [JSON.stringify(orderDetail?.order_status_log), orderId, router]);
 
     return {
         orderDetail: pushData || orderDetail,

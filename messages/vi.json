@@ -1,9 +1,21 @@
 {
     "COMMON": {
+        "CART": {
+            "REMOVE_CART": "Xóa khỏi giỏ hàng",
+            "CONFIRM_REMOVE": "Bạn muốn xóa món ăn khỏi giỏ hàng?",
+            "CANCEL": "Hủy",
+            "CONFIRM": "Xác nhận",
+            "REMOVE_ALL": "Xóa giỏ hàng",
+            "REORDER_MESSAGE": "Trước khi đặt hàng lại, bạn cần xóa giỏ hàng hiện tại",
+            "RESTAURANT_CHANGE": "Bạn muốn đặt món ở nhà hàng này?",
+            "RESTAURANT_CHANGE_MESSAGE": "Chuyện nhỏ! Nhưng những món bạn đã chọn từ nhà hàng trước sẽ bị xóa khỏi giỏ hàng nhé!"
+        },
         "ERROR": {
             "ERROR_TITLE": "Có lỗi xảy ra",
             "BACK_TO_HOME": "Trở lại trang chủ",
-            "API_REQUEST_FAIL": "Không thể kết nối tới máy chủ"
+            "API_REQUEST_FAIL": "Không thể kết nối tới máy chủ",
+            "BAD_REQUEST": "Yêu cầu không hợp lệ",
+            "SYSTEM_ERROR": "Lỗi hệ thống"
         },
         "SEE_MORE": "...... xem thêm",
         "SEE_LESS": "...... ẩn bớt",
@@ -32,6 +44,7 @@
         "FOOD": "Món ăn",
         "RESTAURANT": "Nhà hàng",
         "SORT": "Săp xếp",
+        "RELEVANCE": "Gần đây nhất",
         "PRICE_ASCENDING": "Giá tăng",
         "PRICE_DESCENDING": "Giá giảm",
         "TODAY": "Hôm nay",
@@ -324,7 +337,8 @@
             "I_WANT_TO_PRE_ORDER": "Tôi muốn đặt trước.",
             "I_WANT_TO_GET_IT_NOW": "Tôi muốn nhận ngay hôm nay.",
             "PLACE_ORDER_BEFORE": "Bạn cần đặt trước {time} để điều chỉnh vị. ",
-            "RECEIVE_FOOD_NOTE": "Món ăn sẽ được nhận sau ngày {date} để được điều chỉnh vị."
+            "RECEIVE_FOOD_NOTE": "Món ăn sẽ được nhận sau ngày {date} để được điều chỉnh vị.",
+            "ORIGINAL": "Nguyên bản"
         },
         "PRODUCT_INFO": {
             "QUANTITY_AVAILABLE": "Còn {number} phần",
@@ -358,7 +372,8 @@
             "APPLY": "Áp dụng",
             "ENTER_PROMO_CODE": "Nhập mã khuyến mãi",
             "APPLY_FAIL": "Mã giảm giá áp dụng thất bại\r\n",
-            "MINIMUM_DESC": "Đơn hàng phải lớn hơn {value}."
+            "MINIMUM_DESC": "Đơn hàng phải lớn hơn {value}.",
+            "NO_PROMO": "Không có mã khuyến mãi nào khả dụng cho đơn hàng"
         },
         "PAYMENT_GROUP": {
             "PAYMENT": "Thanh toán",

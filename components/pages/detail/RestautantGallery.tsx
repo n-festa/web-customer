@@ -22,7 +22,7 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 
 interface Props {
@@ -318,20 +318,14 @@ const RestaurantGallery = ({ restaurantInfo, isLoading }: Props) => {
                         <VStack spacing="0" alignItems="flex-start">
                             <Collapse in={isOpen} animateOpacity startingHeight={"4.8rem"}>
                                 <Flex flexDir="column" minH="4.8rem">
-                                    {restaurantInfo?.introduction?.map((el, index) => {
-                                        return (
-                                            <Fragment key={"introduction" + String(index)}>
-                                                <Text
-                                                    fontSize={"1.6rem"}
-                                                    fontWeight={400}
-                                                    lineHeight={"2.4rem"}
-                                                    color="var(--gray-600)"
-                                                >
-                                                    {el?.text ?? "-"}
-                                                </Text>
-                                            </Fragment>
-                                        );
-                                    })}
+                                    <Text
+                                        fontSize={"1.6rem"}
+                                        fontWeight={400}
+                                        lineHeight={"2.4rem"}
+                                        color="var(--gray-600)"
+                                    >
+                                        {renderTxt(restaurantInfo?.introduction)}
+                                    </Text>
                                 </Flex>
                             </Collapse>
                             <Button h="2.4rem" variant={"btnViewAllSm"} onClick={onToggle} p="0">

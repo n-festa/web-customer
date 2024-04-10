@@ -55,14 +55,15 @@ export const cartSynced = selector({
         if (cartItem) {
             try {
                 const res = await apiServices.addCart({ ...cartItem, item_id: undefined });
-                toast({
-                    title: "Cập nhật giỏ hàng",
-                    description: `Đã thêm vào giỏ hàng`,
-                    status: "success",
-                    duration: 4000,
-                    position: "top",
-                    isClosable: true,
-                });
+                !cartItem.isUpdateAll &&
+                    toast({
+                        title: "Cập nhật giỏ hàng",
+                        description: `Đã thêm vào giỏ hàng`,
+                        status: "success",
+                        duration: 4000,
+                        position: "top",
+                        isClosable: true,
+                    });
                 if (res?.data) {
                     return res.data;
                 }

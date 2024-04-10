@@ -13,6 +13,7 @@ import { routes } from "@/utils/routes";
 import { useToast } from "@chakra-ui/react";
 import Axios, { CancelTokenSource } from "axios";
 import { cloneDeep, debounce, isEqual } from "lodash";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilStateLoadable, useRecoilValueLoadable } from "recoil";
 interface MaxValues {
@@ -36,7 +37,7 @@ const useUpdateCart = () => {
     const [tempCart, setTempCart] = useState<Cart>();
     const listFoodIdsRef = useRef<string[]>([]);
     const [maxQtyValues, setMaxQtyValues] = useState<MaxValues>({});
-
+    const t = useTranslations("COMMON.CART");
     const toast = useToast();
 
     const customerId = useAppSelector((state) => state.userInfo.userInfo?.customer_id);
@@ -53,8 +54,8 @@ const useUpdateCart = () => {
             if (cartItem?.restaurant_id != rawCart?.restaurant_id && rawCart?.restaurant_id != undefined) {
                 //Show Dialog Clear Current Cart
                 const result = await dialogRef.current?.show({
-                    title: "Bạn muốn đặt món ở nhà hàng này?",
-                    message: "Chuyện nhỏ! Nhưng những món bạn đã chọn từ nhà hàng trước sẽ bị xóa khỏi giỏ hàng nhé!",
+                    title: t("RESTAURANT_CHANGE"),
+                    message: t("RESTAURANT_CHANGE_MESSAGE"),
                     positive: {
                         onClick: async () => {
                             cartInfo = [];
@@ -73,45 +74,66 @@ const useUpdateCart = () => {
             };
             setCart(newCart);
         },
-        [rawCart, setCart],
+        [rawCart, setCart, t],
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleQuickAdd = useCallback(
         debounce(
-            async (id?: number, name?: string) => {
-                if (!isLoggedIn()) {
-                    loginSuccessUrl.current = window.location.pathname;
-                    store.dispatch(setErrorScreenDes(routes.SignIn));
-                }
-                const _customerId = rawCart?.customer_id || customerId;
-                if (!id || !_customerId) return;
-                setLoading(true);
-                await apiServices
-                    .quickAddCart({
-                        customer_id: Number(_customerId),
-                        menu_item_id: id,
-                    })
-                    .then((res) => {
-                        if (res.data) {
-                            setCart((prev) => ({ ...prev, ...res.data, cartUpdate: undefined }));
-                            toast({
-                                title: "Cập nhật giỏ hàng",
-                                description: `Đã thêm ${name} vào giỏ hàng`,
-                                status: "success",
-                                duration: 4000,
-                                position: "top",
-                                isClosable: true,
-                            });
+            async (id?: number, name?: string, restaurant_id?: number | string) => {
+                try {
+                    if (!isLoggedIn()) {
+                        loginSuccessUrl.current = window.location.pathname;
+                        store.dispatch(setErrorScreenDes(routes.SignIn));
+                    }
+                    const _customerId = rawCart?.customer_id || customerId;
+                    if (!id || !_customerId) return;
+                    setLoading(true);
+                    if (restaurant_id != rawCart?.restaurant_id && rawCart?.restaurant_id != undefined) {
+                        //Show Dialog Clear Current Cart
+                        const result = await dialogRef.current?.show({
+                            title: t("RESTAURANT_CHANGE"),
+                            message: t("RESTAURANT_CHANGE_MESSAGE"),
+                            positive: {},
+                        });
+                        if (!result || !_customerId) {
+                            setLoading(false);
+                            return;
                         }
-                    })
-                    .finally(() => {
-                        setLoading(false);
-                    });
+                        await apiServices.deleteWholdCart({ customerId: _customerId });
+                    }
+
+                    await apiServices
+                        .quickAddCart({
+                            customer_id: Number(_customerId),
+                            menu_item_id: id,
+                        })
+                        .then((res) => {
+                            if (res.data) {
+                                setCart((prev) => ({
+                                    ...prev,
+                                    ...res.data,
+                                    restaurant_id: res.data.restaurant_id,
+                                    cartUpdate: undefined,
+                                }));
+                                toast({
+                                    title: "Cập nhật giỏ hàng",
+                                    description: `Đã thêm ${name} vào giỏ hàng`,
+                                    status: "success",
+                                    duration: 4000,
+                                    position: "top",
+                                    isClosable: true,
+                                });
+                            }
+                        });
+                    setLoading(false);
+                } catch {
+                    setLoading(false);
+                }
             },
             1000,
             { leading: true },
         ),
-        [],
+        [JSON.stringify(rawCart)],
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleChangeCartQuantity = useCallback(

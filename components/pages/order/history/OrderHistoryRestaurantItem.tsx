@@ -3,10 +3,12 @@ import GroupWrapper from "@/components/pages/confirm/GroupWrapper";
 import { GroupStars } from "@/components/pages/landing-page/testimonial";
 import useRenderText from "@/hooks/useRenderText";
 import { OrderStatusLogType, PaymentMethod } from "@/types/enum";
+import { OrderItem } from "@/types/order";
 import { HistoricalOrderByRestaurant } from "@/types/response/GetHistoryOrderResponse";
+import { RestaurantInfo } from "@/types/response/base";
 import { ddMMyyyy } from "@/utils/constants";
 import { formatDate } from "@/utils/date";
-import { getOrderStatusLog, isNullOrEmpty } from "@/utils/functions";
+import { formatMoney, getOrderStatusLog, isNullOrEmpty } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { Button, HStack, Img, Stack, Text, VStack, Wrap, WrapItem } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
@@ -15,9 +17,10 @@ import { useMemo } from "react";
 
 interface Props {
     orderInfo?: HistoricalOrderByRestaurant;
+    handleReorder: (orderItems?: OrderItem[], restaurant?: RestaurantInfo) => void;
 }
 
-const OrderHistoryRestaurantItem = ({ orderInfo }: Props) => {
+const OrderHistoryRestaurantItem = ({ orderInfo, handleReorder }: Props) => {
     const t = useTranslations("ORDER_HISTORY.HISTORY_ITEM");
     const tMileston = useTranslations("ORDER_DETAIL.ORDER_CONFIRMATION.MD");
     const { renderTxt } = useRenderText();
@@ -25,10 +28,6 @@ const OrderHistoryRestaurantItem = ({ orderInfo }: Props) => {
 
     const handleViewDetail = () => {
         router.push(`${routes.OrderDetail}/${orderInfo?.order_id}`);
-    };
-
-    const handleReorder = () => {
-        // TODO
     };
 
     const handleViewRating = () => {
@@ -74,7 +73,6 @@ const OrderHistoryRestaurantItem = ({ orderInfo }: Props) => {
                     lineHeight={"2rem"}
                     w="100%"
                     justifyContent={"space-between"}
-                    borderBottom={"1px solid var(--gray-200)"}
                     p="1.6rem"
                     py-="0.8rem"
                 >
@@ -85,19 +83,25 @@ const OrderHistoryRestaurantItem = ({ orderInfo }: Props) => {
                     <Text fontSize="1.4rem" color="black">
                         {t("ORDER_DATE", {
                             time:
-                                orderStatusLog && orderStatusLog.dateTime
-                                    ? formatDate(Number(orderStatusLog.dateTime), ddMMyyyy)
+                                orderStatusLog && orderStatusLog.orderDate
+                                    ? formatDate(Number(orderStatusLog.orderDate), ddMMyyyy)
                                     : "-",
                         })}
                     </Text>
                 </HStack>
             }
             py="1.6rem"
+            px="0"
             contentProps={{
                 flexDirection: "column",
             }}
         >
-            <VStack w="100%" p="1.6rem 2.4rem" borderBottom={"1px solid var(--gray-200)"}>
+            <VStack
+                w="100%"
+                p="1.6rem 2.4rem"
+                borderTop={"1px solid var(--gray-200)"}
+                borderBottom={"1px solid var(--gray-200)"}
+            >
                 <Stack
                     direction={{ base: "column", md: "row" }}
                     w="100%"
@@ -112,7 +116,7 @@ const OrderHistoryRestaurantItem = ({ orderInfo }: Props) => {
                                 {renderTxt(restaurantInfo?.restaurant_name)}
                             </Text>
                             <Text variant="ellipse" color="var(--gray-900)" fontWeight="bold" fontSize="1.6rem">
-                                {orderInfo?.order_total?.toLocaleString()}đ
+                                {formatMoney(orderInfo?.order_total)}
                             </Text>
                         </HStack>
                         <Text as="span" color="var(--gray-600)" fontSize={"1.2rem"} fontWeight={"400"}>
@@ -171,7 +175,10 @@ const OrderHistoryRestaurantItem = ({ orderInfo }: Props) => {
                                 <Text>{t("RATING")}</Text>
                             </Button>
                         )}
-                    <Button variant={"outlineWhite"} onClick={handleReorder}>
+                    <Button
+                        variant={"outlineWhite"}
+                        onClick={() => handleReorder(orderInfo?.order_items, orderInfo?.restaurant_info)}
+                    >
                         <Text>{t("REORDER")}</Text>
                     </Button>
                     <Button variant={"outlineWhite"} onClick={handleViewDetail}>

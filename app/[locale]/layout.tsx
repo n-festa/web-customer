@@ -7,11 +7,12 @@ import Header from "@/components/organism/header";
 import { quicksand } from "@/theme/fonts";
 import { Box, ColorModeScript, Flex, theme } from "@chakra-ui/react";
 import { Viewport } from "next";
-import { NextIntlClientProvider } from "next-intl";
+import { useMessages } from "next-intl";
 import React from "react";
 import "../../assets/css/bootstrap.min.css";
 import "../../assets/css/global.css";
 import "../../assets/css/style.css";
+import ProviderInlt from "./providerInlt";
 import { Providers } from "./providers";
 
 export const metadata = {
@@ -34,15 +35,14 @@ interface LayoutProps {
     };
 }
 
-export default async function RootLayout({ children, params: { locale } }: LayoutProps) {
-    const messages = {
-        ...(await import(`@/messages/${locale}.json`)).default,
-    };
+export default function RootLayout({ children, params: { locale } }: LayoutProps) {
+    const messages = useMessages();
+
     return (
         <html suppressHydrationWarning lang={locale}>
             <body suppressHydrationWarning className={`${quicksand.className}`}>
                 <ColorModeScript initialColorMode={theme.config?.initialColorMode} />
-                <NextIntlClientProvider locale={locale} messages={messages}>
+                <ProviderInlt locale={locale} messages={messages}>
                     <Providers>
                         <Flex
                             pos="absolute"
@@ -61,7 +61,7 @@ export default async function RootLayout({ children, params: { locale } }: Layou
                             <Loading />
                         </Flex>
                     </Providers>
-                </NextIntlClientProvider>
+                </ProviderInlt>
             </body>
         </html>
     );

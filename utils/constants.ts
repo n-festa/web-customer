@@ -10,6 +10,8 @@ export const storageKeys = {
     userProfile: "userProfile",
 };
 
+export const DEFAULT_ORIGINAL_VALUE = "-1";
+
 export const RestaurantOtherFilterOptions = [{ key: FoodOtherFilterOptionsKeys.GT4Star, name: "> 4 Sao" }];
 
 export const DefaultTasteOption = "7";
@@ -22,6 +24,10 @@ export const OtherCustomization = "OtherCustomization";
 
 export const YYYYMMDD = "yyyy-MM-dd";
 export const YYYYMMDDHHmm = "yyyy-MM-dd HH:mm";
+export const YYYYMMDDhhmma = "yyyy-MM-dd hh:mm a";
+
+export const hhmma = "hh:mm a";
+
 export const HHmm = "HH:mm";
 export const yyyMMdd = "yyyy/MM/dd";
 export const ddMMyyyy = "dd/MM/yyyy";

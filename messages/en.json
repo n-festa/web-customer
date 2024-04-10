@@ -1,9 +1,21 @@
 {
     "COMMON": {
+        "CART": {
+            "REMOVE_CART": " Remove from cart",
+            "CONFIRM_REMOVE": "Do you want to remove this item from your cart?",
+            "CANCEL": "Cancel",
+            "CONFIRM": "Confirm",
+            "REMOVE_ALL": "Clear cart",
+            "REORDER_MESSAGE": "Before placing another order, you need to clear your current cart",
+            "RESTAURANT_CHANGE": "Want to order food at this restaurant?",
+            "RESTAURANT_CHANGE_MESSAGE": "No problem! However, the items you've previously selected from the restaurant will be removed from your cart"
+        },
         "ERROR": {
             "ERROR_TITLE": "Something went wrong!",
             "BACK_TO_HOME": "Back to home",
-            "API_REQUEST_FAIL": "Cannot connect to server"
+            "API_REQUEST_FAIL": "Cannot connect to server",
+            "BAD_REQUEST": "Bad request",
+            "SYSTEM_ERROR": "System error"
         },
         "SEE_MORE": "...... see more",
         "SEE_LESS": "...... see less",
@@ -33,6 +45,7 @@
         "FOOD": "Food",
         "RESTAURANT": "Restaurant",
         "SORT": "Sort by",
+        "RELEVANCE": "Recently",
         "PRICE_ASCENDING": "Price ascending",
         "PRICE_DESCENDING": "Price descending",
         "DELIVER_TO": "Deliver to",
@@ -323,7 +336,8 @@
             "I_WANT_TO_PRE_ORDER": "I want to pre-oder.",
             "I_WANT_TO_GET_IT_NOW": "I want to get it now.",
             "PLACE_ORDER_BEFORE": "You need to order before {time} to custom the original tastes",
-            "RECEIVE_FOOD_NOTE": "Your food will be received after {date} to customize the original tastes."
+            "RECEIVE_FOOD_NOTE": "Your food will be received after {date} to customize the original tastes.",
+            "ORIGINAL": "Original"
         },
         "PRODUCT_INFO": {
             "QUANTITY_AVAILABLE": "{number} available",
@@ -355,7 +369,8 @@
             "APPLY": "Apply",
             "ENTER_PROMO_CODE": "Enter the code",
             "APPLY_FAIL": "The discount code application failed.\r\nThe order must be greater than the {value}.",
-            "MINIMUM_DESC": "The order must be greater than the {value."
+            "MINIMUM_DESC": "The order must be greater than the {value.",
+            "NO_PROMO": "There are no applicable promo codes for this order"
         },
         "PAYMENT_GROUP": {
             "PAYMENT": "Bill Detail",

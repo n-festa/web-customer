@@ -8,6 +8,12 @@ export enum SortOrder {
     DESC = "desc",
 }
 
+export enum SortOrderFood {
+    RELEVANCE = "RELEVANCE",
+    PRICE_ASC = "PRICE_ASC",
+    PRICE_DESC = "PRICE_DESC",
+}
+
 export enum SortOrderHistory {
     DATE_ASC = "DATE_ASC",
     DATE_DESC = "DATE_DESC",
@@ -21,9 +27,9 @@ export enum FetchMode {
 }
 
 export enum FoodOtherFilterOptionsKeys {
-    GT4Star = "greater-than-4-star",
-    Vegetarian = "vegetarian",
-    LT500Kcal = "less-than-500-kcal",
+    GT4Star = "FROM_4STAR",
+    Vegetarian = "VEG",
+    LT500Kcal = "UPTO_500KCAL",
 }
 
 export enum KeyPress {

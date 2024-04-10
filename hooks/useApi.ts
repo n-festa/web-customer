@@ -20,6 +20,16 @@ const useSWRAPI = () => {
             refreshWhenHidden: false,
             refreshInterval: 0,
             onErrorRetry(_err, _key, _config, revalidate, revalidateOpts) {
+                const errorStatus = Number(_err?.error?.response?.status);
+                if (errorStatus == 400 || errorStatus == 500) {
+                    if (!dialogRef.current?.state.show) {
+                        dialogRef.current?.show({
+                            message: errorStatus === 400 ? t("ERROR.BAD_REQUEST") : t("ERROR.SYSTEM_ERROR"),
+                            title: t("ERROR.ERROR_TITLE"),
+                        });
+                    }
+                    return;
+                }
                 if (revalidateOpts.retryCount < MAX_RETRY_NUMBER) {
                     setTimeout(() => {
                         revalidate(revalidateOpts);
@@ -133,7 +143,7 @@ const useSWRAPI = () => {
             config?: SWRConfiguration,
         ) =>
             useSWR(
-                params?.itemTotal ? `getApplicationFee${params.itemTotal}_${params.exchangeRate}` : undefined,
+                params?.itemTotal > 0 ? `getApplicationFee${params.itemTotal}_${params.exchangeRate}` : undefined,
                 async () => apiServices.getApplicationFee(params),
                 {
                     ...swrConfig,

@@ -4,7 +4,13 @@ import WraperInfo from "@/components/molecules/WraperInfo";
 import useRenderText from "@/hooks/useRenderText";
 import { filedType, formType } from "@/types/form";
 import { FoodDetailDto } from "@/types/response/FoodResponse";
-import { DefaultOtherOption, OtherCustomization, PortionCustomization, TasteCustomization } from "@/utils/constants";
+import {
+    DEFAULT_ORIGINAL_VALUE,
+    DefaultOtherOption,
+    OtherCustomization,
+    PortionCustomization,
+    TasteCustomization,
+} from "@/utils/constants";
 import { formatDate } from "@/utils/date";
 import { calcCutoffTime } from "@/utils/functions";
 import { FormControl, Grid, GridItem, HStack, Skeleton, Stack, Switch, Text, Textarea, VStack } from "@chakra-ui/react";
@@ -39,9 +45,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
             const tasteCustomizationObj = info?.taste_customization.reduce(
                 (prev, curr) => ({
                     ...prev,
-                    [`${TasteCustomization}-${curr.option_id}`]:
-                        curr.option_values?.find((item) => item.is_default)?.value_id ??
-                        curr.option_values?.[0].value_id,
+                    [`${TasteCustomization}-${curr.option_id}`]: DEFAULT_ORIGINAL_VALUE,
                 }),
                 {},
             );
@@ -75,7 +79,10 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
         const time = calcCutoffTime(info?.cutoff_time_m);
         const distance = time ? differenceInCalendarDays(time, new Date()) : 0;
 
-        if (!time) return {};
+        if (!time) {
+            setDisableTasteCustomize(false);
+            return {};
+        }
         return distance < 1
             ? { time: formatDate(time, "HH:mm"), receiveTime: t("TODAY") }
             : {
@@ -99,11 +106,11 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                 <Skeleton isLoaded={false} />
             ) : (
                 <Formik
+                    onSubmit={() => {
+                        //
+                    }}
                     initialValues={initFormData}
                     key={JSON.stringify(initFormData)}
-                    onSubmit={() => {
-                        // console.log(values);
-                    }}
                     onKeyPress={(e: { key: string; preventDefault: () => void }) => {
                         if (e.key === "Enter") {
                             e.preventDefault();
@@ -228,6 +235,10 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
                                                                 name: renderTxt(option.value_txt),
                                                                 value: option.value_id,
                                                             }));
+                                                        options.unshift({
+                                                            name: t("ORIGINAL"),
+                                                            value: DEFAULT_ORIGINAL_VALUE,
+                                                        });
                                                         return (
                                                             <FormControl>
                                                                 <Stack direction={{ base: "column", md: "row" }}>

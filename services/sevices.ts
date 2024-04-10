@@ -277,7 +277,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
 
         searchFoodByName: (params: SearchFoodByNameRequest) => {
             return this.request<SearchFoodByNameResponse>({
-                path: "/food/search-by-name",
+                path: "/food/search",
                 method: "POST",
                 body: params,
             });
@@ -497,7 +497,6 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             });
         },
         uploadImagePost: (data: { file: File | undefined }) => {
-            console.log("fileeData:", data);
             return this.request({
                 path: `uploadImage`,
                 method: "POST",

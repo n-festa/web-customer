@@ -38,6 +38,7 @@ const OrderHistoryPage = () => {
         onChangeFilterCondition,
     } = useOrderHistory();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const onChangeSearchKey = useCallback(
         debounce((value?: string) => {
             onChangeFilterCondition({

@@ -83,7 +83,7 @@ const useFoodDetail = () => {
                 });
             }
         },
-        [foodInfo.listSKUs, t, toast],
+        [foodInfo.listSKUs, portions, t, toast],
     );
 
     useEffect(() => {
