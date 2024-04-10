@@ -47,11 +47,11 @@ const useOrderHistory = () => {
         condition: {
             type: FilterType.Restaurant,
             [FilterType.Food]: {
-                sortType: SortOrderHistory.DATE_ASC,
+                sortType: SortOrderHistory.DATE_DESC,
                 orderStatus: FilterOrderStatuType.ALL,
             },
             [FilterType.Restaurant]: {
-                sortType: SortOrderHistory.DATE_ASC,
+                sortType: SortOrderHistory.DATE_DESC,
 
                 orderStatus: FilterOrderStatuType.ALL,
             },
@@ -247,7 +247,7 @@ const useOrderHistory = () => {
                     const values = JSON.parse(storageState) as HistoryFilterCondition;
 
                     const foodRange = values?.[FilterType.Food]?.timeRange;
-                    const restaurantRange = values?.[FilterType.Food]?.timeRange;
+                    const restaurantRange = values?.[FilterType.Restaurant]?.timeRange;
                     const foodRangeTime = foodRange
                         ? {
                               from: new Date(String(foodRange.from)),

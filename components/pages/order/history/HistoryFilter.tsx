@@ -83,7 +83,7 @@ const HistoryFilter = ({ condition, onChangeType, onChangeFilterCondition }: Pro
                     placeholder=""
                     w="16rem"
                     variant={"filter"}
-                    defaultValue={options.sortType}
+                    value={options.sortType}
                     onChange={(e) => {
                         onChangeFilterCondition({
                             type: condition.type,
@@ -147,13 +147,6 @@ const HistoryFilter = ({ condition, onChangeType, onChangeFilterCondition }: Pro
                         <DayPicker mode="range" selected={range} onSelect={setRange} defaultMonth={new Date()} />
                     </PopoverContent>
                 </Popover>
-            </WrapItem>
-
-            <WrapItem>
-                <Select placeholder="" w="14rem" variant={"filter"} defaultValue={"1"}>
-                    <option value={"1"}>{t("ALL_LABELS")}</option>
-                    <option value={"2"}>{t("FAVORITES")}</option>
-                </Select>
             </WrapItem>
         </Wrap>
     );
