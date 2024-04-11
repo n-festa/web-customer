@@ -130,13 +130,11 @@ const OrderDetail = () => {
                         cutleryFee={orderDetail?.cutlery_fee}
                         promotion={orderDetail?.coupon_value}
                     />
-                    {!orderDetail?.cutlery_fee && (
-                        <GroupWrapper titleFontSize="2rem" title={t("PACKAGING")}>
-                            <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">
-                                {!orderDetail?.cutlery_fee && <Text>{t("NO_UTENSILS_NEEDED")}</Text>}
-                            </VStack>
-                        </GroupWrapper>
-                    )}
+                    <GroupWrapper titleFontSize="2rem" title={t("PACKAGING")}>
+                        <VStack alignItems="flex-start" fontSize="1.6rem" spacing="0.8rem" mt="0.8rem">
+                            <Text>{t(orderDetail?.cutlery_fee ? "HAVING_EATING_UTENSILS" : "NO_UTENSILS_NEEDED")}</Text>
+                        </VStack>
+                    </GroupWrapper>
                     {orderDetail?.payment_method && (
                         <GroupWrapper titleFontSize="2rem" title={t("PAYMENT_METHOD")}>
                             <Text lineHeight="4rem" fontSize="1.6rem" mt="0.8rem">

@@ -408,7 +408,7 @@
         "ADD_PHOTO": "Insert images",
         "SUBMIT_REVIEW": "Send",
         "VERY_SATISFIED": "Excellent",
-        "RATING_LEVEL":{
+        "RATING_LEVEL": {
             "VERY_SATISFIED": "Excellent",
             "GOOD": "Good",
             "NORMAL": "Average",
@@ -426,6 +426,7 @@
         "FOR_DRIVER_NOTE": "Note for driver:",
         "SUGARCANE_BOX": "Packaged in a sugarcane pulp box",
         "NO_UTENSILS_NEEDED": "Do not take cutlery",
+        "HAVING_EATING_UTENSILS": "Having cutlery",
         "PAYMENT_METHOD": "Payment",
         "PAID_WITH": "Paid via {method}",
         "DELIVER_TO": "Deliver to",
