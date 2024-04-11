@@ -94,11 +94,14 @@ const GroupStepperProgress = ({
                 }
             }
         });
-        const _step = Object.values(defaultStatusLogs).sort((a, b) => {
-            if (a.isDefault) return 1;
-            if (b.isDefault) return -1;
-            return 0;
-        });
+        const _step = Object.values(defaultStatusLogs)
+            .sort((a, b) => {
+                if (a.isDefault) return 1;
+                if (b.isDefault) return -1;
+                return 0;
+            })
+            .filter((item) => !item.isDefault);
+
         if (isStuck) {
             activeIndex = 1;
         }
