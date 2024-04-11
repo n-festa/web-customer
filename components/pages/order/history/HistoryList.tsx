@@ -97,11 +97,21 @@ const HistoryList = ({ histories, isLoading, type }: Props) => {
                     onClick: async () => {
                         dispatch(setGlobalLoading(true));
 
-                        handleDeleteWholeCart(profile?.customer_id).then(async () => {
-                            await sleep(500);
-                            await handleAddToCart(items, restaurant);
-                            dispatch(setGlobalLoading(false));
-                        });
+                        handleDeleteWholeCart(profile?.customer_id)
+                            .then(async () => {
+                                try {
+                                    await sleep(500);
+                                    await handleAddToCart(items, restaurant);
+                                    dispatch(setGlobalLoading(false));
+                                } catch {
+                                    //TODO
+                                    dispatch(setGlobalLoading(false));
+                                }
+                            })
+                            .catch(() => {
+                                //TODO
+                                dispatch(setGlobalLoading(false));
+                            });
                     },
                 },
             });

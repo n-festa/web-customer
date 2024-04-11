@@ -49,7 +49,12 @@ const useUpdateCart = () => {
             }
 
             let cartInfo = cloneDeep(rawCart?.cart_info ?? []);
-            if (cartItem?.restaurant_id != rawCart?.restaurant_id && rawCart?.restaurant_id != undefined) {
+            if (
+                (cartItem?.restaurant_id != rawCart?.restaurant_id &&
+                    rawCart?.restaurant_id != undefined &&
+                    rawCart?.cart_info?.length) ??
+                0 > 0
+            ) {
                 //Show Dialog Clear Current Cart
                 const result = await dialogRef.current?.show({
                     title: t("RESTAURANT_CHANGE"),
