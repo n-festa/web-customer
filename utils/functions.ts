@@ -213,3 +213,14 @@ export const getOrderStatusLog = (statusLog: OrderStatusLog[], t: any) => {
     }
     return;
 };
+
+export const getLocale = () => {
+    if (typeof window !== "undefined") {
+        const pathname = window.location.pathname;
+        const parts = pathname.split("/");
+        if (parts.length > 1) {
+            return parts[1];
+        }
+    }
+    return;
+};

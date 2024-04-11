@@ -1,6 +1,11 @@
 {
     "COMMON": {
         "CART": {
+            "UPDATE_CART": "Update cart",
+            "ADD_TO_CART_SUCCESS": "Added to cart",
+            "FAILED_UPDATE": "Failed to update the cart\r\n{message}",
+            "REORDER": "Re-order",
+            "FAILED_REORDER": "Failed to re-order",
             "ADDRESS_MISSING": "Missing delivery address",
             "ADDRESS_MISSING_MESSAGE": "Please return to the homepage and select a delivery address first",
             "BACK_TO_HOME": "Home",

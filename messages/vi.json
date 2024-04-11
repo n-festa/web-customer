@@ -1,6 +1,11 @@
 {
     "COMMON": {
         "CART": {
+            "UPDATE_CART": "Cập nhật giỏ hàng",
+            "ADD_TO_CART_SUCCESS": "Đã thêm vào giỏ hàng",
+            "FAILED_UPDATE": "Cập nhật giỏ hàng thất bại\r\n{message}",
+            "REORDER": "Mua lại",
+            "FAILED_REORDER": "Mua lại không thành công",
             "ADDRESS_MISSING": "Thiếu địa chỉ giao hàng",
             "ADDRESS_MISSING_MESSAGE": "Vui lòng trở lại trang chủ, và chọn địa chỉ giao hàng trước",
             "BACK_TO_HOME": "Trang chủ",

@@ -21,9 +21,9 @@ import { sleep } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { createRef, useMemo } from "react";
 import { useDispatch } from "react-redux";
-
+export const errorReOrder: React.MutableRefObject<string | null> = createRef();
 interface Props {
     histories: {
         food?: GetHistoryOrderByFoodResponse;
@@ -70,6 +70,10 @@ const HistoryList = ({ histories, isLoading, type }: Props) => {
             await sleep(500);
         }
         dispatch(setGlobalLoading(false));
+        if (errorReOrder.current) {
+            errorReOrder.current = null;
+            return;
+        }
         router.push(routes.ConfirmOrder);
     };
     const handleReorder = async (items: (OrderItem | undefined)[] = [], restaurant?: RestaurantInfo) => {
