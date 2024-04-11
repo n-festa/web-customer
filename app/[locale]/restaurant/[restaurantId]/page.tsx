@@ -63,7 +63,6 @@ const RestaurantDetailPage = () => {
                         minW="fit-content"
                         border="1px solid var(--gray-300)"
                         w={{ xl: "42.6rem", base: "35rem" }}
-                        restaurant_id={Number(restaurantId)}
                         ignoreAuthError={true}
                     />
                 </Box>
