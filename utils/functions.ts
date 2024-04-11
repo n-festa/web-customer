@@ -54,7 +54,6 @@ export const createQueryString = (queries: { name: string; value: string }[]) =>
 
 export const isLoggedIn = () => {
     const token = getToken();
-    console.log("TOKEN", token);
     if (token) {
         return true;
     }

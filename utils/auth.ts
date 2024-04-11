@@ -8,6 +8,7 @@ import { routes } from "./routes";
 interface CookieConfig {
     auth_token_key: string;
     auth_refresh_token: string;
+    auth_id: string;
 }
 
 const { cookieConfig }: { cookieConfig: CookieConfig } = config;
@@ -19,18 +20,22 @@ function getToken(): string | undefined {
 
 function setToken(token: string, expires = 1): void {
     const domain = store.getState().navigation.domain;
-    console.log("domain", domain);
     Cookies.set(cookieConfig.auth_token_key, token, { expires, domain: domain });
 }
 
 function removeToken(): void {
     const domain = store.getState().navigation.domain;
-    console.log("remove domain", domain);
-    try {
-        Cookies.remove(cookieConfig.auth_token_key, { domain: domain });
-    } catch (e) {
-        console.log("EEEE", e);
-    }
+    Cookies.remove(cookieConfig.auth_token_key, { domain: domain });
+}
+
+function setAuthId(value?: string | number) {
+    if (!value) return;
+    const domain = store.getState().navigation.domain;
+    Cookies.set(cookieConfig.auth_id, String(value), { domain: domain });
+}
+
+function getAuthId(): string | undefined {
+    return Cookies.get(cookieConfig.auth_id);
 }
 // Refresh token
 function getTokenRefresh(): string | undefined {
@@ -44,28 +49,28 @@ function setTokenRefresh(token: string, expires = 1): void {
 
 function removeTokenRefresh(): void {
     const domain = store.getState().navigation.domain;
-    console.log("removeTokenRefresh domain", domain);
-    try {
-        Cookies.remove(cookieConfig.auth_refresh_token, { domain });
-    } catch (e) {
-        console.log("EEEE", e);
-    }
+
+    Cookies.remove(cookieConfig.auth_refresh_token, { domain });
+    Cookies.remove(cookieConfig.auth_id, { domain: domain });
 }
 
 const logout = (pathname: string) => {
-    try {
-        console.log("LOGOUT___");
-
-        removeToken();
-        removeTokenRefresh();
-        console.log("LOGOUT____AFTER CLEAR");
-        store.dispatch(clearKeepAddress());
-        if (pathname.includes("/order") || pathname.includes(routes.Profile)) {
-            store.dispatch(setErrorScreenDes(routes.Home));
-        }
-    } catch (e) {
-        console.log("eee");
+    removeToken();
+    removeTokenRefresh();
+    store.dispatch(clearKeepAddress());
+    if (pathname.includes("/order") || pathname.includes(routes.Profile)) {
+        store.dispatch(setErrorScreenDes(routes.Home));
     }
 };
 
-export { getToken, getTokenRefresh, logout, removeToken, removeTokenRefresh, setToken, setTokenRefresh };
+export {
+    getAuthId,
+    getToken,
+    getTokenRefresh,
+    logout,
+    removeToken,
+    removeTokenRefresh,
+    setAuthId,
+    setToken,
+    setTokenRefresh,
+};
