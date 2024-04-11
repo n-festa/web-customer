@@ -74,7 +74,7 @@ export const calcCutoffTime = (cutoffTime?: number) => {
     if (cutoffTime > 0) {
         const target = addHours(anchor, anchorTime);
         if (compareAsc(currentTime, target) < 0) {
-            return;
+            return null;
         }
         return target;
     }

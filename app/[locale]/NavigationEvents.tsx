@@ -18,8 +18,8 @@ export function NavigationEvents() {
 
     //Get domain
     useEffect(() => {
-        const domain = window ? window.location.hostname.replace("www.", "") : undefined;
-        dispatch(setDomain(domain));
+        const domain = window ? window.location.hostname.replace("www.", ".") : undefined;
+        dispatch(setDomain(domain?.startsWith(".") ? domain : `.${domain}`));
     }, [dispatch]);
 
     useEffect(() => {

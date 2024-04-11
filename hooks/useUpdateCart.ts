@@ -263,7 +263,6 @@ const useUpdateCart = () => {
         loading,
         maxQtyValues,
         tempCart,
-
         setTempCart,
         handleChangeCartQuantity,
         handleChangeQtyRaw,

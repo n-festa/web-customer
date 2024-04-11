@@ -19,11 +19,13 @@ function getToken(): string | undefined {
 
 function setToken(token: string, expires = 1): void {
     const domain = store.getState().navigation.domain;
+    console.log("domain", domain);
     Cookies.set(cookieConfig.auth_token_key, token, { expires, domain: domain });
 }
 
 function removeToken(): void {
     const domain = store.getState().navigation.domain;
+    console.log("remove domain", domain);
     Cookies.remove(cookieConfig.auth_token_key, { domain: domain });
 }
 // Refresh token
