@@ -25,8 +25,9 @@ const ErrorStep = [OrderStatusLogType.FAILED, OrderStatusLogType.CANCELLED];
 const GroupStepperProgress = ({
     orderStatus,
     isLoading,
+    expectedTime,
     ...props
-}: FlexProps & { isLoading: boolean; orderStatus: OrderStatusLog[] }) => {
+}: FlexProps & { expectedTime?: string | number; isLoading: boolean; orderStatus: OrderStatusLog[] }) => {
     const t = useTranslations("ORDER_DETAIL.ORDER_CONFIRMATION");
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const bp =
@@ -55,7 +56,12 @@ const GroupStepperProgress = ({
             [OrderStatusLogType.PICKED_UP]: { description: t(`${bp}.PICKED_UP`), time: ``, isDefault: true },
             [OrderStatusLogType.COMPLETED]: {
                 description: t(`${bp}.COMPLETED`),
-                time: ``,
+                time: expectedTime
+                    ? formatDate(
+                          Number(expectedTime),
+                          isToday(expectedTime) ? hhmma : bp === "BASE" ? YYYYMMDDHHmm : YYYYMMDDhhmma,
+                      )
+                    : ``,
                 isCompleted: true,
                 isDefault: true,
             },

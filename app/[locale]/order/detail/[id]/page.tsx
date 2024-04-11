@@ -48,7 +48,11 @@ const OrderDetail = () => {
             flexDir="column"
             overflow="hidden"
         >
-            <GroupStepperProgress isLoading={isLoading} orderStatus={orderDetail?.order_status_log ?? []} />
+            <GroupStepperProgress
+                expectedTime={orderDetail?.expected_arrival_time}
+                isLoading={isLoading}
+                orderStatus={orderDetail?.order_status_log ?? []}
+            />
             <Flex
                 gap="1.6rem"
                 flex={1}
