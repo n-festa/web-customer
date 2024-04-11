@@ -184,12 +184,13 @@ const useUpdateCart = () => {
         [],
     );
     const totalPrice = useMemo(() => {
-        const _cart = tempCart ?? rawCart;
+        const _cart = tempCart ?? cartSync;
         const totalPrice =
             _cart?.cart_info?.reduce?.((prev, cur) => prev + cur.qty_ordered * (cur.price_after_discount ?? 0), 0) ??
             -1;
         return totalPrice;
-    }, [rawCart, tempCart]);
+    }, [cartSync, tempCart]);
+
     useEffect(() => {
         const listFoodIds = cartSync?.cart_info?.map((item) => String(item.item_id)) ?? [];
 
