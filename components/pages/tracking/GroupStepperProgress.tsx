@@ -94,13 +94,19 @@ const GroupStepperProgress = ({
                 }
             }
         });
+        let isDone = false;
         const _step = Object.values(defaultStatusLogs)
             .sort((a, b) => {
                 if (a.isDefault) return 1;
                 if (b.isDefault) return -1;
                 return 0;
             })
-            .filter((item) => !item.isDefault);
+            .filter((item) => {
+                if (item.isError) {
+                    isDone = true;
+                }
+                return isDone ? !item.isDefault : true;
+            });
 
         if (isStuck) {
             activeIndex = 1;
