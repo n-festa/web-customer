@@ -1,9 +1,11 @@
 import { DriverType, OrderType } from "@/hooks/usePostReview";
+import { evaluateLevel } from "@/utils/constants";
 import { Box, Flex, Img, Input, Text, Textarea } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import UIRating from "./UIRating";
 interface ReviewDetailItemProps {
+    placeholder: string;
     title: string;
     iconTitle: string;
     order?: OrderType;
@@ -12,6 +14,7 @@ interface ReviewDetailItemProps {
     onChangeDriver?: (key: "score" | "remarks" | "img_blobs", value: string | number | Blob[]) => void;
 }
 const ReviewDetailItem = ({
+    placeholder,
     title,
     iconTitle,
     order,
@@ -20,8 +23,10 @@ const ReviewDetailItem = ({
     driver,
 }: ReviewDetailItemProps) => {
     const t = useTranslations("REVIEW");
+    const ratingMode: { [key: number]: string } = evaluateLevel(t);
     const [listImage, setListImage] = useState<string[]>([]);
     const [listImageUpload, setListImageUpload] = useState<File[]>([]);
+    const [rating, setRating] = useState<number>(0);
     const handleUpload = (event: any) => {
         if (listImage.length >= 3) return;
         setListImage([...listImage, URL.createObjectURL(event.target.files[0])]);
@@ -60,10 +65,11 @@ const ReviewDetailItem = ({
                         onRatingChange={(value) => {
                             order && order.order_sku_id && onChangeOrders?.(order.order_sku_id, "score", value);
                             driver && onChangeDriver?.("score", value);
+                            setRating(value);
                         }}
                     />
                     <Text ml="0.4rem" fontSize="1.4rem" fontWeight="400">
-                        {t("VERY_SATISFIED")}
+                        {ratingMode[rating]}
                     </Text>
                 </Flex>
                 <Flex gap="1.6rem">
@@ -111,7 +117,7 @@ const ReviewDetailItem = ({
             <Box flex="1">
                 <Textarea
                     w="100%"
-                    placeholder={t("PLACEHOLDER_COMMENT")}
+                    placeholder={placeholder}
                     minH="12.8rem"
                     onChange={(e) => {
                         order && order.order_sku_id && onChangeOrders?.(order.order_sku_id, "remarks", e.target.value);

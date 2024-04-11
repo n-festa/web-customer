@@ -118,3 +118,12 @@ export const OrderStatusLogTypeColor: { [key: string]: string } = {
     [OrderStatusLogType.CREATED]: "#FEC84B",
     UNKOWN: "#F04438",
 };
+
+export const evaluateLevel = (t: any) => ({
+    0: "",
+    1: t("RATING_LEVEL.VERY_BAD") || "",
+    2: t("RATING_LEVEL.BAD") || "",
+    3: t("RATING_LEVEL.NORMAL") || "",
+    4: t("RATING_LEVEL.GOOD") || "",
+    5: t("RATING_LEVEL.VERY_SATISFIED") || "",
+});

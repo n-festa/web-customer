@@ -80,7 +80,7 @@ const usePostReview = () => {
             order_sku_id: order.order_sku_id ?? 0,
             score: order?.score ?? 0,
             remarks: order?.remarks ?? "",
-            img_urls: urlsImg,
+            img_urls: urlsImg ?? [],
         };
     };
 
@@ -88,7 +88,7 @@ const usePostReview = () => {
         let result;
 
         if (type === "quick") {
-            let urlsImg: string[] = [""];
+            let urlsImg: string[] = [];
             if (orderQuick.orders?.img_blobs) {
                 urlsImg = await handleUploadImage(orderQuick.orders.img_blobs);
                 setOderQuick((prev) => ({ ...prev, orders: { ...prev.orders, img_urls: urlsImg } }));
@@ -97,8 +97,8 @@ const usePostReview = () => {
                 return {
                     order_sku_id: orders[order].order_sku_id,
                     score: orderQuick.orders?.score ?? 0,
-                    remarks: remarkQuick.join(", ") + orderQuick.orders?.remarks ?? "",
-                    img_urls: urlsImg ?? [""],
+                    remarks: `${remarkQuick.join(", ")} ${orderQuick.orders?.remarks ?? ""}`,
+                    img_urls: urlsImg ?? [],
                 };
             });
             result = {
@@ -107,13 +107,13 @@ const usePostReview = () => {
                 driver_review: {
                     ...orderQuick.driver,
                     remarks: "",
-                    img_urls: urlsImg ?? [""],
+                    img_urls: urlsImg ?? [],
                     score: orderQuick.driver?.score ?? 0,
                 },
                 food_reviews: foodReviews,
             };
         } else {
-            let urlsImg: string[] = [""];
+            let urlsImg: string[] = [];
             if (driver?.img_blobs) {
                 urlsImg = await handleUploadImage(driver.img_blobs);
                 setDriver((prev) => ({ ...prev, img_urls: urlsImg }));
@@ -126,7 +126,7 @@ const usePostReview = () => {
                     driver_id: driver?.driver_id,
                     score: driver?.score ?? 0,
                     remarks: driver?.remarks ?? "",
-                    img_urls: urlsImg,
+                    img_urls: urlsImg ?? [],
                 },
                 food_reviews: foodReviews,
             };
@@ -134,7 +134,7 @@ const usePostReview = () => {
         if (result) {
             try {
                 await apiServices.createReview(result);
-                router.push(routes.Home);
+                router.push(routes.OrderHistory);
             } catch (err) {
                 console.log(err);
             }

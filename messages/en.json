@@ -408,9 +408,15 @@
         "ADD_PHOTO": "Insert images",
         "SUBMIT_REVIEW": "Send",
         "VERY_SATISFIED": "Excellent",
+        "RATING_LEVEL":{
+            "VERY_SATISFIED": "Excellent",
+            "GOOD": "Good",
+            "NORMAL": "Average",
+            "BAD": "Poor",
+            "VERY_BAD": "Bad"
+        },
         "PLACEHOLDER_COMMENT": "Additional feedback about the driver",
-        "RATE_YAKITORI_FISH_NOODLES": "Feedback Mỳ Cá Cờ Sốt Yakitori",
-        "RATE_SUMMER_AVOCADO_SALAD": "Feedback Summer Avocado Salad",
+        "PLACEHOLDER_FOOD": "Additional feedback about the dish",
         "SHARE_FEEDBACK_PLACEHOLDER": "Please take a moment to share your thoughts on this service"
     },
     "ORDER_DETAIL": {

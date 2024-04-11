@@ -411,9 +411,15 @@
         "ADD_PHOTO": "Thêm ảnh",
         "SUBMIT_REVIEW": "Gửi đánh giá",
         "VERY_SATISFIED": "Rất hài lòng",
+        "RATING_LEVEL":{
+            "VERY_SATISFIED": "Rất hài lòng",
+            "GOOD": "Tốt",
+            "NORMAL": "Bình thường",
+            "BAD": "Tệ",
+            "VERY_BAD": "Quá tệ"
+        },
         "PLACEHOLDER_COMMENT": "Nhận xét thêm về tài xế...",
-        "RATE_YAKITORI_FISH_NOODLES": "Đánh giá Mỳ Cá Cờ Sốt Yakitori",
-        "RATE_SUMMER_AVOCADO_SALAD": "Đánh giá Summer Avocado Salad",
+        "PLACEHOLDER_FOOD": "Nhận xét thêm về tài xế...",
         "SHARE_FEEDBACK_PLACEHOLDER": "Hãy chia sẻ nhận xét cho dịch vụ này bạn nhé!"
     },
     "ORDER_DETAIL": {
