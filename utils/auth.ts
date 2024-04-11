@@ -26,7 +26,11 @@ function setToken(token: string, expires = 1): void {
 function removeToken(): void {
     const domain = store.getState().navigation.domain;
     console.log("remove domain", domain);
-    Cookies.remove(cookieConfig.auth_token_key, { domain: domain });
+    try {
+        Cookies.remove(cookieConfig.auth_token_key, { domain: domain });
+    } catch (e) {
+        console.log("EEEE", e);
+    }
 }
 // Refresh token
 function getTokenRefresh(): string | undefined {
@@ -44,11 +48,15 @@ function removeTokenRefresh(): void {
 }
 
 const logout = (pathname: string) => {
-    removeToken();
-    removeTokenRefresh();
-    store.dispatch(clearKeepAddress());
-    if (pathname.includes("/order") || pathname.includes(routes.Profile)) {
-        store.dispatch(setErrorScreenDes(routes.Home));
+    try {
+        removeToken();
+        removeTokenRefresh();
+        store.dispatch(clearKeepAddress());
+        if (pathname.includes("/order") || pathname.includes(routes.Profile)) {
+            store.dispatch(setErrorScreenDes(routes.Home));
+        }
+    } catch (e) {
+        console.log("eee");
     }
 };
 

@@ -2,6 +2,7 @@
 import { cartState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";
+import { isLoggedIn } from "@/utils/functions";
 import { useCallback, useEffect } from "react";
 import { useRecoilState } from "recoil";
 
@@ -21,7 +22,7 @@ const LoginEffect = () => {
         [setCart],
     );
     useEffect(() => {
-        if (customerId && cart?.customer_id != customerId) {
+        if (customerId && cart?.customer_id != customerId && isLoggedIn()) {
             getCart(customerId.toString());
         }
         if (!customerId) {
