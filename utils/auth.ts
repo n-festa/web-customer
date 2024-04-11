@@ -44,13 +44,21 @@ function setTokenRefresh(token: string, expires = 1): void {
 
 function removeTokenRefresh(): void {
     const domain = store.getState().navigation.domain;
-    Cookies.remove(cookieConfig.auth_refresh_token, { domain });
+    console.log("removeTokenRefresh domain", domain);
+    try {
+        Cookies.remove(cookieConfig.auth_refresh_token, { domain });
+    } catch (e) {
+        console.log("EEEE", e);
+    }
 }
 
 const logout = (pathname: string) => {
     try {
+        console.log("LOGOUT___");
+
         removeToken();
         removeTokenRefresh();
+        console.log("LOGOUT____AFTER CLEAR");
         store.dispatch(clearKeepAddress());
         if (pathname.includes("/order") || pathname.includes(routes.Profile)) {
             store.dispatch(setErrorScreenDes(routes.Home));
