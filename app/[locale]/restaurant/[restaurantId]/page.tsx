@@ -9,12 +9,11 @@ import useRestaurantDetail from "@/hooks/useRestaurantDetail";
 import { isNullOrEmpty } from "@/utils/functions";
 import { Box, Flex, HStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { useParams as useNextParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const RestaurantDetailPage = () => {
     const t = useTranslations();
-    const { restaurantId } = useNextParams();
     const router = useRouter();
     const path = usePathname();
     const {

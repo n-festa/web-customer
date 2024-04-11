@@ -1,4 +1,5 @@
 import { locationRef } from "@/app/[locale]/providers";
+import { getRenderText } from "@/hooks/useRenderText";
 import { store } from "@/store";
 import { clearPrevLoginUrl } from "@/store/reducers/navigationSlice";
 import { CartItem } from "@/types/cart";
@@ -137,9 +138,10 @@ export const genCartNote = (cartItem: CartItem | OrderItem) => {
     cartItem.portion_customization && mapString.push(cartItem.portion_customization);
     cartItem.advanced_taste_customization && mapString.push(cartItem.advanced_taste_customization);
     cartItem.basic_taste_customization && mapString.push(cartItem.basic_taste_customization);
+    cartItem.packaging_info && mapString.push(getRenderText(cartItem.packaging_info.name));
     cartItem.notes && mapString.push(cartItem.notes);
     //<portion> - <advanced> - <basic> - <note>
-    return mapString.join(" - ");
+    return mapString.filter((item) => item != "").join(" - ");
 };
 
 export const isNullOrEmpty = (value?: number | string | Date | null): value is null | undefined => {
