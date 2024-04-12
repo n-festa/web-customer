@@ -1,6 +1,7 @@
+import useFileSizeCheck from "@/hooks/useFileSizeCheck";
 import { DriverType, OrderType } from "@/hooks/usePostReview";
 import { evaluateLevel } from "@/utils/constants";
-import { Box, Flex, Img, Input, Text, Textarea } from "@chakra-ui/react";
+import { Box, Flex, Img, Input, Text, Textarea, Tooltip } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import UIRating from "./UIRating";
@@ -23,11 +24,22 @@ const ReviewDetailItem = ({
     driver,
 }: ReviewDetailItemProps) => {
     const t = useTranslations("REVIEW");
+    const { checkHasFileSize } = useFileSizeCheck();
     const ratingMode: { [key: number]: string } = evaluateLevel(t);
     const [listImage, setListImage] = useState<string[]>([]);
     const [listImageUpload, setListImageUpload] = useState<File[]>([]);
     const [rating, setRating] = useState<number>(0);
+    const labelTooltip = order
+        ? `${order?.raw?.advanced_taste_customization} ${order?.raw?.basic_taste_customization} ${order?.raw?.portion_customization}`
+        : "";
     const handleUpload = (event: any) => {
+        const hasErrorUpload = checkHasFileSize({
+            file: event.target.files[0],
+            title: t("UPLOAD.TITLE"),
+            description: t("UPLOAD.ERROR_LENGTH"),
+            maxSize: 500,
+        });
+        if (hasErrorUpload) return;
         if (listImage.length >= 3) return;
         setListImage([...listImage, URL.createObjectURL(event.target.files[0])]);
         setListImageUpload([...listImageUpload, event.target.files[0]]);
@@ -54,9 +66,11 @@ const ReviewDetailItem = ({
             <Box flex="1">
                 <Flex gap="1.6rem" alignItems="center">
                     <Img w="3.6rem" height="auto" src={iconTitle} />
-                    <Text fontSize="2rem" fontWeight="bold">
-                        {title}
-                    </Text>
+                    <Tooltip label={labelTooltip || ""} fontSize="md" placement="top">
+                        <Text fontSize="2rem" fontWeight="bold">
+                            {title}
+                        </Text>
+                    </Tooltip>
                 </Flex>
                 <Flex gap="0.4rem" m="1rem 0">
                     <UIRating
@@ -109,7 +123,10 @@ const ReviewDetailItem = ({
                             accept="image/png, image/jpeg"
                             display="none"
                             type="file"
-                            onChange={handleUpload}
+                            onChange={(e) => {
+                                handleUpload(e);
+                                e.target.value = "";
+                            }}
                         ></Input>
                     </Flex>
                 </Flex>
