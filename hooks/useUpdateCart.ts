@@ -1,6 +1,7 @@
 "use client";
 
 import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
+import command from "@/config/observable.config";
 import { cartState, cartSynced } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { store } from "@/store";
@@ -8,6 +9,7 @@ import { useAppSelector } from "@/store/hooks";
 import { setErrorScreenDes } from "@/store/reducers/appSlice";
 import { Cart, CartItem } from "@/types/cart";
 import { isLoggedIn } from "@/utils/functions";
+import { loadState } from "@/utils/localstorage";
 import { routes } from "@/utils/routes";
 import { useToast } from "@chakra-ui/react";
 import Axios, { CancelTokenSource } from "axios";
@@ -15,6 +17,7 @@ import { cloneDeep, debounce, isEqual } from "lodash";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilStateLoadable, useRecoilValueLoadable } from "recoil";
+import useObservable from "./useObservable";
 interface MaxValues {
     [key: string]: {
         totalMenuItemQty: number;
@@ -31,6 +34,7 @@ interface MaxValues {
 const useUpdateCart = () => {
     const [loading, setLoading] = useState(false);
     const [currentCart, setCart] = useRecoilStateLoadable(cartState);
+    const { subcribe, unsubscribe, setUpdateFunction } = useObservable("updateCart");
     const rawCart = currentCart.valueMaybe();
     const cartSync = useRecoilValueLoadable(cartSynced).valueMaybe();
     const [tempCart, setTempCart] = useState<Cart>();
@@ -42,8 +46,12 @@ const useUpdateCart = () => {
     const customerId = useAppSelector((state) => state.userInfo.userInfo?.customer_id);
     const handleUpdateCart = useCallback(
         async (cartItem: CartItem) => {
+            unsubscribe(command.loginCallback);
             if (cartItem.qty_ordered <= 0) return;
+
             if (!isLoggedIn() && typeof window != "undefined") {
+                subcribe(command.loginCallback);
+                setUpdateFunction(() => handleUpdateCart(cartItem));
                 store.dispatch(setErrorScreenDes(routes.SignIn));
                 return;
             }
@@ -84,10 +92,14 @@ const useUpdateCart = () => {
         debounce(
             async (id?: number, name?: string, restaurant_id?: number | string) => {
                 try {
+                    unsubscribe(command.loginCallback);
                     if (!isLoggedIn()) {
+                        subcribe(command.loginCallback);
+                        setUpdateFunction(() => handleQuickAdd(id, name, restaurant_id));
                         store.dispatch(setErrorScreenDes(routes.SignIn));
                     }
-                    const _customerId = rawCart?.customer_id || customerId;
+                    const { userId } = loadState("infoSign");
+                    const _customerId = rawCart?.customer_id || customerId || userId;
                     if (!id || !_customerId) return;
                     setLoading(true);
                     if (restaurant_id != rawCart?.restaurant_id && rawCart?.restaurant_id != undefined) {
@@ -135,7 +147,7 @@ const useUpdateCart = () => {
             1000,
             { leading: true },
         ),
-        [JSON.stringify(rawCart)],
+        [JSON.stringify(rawCart), customerId],
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleChangeCartQuantity = useCallback(

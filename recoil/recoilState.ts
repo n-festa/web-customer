@@ -12,6 +12,7 @@ const { toast } = createStandaloneToast();
 const tEn = createTranslator({ locale: "en", messages: messagesEn });
 const tVi = createTranslator({ locale: "en", messages: messagesVi });
 
+import { loadState } from "@/utils/localstorage";
 import { DefaultValue, WrappedValue, atom, selector } from "recoil";
 export type SetSelf<T> = (
     param:
@@ -62,7 +63,12 @@ export const cartSynced = selector({
         const { cartUpdate: cartItem, ...currentCart } = get(cartState) ?? {};
         if (cartItem) {
             try {
-                const res = await apiServices.addCart({ ...cartItem, item_id: undefined });
+                const { userId } = loadState("infoSign");
+                const res = await apiServices.addCart({
+                    ...cartItem,
+                    item_id: undefined,
+                    customer_id: cartItem.customer_id == -1 ? userId : cartItem.customer_id ?? userId,
+                });
                 !cartItem.isUpdateAll &&
                     toast({
                         title: t("COMMON.CART.UPDATE_CART"),
