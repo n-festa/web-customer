@@ -85,7 +85,7 @@ const useUpdateCart = () => {
             };
             setCart(newCart);
         },
-        [rawCart, setCart, t],
+        [rawCart, setCart, setUpdateFunction, subcribe, t, unsubscribe],
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleQuickAdd = useCallback(
