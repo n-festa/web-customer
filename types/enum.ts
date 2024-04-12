@@ -97,3 +97,8 @@ export enum PaymentMethod {
     Momo = 1,
     COD = 2,
 }
+
+export enum OrderPaymentStatus {
+    STARTED = "STARTED",
+    PENDING = "PENDING",
+}

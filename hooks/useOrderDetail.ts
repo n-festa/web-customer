@@ -1,5 +1,6 @@
 import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
-import { OrderStatusLogType } from "@/types/enum";
+import apiServices from "@/services/sevices";
+import { OrderPaymentStatus, OrderStatusLogType, PaymentMethod } from "@/types/enum";
 import { Order } from "@/types/order";
 import { getToken } from "@/utils/auth";
 import { routes } from "@/utils/routes";
@@ -10,7 +11,7 @@ import useSWRAPI from "./useApi";
 // OR: may also need to set as global property
 const listStatusLog = [OrderStatusLogType.FAILED, OrderStatusLogType.CANCELLED, OrderStatusLogType.COMPLETED];
 const baseURL = process.env.NEXT_PUBLIC_URL_SERVICE || "https://api.2all.com.vn/web-customer/";
-
+const listNeedPayment: string[] = [OrderPaymentStatus.PENDING, OrderPaymentStatus.STARTED];
 const useOrderDetail = () => {
     const { id: orderId } = useParams();
     const { GetOrderDetail } = useSWRAPI();
@@ -23,6 +24,23 @@ const useOrderDetail = () => {
     });
     const router = useRouter();
     const [pushData, setPushData] = useState<Order>();
+
+    useEffect(() => {
+        const orderPaymentStatus = orderDetail?.payment_status_history?.[0].status_id;
+        if (
+            orderDetail?.invoice_id &&
+            orderDetail?.payment_method &&
+            orderDetail?.payment_method.id === PaymentMethod.Momo &&
+            orderPaymentStatus &&
+            listNeedPayment.includes(orderPaymentStatus)
+        ) {
+            apiServices.createMomoPayment({ invoiceId: orderDetail?.invoice_id }).then((data) => {
+                if (data.payUrl) {
+                    router.push(data.payUrl);
+                }
+            });
+        }
+    }, [orderDetail?.invoice_id, orderDetail?.payment_method, orderDetail?.payment_status_history, router]);
     const addressString = useMemo(() => {
         const list: string[] = [];
         if (orderDetail?.address) {

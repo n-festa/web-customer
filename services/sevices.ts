@@ -579,6 +579,17 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
                 body: data,
             });
         },
+        createMomoPayment: (data: { invoiceId: number }) => {
+            return this.request<{
+                invoiceId: number;
+                amount: number;
+                payUrl: string;
+            }>({
+                path: "order/create-momo-payment",
+                method: "POST",
+                body: data,
+            });
+        },
     };
 }
 
