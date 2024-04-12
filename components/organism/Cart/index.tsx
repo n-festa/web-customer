@@ -197,8 +197,9 @@ const Cart = ({
                                     }}
                                     numberInputProps={{
                                         value: maxQtyValues[String(item.menu_item_id)]?.items?.[String(item.item_id)]
-                                            .value,
-                                        max: maxQtyValues[String(item.menu_item_id)]?.items?.[String(item.item_id)].max,
+                                            ?.value,
+                                        max: maxQtyValues[String(item.menu_item_id)]?.items?.[String(item.item_id)]
+                                            ?.max,
                                     }}
                                     key={item.item_id}
                                     image={item.item_img ?? ""}
