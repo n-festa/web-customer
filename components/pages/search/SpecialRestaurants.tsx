@@ -31,7 +31,7 @@ const SpecialRestaurants = () => {
         return data?.data ?? [];
     }, [data]);
 
-    return lstRestaurants.length < 1 ? (
+    return lstRestaurants.length < 1 && !isLoading ? (
         <></>
     ) : (
         <WraperInfo

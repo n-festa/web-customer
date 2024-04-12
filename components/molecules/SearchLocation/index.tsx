@@ -15,17 +15,18 @@ import {
 import { LocateFixed } from "lucide-react";
 
 import { routes } from "@/utils/routes";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { FormEvent, useCallback, useRef, useState } from "react";
+import { FormEvent, RefObject, useCallback, useRef, useState } from "react";
 import useOnClickOutside from "use-onclickoutside";
 import LocationSuggestion from "./LocationSuggestion";
-import { useTranslations } from "next-intl";
 
 interface Props {
     rightElement?: React.ReactNode;
     leftElement?: React.ReactNode;
     inputProps?: InputProps;
     initValue?: string;
+    inputRefProps?: RefObject<HTMLInputElement>;
     locationSuggestionProps?: StackProps & { hoverBg?: string };
 }
 
@@ -34,6 +35,7 @@ const SearchLocation = ({
     leftElement,
     inputProps,
     initValue,
+    inputRefProps,
     locationSuggestionProps,
     ...props
 }: Props & InputGroupProps) => {
@@ -54,7 +56,8 @@ const SearchLocation = ({
     });
     const [isShowSuggestion, setShowSuggestion] = useState(false);
     const ref = useRef(null);
-    const inputRef = useRef<HTMLInputElement>(null);
+    const _refInput = useRef<HTMLInputElement>(null);
+    const inputRef = inputRefProps ?? _refInput;
 
     const router = useRouter();
 
@@ -103,6 +106,9 @@ const SearchLocation = ({
                     fontSize="1.8rem"
                     onFocus={() => {
                         setShowSuggestion(true);
+                        setTimeout(() => {
+                            inputRef.current?.focus();
+                        }, 0);
                     }}
                     textOverflow="ellipsis"
                     mr="10.7rem"

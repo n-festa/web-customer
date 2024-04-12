@@ -1,4 +1,5 @@
 import SearchLocation from "@/components/molecules/SearchLocation";
+import useCheckPlace from "@/hooks/useCheckPlace";
 import { RootState } from "@/store";
 import textStyles from "@/theme/textStyle";
 import { Img, InputLeftElement, Text } from "@chakra-ui/react";
@@ -8,8 +9,10 @@ import { useSelector } from "react-redux";
 const DeliveryLocation = () => {
     const t = useTranslations("COMMON");
     const address = useSelector((state: RootState) => state.userInfo?.userInfo?.address ?? "");
+    const { ref } = useCheckPlace();
     return (
         <SearchLocation
+            inputRefProps={ref}
             variant={"searchBox"}
             bg="white"
             borderRadius="1rem"

@@ -8,6 +8,8 @@
             "FAILED_REORDER": "Failed to re-order",
             "ADDRESS_MISSING": "Missing delivery address",
             "ADDRESS_MISSING_MESSAGE": "Please return to the homepage and select a delivery address first",
+            "ADDRESS_REQUEST": "Please select a delivery address first",
+            "OK": "OK",
             "BACK_TO_HOME": "Home",
             "REMOVE_CART": " Remove from cart",
             "CONFIRM_REMOVE": "Do you want to remove this item from your cart?",

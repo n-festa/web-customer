@@ -57,7 +57,7 @@ const Header = () => {
                     routes.RestaurantDetail,
                     routes.Search,
                     routes.SearchDetail,
-                ].findIndex((el) => pathname.includes(el));
+                ].findIndex((el) => pathname.includes(el) && !pathname.includes(routes.OrderDetail));
                 if (index != -1) showDeliveryBox = true;
                 if (error?.message) {
                     showListNavi = false;

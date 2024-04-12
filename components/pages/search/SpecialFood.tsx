@@ -29,7 +29,7 @@ const SpecialFood = () => {
         return data?.data ?? [];
     }, [data]);
 
-    return lstRecommendFood.length < 1 ? (
+    return lstRecommendFood.length < 1 && !isLoading ? (
         <></>
     ) : (
         <WraperInfo
