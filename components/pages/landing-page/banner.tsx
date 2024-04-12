@@ -42,7 +42,7 @@ const Banner = () => {
                     <SearchLocation initValue={address} />
                 </Flex>
                 <Flex flex={1} ml="-2rem">
-                    <Img maxW="100%" h="auto" src="images/screen-shot-20230829-at-11-28-37-pmtransformed-5@2x.png" />
+                    <Img maxW="100%" h="auto" src="images/banner.png" />
                 </Flex>
             </Flex>
         </Flex>
