@@ -52,9 +52,12 @@ const Header = () => {
                 hideCart = true;
                 break;
             default:
-                const index = [routes.RestaurantDetail, routes.Search, routes.SearchDetail].findIndex((el) =>
-                    pathname.includes(el),
-                );
+                const index = [
+                    routes.ProductDetail,
+                    routes.RestaurantDetail,
+                    routes.Search,
+                    routes.SearchDetail,
+                ].findIndex((el) => pathname.includes(el));
                 if (index != -1) showDeliveryBox = true;
                 if (error?.message) {
                     showListNavi = false;
