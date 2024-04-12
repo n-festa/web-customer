@@ -422,7 +422,12 @@
         },
         "PLACEHOLDER_COMMENT": "Additional feedback about the driver",
         "PLACEHOLDER_FOOD": "Additional feedback about the dish",
-        "SHARE_FEEDBACK_PLACEHOLDER": "Please take a moment to share your thoughts on this service"
+        "SHARE_FEEDBACK_PLACEHOLDER": "Please take a moment to share your thoughts on this service",
+        "UPLOAD": {
+            "TITLE": "Upload photos",
+            "ERROR_CONTENT": "Update error, please try again.",
+            "ERROR_LENGTH": "File size must be equal to or less than 500Kb"
+        }
     },
     "ORDER_DETAIL": {
         "DRIVER": "Driver",

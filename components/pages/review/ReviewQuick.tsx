@@ -4,6 +4,7 @@ import { Box, Button, Flex, HStack, Img, Input, Text, Textarea } from "@chakra-u
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import UIRating from "./UIRating";
+import useFileSizeCheck from "@/hooks/useFileSizeCheck";
 const {
     review: { formData },
 } = config;
@@ -24,9 +25,17 @@ const ReviewQuick = ({
     onSubmit: (type: "quick" | "detail") => void;
 }) => {
     const t = useTranslations("REVIEW");
+    const { checkHasFileSize } = useFileSizeCheck();
     const [listImage, setListImage] = useState<string[]>([]);
     const [listImageUpload, setListImageUpload] = useState<File[]>([]);
     const handleUpload = (event: any) => {
+        const hasErrorUpload = checkHasFileSize({
+            file: event.target.files[0],
+            title: t("UPLOAD.TITLE"),
+            description: t("UPLOAD.ERROR_LENGTH"),
+            maxSize: 500,
+        });
+        if (hasErrorUpload) return;
         if (listImage.length >= 3) return;
         setListImage([...listImage, URL.createObjectURL(event.target.files[0])]);
         setListImageUpload([...listImageUpload, event.target.files[0]]);
@@ -143,7 +152,10 @@ const ReviewQuick = ({
                         accept="image/png, image/jpeg"
                         type="file"
                         name="upload"
-                        onChange={(event) => handleUpload(event)}
+                        onChange={(event) => {
+                            handleUpload(event);
+                            event.target.value = "";
+                        }}
                     />
                 </Button>
                 <Button variant="btnSubmit" onClick={() => onSubmit("quick")}>

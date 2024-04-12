@@ -277,7 +277,10 @@ const Profile = () => {
                                                     accept="image/png, image/jpeg"
                                                     type="file"
                                                     name="upload"
-                                                    onChange={handleUpload}
+                                                    onChange={(e) => {
+                                                        handleUpload(e);
+                                                        e.target.value = "";
+                                                    }}
                                                 />
                                             </Button>
                                         </Flex>

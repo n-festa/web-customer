@@ -127,7 +127,7 @@ const DeliveryTimeGroup = ({
     }, [date, dateOptions, dateOptionsList, timeOptionsByDate]);
 
     useEffect(() => {
-        const selectedDate = date ? dateOptions[date].value : dateOptionsList?.[0]?.value;
+        const selectedDate = date ? dateOptions[date]?.value : dateOptionsList?.[0]?.value;
         if (!data?.data) {
             setExpectedTime(undefined);
         }

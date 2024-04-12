@@ -425,7 +425,12 @@
         },
         "PLACEHOLDER_COMMENT": "Nhận xét thêm về tài xế...",
         "PLACEHOLDER_FOOD": "Nhận xét thêm về tài xế...",
-        "SHARE_FEEDBACK_PLACEHOLDER": "Hãy chia sẻ nhận xét cho dịch vụ này bạn nhé!"
+        "SHARE_FEEDBACK_PLACEHOLDER": "Hãy chia sẻ nhận xét cho dịch vụ này bạn nhé!",
+        "UPLOAD": {
+            "TITLE": "Tải ảnh lên",
+            "ERROR_CONTENT": "Lỗi cập nhật, vui lòng thử lại.",
+            "ERROR_LENGTH": "Kích thước file phải bằng hoặc nhỏ hơn 500Kb"
+        }
     },
     "ORDER_DETAIL": {
         "DRIVER": "Tài xế",
