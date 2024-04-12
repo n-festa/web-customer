@@ -78,8 +78,7 @@ const ServingSize = forwardRef((props: Props, ref: any) => {
     const { time, receiveTime } = useMemo(() => {
         const time = calcCutoffTime(info?.cutoff_time_m);
         const distance = time ? differenceInCalendarDays(time, new Date()) : 0;
-
-        if (!time) {
+        if (time === null) {
             setDisableTasteCustomize(false);
             return {};
         }

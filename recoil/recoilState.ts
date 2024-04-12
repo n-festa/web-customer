@@ -1,9 +1,16 @@
+import { errorReOrder } from "@/components/pages/order/history/HistoryList";
 import apiServices from "@/services/sevices";
 import { store } from "@/store";
 import { Cart } from "@/types/cart";
-import { isLoggedIn } from "@/utils/functions";
+import { getLocale, isLoggedIn } from "@/utils/functions";
 import { createStandaloneToast } from "@chakra-ui/react";
+import { createTranslator } from "use-intl";
+import messagesEn from "../messages/en.json";
+import messagesVi from "../messages/vi.json";
+
 const { toast } = createStandaloneToast();
+const tEn = createTranslator({ locale: "en", messages: messagesEn });
+const tVi = createTranslator({ locale: "en", messages: messagesVi });
 
 import { DefaultValue, WrappedValue, atom, selector } from "recoil";
 export type SetSelf<T> = (
@@ -51,14 +58,15 @@ export const showCartState = atom<boolean>({
 export const cartSynced = selector({
     key: "cartSynced",
     get: async ({ get }) => {
+        const t = getLocale() == "en" ? tEn : tVi;
         const { cartUpdate: cartItem, ...currentCart } = get(cartState) ?? {};
         if (cartItem) {
             try {
                 const res = await apiServices.addCart({ ...cartItem, item_id: undefined });
                 !cartItem.isUpdateAll &&
                     toast({
-                        title: "Cập nhật giỏ hàng",
-                        description: `Đã thêm vào giỏ hàng`,
+                        title: t("COMMON.CART.UPDATE_CART"),
+                        description: t("COMMON.CART.ADD_TO_CART_SUCCESS"),
                         status: "success",
                         duration: 4000,
                         position: "top",
@@ -70,9 +78,21 @@ export const cartSynced = selector({
             } catch (err) {
                 const message: string | undefined = (err as any)?.error.response?.data?.message;
 
+                if (cartItem.isUpdateAll) {
+                    errorReOrder.current = message ?? "error";
+                    toast({
+                        title: t("COMMON.CART.REORDER"),
+                        description: t("COMMON.CART.FAILED_REORDER"),
+                        status: "error",
+                        duration: 4000,
+                        position: "top",
+                        isClosable: true,
+                    });
+                    return currentCart;
+                }
                 toast({
-                    title: "Cập nhật giỏ hàng",
-                    description: `Cập nhật giỏ hàng thất bại\r\n${message ? message : ""}`,
+                    title: t("COMMON.CART.UPDATE_CART"),
+                    description: t("COMMON.CART.FAILED_UPDATE", { message: message ?? "" }),
                     status: "error",
                     duration: 4000,
                     position: "top",

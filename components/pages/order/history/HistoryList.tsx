@@ -21,9 +21,9 @@ import { sleep } from "@/utils/functions";
 import { routes } from "@/utils/routes";
 import { VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { createRef, useMemo } from "react";
 import { useDispatch } from "react-redux";
-
+export const errorReOrder: React.MutableRefObject<string | null> = createRef();
 interface Props {
     histories: {
         food?: GetHistoryOrderByFoodResponse;
@@ -70,9 +70,27 @@ const HistoryList = ({ histories, isLoading, type }: Props) => {
             await sleep(500);
         }
         dispatch(setGlobalLoading(false));
+        if (errorReOrder.current) {
+            errorReOrder.current = null;
+            return;
+        }
         router.push(routes.ConfirmOrder);
     };
     const handleReorder = async (items: (OrderItem | undefined)[] = [], restaurant?: RestaurantInfo) => {
+        if (!profile?.latAddress || !profile.longAddress) {
+            await dialogRef.current?.show({
+                title: cartTranslate("ADDRESS_MISSING"),
+                message: cartTranslate("ADDRESS_MISSING_MESSAGE"),
+                negative: { text: cartTranslate("CANCEL") },
+                positive: {
+                    text: cartTranslate("BACK_TO_HOME"),
+                    onClick: async () => {
+                        router.push(routes.Home);
+                    },
+                },
+            });
+            return;
+        }
         if (cartSync?.cart_info?.length) {
             await dialogRef.current?.show({
                 title: cartTranslate("REMOVE_ALL"),
@@ -83,11 +101,21 @@ const HistoryList = ({ histories, isLoading, type }: Props) => {
                     onClick: async () => {
                         dispatch(setGlobalLoading(true));
 
-                        handleDeleteWholeCart(profile?.customer_id).then(async () => {
-                            await sleep(500);
-                            await handleAddToCart(items, restaurant);
-                            dispatch(setGlobalLoading(false));
-                        });
+                        handleDeleteWholeCart(profile?.customer_id)
+                            .then(async () => {
+                                try {
+                                    await sleep(500);
+                                    await handleAddToCart(items, restaurant);
+                                    dispatch(setGlobalLoading(false));
+                                } catch {
+                                    //TODO
+                                    dispatch(setGlobalLoading(false));
+                                }
+                            })
+                            .catch(() => {
+                                //TODO
+                                dispatch(setGlobalLoading(false));
+                            });
                     },
                 },
             });

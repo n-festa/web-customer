@@ -59,8 +59,8 @@ const useSWRAPI = () => {
             ignoreErrorCode?: number[],
         ) =>
             useSWR(
-                params?.menu_item_ids?.length
-                    ? `getAvailableTime_${(params.menu_item_ids ?? []).join("_")}`
+                params?.menu_item_ids?.length && params.lat && params.long
+                    ? `getAvailableTime_${(params.menu_item_ids ?? []).join("_")}${params.lat}_${params.long}_${params.having_advanced_customization}`
                     : undefined,
                 async () => apiServices.getAvailableTime(params, ignoreErrorCode),
                 {

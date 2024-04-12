@@ -8,7 +8,7 @@ import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";
 import { setInfoSign } from "@/store/reducers/auth";
 import { setUserInfo } from "@/store/reducers/userInfo";
-import { setToken, setTokenRefresh } from "@/utils/auth";
+import { setAuthId, setToken, setTokenRefresh } from "@/utils/auth";
 import { isTimeDiffMoreThan30Min, redirectAfterLogin } from "@/utils/functions";
 import { loadState, removeState, saveState } from "@/utils/localstorage";
 import { routes } from "@/utils/routes";
@@ -101,7 +101,7 @@ const PhoneVerification = () => {
         setOtpError("");
         setToken(access_token);
         setTokenRefresh(refresh_token);
-
+        setAuthId(userId);
         const { data: customerData } = await apiServices.customerProfile({ userId });
         saveState("infoSign", { userId });
         dispatch(setUserInfo(customerData));

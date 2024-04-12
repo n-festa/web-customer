@@ -2,7 +2,6 @@ import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import useSWRAPI from "@/hooks/useApi";
 import useDeleteCartItem from "@/hooks/useDeleteCartItem";
 import { cartSynced } from "@/recoil/recoilState";
-import { useAppSelector } from "@/store/hooks";
 import { DateStep } from "@/types/interfaces";
 import { HHmm, YYYYMMDD } from "@/utils/constants";
 import { parseStringToObj } from "@/utils/functions";
@@ -17,6 +16,8 @@ import { useRecoilValue } from "recoil";
 import GroupWrapper from "./GroupWrapper";
 
 const DeliveryTimeGroup = ({
+    latAddress,
+    longAddress,
     setExpectedTime,
 }: {
     setExpectedTime: Dispatch<
@@ -28,6 +29,9 @@ const DeliveryTimeGroup = ({
             | undefined
         >
     >;
+
+    latAddress?: number;
+    longAddress?: number;
 }) => {
     const t = useTranslations();
     const router = useRouter();
@@ -37,17 +41,20 @@ const DeliveryTimeGroup = ({
     const { GetAvailableTime } = useSWRAPI();
     const { handleDeleteWholeCart } = useDeleteCartItem();
     const cart = useRecoilValue(cartSynced);
-    const profile = useAppSelector((app) => app.userInfo.userInfo);
-    const { data, isLoading: isLoadingTime } = GetAvailableTime({
-        lat: profile?.latAddress,
-        long: profile?.longAddress,
-        utc_offset: -(new Date().getTimezoneOffset() / 60),
-        menu_item_ids: Array.from(new Set(cart?.cart_info?.map((item) => item.menu_item_id))),
-        now: new Date().getTime(),
-        having_advanced_customization: cart.cart_info?.some(
-            (item) => parseStringToObj(item.advanced_taste_customization_obj)?.length,
-        ),
-    });
+    const { data, isLoading: isLoadingTime } = GetAvailableTime(
+        {
+            lat: latAddress,
+            long: longAddress,
+            utc_offset: -(new Date().getTimezoneOffset() / 60),
+            menu_item_ids: Array.from(new Set(cart?.cart_info?.map((item) => item.menu_item_id))),
+            now: new Date().getTime(),
+            having_advanced_customization: cart.cart_info?.some(
+                (item) => parseStringToObj(item.advanced_taste_customization_obj)?.length,
+            ),
+        },
+        undefined,
+        [500],
+    );
     useEffect(() => {
         if (data?.statusCode === 404) {
             const timeStamp = (data as { timestamp?: string }).timestamp ?? "";
@@ -121,6 +128,9 @@ const DeliveryTimeGroup = ({
 
     useEffect(() => {
         const selectedDate = date ? dateOptions[date].value : dateOptionsList?.[0]?.value;
+        if (!data?.data) {
+            setExpectedTime(undefined);
+        }
         if (selectedDate && timeOptionsByDate && !isUndefined(timeIndex)) {
             const timeFromTo = timeList[timeIndex].split("-");
             const dateTimeFrom = `${selectedDate} ${timeFromTo[0].trim()}`;

@@ -1,6 +1,14 @@
 {
     "COMMON": {
         "CART": {
+            "UPDATE_CART": "Cập nhật giỏ hàng",
+            "ADD_TO_CART_SUCCESS": "Đã thêm vào giỏ hàng",
+            "FAILED_UPDATE": "Cập nhật giỏ hàng thất bại\r\n{message}",
+            "REORDER": "Mua lại",
+            "FAILED_REORDER": "Mua lại không thành công",
+            "ADDRESS_MISSING": "Thiếu địa chỉ giao hàng",
+            "ADDRESS_MISSING_MESSAGE": "Vui lòng trở lại trang chủ, và chọn địa chỉ giao hàng trước",
+            "BACK_TO_HOME": "Trang chủ",
             "REMOVE_CART": "Xóa khỏi giỏ hàng",
             "CONFIRM_REMOVE": "Bạn muốn xóa món ăn khỏi giỏ hàng?",
             "CANCEL": "Hủy",
@@ -408,7 +416,7 @@
         "ADD_PHOTO": "Thêm ảnh",
         "SUBMIT_REVIEW": "Gửi đánh giá",
         "VERY_SATISFIED": "Rất hài lòng",
-        "RATING_LEVEL":{
+        "RATING_LEVEL": {
             "VERY_SATISFIED": "Rất hài lòng",
             "GOOD": "Tốt",
             "NORMAL": "Bình thường",
@@ -426,6 +434,7 @@
         "FOR_DRIVER_NOTE": "Ghi chú dành cho tài xế:",
         "SUGARCANE_BOX": "Đóng gói bằng hộp bã mía",
         "NO_UTENSILS_NEEDED": "Không lấy dụng cụ ăn uống",
+        "HAVING_EATING_UTENSILS": "Có lấy dụng cụ ăn uống",
         "PAYMENT_METHOD": "Phương thức thanh toán",
         "PAID_WITH": "Đã thanh toán bằng {method}",
         "DELIVER_TO": "Giao đến",

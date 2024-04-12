@@ -9,12 +9,11 @@ import useRestaurantDetail from "@/hooks/useRestaurantDetail";
 import { isNullOrEmpty } from "@/utils/functions";
 import { Box, Flex, HStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { useParams as useNextParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const RestaurantDetailPage = () => {
     const t = useTranslations();
-    const { restaurantId } = useNextParams();
     const router = useRouter();
     const path = usePathname();
     const {
@@ -63,7 +62,6 @@ const RestaurantDetailPage = () => {
                         minW="fit-content"
                         border="1px solid var(--gray-300)"
                         w={{ xl: "42.6rem", base: "35rem" }}
-                        restaurant_id={Number(restaurantId)}
                         ignoreAuthError={true}
                     />
                 </Box>

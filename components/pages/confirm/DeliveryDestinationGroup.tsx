@@ -19,6 +19,7 @@ const DeliveryDestinationGroup = ({
     restaurantId,
     formRef,
     setDeliveryFee,
+    setCustomerLocation,
 }: {
     restaurantId?: number;
     formRef: RefObject<
@@ -31,6 +32,15 @@ const DeliveryDestinationGroup = ({
             lat: number | undefined;
             lng: number | undefined;
         }>
+    >;
+    setCustomerLocation: Dispatch<
+        SetStateAction<
+            | {
+                  lat?: number | undefined;
+                  lng?: number | undefined;
+              }
+            | undefined
+        >
     >;
     setDeliveryFee: Dispatch<
         SetStateAction<
@@ -197,7 +207,7 @@ const DeliveryDestinationGroup = ({
             });
             formRef.current?.setFieldValue("lat", customerLocation.lat);
             formRef.current?.setFieldValue("lng", customerLocation.lng);
-
+            setCustomerLocation(customerLocation);
             setDeliveryFee({
                 deliveryFee: fee.delivery_fee,
                 distance: fee.distance_km,

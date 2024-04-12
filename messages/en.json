@@ -1,6 +1,14 @@
 {
     "COMMON": {
         "CART": {
+            "UPDATE_CART": "Update cart",
+            "ADD_TO_CART_SUCCESS": "Added to cart",
+            "FAILED_UPDATE": "Failed to update the cart\r\n{message}",
+            "REORDER": "Re-order",
+            "FAILED_REORDER": "Failed to re-order",
+            "ADDRESS_MISSING": "Missing delivery address",
+            "ADDRESS_MISSING_MESSAGE": "Please return to the homepage and select a delivery address first",
+            "BACK_TO_HOME": "Home",
             "REMOVE_CART": " Remove from cart",
             "CONFIRM_REMOVE": "Do you want to remove this item from your cart?",
             "CANCEL": "Cancel",
@@ -405,7 +413,7 @@
         "ADD_PHOTO": "Insert images",
         "SUBMIT_REVIEW": "Send",
         "VERY_SATISFIED": "Excellent",
-        "RATING_LEVEL":{
+        "RATING_LEVEL": {
             "VERY_SATISFIED": "Excellent",
             "GOOD": "Good",
             "NORMAL": "Average",
@@ -423,6 +431,7 @@
         "FOR_DRIVER_NOTE": "Note for driver:",
         "SUGARCANE_BOX": "Packaged in a sugarcane pulp box",
         "NO_UTENSILS_NEEDED": "Do not take cutlery",
+        "HAVING_EATING_UTENSILS": "Having cutlery",
         "PAYMENT_METHOD": "Payment",
         "PAID_WITH": "Paid via {method}",
         "DELIVER_TO": "Deliver to",
