@@ -62,7 +62,7 @@ const HistoryList = ({ histories, isLoading, type }: Props) => {
                 notes: item?.notes ?? "",
                 price: item?.price,
                 item_name: item?.item_name ?? [],
-                packaging_id: item?.packaging_info?.packaging_id,
+                packaging_id: item?.packaging_id,
                 packaging_info: item?.packaging_info,
                 isUpdateAll: true,
             };
