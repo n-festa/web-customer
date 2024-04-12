@@ -4,7 +4,8 @@ import FoodChef from "@/components/molecules/FoodChef";
 import SkeletonBox from "@/components/molecules/SkeletonBox";
 import WraperInfo from "@/components/molecules/WraperInfo";
 import useSWRAPI from "@/hooks/useApi";
-import { SearchFoodType } from "@/types/enum";
+import { useAppSelector } from "@/store/hooks";
+import { FetchMode, SearchFoodType } from "@/types/enum";
 import { routes } from "@/utils/routes";
 import { Wrap, WrapItem } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
@@ -14,7 +15,12 @@ import { useTranslations } from "use-intl";
 const SpecialRestaurants = () => {
     const t = useTranslations("SEARCH.SPECIAL_RESTAURANTS");
     const { GetGeneralRestaurantRecommendation } = useSWRAPI();
-    const { data, isLoading } = GetGeneralRestaurantRecommendation();
+    const { longAddress, latAddress } = useAppSelector((state) => state.userInfo.userInfo ?? {});
+    const { data, isLoading } = GetGeneralRestaurantRecommendation({
+        lat: latAddress,
+        long: longAddress,
+        fetch_mode: FetchMode.Some,
+    });
     const router = useRouter();
 
     const onViewAll = () => {

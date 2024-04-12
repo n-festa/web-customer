@@ -35,6 +35,7 @@ export interface OrderItem {
         description: BaseNameInterface[];
         price: number;
     };
+    packaging_id?: number;
 }
 
 export interface OrderStatusLog {

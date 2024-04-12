@@ -83,7 +83,6 @@ const DeliveryDestinationGroup = ({
         const provinces =
             provincesData?.data.map((item) => ({
                 key: item.id,
-                //TODO: update EN name
                 value: item.name,
             })) ?? [];
         const defaultProvince = provinces.find((item) => item.value === userInfo?.addressCompound?.province);
@@ -97,7 +96,6 @@ const DeliveryDestinationGroup = ({
             apiServices.getDistricts(_province).then((res) => {
                 const districts = res.data.map((item) => ({
                     key: item.id,
-                    //TODO: update EN name
                     value: item.name,
                 }));
                 setDistrict(districts);
@@ -123,7 +121,6 @@ const DeliveryDestinationGroup = ({
             apiServices.getWards(_district).then((res) => {
                 const communes = res.data.map((item) => ({
                     key: item.id,
-                    //TODO: update EN name
                     value: item.name,
                 }));
                 setCommunes(communes);
