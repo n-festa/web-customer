@@ -108,12 +108,10 @@ const HistoryList = ({ histories, isLoading, type }: Props) => {
                                     await handleAddToCart(items, restaurant);
                                     dispatch(setGlobalLoading(false));
                                 } catch {
-                                    //TODO
                                     dispatch(setGlobalLoading(false));
                                 }
                             })
                             .catch(() => {
-                                //TODO
                                 dispatch(setGlobalLoading(false));
                             });
                     },

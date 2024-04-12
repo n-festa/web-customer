@@ -69,10 +69,14 @@ const useSWRAPI = () => {
                 },
             ),
         GetGeneralFoodRecommendation: (query?: { lat?: number; long?: number }, config?: SWRConfiguration) =>
-            useSWR("getGeneralFoodRecommendation", async () => apiServices.getGeneralFoodRecommendation(query), {
-                ...swrConfig,
-                ...config,
-            }),
+            useSWR(
+                `getGeneralFoodRecommendation${query?.lat}_${query?.long}`,
+                async () => apiServices.getGeneralFoodRecommendation(query),
+                {
+                    ...swrConfig,
+                    ...config,
+                },
+            ),
         GetHotFood: () => useSWR("getHotFood", async () => apiServices.getHotFood()),
         GetAllCategories: (config?: SWRConfiguration) =>
             useSWR("getAllCategories", async () => apiServices.getAllCategories(), {
@@ -88,11 +92,18 @@ const useSWRAPI = () => {
                 async () => apiServices.searchFoodAndRestaurantByCategoryId(payload),
                 { ...swrConfig, ...config },
             ),
-        GetGeneralRestaurantRecommendation: (config?: SWRConfiguration) =>
-            useSWR("getGeneralRestaurantRecommendation", async () => apiServices.getGeneralRestaurantRecommendation(), {
-                ...swrConfig,
-                ...config,
-            }),
+        GetGeneralRestaurantRecommendation: (
+            query: { lat?: number; long?: number; fetch_mode: FetchMode },
+            config?: SWRConfiguration,
+        ) =>
+            useSWR(
+                `getGeneralRestaurantRecommendation${query.lat}_${query.long}`,
+                async () => apiServices.getGeneralRestaurantRecommendation(query),
+                {
+                    ...swrConfig,
+                    ...config,
+                },
+            ),
         GetSideDishByMenuItemId: (id: number, query: { fetch_mode: FetchMode }, config?: SWRConfiguration) =>
             useSWR("getSideDishByMenuItemId", async () => apiServices.getSideDishByMenuItemId(id, query), {
                 ...swrConfig,

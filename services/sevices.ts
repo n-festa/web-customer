@@ -245,11 +245,7 @@ class ApiServices<SecurityDataType> extends HttpClient<SecurityDataType> {
             return this.request<GetGeneralRestaurantRecommendationResponse>({
                 path: "/restaurant/get-general-recomendation?",
                 method: "GET",
-                //TODO
-                query: query ?? {
-                    lat: 10.820557580712087,
-                    long: 106.7723030321775,
-                },
+                query: query,
             });
         },
 
