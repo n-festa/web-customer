@@ -15,7 +15,7 @@ import {
     Text,
     useBreakpointValue,
 } from "@chakra-ui/react";
-import { isToday } from "date-fns";
+import { isAfter, isToday } from "date-fns";
 import { XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
@@ -44,6 +44,7 @@ const GroupStepperProgress = ({
                 isError?: boolean;
                 isCompleted?: boolean;
                 isDefault?: boolean;
+                color?: string;
             };
         } = {
             [OrderStatusLogType.CREATED]: { description: t(`${bp}.CREATED`), time: ``, isDefault: true },
@@ -64,6 +65,7 @@ const GroupStepperProgress = ({
                     : ``,
                 isCompleted: true,
                 isDefault: true,
+                color: isAfter(Number(expectedTime), new Date()) ? "#079455" : "#D92D20",
             },
         };
         const isStuck = orderStatus.some((item) => item.status === OrderStatusType.STUCK);
@@ -176,7 +178,7 @@ const GroupStepperProgress = ({
                                         whiteSpace={"nowrap"}
                                         minH="2.1rem"
                                         fontSize={{ base: "1rem", md: "1.2rem", lg: "1.4rem" }}
-                                        color="var(--gray-600)"
+                                        color={step.color ?? "var(--gray-600)"}
                                     >
                                         {step.time}
                                     </Text>

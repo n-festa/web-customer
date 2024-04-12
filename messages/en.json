@@ -441,6 +441,9 @@
         "PAID_WITH": "Paid via {method}",
         "DELIVER_TO": "Deliver to",
         "PACKAGING": "Packaging",
+        "REVIEW_REQUEST": "Your order has been completed, would you like to leave a review?",
+        "BACK": "Back",
+        "REVIEW": "Review",
         "ORDER_CONFIRMATION": {
             "MD": {
                 "CREATED": "Order created",

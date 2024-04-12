@@ -444,6 +444,9 @@
         "PAID_WITH": "Đã thanh toán bằng {method}",
         "DELIVER_TO": "Giao đến",
         "PACKAGING": "Đóng gói",
+        "REVIEW_REQUEST": "Đơn hàng của bạn đã hoàn thành, bạn có muốn để lại đánh giá không?",
+        "BACK": "Trở lại",
+        "REVIEW": "Đánh giá",
         "ORDER_CONFIRMATION": {
             "MD": {
                 "CREATED": "Đã tạo đơn hàng",

@@ -7,7 +7,6 @@ class Observer {
     }
 
     subscribe(command: string, observer: any) {
-        console.log("sub", command, observer);
         if (!observer.id) {
             // console.log('CANNOT SUBSCRIBE! OBSERVER MUST HAVE AN ID')
             return;
@@ -39,7 +38,6 @@ class Observer {
             return;
         }
         this.observers[command].forEach((item: any) => {
-            console.log("EXECUTED");
             item.update();
         });
     }
