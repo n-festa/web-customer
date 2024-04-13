@@ -4,24 +4,25 @@ import { showCartState } from "@/recoil/recoilState";
 import apiServices from "@/services/sevices";
 import { setInfoSign } from "@/store/reducers/auth";
 import { filedType, formType } from "@/types/form";
+import { listCountry } from "@/utils/constants";
 import { convertToInternationalFormat, isTimeDiffMoreThan30Min } from "@/utils/functions";
 import { loadState, saveState } from "@/utils/localstorage";
 import { routes } from "@/utils/routes";
 import {
     Box,
     Button,
+    Flex,
     FormControl,
     FormErrorMessage,
     Image,
     Input,
     InputGroup,
     InputLeftAddon,
-    Text,
     Menu,
     MenuButton,
     MenuItem,
     MenuList,
-    Flex,
+    Text,
 } from "@chakra-ui/react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useTranslations } from "next-intl";
@@ -30,7 +31,6 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSetRecoilState } from "recoil";
 import * as Yup from "yup";
-import { listCountry } from "@/utils/constants";
 
 const Login = () => {
     const t = useTranslations();
@@ -51,7 +51,7 @@ const Login = () => {
                     dispatch(setInfoSign({ otp: data.otpCode, phoneNumber: data.phoneNumber }));
                     saveState("infoSign", { otp: data.otpCode, phoneNumber: data.phoneNumber });
                 }
-                router.push(routes.Otp);
+                router.replace(routes.Otp);
             })
             .catch((_error) => {
                 _actions.setSubmitting(false);

@@ -71,6 +71,7 @@ export const cartSynced = selector({
                 });
                 !cartItem.isUpdateAll &&
                     toast({
+                        id: `update_success_${cartItem.item_id}`,
                         title: t("COMMON.CART.UPDATE_CART"),
                         description: t("COMMON.CART.ADD_TO_CART_SUCCESS"),
                         status: "success",

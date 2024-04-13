@@ -1,6 +1,4 @@
 import { locationRef } from "@/app/[locale]/providers";
-import command from "@/config/observable.config";
-import { observer } from "@/hooks/useObservable";
 import { getRenderText } from "@/hooks/useRenderText";
 import { store } from "@/store";
 import { clearPrevLoginUrl } from "@/store/reducers/navigationSlice";
@@ -131,9 +129,8 @@ export const getCutoffTime = (cutoffTime?: string | string[], t?: any) => {
 
 export const redirectAfterLogin = (router: AppRouterInstance) => {
     const destination = store.getState().navigation.prevLoginUrl ?? routes.Home;
-    observer.update(command.loginCallback);
     store.dispatch(clearPrevLoginUrl());
-    router.push(destination);
+    router.replace(destination);
 };
 
 export const genCartNote = (cartItem: CartItem | OrderItem) => {

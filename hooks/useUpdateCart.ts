@@ -16,8 +16,8 @@ import Axios, { CancelTokenSource } from "axios";
 import { cloneDeep, debounce, isEqual } from "lodash";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRecoilStateLoadable, useRecoilValueLoadable } from "recoil";
-import useObservable from "./useObservable";
+import { useRecoilStateLoadable, useRecoilValue, useRecoilValueLoadable, waitForAll } from "recoil";
+import useObservable, { observer } from "./useObservable";
 interface MaxValues {
     [key: string]: {
         totalMenuItemQty: number;
@@ -33,19 +33,27 @@ interface MaxValues {
 }
 const useUpdateCart = () => {
     const [loading, setLoading] = useState(false);
-    const [currentCart, setCart] = useRecoilStateLoadable(cartState);
+    const [_, setCart] = useRecoilStateLoadable(cartState);
+    const [rawCart] = useRecoilValue(waitForAll([cartState]));
     const { subcribe, unsubscribe, setUpdateFunction } = useObservable("updateCart");
-    const rawCart = currentCart.valueMaybe();
+    const cartRef = useRef<Cart>();
     const cartSync = useRecoilValueLoadable(cartSynced).valueMaybe();
     const [tempCart, setTempCart] = useState<Cart>();
     const listFoodIdsRef = useRef<string[]>([]);
     const [maxQtyValues, setMaxQtyValues] = useState<MaxValues>({});
     const t = useTranslations("COMMON.CART");
     const toast = useToast();
+    useEffect(() => {
+        if (rawCart && Object.keys(rawCart).length) {
+            cartRef.current = rawCart;
+            observer.update(command.loginCallback);
+        }
+    }, [rawCart]);
 
     const customerId = useAppSelector((state) => state.userInfo.userInfo?.customer_id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleUpdateCart = useCallback(
-        async (cartItem: CartItem) => {
+        debounce(async (cartItem: CartItem) => {
             unsubscribe(command.loginCallback);
             if (cartItem.qty_ordered <= 0) return;
 
@@ -55,12 +63,12 @@ const useUpdateCart = () => {
                 store.dispatch(setErrorScreenDes(routes.SignIn));
                 return;
             }
-
-            let cartInfo = cloneDeep(rawCart?.cart_info ?? []);
+            const _newCart = cartRef.current ?? rawCart;
+            let cartInfo = cloneDeep(_newCart?.cart_info ?? []);
             if (
-                (cartItem?.restaurant_id != rawCart?.restaurant_id &&
-                    rawCart?.restaurant_id != undefined &&
-                    rawCart?.cart_info?.length) ??
+                (cartItem?.restaurant_id != _newCart?.restaurant_id &&
+                    _newCart?.restaurant_id != undefined &&
+                    _newCart?.cart_info?.length) ??
                 0 > 0
             ) {
                 //Show Dialog Clear Current Cart
@@ -78,14 +86,15 @@ const useUpdateCart = () => {
             }
 
             const newCart = {
-                ...rawCart,
+                ..._newCart,
                 cart_info: cartInfo,
                 restaurant_id: cartItem.restaurant_id,
                 cartUpdate: cartItem,
             };
             setCart(newCart);
-        },
-        [rawCart, setCart, setUpdateFunction, subcribe, t, unsubscribe],
+        }, 300),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [JSON.stringify(rawCart), setCart, setUpdateFunction, subcribe, t, unsubscribe],
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleQuickAdd = useCallback(
@@ -97,12 +106,16 @@ const useUpdateCart = () => {
                         subcribe(command.loginCallback);
                         setUpdateFunction(() => handleQuickAdd(id, name, restaurant_id));
                         store.dispatch(setErrorScreenDes(routes.SignIn));
+                        return;
                     }
+                    const cartValue = cartRef.current ?? rawCart;
+
                     const { userId } = loadState("infoSign");
-                    const _customerId = rawCart?.customer_id || customerId || userId;
+                    const _customerId = cartValue?.customer_id || customerId || userId;
                     if (!id || !_customerId) return;
                     setLoading(true);
-                    if (restaurant_id != rawCart?.restaurant_id && rawCart?.restaurant_id != undefined) {
+
+                    if (restaurant_id != cartValue?.restaurant_id && cartValue?.restaurant_id != undefined) {
                         //Show Dialog Clear Current Cart
                         const result = await dialogRef.current?.show({
                             title: t("RESTAURANT_CHANGE"),

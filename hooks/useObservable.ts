@@ -38,9 +38,7 @@ class Observer {
             return;
         }
         this.observers[command].forEach((item: any) => {
-            setTimeout(() => {
-                item.update();
-            }, 700);
+            item.update();
         });
     }
 }
