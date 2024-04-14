@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import apiServices from "@/services/sevices";
 import { FilterOrderStatuType, FilterType, SortOrderHistory } from "@/types/enum";
+import { GetOrderHistoryRequest } from "@/types/request/GetOrderHistoryRequest";
 import {
     GetHistoryOrderByFoodResponse,
     GetHistoryOrderByRestaurantResponse,
@@ -8,7 +9,7 @@ import {
 import { OnGoingOrder } from "@/types/response/OnGoingOrderResponse";
 import { loadState } from "@/utils/localstorage";
 import { endOfDay, startOfDay, subDays } from "date-fns";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 
 export interface HistoryFilterCondition {
@@ -35,6 +36,7 @@ interface OrderHistoryState {
         [FilterType.Food]?: GetHistoryOrderByFoodResponse;
         [FilterType.Restaurant]?: GetHistoryOrderByRestaurantResponse;
     };
+    totalHistory: number;
     condition: HistoryFilterCondition;
 }
 
@@ -44,6 +46,7 @@ const useOrderHistory = () => {
         onGoingOrder: [],
         histories: {},
         isLoading: true,
+        totalHistory: 0,
         condition: {
             type: FilterType.Restaurant,
             [FilterType.Food]: {
@@ -98,7 +101,7 @@ const useOrderHistory = () => {
     const getHistoryOrderByFood = async () => {
         const filterFood = state.condition[FilterType.Food];
 
-        const request = {
+        const request: GetOrderHistoryRequest = {
             customer_id: userId ?? -1,
             offset: 0,
             page_size: 50,
@@ -131,10 +134,9 @@ const useOrderHistory = () => {
         }
     };
 
-    const getHistoryOrderByRestautant = async () => {
+    const getHistoryOrderByRestautant = async (isGetTotal?: boolean) => {
         const filterRestaurant = state.condition[FilterType.Restaurant];
-
-        const requestRestaurant = {
+        let request: GetOrderHistoryRequest = {
             customer_id: userId ?? -1,
             offset: 0,
             page_size: 50,
@@ -144,10 +146,26 @@ const useOrderHistory = () => {
                 filterRestaurant.orderStatus != FilterOrderStatuType.ALL ? [filterRestaurant.orderStatus] : [], // OPTIONAL - COMPLETED | FAILED | CANCELLED
             time_range: getFilterDateTime(filterRestaurant.timeRange),
         };
+        if (isGetTotal) {
+            request = {
+                ...request,
+                search_keyword: undefined,
+                filtered_order_status: [], // OPTIONAL - COMPLETED | FAILED | CANCELLED
+                time_range: undefined,
+            };
+        }
+
         try {
-            const res = await apiServices.getHistoryOrderByRestaurant(requestRestaurant);
+            const res = await apiServices.getHistoryOrderByRestaurant(request);
 
             if (res) {
+                if (isGetTotal) {
+                    setState((prevState) => ({
+                        ...prevState,
+                        totalHistory: res.total_count,
+                    }));
+                    return;
+                }
                 setState((prevState) => ({
                     ...prevState,
                     histories: {
@@ -179,9 +197,8 @@ const useOrderHistory = () => {
 
         const initData = async () => {
             setLoading(true);
-            getOnGoingOrder();
-            getHistoryOrderByFood();
-            getHistoryOrderByRestautant();
+            if (state.tab) getOnGoingOrder();
+            getHistoryOrderByRestautant(true);
             setLoading(false);
             setEnableFilter(true);
         };
@@ -190,12 +207,6 @@ const useOrderHistory = () => {
             setMounted(false);
         };
     }, [isMouted]);
-
-    const totalHistory = useMemo(() => {
-        const byFood = state.histories[FilterType.Food];
-        const byRestautant = state.histories[FilterType.Restaurant];
-        return (byFood?.total_count ?? 0) + (byRestautant?.total_count ?? 0);
-    }, [JSON.stringify(state.histories)]);
 
     const onChangeFilterCondition = (params: { type: FilterType; name: string; value: any }) => {
         setState((prevState) => ({
@@ -228,15 +239,30 @@ const useOrderHistory = () => {
         }));
     };
 
-    useEffect(() => {
-        if (!isMouted || !enableFilter) return;
-        sessionStorage.setItem("historyState", JSON.stringify(state.condition));
+    const getOrderHistory = async () => {
         if (state.condition.type == FilterType.Food) {
             getHistoryOrderByFood();
             return;
         }
         getHistoryOrderByRestautant();
+    };
+
+    useEffect(() => {
+        if (!isMouted || !enableFilter) return;
+        sessionStorage.setItem("historyState", JSON.stringify(state.condition));
+        getOrderHistory();
     }, [JSON.stringify(state.condition)]);
+
+    useEffect(() => {
+        if (!isMouted || !enableFilter) return;
+
+        if (!state.tab) {
+            getOnGoingOrder();
+            return;
+        }
+
+        getOrderHistory();
+    }, [state.tab, enableFilter, isMouted]);
 
     useEffect(() => {
         if (!isMouted) {
@@ -294,7 +320,7 @@ const useOrderHistory = () => {
         tab: state.tab,
         onGoingOrder: state.onGoingOrder,
         history: state.histories,
-        totalHistory: totalHistory,
+        totalHistory: state.totalHistory,
         isLoading: state.isLoading,
         condition: state.condition,
         onChangeType: onChangeType,
