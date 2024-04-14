@@ -153,7 +153,17 @@ const useUpdateCart = () => {
                             }
                         });
                     setLoading(false);
-                } catch {
+                } catch (err) {
+                    const message: string | undefined = (err as any)?.error.response?.data?.message;
+                    toast({
+                        title: t("UPDATE_CART"),
+                        description: t("FAILED_UPDATE", { message: message ?? "" }),
+                        status: "error",
+                        duration: 4000,
+                        position: "top",
+                        isClosable: true,
+                    });
+
                     setLoading(false);
                 }
             },
@@ -194,16 +204,14 @@ const useUpdateCart = () => {
                 }
             } catch (err) {
                 const message: string | undefined = (err as any)?.error.response?.data?.message;
-                if (message?.includes("more than available quantity")) {
-                    toast({
-                        title: t("UPDATE_CART"),
-                        description: t("FAILED_UPDATE", { message: message ?? "" }),
-                        status: "error",
-                        duration: 4000,
-                        position: "top",
-                        isClosable: true,
-                    });
-                }
+                toast({
+                    title: t("UPDATE_CART"),
+                    description: t("FAILED_UPDATE", { message: message ?? "" }),
+                    status: "error",
+                    duration: 4000,
+                    position: "top",
+                    isClosable: true,
+                });
             }
         }, 300),
         [],
