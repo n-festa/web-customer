@@ -12,10 +12,12 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const SlideMenu = (props: Omit<DrawerProps, "children">) => {
     const t = useTranslations("MENU");
     const locale = useLocale();
+    const router = useRouter();
     return (
         <Drawer placement="left" {...props}>
             <DrawerOverlay />
@@ -51,22 +53,42 @@ const SlideMenu = (props: Omit<DrawerProps, "children">) => {
                 <DrawerBody>
                     <VStack mt="3rem" as="ul" spacing="3rem" alignItems="flex-start">
                         <NavigationButton as="li" fontSize="2.4rem !important">
-                            <Link onClick={props.onClose} href="/#order-section">
+                            <Link
+                                onClick={() => {
+                                    router.push("/#order-section");
+                                    props.onClose();
+                                }}
+                            >
                                 {t("PLACE_ORDER")}
                             </Link>
                         </NavigationButton>
                         <NavigationButton as="li" fontSize="2.4rem !important">
-                            <Link onClick={props.onClose} href="/#contact-section">
+                            <Link
+                                onClick={() => {
+                                    router.push("/#contact-section");
+                                    props.onClose();
+                                }}
+                            >
                                 {t("FOR_PARTNERS")}
                             </Link>
                         </NavigationButton>
                         <NavigationButton as="li" fontSize="2.4rem !important">
-                            <Link onClick={props.onClose} href="/#download-section">
+                            <Link
+                                onClick={() => {
+                                    router.push("/#download-section");
+                                    props.onClose();
+                                }}
+                            >
                                 {t("DOWNLOAD_APP")}
                             </Link>
                         </NavigationButton>
                         <NavigationButton as="li" fontSize="2.4rem !important">
-                            <Link onClick={props.onClose} href="/#footer-section">
+                            <Link
+                                onClick={() => {
+                                    router.push("/#footer-section");
+                                    props.onClose();
+                                }}
+                            >
                                 {t("CONTACT_US")}
                             </Link>
                         </NavigationButton>
