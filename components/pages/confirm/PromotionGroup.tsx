@@ -140,7 +140,7 @@ const PromotionGroup = ({
                                 </InputRightElement>
                             </InputGroup>
                         </PopoverTrigger>
-                        <PopoverContent>
+                        <PopoverContent w="33.9rem">
                             <VStack spacing="0" divider={<Divider bg="none" />}>
                                 {items.map((coupon) => (
                                     <VStack
@@ -149,13 +149,18 @@ const PromotionGroup = ({
                                             onClose();
                                         }}
                                         py="1rem"
-                                        px="1rem"
+                                        px="2rem"
+                                        w="100%"
                                         cursor="pointer"
                                         _hover={{
                                             bg: "var(--chakra-colors-gray-200)",
                                         }}
+                                        alignItems="flex-start"
                                         key={coupon.coupon_code}
                                     >
+                                        <Text fontSize="1.5rem" fontWeight="bold">
+                                            {coupon.coupon_code}
+                                        </Text>
                                         <Text fontSize="1.5rem" fontWeight="medium">
                                             {coupon.name}
                                         </Text>
