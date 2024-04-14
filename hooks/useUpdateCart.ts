@@ -143,8 +143,8 @@ const useUpdateCart = () => {
                                     cartUpdate: undefined,
                                 }));
                                 toast({
-                                    title: "Cập nhật giỏ hàng",
-                                    description: `Đã thêm ${name} vào giỏ hàng`,
+                                    title: t("UPDATE_CART"),
+                                    description: t("ADDED_TO_CART", { name: name }),
                                     status: "success",
                                     duration: 4000,
                                     position: "top",
@@ -196,8 +196,8 @@ const useUpdateCart = () => {
                 const message: string | undefined = (err as any)?.error.response?.data?.message;
                 if (message?.includes("more than available quantity")) {
                     toast({
-                        title: "Cập nhật giỏ hàng",
-                        description: `Cập nhật giỏ hàng thất bại\r\n${message ? message : ""}`,
+                        title: t("UPDATE_CART"),
+                        description: t("FAILED_UPDATE", { message: message ?? "" }),
                         status: "error",
                         duration: 4000,
                         position: "top",

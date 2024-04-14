@@ -4,6 +4,7 @@
             "UPDATE_CART": "Cập nhật giỏ hàng",
             "ADD_TO_CART_SUCCESS": "Đã thêm vào giỏ hàng",
             "FAILED_UPDATE": "Cập nhật giỏ hàng thất bại\r\n{message}",
+            "ADDED_TO_CART": "Đã thêm {name} vào giỏ hàng",
             "REORDER": "Mua lại",
             "FAILED_REORDER": "Mua lại không thành công",
             "ADDRESS_MISSING": "Thiếu địa chỉ giao hàng",
@@ -395,7 +396,9 @@
             "PLATFORM_FEE": "Phí nền tảng",
             "PROMOTION": "Khuyến mãi",
             "TOTAL_PAYMENT": "Tổng thanh toán",
-            "PLACE_ORDER": "ĐẶT HÀNG"
+            "PLACE_ORDER": "ĐẶT HÀNG",
+            "PLACE_ORDER_LOWER_CASE": "Đặt hàng",
+            "FAILED_TO_ORDER": "Đặt hàng thất bại"
         },
         "DELIVERY_DESTINATION": {
             "PROVINCE_CITY": "Tỉnh / Thành Phố",

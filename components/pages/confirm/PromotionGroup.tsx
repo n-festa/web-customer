@@ -121,7 +121,7 @@ const PromotionGroup = ({
                                                     const minium_order_value: number =
                                                         err?.error?.response?.data?.detail?.minium_order_value;
                                                     toast({
-                                                        title: "Mã giảm giá",
+                                                        title: t("TITLE"),
                                                         description: `${t("APPLY_FAIL")}${minium_order_value ? `${t("MINIMUM_DESC", { value: formatMoney(minium_order_value) })}` : ""}`,
                                                         status: "error",
                                                         duration: 4000,
