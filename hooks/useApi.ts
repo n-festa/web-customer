@@ -214,10 +214,14 @@ const useSWRAPI = () => {
                 ...config,
             }),
         GetReviewForm: (request: { customer_id: number; order_id: number }, config?: SWRConfiguration) =>
-            useSWR("GetReviewForm", async () => apiServices.getReviewForm(request), {
-                ...swrConfig,
-                ...config,
-            }),
+            useSWR(
+                `GetReviewForm${request.order_id}${request.customer_id}`,
+                async () => apiServices.getReviewForm(request),
+                {
+                    ...swrConfig,
+                    ...config,
+                },
+            ),
     };
 };
 

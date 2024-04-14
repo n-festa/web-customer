@@ -431,7 +431,9 @@
         "UPLOAD": {
             "TITLE": "Upload photos",
             "ERROR_CONTENT": "Update error, please try again.",
-            "ERROR_LENGTH": "File size must be equal to or less than 500Kb"
+            "ERROR_LENGTH": "File size must be equal to or less than 500Kb",
+            "ERROR_REVIEW_MISSING": "Please rate us",
+            "REVIEW": "Review"
         }
     },
     "ORDER_DETAIL": {

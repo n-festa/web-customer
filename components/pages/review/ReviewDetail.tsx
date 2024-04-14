@@ -10,9 +10,20 @@ interface ReviewDetailProps {
     driver?: DriverType;
     onChangeDriver?: (key: "score" | "remarks" | "img_blobs", value: string | number | Blob[]) => void;
     onSubmit: (type: "quick" | "detail") => void;
+    missingReviews?: {
+        driver: boolean;
+        dishes: string[];
+    };
 }
 
-const ReviewDetail = ({ onChangeOrders, orders, driver, onChangeDriver, onSubmit }: ReviewDetailProps) => {
+const ReviewDetail = ({
+    missingReviews,
+    onChangeOrders,
+    orders,
+    driver,
+    onChangeDriver,
+    onSubmit,
+}: ReviewDetailProps) => {
     const { renderTxt } = useRenderText();
     const t = useTranslations("REVIEW");
     return (
@@ -23,6 +34,7 @@ const ReviewDetail = ({ onChangeOrders, orders, driver, onChangeDriver, onSubmit
                     title={t("DRIVER_RATING")}
                     iconTitle="/images/icons/icon_shipper.svg"
                     driver={driver}
+                    isMissing={missingReviews?.driver}
                     onChangeOrders={onChangeOrders}
                     onChangeDriver={onChangeDriver}
                 />
@@ -30,6 +42,7 @@ const ReviewDetail = ({ onChangeOrders, orders, driver, onChangeDriver, onSubmit
                     Object.values(orders).map((order) => (
                         <ReviewDetailItem
                             key={order.order_sku_id}
+                            isMissing={missingReviews?.dishes.includes(String(order.order_sku_id))}
                             placeholder={t("PLACEHOLDER_FOOD")}
                             title={renderTxt(order?.raw?.name)}
                             iconTitle="/images/icons/icon_disk.svg"

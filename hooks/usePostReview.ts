@@ -1,6 +1,7 @@
+import { dialogRef } from "@/components/modal/dialog/DialogWrapper";
 import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";
-import { ReviewItem } from "@/types/interfaces";
+import { OrderReview, ReviewItem } from "@/types/interfaces";
 import { routes } from "@/utils/routes";
 import { useToast } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
@@ -53,7 +54,10 @@ const usePostReview = () => {
     const [orders, setOrders] = useState<{ [key: string]: OrderType }>({});
     const [orderQuick, setOderQuick] = useState<OrderQuickType>({});
     const [remarkQuick, setRemarkQuick] = useState<string[]>([]);
-
+    const [missingReviews, setMissingReview] = useState<{
+        driver: boolean;
+        dishes: string[];
+    }>();
     const handleChangeOrder = (id: number, key: "score" | "remarks" | "img_blobs", value: string | number | Blob[]) => {
         setOrders((prev) => ({ ...prev, [String(id)]: { ...prev[String(id)], [key]: value } }));
     };
@@ -62,6 +66,20 @@ const usePostReview = () => {
         if (driver?.driver_id) setDriver((prev) => ({ ...prev, [key]: value }));
     };
 
+    const validateReview = (review: OrderReview) => {
+        if (!review.driver_review.score || review.food_reviews.some((item) => !item.score)) {
+            dialogRef.current?.show({
+                message: tReview("ERROR_REVIEW_MISSING"),
+                title: tReview("REVIEW"),
+            });
+            setMissingReview({
+                driver: !review.driver_review.score,
+                dishes: review.food_reviews.filter((item) => !item.score).map((item) => String(item.order_sku_id)),
+            });
+            return false;
+        }
+        return true;
+    };
     const handleOrderQuick = (
         type: "driver" | "orders",
         key: "score" | "remarks" | "img_blobs",
@@ -133,6 +151,7 @@ const usePostReview = () => {
                     img_urls: urlsImg ?? [],
                 };
             });
+
             result = {
                 customer_id: Number(userId),
                 order_id: Number(orderId),
@@ -166,6 +185,13 @@ const usePostReview = () => {
         }
         if (result) {
             try {
+                const isValid = validateReview(result);
+                if (!isValid) return;
+                setMissingReview({
+                    driver: false,
+                    dishes: [],
+                });
+                setOrders({});
                 await apiServices.createReview(result);
                 router.push(routes.OrderHistory);
             } catch (err) {
@@ -188,6 +214,7 @@ const usePostReview = () => {
             setDriver({ driver_id: reviewForm.driver_id });
             setOderQuick({ driver: { driver_id: reviewForm.driver_id } });
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reviewForm]);
 
@@ -203,6 +230,7 @@ const usePostReview = () => {
         orderQuick,
         remarkQuick,
         reviewForm,
+        missingReviews,
     };
 };
 

@@ -434,7 +434,9 @@
         "UPLOAD": {
             "TITLE": "Tải ảnh lên",
             "ERROR_CONTENT": "Lỗi cập nhật, vui lòng thử lại.",
-            "ERROR_LENGTH": "Kích thước file phải bằng hoặc nhỏ hơn 500Kb"
+            "ERROR_LENGTH": "Kích thước file phải bằng hoặc nhỏ hơn 500Kb",
+            "ERROR_REVIEW_MISSING": "Vui lòng đánh giá",
+            "REVIEW": "Đánh giá"
         }
     },
     "ORDER_DETAIL": {
