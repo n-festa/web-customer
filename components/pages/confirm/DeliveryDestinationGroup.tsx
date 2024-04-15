@@ -3,6 +3,7 @@ import InputForm from "@/components/molecules/InputForm";
 import InputSelectForm from "@/components/molecules/InputSelctForm";
 import confirmOrder from "@/config/confirm.config";
 import useSWRAPI from "@/hooks/useApi";
+import useCheckPlace from "@/hooks/useCheckPlace";
 import apiServices from "@/services/sevices";
 import { useAppSelector } from "@/store/hooks";
 import { filedType, formType } from "@/types/form";
@@ -54,6 +55,7 @@ const DeliveryDestinationGroup = ({
 }) => {
     const t = useTranslations("COMMON");
     const { isOpen, onOpen, onClose } = useDisclosure();
+    useCheckPlace();
 
     const refAddress = useRef(null);
     useOutsideClick({

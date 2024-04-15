@@ -11,6 +11,7 @@ interface ReviewDetailItemProps {
     iconTitle: string;
     order?: OrderType;
     driver?: DriverType;
+    isMissing?: boolean;
     onChangeOrders?: (index: number, key: "score" | "remarks" | "img_blobs", value: string | number | Blob[]) => void;
     onChangeDriver?: (key: "score" | "remarks" | "img_blobs", value: string | number | Blob[]) => void;
 }
@@ -19,6 +20,7 @@ const ReviewDetailItem = ({
     title,
     iconTitle,
     order,
+    isMissing,
     onChangeOrders,
     onChangeDriver,
     driver,
@@ -130,6 +132,11 @@ const ReviewDetailItem = ({
                         ></Input>
                     </Flex>
                 </Flex>
+                {isMissing && (
+                    <Text mt="1rem" fontSize="1.3rem" color="red" textAlign="left" w="100%">
+                        {t("UPLOAD.ERROR_REVIEW_MISSING")}
+                    </Text>
+                )}
             </Box>
             <Box flex="1">
                 <Textarea

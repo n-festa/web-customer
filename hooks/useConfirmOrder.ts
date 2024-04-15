@@ -9,6 +9,7 @@ import { routes } from "@/utils/routes";
 import { useToast } from "@chakra-ui/react";
 import { FormikProps } from "formik";
 import { isUndefined } from "lodash";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -17,6 +18,7 @@ import useDeleteCartItem from "./useDeleteCartItem";
 import useUpdateCart from "./useUpdateCart";
 
 const useConfirmOrder = () => {
+    const t = useTranslations("CONFIRM_ORDER.PAYMENT_GROUP");
     const { GetApplicationFee, GetCutleryFee, GetCouponInfo } = useSWRAPI();
     const profile = useAppSelector((state) => state.userInfo.userInfo);
     const formRef = useRef<
@@ -140,8 +142,8 @@ const useConfirmOrder = () => {
         } catch {
             setLoading(false);
             toast({
-                title: "Đặt hàng",
-                description: `Đặt hàng thất bại`,
+                title: t("PLACE_ORDER_LOWER_CASE"),
+                description: t("FAILED_TO_ORDER"),
                 status: "error",
                 duration: 4000,
                 position: "top-right",

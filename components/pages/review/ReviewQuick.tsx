@@ -1,10 +1,10 @@
 import CheckBoxCard from "@/components/atoms/checkbox/CheckboxCard";
 import config from "@/config";
-import { Box, Button, Flex, HStack, Img, Input, Text, Textarea } from "@chakra-ui/react";
+import useFileSizeCheck from "@/hooks/useFileSizeCheck";
+import { Box, Button, Flex, HStack, Img, Input, Text, Textarea, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import UIRating from "./UIRating";
-import useFileSizeCheck from "@/hooks/useFileSizeCheck";
 const {
     review: { formData },
 } = config;
@@ -12,9 +12,14 @@ const {
 const ReviewQuick = ({
     remarkQuick,
     setRemarkQuick,
+    missingReviews,
     onChangeOrderQuick,
     onSubmit,
 }: {
+    missingReviews?: {
+        driver: boolean;
+        dishes: string[];
+    };
     remarkQuick: string[];
     setRemarkQuick: any;
     onChangeOrderQuick: (
@@ -60,8 +65,9 @@ const ReviewQuick = ({
     return (
         <Box pb="4.8rem">
             <Flex
-                p="2rem 0 1rem"
+                w="100%"
                 borderBottom="1px solid var(--gray-300)"
+                p="2rem 0 1rem"
                 alignItems="center"
                 justifyContent="space-between"
                 mb="1rem"
@@ -72,11 +78,18 @@ const ReviewQuick = ({
                         {t("DRIVER_RATING")}
                     </Text>
                 </Flex>
-                <UIRating
-                    size="lg"
-                    maxRating={5}
-                    onRatingChange={(value) => onChangeOrderQuick("driver", "score", value)}
-                />
+                <VStack>
+                    <UIRating
+                        size="lg"
+                        maxRating={5}
+                        onRatingChange={(value) => onChangeOrderQuick("driver", "score", value)}
+                    />
+                    {missingReviews?.driver && (
+                        <Text mt="1rem" fontSize="1.3rem" color="red" textAlign="right" w="100%">
+                            {t("UPLOAD.ERROR_REVIEW_MISSING")}
+                        </Text>
+                    )}
+                </VStack>
             </Flex>
             <Flex p="2rem 0 1rem" alignItems="center" justifyContent="space-between" mb="1rem">
                 <Flex gap="1.6rem" alignItems="center">
@@ -85,13 +98,18 @@ const ReviewQuick = ({
                         {t("DISH_RATING")}
                     </Text>
                 </Flex>
-                <Flex gap="0.7rem">
+                <VStack>
                     <UIRating
                         size="lg"
                         maxRating={5}
                         onRatingChange={(value) => onChangeOrderQuick("orders", "score", value)}
                     />
-                </Flex>
+                    {missingReviews?.dishes.length && (
+                        <Text mt="1rem" fontSize="1.3rem" color="red" textAlign="right" w="100%">
+                            {t("UPLOAD.ERROR_REVIEW_MISSING")}
+                        </Text>
+                    )}
+                </VStack>
             </Flex>
             <Text mb="1rem" fontSize="1.6rem" fontWeight="400">
                 {t("SATISFIED_WITH_DISH")}

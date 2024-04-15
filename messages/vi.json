@@ -4,10 +4,13 @@
             "UPDATE_CART": "Cập nhật giỏ hàng",
             "ADD_TO_CART_SUCCESS": "Đã thêm vào giỏ hàng",
             "FAILED_UPDATE": "Cập nhật giỏ hàng thất bại\r\n{message}",
+            "ADDED_TO_CART": "Đã thêm {name} vào giỏ hàng",
             "REORDER": "Mua lại",
             "FAILED_REORDER": "Mua lại không thành công",
             "ADDRESS_MISSING": "Thiếu địa chỉ giao hàng",
             "ADDRESS_MISSING_MESSAGE": "Vui lòng trở lại trang chủ, và chọn địa chỉ giao hàng trước",
+            "ADDRESS_REQUEST": "Vui lòng chọn địa điểm giao hàng trước",
+            "OK": "OK",
             "BACK_TO_HOME": "Trang chủ",
             "REMOVE_CART": "Xóa khỏi giỏ hàng",
             "CONFIRM_REMOVE": "Bạn muốn xóa món ăn khỏi giỏ hàng?",
@@ -51,7 +54,7 @@
         "VIEW_MORE": "Xem thêm",
         "FOOD": "Món ăn",
         "RESTAURANT": "Nhà hàng",
-        "SORT": "Săp xếp",
+        "SORT": "Sắp xếp",
         "RELEVANCE": "Gần đây nhất",
         "PRICE_ASCENDING": "Giá tăng",
         "PRICE_DESCENDING": "Giá giảm",
@@ -393,7 +396,9 @@
             "PLATFORM_FEE": "Phí nền tảng",
             "PROMOTION": "Khuyến mãi",
             "TOTAL_PAYMENT": "Tổng thanh toán",
-            "PLACE_ORDER": "ĐẶT HÀNG"
+            "PLACE_ORDER": "ĐẶT HÀNG",
+            "PLACE_ORDER_LOWER_CASE": "Đặt hàng",
+            "FAILED_TO_ORDER": "Đặt hàng thất bại"
         },
         "DELIVERY_DESTINATION": {
             "PROVINCE_CITY": "Tỉnh / Thành Phố",
@@ -429,7 +434,9 @@
         "UPLOAD": {
             "TITLE": "Tải ảnh lên",
             "ERROR_CONTENT": "Lỗi cập nhật, vui lòng thử lại.",
-            "ERROR_LENGTH": "Kích thước file phải bằng hoặc nhỏ hơn 500Kb"
+            "ERROR_LENGTH": "Kích thước file phải bằng hoặc nhỏ hơn 500Kb",
+            "ERROR_REVIEW_MISSING": "Vui lòng đánh giá",
+            "REVIEW": "Đánh giá"
         }
     },
     "ORDER_DETAIL": {
@@ -444,6 +451,9 @@
         "PAID_WITH": "Đã thanh toán bằng {method}",
         "DELIVER_TO": "Giao đến",
         "PACKAGING": "Đóng gói",
+        "REVIEW_REQUEST": "Đơn hàng của bạn đã hoàn thành, bạn có muốn để lại đánh giá không?",
+        "BACK": "Trở lại",
+        "REVIEW": "Đánh giá",
         "ORDER_CONFIRMATION": {
             "MD": {
                 "CREATED": "Đã tạo đơn hàng",

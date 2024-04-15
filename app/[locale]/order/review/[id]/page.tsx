@@ -20,6 +20,7 @@ const Review = () => {
         orders,
         remarkQuick,
         reviewForm,
+        missingReviews,
     } = usePostReview();
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
@@ -78,10 +79,12 @@ const Review = () => {
                                     setRemarkQuick={setRemarkQuick}
                                     onChangeOrderQuick={handleOrderQuick}
                                     onSubmit={handleSubmit}
+                                    missingReviews={missingReviews}
                                 />
                             </TabPanel>
                             <TabPanel mt="2rem">
                                 <ReviewDetail
+                                    missingReviews={missingReviews}
                                     driver={driver}
                                     orders={orders}
                                     onChangeOrders={handleChangeOrder}

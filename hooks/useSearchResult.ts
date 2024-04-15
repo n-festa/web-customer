@@ -100,13 +100,10 @@ const useSearchResult = () => {
         const payload = {
             keyword: params.searchKey ?? "",
             ISO_language_code: localVal ?? "vie",
-            lat: profile?.latAddress ?? 10.799963,
-            long: profile?.longAddress ?? 106.707171,
+            lat: String(profile?.latAddress),
+            long: String(profile?.longAddress),
             offset: 0,
             page_size: 50,
-            distance_offset_m: 0,
-            distance_limit_m: 10000,
-            base_distance_for_grouping_m: 200,
             result_type: type.toLocaleUpperCase(),
             sort_type: state.filterCondition.sort ?? SortOrderFood.RELEVANCE,
             filter: state.filterCondition.other[type],
@@ -160,8 +157,8 @@ const useSearchResult = () => {
         apiServices
             .getGeneralFoodRecommendation({
                 fetch_mode: FetchMode.Full,
-                lat: profile?.latAddress ?? 10.799963,
-                long: profile?.longAddress ?? 106.707171,
+                lat: profile?.latAddress,
+                long: profile?.longAddress,
             })
             .then(({ data }) => {
                 if (data) {

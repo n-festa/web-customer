@@ -4,6 +4,7 @@ import { showCartState } from "@/recoil/recoilState";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setErrorScreenDes } from "@/store/reducers/appSlice";
 import { setDomain, setNavigationState } from "@/store/reducers/navigationSlice";
+import { routes } from "@/utils/routes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
@@ -26,6 +27,10 @@ export function NavigationEvents() {
         if (errorScreenDes) {
             const route = errorScreenDes;
             dispatch(setErrorScreenDes(null));
+            if (route === routes.SignIn) {
+                router.replace(routes.SignIn);
+                return;
+            }
             router.push(route);
         }
     }, [dispatch, errorScreenDes, router, searchParams]);

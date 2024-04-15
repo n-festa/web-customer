@@ -4,10 +4,13 @@
             "UPDATE_CART": "Update cart",
             "ADD_TO_CART_SUCCESS": "Added to cart",
             "FAILED_UPDATE": "Failed to update the cart\r\n{message}",
+            "ADDED_TO_CART": "Added {name} to cart",
             "REORDER": "Re-order",
             "FAILED_REORDER": "Failed to re-order",
             "ADDRESS_MISSING": "Missing delivery address",
             "ADDRESS_MISSING_MESSAGE": "Please return to the homepage and select a delivery address first",
+            "ADDRESS_REQUEST": "Please select a delivery address first",
+            "OK": "OK",
             "BACK_TO_HOME": "Home",
             "REMOVE_CART": " Remove from cart",
             "CONFIRM_REMOVE": "Do you want to remove this item from your cart?",
@@ -390,7 +393,9 @@
             "PLATFORM_FEE": "Application fee",
             "PROMOTION": "Promotion",
             "TOTAL_PAYMENT": "Total",
-            "PLACE_ORDER": "Order"
+            "PLACE_ORDER": "Order",
+            "PLACE_ORDER_LOWER_CASE": "Order",
+            "FAILED_TO_ORDER": "Failed to order"
         },
         "DELIVERY_DESTINATION": {
             "PROVINCE_CITY": "Province / City",
@@ -426,7 +431,9 @@
         "UPLOAD": {
             "TITLE": "Upload photos",
             "ERROR_CONTENT": "Update error, please try again.",
-            "ERROR_LENGTH": "File size must be equal to or less than 500Kb"
+            "ERROR_LENGTH": "File size must be equal to or less than 500Kb",
+            "ERROR_REVIEW_MISSING": "Please rate us",
+            "REVIEW": "Review"
         }
     },
     "ORDER_DETAIL": {
@@ -441,6 +448,9 @@
         "PAID_WITH": "Paid via {method}",
         "DELIVER_TO": "Deliver to",
         "PACKAGING": "Packaging",
+        "REVIEW_REQUEST": "Your order has been completed, would you like to leave a review?",
+        "BACK": "Back",
+        "REVIEW": "Review",
         "ORDER_CONFIRMATION": {
             "MD": {
                 "CREATED": "Order created",

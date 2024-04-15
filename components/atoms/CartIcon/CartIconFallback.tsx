@@ -23,7 +23,7 @@ const CartIconFallBack = ({ totalQuantity, isLoading }: { totalQuantity?: number
                     setShow(true);
                     return;
                 }
-                router.push(routes.SignIn);
+                router.replace(routes.SignIn);
             }}
             cursor="pointer"
             minW="fit-content"

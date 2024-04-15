@@ -121,7 +121,7 @@ const PromotionGroup = ({
                                                     const minium_order_value: number =
                                                         err?.error?.response?.data?.detail?.minium_order_value;
                                                     toast({
-                                                        title: "Mã giảm giá",
+                                                        title: t("TITLE"),
                                                         description: `${t("APPLY_FAIL")}${minium_order_value ? `${t("MINIMUM_DESC", { value: formatMoney(minium_order_value) })}` : ""}`,
                                                         status: "error",
                                                         duration: 4000,
@@ -140,7 +140,7 @@ const PromotionGroup = ({
                                 </InputRightElement>
                             </InputGroup>
                         </PopoverTrigger>
-                        <PopoverContent>
+                        <PopoverContent w="33.9rem">
                             <VStack spacing="0" divider={<Divider bg="none" />}>
                                 {items.map((coupon) => (
                                     <VStack
@@ -149,13 +149,18 @@ const PromotionGroup = ({
                                             onClose();
                                         }}
                                         py="1rem"
-                                        px="1rem"
+                                        px="2rem"
+                                        w="100%"
                                         cursor="pointer"
                                         _hover={{
                                             bg: "var(--chakra-colors-gray-200)",
                                         }}
+                                        alignItems="flex-start"
                                         key={coupon.coupon_code}
                                     >
+                                        <Text fontSize="1.5rem" fontWeight="bold">
+                                            {coupon.coupon_code}
+                                        </Text>
                                         <Text fontSize="1.5rem" fontWeight="medium">
                                             {coupon.name}
                                         </Text>

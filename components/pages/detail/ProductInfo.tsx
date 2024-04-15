@@ -1,12 +1,15 @@
 import useRenderText from "@/hooks/useRenderText";
 import { FoodDetailDto } from "@/types/response/FoodResponse";
 import { SKUsDto } from "@/types/response/GetListSKUsByIdResponse";
+import { routes } from "@/utils/routes";
 import { HStack, Img, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
 const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SKUsDto }) => {
     const t = useTranslations("PRODUCT_DETAIL.PRODUCT_INFO");
+    const router = useRouter();
     const { renderTxt } = useRenderText();
     const unitSold = useMemo(() => {
         const unitSoldValue = info?.units_sold;
@@ -49,7 +52,15 @@ const ProductInfo = ({ info, activeSKU }: { info?: FoodDetailDto; activeSKU?: SK
             </Text>
             <Text as="span" className="chef-name" fontSize="1.4rem" lineHeight="2rem" color="var(--gray-600)">
                 <Text as="span">by </Text>
-                <Text as="span" fontWeight="bold" color="var(--color-mediumslateblue)">
+                <Text
+                    onClick={() => {
+                        router.push(routes.RestaurantDetail + `/${info?.restaurant_id}`);
+                    }}
+                    cursor="pointer"
+                    as="span"
+                    fontWeight="bold"
+                    color="var(--color-mediumslateblue)"
+                >
                     {renderTxt(info?.restaurant_name)}
                 </Text>
             </Text>

@@ -5,6 +5,7 @@ import { Order } from "@/types/order";
 import { getToken } from "@/utils/auth";
 import { routes } from "@/utils/routes";
 import { EventSourcePolyfill } from "event-source-polyfill";
+import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import useSWRAPI from "./useApi";
@@ -24,6 +25,7 @@ const useOrderDetail = () => {
     });
     const router = useRouter();
     const [pushData, setPushData] = useState<Order>();
+    const t = useTranslations("ORDER_DETAIL");
 
     useEffect(() => {
         const orderPaymentStatus = orderDetail?.payment_status_history?.[0].status_id;
@@ -93,16 +95,16 @@ const useOrderDetail = () => {
 
                     if (orderDetail.order_status_log?.some((item) => item.milestone === OrderStatusLogType.COMPLETED)) {
                         dialogRef.current?.show({
-                            title: "Hoàn thành đơn hàng",
-                            message: "Đơn hàng của bạn đã hoàn thành, bạn có muốn để lại đánh giá không?",
+                            title: t("ORDER_CONFIRMATION.MD.COMPLETED"),
+                            message: t("REVIEW_REQUEST"),
                             negative: {
-                                text: "Trở lại",
+                                text: t("BACK"),
                                 onClick: async () => {
                                     router.push(routes.Home);
                                 },
                             },
                             positive: {
-                                text: "Đánh giá",
+                                text: t("REVIEW"),
                                 onClick: async () => {
                                     router.push(routes.orderReview + `/${orderId}`);
                                 },

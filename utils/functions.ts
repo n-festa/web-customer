@@ -130,7 +130,7 @@ export const getCutoffTime = (cutoffTime?: string | string[], t?: any) => {
 export const redirectAfterLogin = (router: AppRouterInstance) => {
     const destination = store.getState().navigation.prevLoginUrl ?? routes.Home;
     store.dispatch(clearPrevLoginUrl());
-    router.push(destination);
+    router.replace(destination);
 };
 
 export const genCartNote = (cartItem: CartItem | OrderItem) => {

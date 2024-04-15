@@ -74,7 +74,7 @@ const PhoneVerification = () => {
                 resetCountdown();
                 setOtpState("");
             } else {
-                router.push(routes.SignIn);
+                router.replace(routes.SignIn);
             }
         } catch (error) {
             console.error("Error while resending OTP:", error);
