@@ -121,7 +121,14 @@
         "BALANCE": "Normal",
         "ENERGY": "Energy intake",
         "KCAL_PER_DAY": "Kcal/ day",
-        "DISCOVER_FOOD_TODAY": "Discover delicious food today "
+        "DISCOVER_FOOD_TODAY": "Discover delicious food today ",
+        "BMI":{
+            "UNDERWEIGHT": "Underweight",
+            "NORMAL": "Normal",
+            "OVERWEIGHT": "Overweight",
+            "OBESE": "Obese",
+            "EXTREMELY_OBESE": " Extremly Obese"
+        }
     },
     "FORM": {
         "NAME": {
