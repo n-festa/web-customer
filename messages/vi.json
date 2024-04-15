@@ -121,7 +121,14 @@
         "BALANCE": "Cân đối",
         "ENERGY": "Năng lượng",
         "KCAL_PER_DAY": "Kcal/ ngày",
-        "DISCOVER_FOOD_TODAY": "Khám phá món ăn ngay hôm nay"
+        "DISCOVER_FOOD_TODAY": "Khám phá món ăn ngay hôm nay",
+        "BMI":{
+            "UNDERWEIGHT": "Thiếu cân",
+            "NORMAL": "Cân đối",
+            "OVERWEIGHT": "Thừa cân",
+            "OBESE": "Béo phì",
+            "EXTREMELY_OBESE": "Béo phì nguy hiểm"
+        }
     },
     "FORM": {
         "NAME": {
