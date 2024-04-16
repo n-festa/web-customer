@@ -9,7 +9,20 @@ import { useTranslations } from "next-intl";
 
 const SearchDetailPage = () => {
     const t = useTranslations();
-    const { isLoading, keySearch, searchResult, filterCondition, onChangeFilterOptions } = useSearchResult();
+    const {
+        isLoading,
+        keySearch,
+        searchResult,
+        filterCondition,
+        isEnabledSearchBox,
+        onChangeFilterOptions,
+        onSearch,
+        onChangeValue,
+    } = useSearchResult();
+
+    const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+        if (e.key === "Enter") onSearch();
+    };
 
     return (
         <Flex flexDirection={"column"} alignItems={"center"} bg="white" w="100%" h="100%">
@@ -20,9 +33,12 @@ const SearchDetailPage = () => {
                     flex="1"
                     groupsProps={{ my: "1rem" }}
                     value={keySearch}
-                    key={keySearch}
-                    isDisabled={true}
+                    isDisabled={!isEnabledSearchBox}
                     variant={"searchBoxViewOnly"}
+                    onChange={(e) => {
+                        onChangeValue("keySearch", e.target.value ?? "");
+                    }}
+                    onKeyDown={onKeyDown}
                 />
                 <FilterBox condition={filterCondition} onChangeFilterOptions={onChangeFilterOptions} />
                 <SearchResult
