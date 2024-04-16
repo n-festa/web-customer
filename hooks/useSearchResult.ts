@@ -6,8 +6,10 @@ import { FilterCondition, SearchResult } from "@/types/interfaces";
 import { FoodDto, RestaurantDto } from "@/types/response/base";
 import { FoodOtherFilterOptions, RestaurantOtherFilterOptions, localeOption } from "@/utils/constants";
 import { isNullOrEmpty } from "@/utils/functions";
+import { routes } from "@/utils/routes";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 
 interface DiscoveryState {
@@ -21,6 +23,7 @@ export type FilterOptionKey = "type" | "sort" | "other";
 
 const useSearchResult = () => {
     const t = useTranslations();
+    const router = useRouter();
     const { params } = useParams<{
         searchKey?: string;
         categoryId?: number;
@@ -65,7 +68,6 @@ const useSearchResult = () => {
         if (state.keySearch != "") {
             setState((prevState) => ({
                 ...prevState,
-                isShowFilterBox: true,
                 filterCondition: {
                     ...prevState.filterCondition,
                     type: FilterType.Food,
@@ -75,13 +77,9 @@ const useSearchResult = () => {
                     [FilterType.Restaurant]: [],
                 },
             }));
+            router.replace(`${routes.SearchDetail}?searchKey=${state.keySearch ?? ""}`);
             searchFoodByName();
-            return;
         }
-        setState((prevState) => ({
-            ...prevState,
-            isShowFilterBox: false,
-        }));
     };
 
     const onChangeFilterOptions = <T>(key: FilterOptionKey, value: T) => {
@@ -98,7 +96,7 @@ const useSearchResult = () => {
         setLoading(true);
         const { type } = state.filterCondition;
         const payload = {
-            keyword: params.searchKey ?? "",
+            keyword: state.keySearch ?? "",
             ISO_language_code: localVal ?? "vie",
             lat: String(profile?.latAddress),
             long: String(profile?.longAddress),
@@ -350,11 +348,17 @@ const useSearchResult = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [JSON.stringify(state.filterCondition), mounted]);
 
+    const isEnabledSearchBox = useMemo(() => {
+        return isNullOrEmpty(params.categoryId) && isNullOrEmpty(params.detailType);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [JSON.stringify(params)]);
+
     return {
         keySearch: state.keySearch,
         searchResult: state.searchResult,
         filterCondition: state.filterCondition,
         isLoading: isLoading,
+        isEnabledSearchBox: isEnabledSearchBox,
         onSearch,
         onChangeValue,
         onChangeFilterOptions,
