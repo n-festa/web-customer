@@ -17,6 +17,7 @@ const LocaleSwitcher = ({ bg }: { bg?: string }) => {
     const router = useRouter();
     const [, startTransition] = useTransition();
     const pathname = usePathname();
+
     const locale = useLocale();
 
     const updatePathnameWithLocale = ({ nextLocale, pathname, locales }: LocaleSwitcherProps): string => {
@@ -31,7 +32,12 @@ const LocaleSwitcher = ({ bg }: { bg?: string }) => {
 
     const switchLanguage = (nextLocale: string) => {
         const locales = { en: "en", vi: "vi" };
-        const updatedPathname = updatePathnameWithLocale({ nextLocale, pathname, locales });
+        const _pathname = typeof window !== "undefined" ? `${pathname}${window.location.search}` : pathname;
+        const updatedPathname = updatePathnameWithLocale({
+            nextLocale,
+            pathname: _pathname,
+            locales,
+        });
         startTransition(() => {
             router.replace(updatedPathname);
         });
