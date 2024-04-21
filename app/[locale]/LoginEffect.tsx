@@ -44,6 +44,7 @@ const LoginEffect = () => {
     useEffect(() => {
         if (customerId && cart?.customer_id != customerId && isLoggedIn()) {
             getCart(customerId.toString());
+            return;
         }
         if (!customerId) {
             setCart({});
@@ -51,7 +52,8 @@ const LoginEffect = () => {
                 getUserInfo();
             }
         }
-    }, [cart?.customer_id, customerId, getCart, getUserInfo, setCart]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customerId, getCart, getUserInfo, setCart]);
 
     return null;
 };

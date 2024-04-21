@@ -44,11 +44,11 @@ const useUpdateCart = () => {
     const t = useTranslations("COMMON.CART");
     const toast = useToast();
     useEffect(() => {
-        if (rawCart && Object.keys(rawCart).length) {
-            cartRef.current = rawCart;
+        if (cartSync && Object.keys(cartSync).length) {
+            cartRef.current = cartSync;
             observer.update(command.loginCallback);
         }
-    }, [rawCart]);
+    }, [cartSync]);
 
     const customerId = useAppSelector((state) => state.userInfo.userInfo?.customer_id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,7 +63,7 @@ const useUpdateCart = () => {
                 store.dispatch(setErrorScreenDes(routes.SignIn));
                 return;
             }
-            const _newCart = cartRef.current ?? rawCart;
+            const _newCart = cloneDeep(cartRef.current ?? rawCart);
             let cartInfo = cloneDeep(_newCart?.cart_info ?? []);
             if (
                 (cartItem?.restaurant_id != _newCart?.restaurant_id &&
