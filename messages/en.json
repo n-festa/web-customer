@@ -56,9 +56,9 @@
         "FOOD": "Food",
         "RESTAURANT": "Restaurant",
         "SORT": "Sort by",
-        "RELEVANCE": "Recently",
-        "PRICE_ASCENDING": "Price ascending",
-        "PRICE_DESCENDING": "Price descending",
+        "RELEVANCE": "Relevance",
+        "PRICE_ASCENDING": "Low to High",
+        "PRICE_DESCENDING": "High to Low",
         "DELIVER_TO": "Deliver to",
         "STARS": "> 4 Stars",
         "VEG": "Veg",
@@ -122,7 +122,7 @@
         "ENERGY": "Energy intake",
         "KCAL_PER_DAY": "Kcal/ day",
         "DISCOVER_FOOD_TODAY": "Discover delicious food today ",
-        "BMI":{
+        "BMI": {
             "UNDERWEIGHT": "Underweight",
             "NORMAL": "Normal",
             "OVERWEIGHT": "Overweight",

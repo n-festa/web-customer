@@ -55,9 +55,9 @@
         "FOOD": "Món ăn",
         "RESTAURANT": "Nhà hàng",
         "SORT": "Sắp xếp",
-        "RELEVANCE": "Gần đây nhất",
-        "PRICE_ASCENDING": "Giá tăng",
-        "PRICE_DESCENDING": "Giá giảm",
+        "RELEVANCE": "Liên quan",
+        "PRICE_ASCENDING": "Giá tăng dần",
+        "PRICE_DESCENDING": "Giá giảm dần",
         "TODAY": "Hôm nay",
         "TOMORROW": "Ngày mai",
         "VEGETARIAN_DISH": "Món chay",
@@ -122,7 +122,7 @@
         "ENERGY": "Năng lượng",
         "KCAL_PER_DAY": "Kcal/ ngày",
         "DISCOVER_FOOD_TODAY": "Khám phá món ăn ngay hôm nay",
-        "BMI":{
+        "BMI": {
             "UNDERWEIGHT": "Thiếu cân",
             "NORMAL": "Cân đối",
             "OVERWEIGHT": "Thừa cân",
