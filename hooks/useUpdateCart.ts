@@ -17,6 +17,7 @@ import { cloneDeep, debounce, isEqual } from "lodash";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilStateLoadable, useRecoilValue, useRecoilValueLoadable, waitForAll } from "recoil";
+import { getRecoil } from "recoil-nexus";
 import useObservable, { observer } from "./useObservable";
 interface MaxValues {
     [key: string]: {
@@ -63,8 +64,11 @@ const useUpdateCart = () => {
                 store.dispatch(setErrorScreenDes(routes.SignIn));
                 return;
             }
-            const _newCart = cloneDeep(cartRef.current ?? rawCart);
+            const _newCart = cloneDeep(getRecoil(cartState));
             let cartInfo = cloneDeep(_newCart?.cart_info ?? []);
+            const { userId } = loadState("infoSign");
+            const _customerId = _newCart?.customer_id || customerId || userId;
+
             if (
                 (cartItem?.restaurant_id != _newCart?.restaurant_id &&
                     _newCart?.restaurant_id != undefined &&
@@ -81,8 +85,8 @@ const useUpdateCart = () => {
                         },
                     },
                 });
-                if (!result || !cartItem.customer_id) return;
-                await apiServices.deleteWholdCart({ customerId: cartItem.customer_id });
+                if (!result || !_customerId) return;
+                await apiServices.deleteWholdCart({ customerId: _customerId });
             }
 
             const newCart = {
@@ -292,7 +296,7 @@ const useUpdateCart = () => {
     return {
         cart: rawCart,
         cartSync,
-        handleUpdateCart,
+        handleUpdateCart: handleUpdateCart,
         handleQuickAdd,
         loading,
         maxQtyValues,
